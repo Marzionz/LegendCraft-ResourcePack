@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "legendcraft:item/classes/icon_cryomancer_absolute_zero"
+  }
+}

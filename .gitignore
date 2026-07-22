@@ -1,0 +1,16 @@
+# Build output
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+__pycache__/
+
+# Internal design specs (mob mechanics / exact specifications) — not for public release
+*.md
+
+# Internal authoring & generation tooling — not for public release
+tools/
+
+# Mob authoring source (models, textures, specs) — not part of the shipped pack, kept private
+mobs-src/

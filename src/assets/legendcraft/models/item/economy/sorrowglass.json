@@ -1,0 +1,66 @@
+{
+  "credit": "LegendCraft — Sorrowglass sealing currency (gem core + Binding-light orbit rings, ART_STYLE.md §6)",
+  "texture_size": [64, 64],
+  "textures": {
+    "0": "legendcraft:item/economy/sorrowglass",
+    "particle": "legendcraft:item/economy/sorrowglass"
+  },
+  "elements": [
+    {
+      "name": "core",
+      "from": [6.4, 6.4, 6.4],
+      "to": [9.6, 9.6, 9.6],
+      "faces": {
+        "north": {"uv": [0, 8, 4, 12], "texture": "#0"},
+        "south": {"uv": [0, 8, 4, 12], "texture": "#0"},
+        "east": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "west": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "up": {"uv": [0, 8, 4, 12], "texture": "#0"},
+        "down": {"uv": [4, 8, 8, 12], "texture": "#0"}
+      }
+    },
+    {
+      "name": "core_45",
+      "from": [6.7, 6.2, 6.7],
+      "to": [9.3, 9.8, 9.3],
+      "rotation": {"origin": [8, 8, 8], "axis": "y", "angle": 45},
+      "faces": {
+        "north": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "south": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "east": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "west": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "up": {"uv": [0, 8, 4, 12], "texture": "#0"},
+        "down": {"uv": [4, 8, 8, 12], "texture": "#0"}
+      }
+    },
+    {
+      "name": "ring_a",
+      "from": [1, 1, 8],
+      "to": [15, 15, 8],
+      "rotation": {"origin": [8, 8, 8], "axis": "z", "angle": 22.5},
+      "faces": {
+        "north": {"uv": [0, 0, 8, 8], "texture": "#0"},
+        "south": {"uv": [0, 0, 8, 8], "texture": "#0"}
+      }
+    },
+    {
+      "name": "ring_b",
+      "from": [8, 3.5, 3.5],
+      "to": [8, 12.5, 12.5],
+      "rotation": {"origin": [8, 8, 8], "axis": "x", "angle": 22.5},
+      "faces": {
+        "east": {"uv": [8, 0, 14, 6], "texture": "#0"},
+        "west": {"uv": [8, 0, 14, 6], "texture": "#0"}
+      }
+    }
+  ],
+  "display": {
+    "gui": {"rotation": [22, -35, 0], "translation": [0, 0, 0], "scale": [0.72, 0.72, 0.72]},
+    "ground": {"translation": [0, 2, 0], "scale": [0.45, 0.45, 0.45]},
+    "fixed": {"scale": [0.85, 0.85, 0.85]},
+    "thirdperson_righthand": {"rotation": [65, 0, 0], "translation": [0, 2.5, 0], "scale": [0.42, 0.42, 0.42]},
+    "thirdperson_lefthand": {"rotation": [65, 0, 0], "translation": [0, 2.5, 0], "scale": [0.42, 0.42, 0.42]},
+    "firstperson_righthand": {"rotation": [0, -25, 0], "translation": [1.5, 1.5, 0], "scale": [0.5, 0.5, 0.5]},
+    "firstperson_lefthand": {"rotation": [0, 25, 0], "translation": [1.5, 1.5, 0], "scale": [0.5, 0.5, 0.5]}
+  }
+}

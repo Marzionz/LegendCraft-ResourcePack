@@ -1,0 +1,70 @@
+{
+  "credit": "LegendCraft — Alchemist Caustic Flask thrown vial (alchemist.vfx.md: acid-green #9FD400, squat silhouette)",
+  "texture_size": [32, 32],
+  "textures": {
+    "0": "legendcraft:item/classes/alchemist_caustic_flask",
+    "particle": "legendcraft:item/classes/alchemist_caustic_flask"
+  },
+  "elements": [
+    {
+      "name": "body",
+      "from": [5.5, 0.5, 5.5],
+      "to": [10.5, 5.5, 10.5],
+      "faces": {
+        "north": {"uv": [0, 0, 8, 8], "texture": "#0"},
+        "south": {"uv": [0, 0, 8, 8], "texture": "#0"},
+        "east": {"uv": [8, 0, 16, 8], "texture": "#0"},
+        "west": {"uv": [8, 0, 16, 8], "texture": "#0"},
+        "up": {"uv": [0, 8, 4, 12], "texture": "#0"},
+        "down": {"uv": [8, 0, 16, 8], "texture": "#0"}
+      }
+    },
+    {
+      "name": "body_45",
+      "from": [6, 0.2, 6],
+      "to": [10, 5.8, 10],
+      "rotation": {"origin": [8, 3, 8], "axis": "y", "angle": 45},
+      "faces": {
+        "north": {"uv": [8, 0, 16, 8], "texture": "#0"},
+        "south": {"uv": [8, 0, 16, 8], "texture": "#0"},
+        "east": {"uv": [8, 0, 16, 8], "texture": "#0"},
+        "west": {"uv": [8, 0, 16, 8], "texture": "#0"},
+        "up": {"uv": [0, 8, 4, 12], "texture": "#0"},
+        "down": {"uv": [8, 0, 16, 8], "texture": "#0"}
+      }
+    },
+    {
+      "name": "neck",
+      "from": [7, 5.5, 7],
+      "to": [9, 8.2, 9],
+      "faces": {
+        "north": {"uv": [0, 8, 4, 12], "texture": "#0"},
+        "south": {"uv": [0, 8, 4, 12], "texture": "#0"},
+        "east": {"uv": [0, 8, 4, 12], "texture": "#0"},
+        "west": {"uv": [0, 8, 4, 12], "texture": "#0"}
+      }
+    },
+    {
+      "name": "cork",
+      "from": [6.7, 8.2, 6.7],
+      "to": [9.3, 9.6, 9.3],
+      "faces": {
+        "north": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "south": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "east": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "west": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "up": {"uv": [4, 8, 8, 12], "texture": "#0"},
+        "down": {"uv": [4, 8, 8, 12], "texture": "#0"}
+      }
+    }
+  ],
+  "display": {
+    "gui": {"rotation": [22, -35, 0], "scale": [0.9, 0.9, 0.9]},
+    "ground": {"translation": [0, 1, 0], "scale": [0.55, 0.55, 0.55]},
+    "fixed": {"scale": [0.9, 0.9, 0.9]},
+    "thirdperson_righthand": {"rotation": [55, 0, 0], "translation": [0, 2, 0.5], "scale": [0.45, 0.45, 0.45]},
+    "thirdperson_lefthand": {"rotation": [55, 0, 0], "translation": [0, 2, 0.5], "scale": [0.45, 0.45, 0.45]},
+    "firstperson_righthand": {"rotation": [0, -25, 0], "translation": [1.2, 1, 0], "scale": [0.55, 0.55, 0.55]},
+    "firstperson_lefthand": {"rotation": [0, 25, 0], "translation": [1.2, 1, 0], "scale": [0.55, 0.55, 0.55]}
+  }
+}

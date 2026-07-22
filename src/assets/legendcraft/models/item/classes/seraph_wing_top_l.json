@@ -1,0 +1,21 @@
+{
+  "__comment": "Seraph Ascension TOP-PAIR LEFT wing. Upswept angel curve, shoulder hinge at model (8,8). UV row 0 of seraph_wing_feathers.png (py 0-42, UV v 0-5.375). Left extends -x; right-wing mirror flips x and reverses UV u.",
+  "texture_size": [128, 128],
+  "textures": {
+    "wing": "legendcraft:item/classes/seraph_wing_feathers",
+    "particle": "legendcraft:item/classes/seraph_wing_feathers"
+  },
+  "elements": [
+    {
+      "from": [-16, -4.5, 7.95],
+      "to": [8, 12, 8.05],
+      "faces": {
+        "south": { "uv": [0, 0, 8, 5.375], "texture": "#wing" },
+        "north": { "uv": [8, 0, 0, 5.375], "texture": "#wing" }
+      }
+    }
+  ],
+  "display": {
+    "fixed": { "rotation": [0, 0, 0], "translation": [0, 0, 0], "scale": [1, 1, 1] }
+  }
+}

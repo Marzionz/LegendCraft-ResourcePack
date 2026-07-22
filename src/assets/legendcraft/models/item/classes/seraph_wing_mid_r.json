@@ -1,0 +1,21 @@
+{
+  "__comment": "Seraph Ascension MID-PAIR RIGHT wing — mirror of seraph_wing_mid_l. Wing extends toward +x. UV row 1 of seraph_wing_feathers.png.",
+  "texture_size": [128, 128],
+  "textures": {
+    "wing": "legendcraft:item/classes/seraph_wing_feathers",
+    "particle": "legendcraft:item/classes/seraph_wing_feathers"
+  },
+  "elements": [
+    {
+      "from": [8, -4.5, 7.95],
+      "to": [32, 12, 8.05],
+      "faces": {
+        "south": { "uv": [8, 5.375, 0, 10.75], "texture": "#wing" },
+        "north": { "uv": [0, 5.375, 8, 10.75], "texture": "#wing" }
+      }
+    }
+  ],
+  "display": {
+    "fixed": { "rotation": [0, 0, 0], "translation": [0, 0, 0], "scale": [1, 1, 1] }
+  }
+}
