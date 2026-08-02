@@ -1,0 +1,69 @@
+{
+  "credit": "LegendCraft — Permafrost sigil L30 variant: base snowflake ring plus the glowing crystal-cyan center gem (increased-cold-damage read). Same static contract as the base — plugin drives the yaw.",
+  "texture_size": [32, 32],
+  "textures": {
+    "0": "legendcraft:item/classes/permafrost_sigil",
+    "particle": "legendcraft:item/classes/permafrost_sigil"
+  },
+  "elements": [
+    {
+      "name": "flake",
+      "from": [3, 8, 3],
+      "to": [13, 8, 13],
+      "faces": {
+        "up": {"uv": [0, 0, 12, 12], "texture": "#0"},
+        "down": {"uv": [0, 0, 12, 12], "texture": "#0"}
+      }
+    },
+    {
+      "name": "edge_x",
+      "from": [3, 7.6, 8],
+      "to": [13, 8.4, 8],
+      "faces": {
+        "north": {"uv": [0, 12.5, 12, 13.5], "texture": "#0"},
+        "south": {"uv": [0, 12.5, 12, 13.5], "texture": "#0"}
+      }
+    },
+    {
+      "name": "edge_z",
+      "from": [8, 7.6, 3],
+      "to": [8, 8.4, 13],
+      "faces": {
+        "east": {"uv": [0, 12.5, 12, 13.5], "texture": "#0"},
+        "west": {"uv": [0, 12.5, 12, 13.5], "texture": "#0"}
+      }
+    },
+    {
+      "name": "gem",
+      "from": [6.9, 6.9, 6.9],
+      "to": [9.1, 9.1, 9.1],
+      "faces": {
+        "north": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "south": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "east": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "west": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "up": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "down": {"uv": [13, 13, 16, 16], "texture": "#0"}
+      }
+    },
+    {
+      "name": "gem_45",
+      "from": [7.15, 6.7, 7.15],
+      "to": [8.85, 9.3, 8.85],
+      "rotation": {"origin": [8, 8, 8], "axis": "y", "angle": 45},
+      "faces": {
+        "north": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "south": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "east": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "west": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "up": {"uv": [13, 13, 16, 16], "texture": "#0"},
+        "down": {"uv": [13, 13, 16, 16], "texture": "#0"}
+      }
+    }
+  ],
+  "display": {
+    "fixed": {"rotation": [0, 0, 0], "translation": [0, 0, 0], "scale": [1, 1, 1]},
+    "ground": {"translation": [0, 2, 0], "scale": [0.6, 0.6, 0.6]},
+    "gui": {"rotation": [55, 35, 0], "translation": [0, 0, 0], "scale": [0.9, 0.9, 0.9]}
+  }
+}

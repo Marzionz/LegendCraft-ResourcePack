@@ -1,0 +1,42 @@
+{
+  "credit": "LegendCraft — Permafrost sigil, Cryomancer overhead curse mark (crossed-plane snowflake ring, currency-ring trick). STATIC asset: the plugin hovers it ~2.5 blocks over the target and drives the slow spin as per-tick yaw on the ItemDisplay.",
+  "texture_size": [32, 32],
+  "textures": {
+    "0": "legendcraft:item/classes/permafrost_sigil",
+    "particle": "legendcraft:item/classes/permafrost_sigil"
+  },
+  "elements": [
+    {
+      "name": "flake",
+      "from": [3, 8, 3],
+      "to": [13, 8, 13],
+      "faces": {
+        "up": {"uv": [0, 0, 12, 12], "texture": "#0"},
+        "down": {"uv": [0, 0, 12, 12], "texture": "#0"}
+      }
+    },
+    {
+      "name": "edge_x",
+      "from": [3, 7.6, 8],
+      "to": [13, 8.4, 8],
+      "faces": {
+        "north": {"uv": [0, 12.5, 12, 13.5], "texture": "#0"},
+        "south": {"uv": [0, 12.5, 12, 13.5], "texture": "#0"}
+      }
+    },
+    {
+      "name": "edge_z",
+      "from": [8, 7.6, 3],
+      "to": [8, 8.4, 13],
+      "faces": {
+        "east": {"uv": [0, 12.5, 12, 13.5], "texture": "#0"},
+        "west": {"uv": [0, 12.5, 12, 13.5], "texture": "#0"}
+      }
+    }
+  ],
+  "display": {
+    "fixed": {"rotation": [0, 0, 0], "translation": [0, 0, 0], "scale": [1, 1, 1]},
+    "ground": {"translation": [0, 2, 0], "scale": [0.6, 0.6, 0.6]},
+    "gui": {"rotation": [55, 35, 0], "translation": [0, 0, 0], "scale": [0.9, 0.9, 0.9]}
+  }
+}
