@@ -1,0 +1,6 @@
+{
+  "credit": "LegendCraft - renders NOTHING (minecraft:empty, 1.21.4+). For carrier entities whose visual is a mounted display model: a thrown snowball ignores the invisibility flag client-side, so the carrier wears this instead (ThrowableProjectile#setItem).",
+  "model": {
+    "type": "minecraft:empty"
+  }
+}
