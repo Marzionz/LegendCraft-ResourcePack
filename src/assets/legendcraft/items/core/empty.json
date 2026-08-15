@@ -1,6 +1,7 @@
 {
-  "credit": "LegendCraft - renders NOTHING (minecraft:empty, 1.21.4+). For carrier entities whose visual is a mounted display model: a thrown snowball ignores the invisibility flag client-side, so the carrier wears this instead (ThrowableProjectile#setItem).",
+  "credit": "LegendCraft - the INVISIBLE carrier skin. For carrier entities whose visual is a mounted display model: a thrown snowball ignores the invisibility flag client-side, so the carrier wears this instead (ThrowableProjectile#setItem). It is a normal single-layer model over a fully transparent texture, NOT minecraft:empty: an empty model has no sprite, and the client's own impact particles (vanilla Snowball broadcasts entity event 3 and spawns ITEM particles from the carried stack) then fall back to the missing-texture checkerboard. A transparent layer renders nothing and gives those particles a sprite to sample.",
   "model": {
-    "type": "minecraft:empty"
+    "type": "minecraft:model",
+    "model": "legendcraft:item/core/empty"
   }
 }

@@ -1,0 +1,8 @@
+{
+  "credit": "LegendCraft - fully transparent single-layer sprite. Renders no quads (every pixel alpha 0) so the carrier entity stays invisible; the particle slot is bound explicitly so client-spawned ITEM particles sample a real sprite instead of the missing-texture checkerboard.",
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "legendcraft:item/core/empty",
+    "particle": "legendcraft:item/core/empty"
+  }
+}
