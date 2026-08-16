@@ -9,6 +9,11 @@ __pycache__/
 # Internal design specs (mob mechanics / exact specifications) — not for public release
 *.md
 
+# ...except the index of the scripts that ship here. It names no mob and no
+# design detail, and the tooling it documents has to be discoverable from the
+# tracked tree rather than from a file only this machine has.
+!/TOOLING.md
+
 # Internal authoring & generation tooling — not for public release
 tools/
 
