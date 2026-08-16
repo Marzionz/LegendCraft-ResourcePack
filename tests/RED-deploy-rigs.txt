@@ -1,0 +1,55 @@
+﻿
+deploy-rigs contract tests
+  stager  : C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1
+  fixture : C:\Users\omarz\AppData\Local\Temp\lc-deploy-rigs-tests
+
+STG  staged output shape
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  STG-01  a staged rig is byte-identical to its source
+  FAIL  STG-02  models/ holds exactly the requested rigs, flat, and nothing else
+  FAIL  STG-03  the verification list is written outside models/
+
+FAIL  rejection rules
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-01  a rig with no .bbmodel fails, naming it
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-02  an ambiguous rig name fails, naming it
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-03  unparseable JSON fails, naming it
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-04  name != filename stem fails, naming it
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-05  model_identifier != stem fails, naming it
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-06  a missing 180-degree root yaw fails, naming it
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-07  no embedded texture fails, naming it
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-08  no elements fails, naming it
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-02b  the ambiguous-rig failure names both matching paths
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  FAIL-04b  the name-mismatch failure names both the stem and the internal name
+
+ATOM  all-or-nothing staging
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  ATOM-01  one bad rig stages none of them, and every failing rig is reported
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  ATOM-02  an all-good run exits 0 and reports every rig staged
+
+VER  the verification list
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  VER-01  the list carries each rig sha1 and its animation clip names
+  FAIL  VER-02  facing is VERIFIED for bone_colossus and UNPROVEN for every other rig
+
+IDEM  re-staging
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  IDEM-01  a rig from the previous run does not survive the next one
+
+JSON  machine-readable result
+  (stager threw: The term 'C:\Repositories\LegendCraft-ResourcePack-wt-mmp3\deploy-rigs.ps1' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.)
+  FAIL  JSON-01  -Json emits a parseable result carrying staged rigs and failures
+
+  0 passed, 19 failed  (19 assertions)
+
