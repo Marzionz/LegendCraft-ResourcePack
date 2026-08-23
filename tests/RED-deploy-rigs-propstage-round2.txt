@@ -1,0 +1,102 @@
+﻿
+deploy-rigs contract tests
+  stager  : C:\Repositories\LegendCraft-ResourcePack-wt-propstage\deploy-rigs.ps1
+  fixture : C:\Users\omarz\AppData\Local\Temp\lc-deploy-rigs-tests
+
+STG  staged output shape
+  PASS  STG-01  a staged rig is byte-identical to its source
+  PASS  STG-02  models/ holds exactly the requested rigs, flat, and nothing else
+  PASS  STG-03  the verification list is written outside models/
+
+FAIL  rejection rules
+  PASS  FAIL-01  a rig with no .bbmodel fails, naming it
+  PASS  FAIL-02  an ambiguous rig name fails, naming it
+  PASS  FAIL-03  unparseable JSON fails, naming it
+  PASS  FAIL-04  name != filename stem fails, naming it
+  PASS  FAIL-05  model_identifier != stem fails, naming it
+  PASS  FAIL-06  a missing 180-degree root yaw fails, naming it
+  PASS  FAIL-07  no embedded texture fails, naming it
+  PASS  FAIL-08  no elements fails, naming it
+  PASS  FAIL-09  a texture source that is not a data: URI fails, naming it
+  PASS  FAIL-10  a texture payload that does not decode fails, naming it
+  PASS  FAIL-11  an empty base64 payload fails, naming it
+  PASS  FAIL-12  a payload that decodes but is not a PNG fails, naming it
+  PASS  FAIL-02b  the ambiguous-rig failure names both matching paths
+  PASS  FAIL-04b  the name-mismatch failure names both the stem and the internal name
+
+ATOM  all-or-nothing staging
+  PASS  ATOM-01  one bad rig stages none of them, and every failing rig is reported
+  PASS  ATOM-02  an all-good run exits 0 and reports every rig staged
+  PASS  ATOM-03  a refused run invalidates the models/ and VERIFY.md a previous run left
+  PASS  ATOM-04  a write-phase failure promotes nothing and invalidates the previous stage
+  PASS  ATOM-05  cleanup that cannot delete a stale rig says so, and leaves the stage un-READY
+  PASS  READY-01  a surviving STAGE-READY is tombstoned, named, and cannot make the stage deployable
+
+PRE  the deployability preflight
+  PASS  PRE-01  the preflight passes on a complete stage
+  PASS  PRE-02  the preflight fails on changed bytes and on a file the marker never listed
+  PASS  PRE-04  the preflight fails when VERIFY.md is missing
+  PASS  PRE-05  the preflight fails when VERIFY.md has been changed
+  PASS  PRE-06  the preflight fails when a listed rig has moved into a subdirectory
+  PASS  PRE-07  the preflight fails on a subdirectory in models/, empty included
+  PASS  PRE-08  the preflight fails when models/ is itself a reparse point
+  PASS  PRE-09  the preflight fails when VERIFY.md is not a real leaf file
+  PASS  PRE-10  the preflight fails when an ancestor of the stage is a reparse point
+  PASS  PRE-03  a successful run clears STAGE-INVALID, and the runbook runs the preflight
+  PASS  RIG-02  an invocation naming no rigs and asking for no preflight refuses
+
+SAFE  destinations the stager refuses
+  PASS  SAFE-01  a plugins/BetterModel destination is refused with nothing written into it at all
+  PASS  SAFE-03  a StageDir reaching a live plugin folder through a junction is refused, writing nothing at all
+  PASS  SAFE-04  a BRACKET-named junction into a live plugin folder is refused with zero writes
+  PASS  PICK-01  the picker skips a letter whose mapping is unavailable, and leaves it untouched
+  PASS  CLEAN-03  the picker arm removes the alias it created and restores the drive
+  PASS  CLEAN-04  a throw with the alias live still removes it and restores the drive
+  PASS  CLEAN-01  the SUBST arm removes its own mapping, checks the call, and restores the drive
+  PASS  SAFE-06  a SUBST drive root into a live plugin folder is refused BY THE GUARD, with zero writes
+  PASS  PRE-11  the preflight refuses a drive-aliased stage, saying so
+  PASS  CLEAN-02  the raw-alias arm removes exactly its own mapping, checks the call, and restores the drive
+  PASS  SAFE-07  a drive mapped to a SUBDIRECTORY of a volume device is refused by stager and preflight, with zero writes
+  PASS  SAFE-05  a BRACKET-named live server root is refused with zero writes under it
+  PASS  SAFE-02  a destination under a live server root is refused
+
+SRC  source-root failures
+  PASS  SRC-01  a missing source root names every requested rig through the normal result
+  PASS  SRC-02  a source root that cannot be enumerated names every requested rig
+
+VER  the verification list
+  PASS  VER-01  the list carries each rig sha1 and its animation clip names
+  PASS  VER-02  facing is VERIFIED for bone_colossus and UNPROVEN for every other rig
+  PASS  VER-03  the runbook carries acquire, baseline, verify and release in that order
+  PASS  VER-04  a complete stage is marked STAGE-READY, listing every rig and sha1, and the runbook requires it
+
+IDEM  re-staging
+  PASS  IDEM-01  a rig from the previous run does not survive the next one
+
+JSON  machine-readable result
+  PASS  JSON-01  -Json emits a parseable result carrying staged rigs and failures
+
+RIG  rig-list parsing
+  PASS  RIG-01  a comma-joined rig list arriving as one argument stages every rig in it
+
+PROP  prop mode
+  PASS  PROP-01  -Prop stages an identity-root rig the mob facing check would refuse
+  PASS  PROP-02  -Prop refuses a rig carrying the mob 180-degree root yaw, naming it
+  PASS  PROP-03  without -Prop an identity-root prop is still refused, naming it and its rotation
+  PASS  PROP-04  -Prop refuses an identity rotation whose root is off the origin
+  PASS  PROP-05  a mixed prop/mob batch under -Prop stages nothing and names the mob
+  PASS  PROP-06  prop mode still applies id agreement, embedded texture and geometry
+  PASS  PROP-07  a prop stage has the mob stage shape, and its own preflight passes on it
+  PASS  PROP-08  the prop runbook drops the facing checklist and says why; the mob one keeps it
+  PASS  PROP-10  the result marks kind per rig, and a prop facing reads NOT-APPLICABLE
+  PASS  PROP-11  STAGE-READY records the mode and the preflight reports it, without changing its verdict
+  PASS  PROP-09  -Prop defaults its stage to dist\props, leaving the mob stage in dist\rigs untouched
+  PASS  PROP-12  -Preflight -Prop defaults to the prop stage, and without it to the mob stage
+  PASS  PROP-09b  the mob default is unchanged: no -Prop still stages into dist\rigs
+  PASS  PROP-13  a mob-mode refusal that points at -Prop points at a run that really stages the rig
+  PASS  PROP-14  a -Prop refusal that says to drop the switch is followed by a mob run that stages it
+  FAIL  PROP-15  a root neither mode accepts gets no hint from either mode, and is still refused by name
+  PASS  PROP-16  a STAGE-READY with no mode directive is still deployable, and says an older stager wrote it
+
+  72 passed, 1 failed  (73 assertions)
+
