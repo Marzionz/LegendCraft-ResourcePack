@@ -4,6 +4,10 @@
   folder, and writes the verification list the owner works through at the box.
 
 .DESCRIPTION
+  DURABLE, RE-RUNNABLE TOOLING (ENGINEERING_STANDARDS section 20), not a
+  one-shot: it is safe to run any number of times, each run fully replaces its
+  own stage, and it is listed in TOOLING.md. Nothing here expires.
+
   STAGE ONLY, and enforced rather than promised: a destination inside a
   plugins/BetterModel folder, or anywhere under a live server root, is refused
   before anything is read, written or deleted. mc-dev is shared, so the copy
@@ -29,8 +33,32 @@
   to agree makes the question moot - under agreement every candidate rule gives
   the same id.
 
+  TWO KINDS OF RIG, and the caller says which. A mob is authored facing +Z and
+  carries an origin-anchored 180-degree yaw on its `root` bone to meet
+  Minecraft's -Z. A PROP - a banner planted in the ground, a ring laid on the
+  floor, a glyph worn by a player - has no front, so it carries an IDENTITY root
+  by design and every one of them is refused by the mob check. -Prop swaps that
+  one assertion for its identity counterpart and changes nothing else: same id
+  agreement, same embedded-texture rules, same geometry rule, same
+  all-or-nothing, same STAGE-READY manifest.
+
+  The mode is DECLARED, never inferred from the file. Inferring it would delete
+  the assertion instead of swapping it: a mob rig whose yaw was lost in
+  authoring would stage silently as a "prop", which is the exact defect the
+  facing check exists to catch. Because each mode demands what the other
+  forbids, a rig named in the wrong run is refused rather than staged.
+
+  The two kinds stage into SEPARATE default directories - dist\rigs and
+  dist\props - so a prop run cannot silently replace a mob stage. Both are
+  copied into the same plugins/BetterModel/models, so the mode does not change
+  whether a stage is safe to copy: the preflight REPORTS the mode recorded in
+  STAGE-READY and does not gate on it.
+
 .EXAMPLE
   pwsh -File deploy-rigs.ps1 -Rig wept,glassjackal -SourceRoot .\mobs-src
+
+.EXAMPLE
+  pwsh -File deploy-rigs.ps1 -Prop -Rig knight_war_banner,fx_ring -SourceRoot .\mobs-src
 
 .EXAMPLE
   pwsh -File deploy-rigs.ps1 -Rig wept -Json
@@ -40,6 +68,11 @@
 param(
     # Required unless -Preflight.
     [string[]]$Rig,
+
+    # Stage PROPS rather than mobs: assert an identity root instead of the mob
+    # facing yaw, and default the stage to dist\props. Also selects that default
+    # for -Preflight, so the switch means the same thing on both sides.
+    [switch]$Prop,
 
     # Answer one question about an existing stage - is it safe to copy? - and
     # write nothing. Exit 0 means deployable.
@@ -66,7 +99,22 @@ $TEMP_STAGE_NAME      = '.deploy-rigs-tmp'
 $BBMODEL_EXT          = '.bbmodel'
 $ROOT_BONE_NAME       = 'root'
 $ROOT_YAW_DEGREES     = 180               # the facing fix: authored +Z, Minecraft wants -Z
+$PROP_ROOT_YAW_DEGREES = 0                # a prop has no front, so its root is identity
 $ANGLE_TOLERANCE      = 1e-6
+
+# The two kinds, and the default stage each gets. SEPARATE, so a prop run cannot
+# silently replace a mob stage: they are staged from different rigs, checked by
+# different assertions, and each needs a STAGE-READY of its own.
+$KIND_MOB             = 'mob'
+$KIND_PROP            = 'prop'
+$MOB_STAGE_SUBDIR     = 'dist\rigs'
+$PROP_STAGE_SUBDIR    = 'dist\props'
+
+# Written into STAGE-READY as a comment ANY reader can skip, and read back as a
+# directive by the one parser that knows it. Informational: both kinds are
+# copied into the same plugins/BetterModel/models, so the mode does not change
+# whether a stage is safe to copy, and the preflight does not gate on it.
+$MODE_DIRECTIVE       = '#!mode '
 $SPAWN_COMMAND        = '/bettermodel spawn'
 $LOCK_SCRIPT          = 'lc-deploy-lock.ps1'
 
@@ -84,12 +132,20 @@ $SERVER_ROOT_MARKER   = 'server.properties'
 
 # Rigs whose in-game facing a human has actually seen. Everything else carries
 # the 180-degree root yaw but has never been looked at, which is the whole point
-# of the list this script writes.
+# of the list this script writes. Props are not on it and never will be: they
+# have no front, so their facing is NOT-APPLICABLE rather than unproven.
 $FACING_VERIFIED_RIGS = @('bone_colossus')
+$FACING_UNPROVEN      = 'UNPROVEN'
+$FACING_VERIFIED      = 'VERIFIED'
+$FACING_NOT_APPLICABLE = 'NOT-APPLICABLE'
+
+$kind = if ($Prop) { $KIND_PROP } else { $KIND_MOB }
 
 $root = $PSScriptRoot
 if (-not $SourceRoot) { $SourceRoot = Join-Path $root 'mobs-src' }
-if (-not $StageDir)   { $StageDir   = Join-Path $root 'dist\rigs' }
+if (-not $StageDir)   {
+    $StageDir = Join-Path $root $(if ($Prop) { $PROP_STAGE_SUBDIR } else { $MOB_STAGE_SUBDIR })
+}
 
 # `powershell -File deploy-rigs.ps1 -Rig wept,glassjackal` hands this parameter
 # ONE string, "wept,glassjackal" - -File never splits an array argument. Split
@@ -224,6 +280,25 @@ function Get-ReparseAncestor {
         $walk = $parent
     }
     return $null
+}
+
+# Which mode wrote this stage, per its own marker - or '' when the marker is
+# absent, unreadable, or was written by a stager that predates the directive.
+# INFORMATION ONLY. Both kinds are copied into the same
+# plugins/BetterModel/models, so the mode does not change whether a stage is
+# safe to copy, and Get-StageProblems deliberately does not consult it: a
+# preflight that refused on a mode mismatch would be answering a second question
+# under the first one's exit code.
+function Get-RecordedStageMode {
+    if ((Test-Reparse $readyPath) -or -not (Test-PathLiteral $readyPath 'Leaf')) { return '' }
+    try {
+        foreach ($line in [System.IO.File]::ReadAllLines($readyPath)) {
+            $t = $line.Trim()
+            if ($t.StartsWith($MODE_DIRECTIVE)) { return $t.Substring($MODE_DIRECTIVE.Length).Trim() }
+        }
+    }
+    catch { return '' }
+    return ''
 }
 
 # A stage is deployable only if it can PROVE it: the tombstone absent, the
@@ -403,8 +478,16 @@ if ($Preflight) {
     # string gives a character rather than the problem.
     $problems = @(Get-StageProblems)
     if ($problems.Count -eq 0) {
+        $recorded = Get-RecordedStageMode
         Write-Host "DEPLOYABLE: $stageFull"
         Write-Host "  $READY_FILENAME matches every file in $MODELS_SUBDIR/ and no $INVALID_FILENAME is present."
+        if ($recorded) {
+            Write-Host "  Staged as a $($recorded.ToUpper()) stage. Both kinds are copied into the same"
+            Write-Host "  $PLUGIN_DIR_SEGMENT/$MODEL_PLUGIN_SEGMENT/$MODELS_SUBDIR, so this is what it holds, not a condition on the copy."
+        }
+        else {
+            Write-Host "  $READY_FILENAME records no staging mode - it was written by an older stager."
+        }
         exit 0
     }
     Write-Host ''
@@ -418,7 +501,7 @@ if ($Preflight) {
 if ($Rig.Count -eq 0) {
     # No tombstone here: nothing was attempted, so an existing good stage in this
     # directory is still exactly as good as it was.
-    Add-Failure '(none)' "no rigs named - pass -Rig <name>[,<name>...], or -Preflight to check an existing stage"
+    Add-Failure '(none)' "no rigs named - pass -Rig <name>[,<name>...] (add -Prop for prop rigs), or -Preflight to check an existing stage"
     Write-Refusal
     exit 1
 }
@@ -522,19 +605,39 @@ foreach ($name in $Rig) {
         continue
     }
 
-    # the facing fix: ONE top-level bone, named root, at the origin, yawed 180
+    # ONE top-level bone, named root, at the origin. Its yaw is the ONE rule the
+    # two modes disagree on: a mob carries the 180-degree facing fix, a prop
+    # carries identity. Each mode demands what the other forbids, so a rig named
+    # in the wrong run is refused here rather than staged.
     $tops = @($model.outliner | Where-Object { $_ -is [psobject] -and $null -ne $_.name })
     if ($tops.Count -ne 1 -or $tops[0].name -ne $ROOT_BONE_NAME) {
         Add-Failure $name "expected exactly one top-level '$ROOT_BONE_NAME' bone, found $($tops.Count): $(($tops | ForEach-Object { $_.name }) -join ', ')"
         continue
     }
+    $expectedYaw = if ($Prop) { $PROP_ROOT_YAW_DEGREES } else { $ROOT_YAW_DEGREES }
     $rot = @($tops[0].rotation)
     $org = @($tops[0].origin)
     $yawOk = $rot.Count -eq 3 -and (Test-Angle $rot[0] 0) -and (Test-Angle $rot[2] 0) -and
-             ((Test-Angle $rot[1] $ROOT_YAW_DEGREES) -or (Test-Angle $rot[1] (-$ROOT_YAW_DEGREES)))
+             ((Test-Angle $rot[1] $expectedYaw) -or (Test-Angle $rot[1] (-$expectedYaw)))
     $orgOk = $org.Count -eq 3 -and (Test-Angle $org[0] 0) -and (Test-Angle $org[1] 0) -and (Test-Angle $org[2] 0)
     if (-not ($yawOk -and $orgOk)) {
-        Add-Failure $name "root bone is not the origin-anchored $ROOT_YAW_DEGREES-degree yaw: rotation [$($rot -join ', ')] origin [$($org -join ', ')]"
+        $wanted = if ($Prop) { "the origin-anchored IDENTITY root a $KIND_PROP needs (a prop has no front)" }
+                  else { "the origin-anchored $ROOT_YAW_DEGREES-degree yaw a $KIND_MOB needs" }
+        # Naming the OTHER mode when the rig plainly belongs to it: this is the
+        # failure a caller hits by passing the wrong switch, and the message is
+        # the only place they find that out. So the hint may only fire when
+        # swapping the switch would ACTUALLY stage the rig - $wellFormed carries
+        # every part of the check the yaw does not decide, pitch and roll
+        # included, or a tilted root gets sent on a run that refuses it too.
+        # Guarded on the count first: a malformed rotation has no [1] to read.
+        $wellFormed = ($rot.Count -eq 3 -and $orgOk -and
+                       (Test-Angle $rot[0] 0) -and (Test-Angle $rot[2] 0))
+        $looksMob = $wellFormed -and ((Test-Angle $rot[1] $ROOT_YAW_DEGREES) -or (Test-Angle $rot[1] (-$ROOT_YAW_DEGREES)))
+        $looksProp = $wellFormed -and (Test-Angle $rot[1] $PROP_ROOT_YAW_DEGREES)
+        $hint = if ($Prop -and $looksMob) { " - this looks like a $KIND_MOB rig; drop -Prop to stage it" }
+                elseif (-not $Prop -and $looksProp) { " - this looks like a $KIND_PROP rig; pass -Prop to stage it" }
+                else { '' }
+        Add-Failure $name "root bone is not $($wanted): rotation [$($rot -join ', ')] origin [$($org -join ', ')]$hint"
         continue
     }
 
@@ -585,10 +688,16 @@ foreach ($name in $Rig) {
     }
 
     $clips = @($model.animations | ForEach-Object { $_.name })
-    $facing = if ($FACING_VERIFIED_RIGS -contains $name) { 'VERIFIED' } else { 'UNPROVEN' }
+    # UNPROVEN means "nobody has looked yet". For a prop there is nothing to
+    # look at, so it gets its own value rather than borrowing one that would put
+    # an unperformable item on the owner's checklist.
+    $facing = if ($Prop) { $FACING_NOT_APPLICABLE }
+              elseif ($FACING_VERIFIED_RIGS -contains $name) { $FACING_VERIFIED }
+              else { $FACING_UNPROVEN }
 
     $null = $candidates.Add([ordered]@{
             rig        = $name
+            kind       = $kind
             source     = $file.FullName
             sha1       = (Get-FileHash -Algorithm SHA1 -LiteralPath $file.FullName).Hash.ToLower()
             bytes      = $file.Length
@@ -609,9 +718,9 @@ function Get-VerifyList {
     $lines = New-Object System.Collections.ArrayList
     function Emit { param([string]$Line) $null = $lines.Add($Line) }
 
-    Emit '# Rig staging - verification list'
+    Emit "# Rig staging - verification list ($kind rigs)"
     Emit ''
-    Emit "Staged $($candidates.Count) rig(s) from ``$SourceRoot`` into ``$modelsDir``."
+    Emit "Staged $($candidates.Count) $kind rig(s) from ``$SourceRoot`` into ``$modelsDir``."
     Emit ''
     Emit '## Deploy (owner, at the box)'
     Emit ''
@@ -634,7 +743,8 @@ function Get-VerifyList {
     Emit '   hash. A marker on its own proves none of that: a refused run can leave one behind'
     Emit '   when the file cannot be deleted, a rig moved into a subfolder is no longer where'
     Emit "   BetterModel reads, and a stage that lost THIS file would deploy with no lock"
-    Emit '   discipline and no facing checklist at all.'
+    if ($Prop) { Emit '   discipline and no per-rig checks at all.' }
+    else { Emit '   discipline and no facing checklist at all.' }
     Emit "3. Copy every file in ``$modelsDir`` into ``plugins/BetterModel/models``."
     Emit '4. Restart. BetterModel regenerates its `build.zip` at boot.'
     Emit '5. `build.ps1`, then `tools/merge_dev_pack.py`, upload, pin the printed sha1 in'
@@ -646,31 +756,53 @@ function Get-VerifyList {
     Emit '   result invalidates every reading above; re-run them, do not reason from them.'
     Emit "9. ``$LOCK_SCRIPT release -Owner <you>``."
     Emit ''
-    Emit '## Staged rigs'
+    Emit "## Staged rigs ($kind)"
     Emit ''
-    Emit '| rig | sha1 | bytes | elements | clips | facing |'
-    Emit '|---|---|---|---|---|---|'
-    foreach ($c in $candidates) {
-        Emit "| $($c.rig) | ``$($c.sha1)`` | $($c.bytes) | $($c.elements) | $($c.animations.Count) | $($c.facing) |"
+    if ($Prop) {
+        Emit '| rig | sha1 | bytes | elements | clips |'
+        Emit '|---|---|---|---|---|'
+        foreach ($c in $candidates) {
+            Emit "| $($c.rig) | ``$($c.sha1)`` | $($c.bytes) | $($c.elements) | $($c.animations.Count) |"
+        }
+    }
+    else {
+        Emit '| rig | sha1 | bytes | elements | clips | facing |'
+        Emit '|---|---|---|---|---|---|'
+        foreach ($c in $candidates) {
+            Emit "| $($c.rig) | ``$($c.sha1)`` | $($c.bytes) | $($c.elements) | $($c.animations.Count) | $($c.facing) |"
+        }
     }
     Emit ''
     Emit '## Per-rig checks'
     Emit ''
-    Emit 'For each rig: (a) the boot log carries no BetterModel error naming it,'
-    Emit "(b) ``$SPAWN_COMMAND <rig>`` renders geometry rather than nothing, and (c) FACING -"
-    Emit 'the rig''s front points where it looks. Facing is the one nobody has confirmed:'
-    Emit 'every rig is authored facing +Z and carries a 180-degree yaw on its `root` bone'
-    Emit 'to meet Minecraft''s -Z, and that fix has only ever been seen working on'
-    Emit "$($FACING_VERIFIED_RIGS -join ', '). A rig marked UNPROVEN below is one where a"
-    Emit 'back-to-front result is a live possibility, not a formality.'
+    if ($Prop) {
+        # No facing item at all, rather than one marked not-applicable. A
+        # checklist item nobody can perform trains the reader to skip items.
+        Emit 'For each rig: (a) the boot log carries no BetterModel error naming it, and'
+        Emit "(b) ``$SPAWN_COMMAND <rig>`` renders geometry rather than nothing."
+        Emit ''
+        Emit 'There is no third check. A prop has no front - it is planted in the ground,'
+        Emit 'laid on it, or worn by a player - so the mob root-yaw convention does not'
+        Emit 'apply to it and there is nothing to hold a rig back-to-front. That is exactly'
+        Emit 'what `-Prop` asserted before staging: an origin-anchored identity `root`.'
+    }
+    else {
+        Emit 'For each rig: (a) the boot log carries no BetterModel error naming it,'
+        Emit "(b) ``$SPAWN_COMMAND <rig>`` renders geometry rather than nothing, and (c) FACING -"
+        Emit 'the rig''s front points where it looks. Facing is the one nobody has confirmed:'
+        Emit 'every rig is authored facing +Z and carries a 180-degree yaw on its `root` bone'
+        Emit 'to meet Minecraft''s -Z, and that fix has only ever been seen working on'
+        Emit "$($FACING_VERIFIED_RIGS -join ', '). A rig marked $FACING_UNPROVEN below is one where a"
+        Emit 'back-to-front result is a live possibility, not a formality.'
+    }
     Emit ''
     foreach ($c in $candidates) {
         $clipList = ($c.animations | ForEach-Object { '`' + $_ + '`' }) -join ', '
-        Emit "### $($c.rig)  -  facing $($c.facing)"
+        if ($Prop) { Emit "### $($c.rig)" } else { Emit "### $($c.rig)  -  facing $($c.facing)" }
         Emit ''
         Emit '- [ ] no BetterModel error naming it in the boot log'
         Emit "- [ ] ``$SPAWN_COMMAND $($c.rig)`` renders the rig"
-        Emit "- [ ] facing: front points forward (status: $($c.facing))"
+        if (-not $Prop) { Emit "- [ ] facing: front points forward (status: $($c.facing))" }
         Emit "- clips in the file: $clipList"
         Emit ''
     }
@@ -705,12 +837,15 @@ try {
     [System.IO.File]::WriteAllText($tempVerify, (Get-VerifyList), (New-Object System.Text.UTF8Encoding($false)))
 
     # The manifest covers the WHOLE stage, by root-relative path: the rigs and
-    # the runbook. VERIFY.md carries the lock discipline and the per-rig facing
+    # the runbook. VERIFY.md carries the lock discipline and the per-rig
     # checklist, so a stage that lost it is not a stage anyone should copy from.
+    # The mode directive rides above them as a comment, so it says which kind
+    # produced this stage without becoming a file the manifest claims to hold.
     $readyList = (@("# $READY_FILENAME - written last, once every file below is in place.",
             "# Its absence means the stage is NOT deployable, and so does the presence of",
             "# $INVALID_FILENAME. One line per file, path relative to this folder:",
-            "#   <sha1>  <path>") +
+            "#   <sha1>  <path>",
+            "$MODE_DIRECTIVE$kind") +
         @($candidates | ForEach-Object { "$($_.sha1)  $MODELS_SUBDIR/$($_.rig)$BBMODEL_EXT" }) +
         @("$((Get-FileHash -Algorithm SHA1 -LiteralPath $tempVerify).Hash.ToLower())  $VERIFY_FILENAME")) -join "`r`n"
 
@@ -759,9 +894,14 @@ if ($Json) {
 }
 else {
     Write-Host ''
-    Write-Host "Staged $($candidates.Count) rig(s) into $modelsDir"
+    Write-Host "Staged $($candidates.Count) $kind rig(s) into $modelsDir"
     foreach ($c in $candidates) {
-        Write-Host ("  {0,-20} {1}  {2} clip(s)  facing {3}" -f $c.rig, $c.sha1, $c.animations.Count, $c.facing)
+        if ($Prop) {
+            Write-Host ("  {0,-20} {1}  {2} clip(s)" -f $c.rig, $c.sha1, $c.animations.Count)
+        }
+        else {
+            Write-Host ("  {0,-20} {1}  {2} clip(s)  facing {3}" -f $c.rig, $c.sha1, $c.animations.Count, $c.facing)
+        }
     }
     Write-Host ''
     Write-Host "Verification list: $verifyPath"
