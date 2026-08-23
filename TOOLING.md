@@ -7,20 +7,48 @@ tree, alongside `mobs-src/` and `tools/`).
 | script | what it does | tests |
 |---|---|---|
 | `build.ps1` | zips `src/` into `dist/LegendCraft-Pack-<version>.zip` and prints the SHA1 Paper needs for `setResourcePack` | none |
-| `deploy-rigs.ps1` | stages named `.bbmodel` rigs from the authoring tree into a BetterModel-shaped folder, and writes the verification list the owner works through at the box | `tests/run-deploy-rigs-tests.ps1` |
+| `deploy-rigs.ps1` | stages named `.bbmodel` rigs — mobs, or props under `-Prop` — from the authoring tree into a BetterModel-shaped folder, and writes the verification list the owner works through at the box | `tests/run-deploy-rigs-tests.ps1` |
 
 ## `deploy-rigs.ps1`
 
 ```
-powershell -NoProfile -File deploy-rigs.ps1 -Rig <name>[,<name>...] [-SourceRoot <dir>] [-StageDir <dir>] [-Json]
-powershell -NoProfile -File deploy-rigs.ps1 -Preflight [-StageDir <dir>]
+powershell -NoProfile -File deploy-rigs.ps1 [-Prop] -Rig <name>[,<name>...] [-SourceRoot <dir>] [-StageDir <dir>] [-Json]
+powershell -NoProfile -File deploy-rigs.ps1 -Preflight [-Prop] [-StageDir <dir>]
 ```
+
+Durable, re-runnable tooling (ENGINEERING_STANDARDS §20), not a one-shot: every
+run fully replaces its own stage, so running it again is always safe.
 
 Each named rig is located as `<name>.bbmodel` anywhere under `-SourceRoot`
 (default `./mobs-src`), checked, and copied to `<StageDir>/models/<name>.bbmodel`
-(default stage `./dist/rigs`). `<StageDir>/VERIFY.md` is written beside — never
-inside — `models/`, so the folder that gets copied onto a server holds nothing
-but rigs. `-Json` swaps the human report for a machine-readable result.
+(default stage `./dist/rigs` for mobs, `./dist/props` under `-Prop`).
+`<StageDir>/VERIFY.md` is written beside — never inside — `models/`, so the
+folder that gets copied onto a server holds nothing but rigs. `-Json` swaps the
+human report for a machine-readable result.
+
+### Mobs and props
+
+A mob is authored facing +Z and carries an origin-anchored 180° yaw on its
+`root` bone to meet Minecraft's −Z. A **prop** — a banner planted in the ground,
+a ring laid on the floor, a glyph worn by a player — has no front, so it carries
+an **identity root** by design and is refused by that check. `-Prop` swaps that
+one assertion for its identity counterpart and changes nothing else: same id
+agreement, same embedded-texture rules, same geometry rule, same all-or-nothing,
+same `STAGE-READY` manifest.
+
+The mode is **declared, never inferred from the file**. Inferring it would delete
+the assertion rather than swap it: a mob rig whose yaw was lost in authoring
+would stage silently as a "prop", which is exactly what the facing check exists
+to catch. Because each mode demands what the other forbids, a rig named in the
+wrong run is refused — and the refusal names the switch that would have staged it.
+
+The two kinds stage into **separate default directories**, so a prop run cannot
+silently replace a mob stage and each kind gets a `STAGE-READY` of its own. Both
+are copied into the same `plugins/BetterModel/models`, so the mode does not
+change whether a stage is safe to copy: `STAGE-READY` records which mode wrote
+it, and the preflight **reports** that without gating on it. A prop's runbook
+carries no facing checklist — a check nobody can perform trains the reader to
+skip items — and says why in its place.
 
 Rig names are arguments, not a built-in list: this repo is published, and the
 authoring tree it reads from deliberately is not.
@@ -59,8 +87,8 @@ folder this script has rejected must never be one somebody can still copy.
 Two files make that promise checkable. `STAGE-READY` is written **last**, once
 every rig and `VERIFY.md` are in place, and lists `<sha1>  <path>` for every file
 in the stage — each `models/<rig>.bbmodel` **and** `VERIFY.md` itself, because
-the runbook carries the lock discipline and the facing checklist, and a stage
-that lost it is not one to copy from. `STAGE-INVALID` is written **first**,
+the runbook carries the lock discipline and the per-rig checks (facing among
+them, for mobs), and a stage that lost it is not one to copy from. `STAGE-INVALID` is written **first**,
 before any cleanup or promotion, and is removed only as the final act of a run
 that has verified its own output — so a stage stops being deployable the moment
 it stops being whole, including when a file cannot be deleted at all.
@@ -92,7 +120,7 @@ step 2, before the copy.
 powershell -NoProfile -File tests\run-deploy-rigs-tests.ps1
 ```
 
-56 assertions against a synthetic authoring tree built in temp; no real rig is
+73 assertions against a synthetic authoring tree built in temp; no real rig is
 read. `-KeepFixture` leaves that tree on disk to look at, `-StagerPath` points
 the suite at a different copy of the script. Run it whenever `deploy-rigs.ps1`
 changes. The `tests/RED-*.txt` files are the recorded red runs the suite's own

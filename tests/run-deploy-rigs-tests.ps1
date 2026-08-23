@@ -17,6 +17,7 @@
     VER    the verification list handed to the owner for the box window
     IDEM   re-running does not leave a stale rig behind
     JSON   the machine-readable arm the rest of this suite reads
+    PROP   -Prop: the identity-root assertion, in place of the mob facing yaw
 
   RUN IT when deploy-rigs.ps1 changes:
 
@@ -176,6 +177,145 @@
            still removes it and restores the drive. All three arms share one
            lifetime helper, so this exercises the path all of them take
                                                                      CLEAN-04
+
+  ---------------------------------------------------------------------------
+  PROP MODE - AC-55..AC-66, added for slice PROP-STAGE.
+
+  Requirement: the PROP-STAGE entry in LegendCraft/Plans/todo/slice-board.md,
+  from the finding it enacts (LegendCraft/Plans/agent-findings.md, "deploy-rigs.ps1
+  refuses props"). AC-9's origin-anchored 180-degree root yaw turns an authored
+  +Z mob to face Minecraft's -Z. A prop - a banner planted in the ground, a ring
+  on the floor, a glyph worn by a player - has no front, and every prop rig in the
+  authoring tree carries an IDENTITY root by design. So all four hook props are
+  refused as a batch with `nothing was staged`, and they reached mc-dev by hand,
+  with no STAGE-READY manifest behind them.
+
+  The mode is a DECLARED switch and never inferred from the file. Inferring it
+  would delete the assertion: a mob rig whose 180-degree yaw was lost in
+  authoring would then stage silently as a "prop", which is the exact defect
+  AC-9 exists to catch. The caller states which kind of rig they are staging and
+  the file has to agree.
+
+    AC-55  -Prop stages a rig whose single top-level `root` bone is at the
+           origin with an IDENTITY rotation [0,0,0]                    PROP-01
+    AC-56  -Prop REFUSES a rig carrying the mob 180-degree root yaw, naming the
+           rig - the two assertions are mutually exclusive, so a mob named in a
+           prop run is caught rather than staged                       PROP-02
+    AC-57  WITHOUT -Prop an identity-root prop is still refused, naming it - the
+           reported defect, reproduced, and the mob rule unchanged     PROP-03
+    AC-58  -Prop refuses a root that is not at the origin even when its rotation
+           is identity - the anchor half of the assertion survives the swap
+                                                                       PROP-04
+    AC-59  a mixed batch under -Prop (one prop, one mob) stages NOTHING and
+           names the mob - all-or-nothing holds across the new mode     PROP-05
+    AC-60  every rule that is not the facing check still applies in prop mode:
+           id agreement, an embedded PNG texture, and geometry         PROP-06
+    AC-61  a -Prop stage has the same shape as a mob stage - models/ flat,
+           VERIFY.md outside it, STAGE-READY listing both - and its own
+           -Preflight passes on it                                     PROP-07
+    AC-62  the prop runbook carries NO facing checklist and says why, while the
+           mob runbook still carries one - a checklist item nobody can perform
+           is worse than no checklist                                  PROP-08
+    AC-63  -Prop defaults its stage directory to dist\props, so a prop run
+           cannot silently replace the mob stage in dist\rigs - each kind gets
+           a STAGE-READY of its own, which is what the finding asked for.
+           Its CONTROL is the same run without the switch, which must still
+           land in dist\rigs                                  PROP-09, PROP-09b
+    AC-64  the JSON result carries `kind` = prop/mob per staged rig, and a prop's
+           `facing` reads NOT-APPLICABLE rather than UNPROVEN - UNPROVEN says
+           "nobody has checked", and for a prop there is nothing to check
+                                                                       PROP-10
+    AC-65  STAGE-READY records which mode wrote it, and the preflight reports
+           that mode on success - INFORMATION, not a new refusal: both kinds are
+           copied into the same plugins/BetterModel/models, so the mode does not
+           change whether a stage is safe to copy                      PROP-11
+    AC-66  -Preflight -Prop defaults to the prop stage directory, so the switch
+           means the same thing on both sides of the tool              PROP-12
+
+  Round 2 added AC-67..AC-70, one per reviewer finding F1 and F2. Both are about
+  the same gap: -Prop introduced two operator-facing output branches that tell
+  the caller what to do next, and no arm held either of them.
+
+    AC-67  a mob-mode refusal that points the caller at -Prop points at a run
+           that actually stages the rig - the hint is asserted, and so is the
+           run it recommends                                           PROP-13
+    AC-68  the same in the other direction: a -Prop refusal that says to drop
+           the switch is followed by a mob-mode run that stages it     PROP-14
+    AC-69  a root NEITHER mode would accept - one tilted on pitch or roll - gets
+           NO hint from either mode. This is the F1 defect: $wellFormed omitted
+           the rot[0]/rot[2] zero-checks that $yawOk requires, so the hint read
+           the yaw alone and sent the caller on a run that could not succeed
+                                                                       PROP-15
+    AC-70  a STAGE-READY carrying no mode directive still preflights DEPLOYABLE
+           and says it was written by an older stager - the backward-compatible
+           branch the round-1 request claimed PROP-11 covered, when every stage
+           PROP-11 builds is written by the new stager                  PROP-16
+
+  PROP-03 is the regression reproduction: it asserts the defect as REPORTED (an
+  identity-root prop refused by a mob-mode run) rather than a missing-switch
+  error, so its red run is the bug and its green run is the bug still correctly
+  refused - the mob rule is not what changed.
+
+  PROP-09 and PROP-12 exercise a DEFAULT, so they cannot pass -StageDir. They
+  run a COPY of the stager placed in a temp directory rather than the one in the
+  repo: the defaults are relative to the script's own $PSScriptRoot, so the copy
+  writes its dist\props into temp. A suite that reached into the repo to prove a
+  default would be mutating the tree it is gating - the same rule PICK-01 and
+  CLEAN-01..04 hold the drive-alias arms to.
+
+  RED RUN: tests/RED-deploy-rigs-propstage.txt, captured with -Prop not yet a
+  parameter. 58 passed, 11 failed, and the first failing assertion is
+
+      FAIL  PROP-01  -Prop stages an identity-root rig the mob facing check
+                     would refuse
+
+  All 56 pre-existing arms stayed green across it, so the new fixture props
+  moved nothing that was already covered. (56, not 54: the suite stood at 56
+  assertions before this slice, which is what TOOLING.md carried and what the
+  red run's 58 passed decomposes into - 56 pre-existing plus the two new arms
+  that were green first.)
+
+  TWO of the thirteen new arms were GREEN on that run, disclosed here rather
+  than left to look like coverage:
+
+  PROP-03 is the regression reproduction, and it reproduces behaviour that was
+  already CORRECT - a mob-mode run refusing an identity-root prop is the defect
+  as reported, and the fix must not loosen it. So it could only ever be green
+  first. Its evidence is a MUTATION instead: make the mode inferred rather than
+  declared (accept either root shape in either mode) and it goes red.
+  tests/RED-deploy-rigs-propstage-declared.txt, 63 passed 6 failed - PROP-03
+  with PROP-02 and PROP-05, and FAIL-06/ATOM-01/ATOM-03 alongside them, which is
+  the point: inferring the mode does not add a prop rule, it deletes the mob one.
+
+  PROP-09b is PROP-09's control and asserts the UNCHANGED mob default, so it was
+  green by construction too. Mutation: default every run to dist\props.
+  tests/RED-deploy-rigs-propstage-defaults.txt, 67 passed 2 failed - PROP-09b
+  and PROP-12.
+
+  ROUND 2 RED RUN: tests/RED-deploy-rigs-propstage-round2.txt, captured with
+  AC-67..AC-70's four arms in place and the F1 defect still live.
+
+      72 passed, 1 failed  (73 assertions)
+      FAIL  PROP-15  a root neither mode accepts gets no hint from either mode
+
+  PROP-15 is the F1 reproduction and the only one that could be red: $wellFormed
+  read the yaw alone, so a root tilted on pitch or roll was told to swap the
+  switch, and the swap refused it too. PROP-13, PROP-14 and PROP-16 were green
+  first and are disclosed as such - 13 and 14 assert behaviour that was already
+  correct for a well-formed root, and 16 covers a branch that existed but that
+  no arm held (the round-1 request wrongly cited PROP-11 for it). Both carry
+  mutation evidence:
+
+    the whole wrong-mode hint removed -> tests/RED-deploy-rigs-propstage-hint.txt,
+    71 passed 2 failed: PROP-13 and PROP-14. PROP-15 stays GREEN there, which is
+    the right shape - "no hint" is what a tilted root is owed.
+
+    the no-directive preflight line silenced ->
+    tests/RED-deploy-rigs-propstage-nodirective.txt, 72 passed 1 failed: PROP-16.
+
+  PROP-15 asserts the absence of a hint on a refusal that DID happen: each of its
+  four reasons is required to name the rotation it refused, so a fixture that
+  never reached the check cannot pass it by printing nothing.
 
   AC-7/AC-8 exist because BetterModel's own documentation does not state how a
   model id is derived from the file - the wiki gives the folder
@@ -534,14 +674,48 @@ function New-Fixture {
     # the same stem in two folders - ambiguous by construction
     Write-Utf8 (Join-Path $Root 'mobs\dupa\dup.bbmodel') (New-Bbmodel -Name 'dup')
     Write-Utf8 (Join-Path $Root 'mobs\dupb\dup.bbmodel') (New-Bbmodel -Name 'dup')
+
+    # Props. Identity root, because a prop has no front - the shape every rig
+    # under props/ in the authoring tree actually has. `pring` mirrors fx_ring
+    # (one element, one clip); `pbanner` mirrors knight_war_banner.
+    Write-Utf8 (Join-Path $Root 'props\pring.bbmodel')   (New-Bbmodel -Name 'pring' -RootRotation @(0, 0, 0) -Elements 1 -Animations @('idle'))
+    Write-Utf8 (Join-Path $Root 'props\pbanner.bbmodel') (New-Bbmodel -Name 'pbanner' -RootRotation @(0, 0, 0) -Animations @('plant', 'idle', 'expire'))
+
+    # one prop rejection rule per file, and none of them is about facing
+    Write-Utf8 (Join-Path $Root 'props\bad\poffroot.bbmodel')  (New-Bbmodel -Name 'poffroot' -RootRotation @(0, 0, 0) -RootOrigin @(0, 8, 0))
+    Write-Utf8 (Join-Path $Root 'props\bad\pnotex.bbmodel')    (New-Bbmodel -Name 'pnotex' -RootRotation @(0, 0, 0) -Textures 0)
+    Write-Utf8 (Join-Path $Root 'props\bad\pnoelem.bbmodel')   (New-Bbmodel -Name 'pnoelem' -RootRotation @(0, 0, 0) -Elements 0)
+    Write-Utf8 (Join-Path $Root 'props\bad\pidentbad.bbmodel') (New-Bbmodel -Name 'pidentbad' -RootRotation @(0, 0, 0) -Identifier 'other_id')
+
+    # Roots NEITHER mode accepts: the yaw is one mode's, the pitch is nobody's.
+    # These are what the wrong-mode HINT has to stay silent about - it reads the
+    # yaw, and the yaw alone does not decide whether the other mode would stage
+    # the rig.
+    Write-Utf8 (Join-Path $Root 'props\bad\ptiltprop.bbmodel') (New-Bbmodel -Name 'ptiltprop' -RootRotation @(10, 0, 0))
+    Write-Utf8 (Join-Path $Root 'props\bad\ptiltmob.bbmodel')  (New-Bbmodel -Name 'ptiltmob' -RootRotation @(10, 180, 0))
 }
 
 function Invoke-Stager {
-    param([string]$Source, [string]$Stage, [string[]]$Rig)
+    param(
+        [string]$Source,
+        [string]$Stage,
+        [string[]]$Rig,
+        [switch]$Prop,
+        # PROP-09 proves a DEFAULT, so it must not pass -StageDir at all.
+        [switch]$DefaultStage,
+        [string]$UseStager
+    )
     $script:LastExit = $null
     $out = $null
+    $exe = if ($UseStager) { $UseStager } else { $Stager }
+    # A HASHTABLE splat, never an array one: splatted array elements are passed
+    # positionally, so `-StageDir` would arrive as a value rather than as a
+    # parameter name and every arm would fail for the wrong reason.
+    $extra = @{}
+    if ($Prop) { $extra['Prop'] = $true }
+    if (-not $DefaultStage) { $extra['StageDir'] = $Stage }
     try {
-        $out = & $Stager -SourceRoot $Source -StageDir $Stage -Rig $Rig -Json 2>&1
+        $out = & $exe -SourceRoot $Source -Rig $Rig -Json @extra 2>&1
         $script:LastExit = $LASTEXITCODE
     }
     catch {
@@ -561,18 +735,28 @@ function Invoke-Stager {
 # The preflight writes nothing and answers with its exit code, so the tests read
 # that rather than parsing a result.
 function Invoke-Preflight {
-    param([string]$Stage)
-    return (Invoke-PreflightDetail -Stage $Stage).exit
+    param([string]$Stage, [switch]$Prop)
+    return (Invoke-PreflightDetail -Stage $Stage -Prop:$Prop).exit
 }
 
 # The exit code alone cannot tell a refusal apart from a crash, so the arms that
 # care read the text too.
 function Invoke-PreflightDetail {
-    param([string]$Stage)
+    param(
+        [string]$Stage,
+        [switch]$Prop,
+        # PROP-12 proves a DEFAULT, so it must not pass -StageDir at all.
+        [switch]$DefaultStage,
+        [string]$UseStager
+    )
     $text = ''
     $code = 1
+    $exe = if ($UseStager) { $UseStager } else { $Stager }
+    $extra = @{}
+    if ($Prop) { $extra['Prop'] = $true }
+    if (-not $DefaultStage) { $extra['StageDir'] = $Stage }
     try {
-        $out = & $Stager -Preflight -StageDir $Stage *>&1
+        $out = & $exe -Preflight @extra *>&1
         $code = $LASTEXITCODE
         $text = ($out | Out-String)
     }
@@ -1360,6 +1544,165 @@ $stage = Join-Path $fixtureRoot 'stage-comma'
 $res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('alpha,beta')
 Assert 'RIG-01' 'a comma-joined rig list arriving as one argument stages every rig in it' (
     $script:LastExit -eq 0 -and ((StagedRigs $res) -join ',') -eq 'alpha,beta')
+
+# --- PROP: the identity-root assertion --------------------------------------
+#
+# The mode is DECLARED, never inferred: -Prop demands an identity root and its
+# absence demands the 180-degree yaw, so each arm below has the other mode as
+# its own control. A rig that stages under both would mean neither assertion
+# ran.
+Write-Host ''
+Write-Host 'PROP  prop mode'
+
+$stage = Join-Path $fixtureRoot 'stage-prop'
+$res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('pring', 'pbanner') -Prop
+Assert 'PROP-01' '-Prop stages an identity-root rig the mob facing check would refuse' (
+    $script:LastExit -eq 0 -and ((StagedRigs $res) -join ',') -eq 'pring,pbanner')
+
+$stage = Join-Path $fixtureRoot 'stage-prop-mob'
+$res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('alpha') -Prop
+Assert 'PROP-02' '-Prop refuses a rig carrying the mob 180-degree root yaw, naming it' (
+    $script:LastExit -ne 0 -and ((FailedRigs $res) -join ',') -eq 'alpha' -and
+    -not (Test-Path (Join-Path $stage 'models')))
+
+# The defect as REPORTED. Not a missing-switch error: a mob-mode run must still
+# refuse a prop, and must still say so with the rotation it found.
+$stage = Join-Path $fixtureRoot 'stage-prop-nomode'
+$res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('pring')
+$pringReason = @($res.failures | Where-Object { $_.rig -eq 'pring' } | ForEach-Object { $_.reason })
+Assert 'PROP-03' 'without -Prop an identity-root prop is still refused, naming it and its rotation' (
+    $script:LastExit -ne 0 -and ((FailedRigs $res) -join ',') -eq 'pring' -and
+    ($pringReason -join ' ') -match '0, 0, 0')
+
+$stage = Join-Path $fixtureRoot 'stage-prop-offroot'
+$res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('poffroot') -Prop
+Assert 'PROP-04' '-Prop refuses an identity rotation whose root is off the origin' (
+    $script:LastExit -ne 0 -and ((FailedRigs $res) -join ',') -eq 'poffroot')
+
+$stage = Join-Path $fixtureRoot 'stage-prop-mixed'
+$res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('pring', 'alpha') -Prop
+Assert 'PROP-05' 'a mixed prop/mob batch under -Prop stages nothing and names the mob' (
+    $script:LastExit -ne 0 -and ((FailedRigs $res) -join ',') -eq 'alpha' -and
+    -not (Test-Path (Join-Path $stage 'models\pring.bbmodel')))
+
+$stage = Join-Path $fixtureRoot 'stage-prop-rules'
+$res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('pnotex', 'pnoelem', 'pidentbad') -Prop
+Assert 'PROP-06' 'prop mode still applies id agreement, embedded texture and geometry' (
+    $script:LastExit -ne 0 -and
+    (((FailedRigs $res) | Sort-Object) -join ',') -eq 'pidentbad,pnoelem,pnotex')
+
+$stage = Join-Path $fixtureRoot 'stage-prop-shape'
+$res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('pring', 'pbanner') -Prop
+$propModels = @(Get-ChildItem -Path (Join-Path $stage 'models') -File -Recurse -ErrorAction SilentlyContinue | ForEach-Object { $_.Name } | Sort-Object)
+$propReady = ''
+if (Test-Path (Join-Path $stage 'STAGE-READY')) { $propReady = [System.IO.File]::ReadAllText((Join-Path $stage 'STAGE-READY')) }
+Assert 'PROP-07' 'a prop stage has the mob stage shape, and its own preflight passes on it' (
+    ($propModels -join ',') -eq 'pbanner.bbmodel,pring.bbmodel' -and
+    (Test-Path (Join-Path $stage 'VERIFY.md')) -and
+    -not (Test-Path (Join-Path $stage 'models\VERIFY.md')) -and
+    $propReady -match 'pring\.bbmodel' -and $propReady -match 'pbanner\.bbmodel' -and
+    (Invoke-Preflight -Stage $stage -Prop) -eq 0)
+
+$propVerify = ''
+if (Test-Path (Join-Path $stage 'VERIFY.md')) { $propVerify = [System.IO.File]::ReadAllText((Join-Path $stage 'VERIFY.md')) }
+$mobVerify = [System.IO.File]::ReadAllText((Join-Path $fixtureRoot 'stage-verify\VERIFY.md'))
+Assert 'PROP-08' 'the prop runbook drops the facing checklist and says why; the mob one keeps it' (
+    $propVerify -notmatch 'front points forward' -and
+    $propVerify -match 'has no front' -and
+    $mobVerify -match 'front points forward')
+
+$propStaged = @($res.staged | Where-Object { $_.rig -eq 'pring' })
+$mobRes = Invoke-Stager -Source $sourceRoot -Stage (Join-Path $fixtureRoot 'stage-prop-kind') -Rig @('alpha')
+$mobStaged = @($mobRes.staged | Where-Object { $_.rig -eq 'alpha' })
+Assert 'PROP-10' 'the result marks kind per rig, and a prop facing reads NOT-APPLICABLE' (
+    $propStaged.Count -eq 1 -and $propStaged[0].kind -eq 'prop' -and
+    $propStaged[0].facing -eq 'NOT-APPLICABLE' -and
+    $mobStaged.Count -eq 1 -and $mobStaged[0].kind -eq 'mob' -and
+    $mobStaged[0].facing -eq 'UNPROVEN')
+
+$propPre = Invoke-PreflightDetail -Stage $stage -Prop
+$mobPre = Invoke-PreflightDetail -Stage (Join-Path $fixtureRoot 'stage-prop-kind')
+Assert 'PROP-11' 'STAGE-READY records the mode and the preflight reports it, without changing its verdict' (
+    $propReady -match '#!mode prop' -and
+    $propPre.exit -eq 0 -and $propPre.text -match 'PROP stage' -and
+    $mobPre.exit -eq 0 -and $mobPre.text -match 'MOB stage')
+
+# PROP-09/PROP-12 prove DEFAULTS, so they pass no -StageDir. A copy of the
+# stager in temp makes its $PSScriptRoot-relative defaults land in temp - the
+# suite never writes into the repo it gates.
+$scriptCopyDir = Join-Path $fixtureRoot 'stager-copy'
+$null = New-Item -ItemType Directory -Force $scriptCopyDir
+$scriptCopy = Join-Path $scriptCopyDir 'deploy-rigs.ps1'
+Copy-Item -LiteralPath $Stager -Destination $scriptCopy -Force
+
+$null = Invoke-Stager -Source $sourceRoot -Rig @('pring') -Prop -DefaultStage -UseStager $scriptCopy
+$defaultPropRig = Join-Path $scriptCopyDir 'dist\props\models\pring.bbmodel'
+$defaultMobDir = Join-Path $scriptCopyDir 'dist\rigs'
+Assert 'PROP-09' '-Prop defaults its stage to dist\props, leaving the mob stage in dist\rigs untouched' (
+    $script:LastExit -eq 0 -and (Test-Path $defaultPropRig) -and -not (Test-Path $defaultMobDir))
+
+# The control is the same preflight WITHOUT -Prop: dist\rigs does not exist yet,
+# so a switch that did nothing would fail here rather than pass by luck.
+$preDefaultProp = Invoke-PreflightDetail -Prop -DefaultStage -UseStager $scriptCopy
+$preDefaultMob = Invoke-PreflightDetail -DefaultStage -UseStager $scriptCopy
+Assert 'PROP-12' '-Preflight -Prop defaults to the prop stage, and without it to the mob stage' (
+    $preDefaultProp.exit -eq 0 -and $preDefaultMob.exit -ne 0)
+
+$null = Invoke-Stager -Source $sourceRoot -Rig @('alpha') -DefaultStage -UseStager $scriptCopy
+Assert 'PROP-09b' 'the mob default is unchanged: no -Prop still stages into dist\rigs' (
+    $script:LastExit -eq 0 -and (Test-Path (Join-Path $scriptCopyDir 'dist\rigs\models\alpha.bbmodel')))
+
+# The refusal HINT is the caller's only channel for a wrong-switch failure, so
+# each arm below asserts the hint AND runs what it recommends. A hint nobody
+# follows through on is how F1 shipped: it read the yaw alone, so a tilted root
+# was told to swap the switch and the swap refused it too.
+function ReasonFor {
+    param($Result, [string]$Rig)
+    if (-not $Result) { return '' }
+    (@($Result.failures | Where-Object { $_.rig -eq $Rig } | ForEach-Object { $_.reason }) -join ' ')
+}
+
+$stage = Join-Path $fixtureRoot 'stage-hint-prop'
+$res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('pring')
+$hintProp = ReasonFor $res 'pring'
+$null = Invoke-Stager -Source $sourceRoot -Stage (Join-Path $fixtureRoot 'stage-hint-prop-followed') -Rig @('pring') -Prop
+Assert 'PROP-13' 'a mob-mode refusal that points at -Prop points at a run that really stages the rig' (
+    $hintProp -match 'pass -Prop to stage it' -and $script:LastExit -eq 0)
+
+$stage = Join-Path $fixtureRoot 'stage-hint-mob'
+$res = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('alpha') -Prop
+$hintMob = ReasonFor $res 'alpha'
+$null = Invoke-Stager -Source $sourceRoot -Stage (Join-Path $fixtureRoot 'stage-hint-mob-followed') -Rig @('alpha')
+Assert 'PROP-14' 'a -Prop refusal that says to drop the switch is followed by a mob run that stages it' (
+    $hintMob -match 'drop -Prop to stage it' -and $script:LastExit -eq 0)
+
+# F1, as reported. Both rigs are refused by BOTH modes, so neither refusal may
+# recommend the other one.
+$tiltPropMob = ReasonFor (Invoke-Stager -Source $sourceRoot -Stage (Join-Path $fixtureRoot 'stage-tilt-1') -Rig @('ptiltprop')) 'ptiltprop'
+$tiltPropProp = ReasonFor (Invoke-Stager -Source $sourceRoot -Stage (Join-Path $fixtureRoot 'stage-tilt-2') -Rig @('ptiltprop') -Prop) 'ptiltprop'
+$tiltMobMob = ReasonFor (Invoke-Stager -Source $sourceRoot -Stage (Join-Path $fixtureRoot 'stage-tilt-3') -Rig @('ptiltmob')) 'ptiltmob'
+$tiltMobProp = ReasonFor (Invoke-Stager -Source $sourceRoot -Stage (Join-Path $fixtureRoot 'stage-tilt-4') -Rig @('ptiltmob') -Prop) 'ptiltmob'
+# Each reason is required to name the rotation it refused, so "no hint" is a
+# hint that is absent from a refusal that DID happen - not a refusal that never
+# ran, which reads the same in a -notmatch.
+Assert 'PROP-15' 'a root neither mode accepts gets no hint from either mode, and is still refused by name' (
+    $tiltPropMob -match '10, 0, 0' -and $tiltPropMob -notmatch '-Prop to stage it' -and
+    $tiltPropProp -match '10, 0, 0' -and $tiltPropProp -notmatch '-Prop to stage it' -and
+    $tiltMobMob -match '10, 180, 0' -and $tiltMobMob -notmatch '-Prop to stage it' -and
+    $tiltMobProp -match '10, 180, 0' -and $tiltMobProp -notmatch '-Prop to stage it')
+
+# The backward-compatibility branch: a marker written before the directive
+# existed. Stripping the comment changes no hash, so the stage is still whole -
+# which is the point, because the mode is information and the hashes decide.
+$stage = Join-Path $fixtureRoot 'stage-nodirective'
+$null = Invoke-Stager -Source $sourceRoot -Stage $stage -Rig @('alpha')
+$readyPath = Join-Path $stage 'STAGE-READY'
+$stripped = (@([System.IO.File]::ReadAllLines($readyPath) | Where-Object { -not $_.Trim().StartsWith('#!mode') }) -join "`r`n") + "`r`n"
+[System.IO.File]::WriteAllText($readyPath, $stripped, (New-Object System.Text.UTF8Encoding($false)))
+$noDirective = Invoke-PreflightDetail -Stage $stage
+Assert 'PROP-16' 'a STAGE-READY with no mode directive is still deployable, and says an older stager wrote it' (
+    $stripped -notmatch '#!mode' -and
+    $noDirective.exit -eq 0 -and $noDirective.text -match 'older stager')
 
 # ---------------------------------------------------------------------------
 
