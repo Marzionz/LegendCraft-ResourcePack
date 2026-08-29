@@ -1,0 +1,26 @@
+{
+  "samus.big_swing": {
+    "category": "master",
+    "sounds": [
+      "samus/martial_artist/big_swing"
+    ]
+  },
+  "samus.multi_strike_final_punch": {
+    "category": "master",
+    "sounds": [
+      "samus/martial_artist/multi_strike_final_punch"
+    ]
+  },
+  "samus.multi_strike_small": {
+    "category": "master",
+    "sounds": [
+      "samus/martial_artist/multi_strike_small"
+    ]
+  },
+  "samus.multi_strike_swing": {
+    "category": "master",
+    "sounds": [
+      "samus/martial_artist/multi_strike_swing"
+    ]
+  }
+}
