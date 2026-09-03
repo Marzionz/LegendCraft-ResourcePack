@@ -26,7 +26,7 @@
 
 lc_party_frame:
   type: single
-  file: legendcraft/party/frame_portrait_missing.png
+  file: legendcraft/party/frame_portrait.png
 
 # The COMPACT (83x20) and RAID (83x15) frames are NOT registered. Their PNGs stay staged in
 # `assets/hud/party/` so a variant change is cheap, but a registered image is built into the
