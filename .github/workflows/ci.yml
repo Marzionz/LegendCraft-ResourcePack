@@ -1,7 +1,8 @@
 # CI for LegendCraft-ResourcePack: the gates over the runtime HUD configuration this repo
 # serves. The placeholder gate reads LegendCraft-Classes' expansion source from a sibling
-# checkout, so it needs LEGENDCRAFT_REPO_TOKEN, a repo-scoped PAT: that repo is private and
-# this workflow's own GITHUB_TOKEN cannot read another repository.
+# checkout, so it needs LEGENDCRAFT_REPO_TOKEN, a PAT scoped to that repo's contents: it is
+# private and this workflow's own GITHUB_TOKEN cannot read another repository. The gate fails
+# rather than degrading when it cannot read that source -- a copied list is not the contract.
 name: CI
 
 on:
@@ -19,7 +20,11 @@ concurrency:
 
 jobs:
   gates:
-    runs-on: [self-hosted, linux, legendcraft]
+    # GitHub-hosted, not the self-hosted label the sibling plugin repos use. This repository is
+    # public, and a self-hosted runner would put its CI on the machine that also hosts the
+    # private repos' runners and the development server. Nothing here needs that machine:
+    # these gates are Python and PowerShell over text.
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
