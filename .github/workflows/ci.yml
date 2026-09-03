@@ -83,6 +83,8 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: pwsh -NoProfile -File tests/run-pack-pin-tests.ps1
 
-      - name: Gate - rig stager
-        working-directory: LegendCraft-ResourcePack
-        run: pwsh -NoProfile -File tests/run-deploy-rigs-tests.ps1
+      # tests/run-deploy-rigs-tests.ps1 is deliberately NOT here. It asserts against Windows
+      # filesystem semantics the rig stager guards -- drive aliases, reparse points, the
+      # bracket-as-wildcard trap in Test-Path -- none of which exist on this runner, so running
+      # it here would grade a different set of rules than the ones that hold at the box. It is
+      # run on Windows when deploy-rigs.ps1 changes, per TOOLING.md.
