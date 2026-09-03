@@ -1,3 +1,4 @@
+    "feedback_line": "reads blank at rest and is ungated; accepted debt, waiting on HUD-FEEDBACK-EMPTY",
 #!/usr/bin/env python3
 """Gate: every papi:legendcraft_* token the HUD reads is one LegendCraft-Classes answers.
 
