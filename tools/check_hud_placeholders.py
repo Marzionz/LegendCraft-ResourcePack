@@ -1,4 +1,3 @@
-    "feedback_line": "reads blank at rest and is ungated; accepted debt, waiting on HUD-FEEDBACK-EMPTY",
 #!/usr/bin/env python3
 """Gate: every papi:legendcraft_* token the HUD reads is one LegendCraft-Classes answers.
 
@@ -85,6 +84,7 @@ PATTERN_SAFE_PLACEHOLDERS = {
     "slot2_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
     "slot3_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
     "ult_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
+    "feedback_line": "reads blank at rest and is ungated; accepted debt, waiting on HUD-FEEDBACK-EMPTY",
 }
 
 
