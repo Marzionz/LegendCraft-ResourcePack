@@ -3,7 +3,7 @@
 # Three families, on purpose:
 #
 #  * CHROME (frame, bar outlines, leader crown) is Volya's Party HUD 1.1.0 art, staged verbatim by
-#    `assets/tools/stage_volya_hud.py`. Flat, translucent, desaturated, non-glowing -- already what
+#    `stage_volya_hud.py`. Flat, translucent, desaturated, non-glowing -- already what
 #    `hud-and-icons.md` §1 asks of chrome, so there was nothing to change.
 #  * BARS are Volya's shapes re-ramped by that same script onto the locked LegendCraft palette, so a
 #    party member's HP is the same red as the caster's own stat block. Rage is ember-led rather than

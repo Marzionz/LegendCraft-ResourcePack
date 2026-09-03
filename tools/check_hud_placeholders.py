@@ -52,6 +52,11 @@ STARTSWITH_RX = re.compile(r"params\.startsWith\(\"([a-z0-9_]+)\"\)")
 # Both switch forms the expansion uses, including multi-label arrow arms.
 CASE_RX = re.compile(r"^\s*case\s+(\"[a-z0-9_]+\"(?:\s*,\s*\"[a-z0-9_]+\")*)\s*(?:->|:)", re.M)
 CASE_LABEL_RX = re.compile(r"\"([a-z0-9_]+)\"")
+# The method that projects ONE slot's field. Its switches are over `field`, not over the whole
+# id, so their labels are suffixes and never ids in their own right. The two label sets have to
+# stay apart: unioned, every stat id passes as a slot field and every field label passes as a
+# bare id, and the expansion answers null to both.
+SLOT_FIELD_METHOD_RX = re.compile(r"\n    private String slotField\(.*?\n    \}\n", re.S)
 # The party-frame family's prefix constant and the slot count that bounds it.
 PARTY_PREFIX_RX = re.compile(r"PARTY_MEMBER_PREFIX\s*=\s*\"([a-z0-9_]+)\"")
 MEMBER_SLOTS_RX = re.compile(r"MEMBER_SLOTS\s*=\s*PartyService\.PARTY_MAX_SIZE\s*-\s*(\d+)")
@@ -104,31 +109,48 @@ def party_member_slots(classes_root: str) -> int:
     return party_max - int(offset_match.group(1))
 
 
+def case_labels(source: str):
+    labels = set()
+    for group in CASE_RX.findall(source):
+        labels.update(CASE_LABEL_RX.findall(group))
+    return labels
+
+
 def answerable(classes_root: str):
-    """The ids the expansion answers, as (exact ids, slot prefixes, slot fields)."""
+    """What the expansion answers, as (bare ids, slot prefixes, slot field labels).
+
+    Three sets, kept apart on purpose. A bare id is answered only by the switches over the whole
+    parameter; a slot field label only after one of the slot prefixes. Merging them accepts
+    `slot1_armor` and a bare `cd_secs`, and the expansion answers null to both -- which leaves
+    the raw token in the string and the element's condition never matching.
+    """
     source = _read(os.path.join(classes_root, EXPANSION_SOURCE))
-    exact = set(EQUALS_RX.findall(source))
-    for labels in CASE_RX.findall(source):
-        exact.update(CASE_LABEL_RX.findall(labels))
+
+    slot_field_body = SLOT_FIELD_METHOD_RX.search(source)
+    if not slot_field_body:
+        raise SystemExit("could not find slotField in %s: the field labels cannot be read, and "
+                         "guessing them is what this gate exists to avoid" % EXPANSION_SOURCE)
+    fields = case_labels(slot_field_body.group(0))
+
+    # Everything outside slotField answers a whole parameter name.
+    outside = source.replace(slot_field_body.group(0), "\n")
+    bare = set(EQUALS_RX.findall(outside)) | case_labels(outside)
+
     prefixes = set(STARTSWITH_RX.findall(source))
     party_prefix_match = PARTY_PREFIX_RX.search(source)
     if party_prefix_match:
         party_prefix = party_prefix_match.group(1)
         prefixes.discard(party_prefix)
         for slot in range(1, party_member_slots(classes_root) + 1):
-            exact.add("%s%d" % (party_prefix, slot))
-    # A slot family's suffixes are the labels of the switch over `field`, which the same set of
-    # case labels already holds -- the two switches share this source and neither name collides.
-    return exact, prefixes
+            bare.add("%s%d" % (party_prefix, slot))
+    return bare, prefixes, fields
 
 
-def is_answered(placeholder_id: str, exact, prefixes) -> bool:
-    if placeholder_id in exact:
-        return True
+def is_answered(placeholder_id: str, bare, prefixes, fields) -> bool:
     for prefix in prefixes:
-        if placeholder_id.startswith(prefix) and placeholder_id[len(prefix):] in exact:
-            return True
-    return False
+        if placeholder_id.startswith(prefix):
+            return placeholder_id[len(prefix):] in fields
+    return placeholder_id in bare
 
 
 def hud_files(hud_root: str):
@@ -150,7 +172,7 @@ def main() -> int:
         print("      the answerable set is read from that file; without it this gate proves nothing")
         return 1
 
-    exact, prefixes = answerable(args.classes_root)
+    bare, prefixes, fields = answerable(args.classes_root)
     failures = []
     seen = 0
     for path in hud_files(args.hud_root):
@@ -161,7 +183,7 @@ def main() -> int:
             pattern_match = PATTERN_LINE_RX.match(line)
             for placeholder_id in PLACEHOLDER_REF_RX.findall(line):
                 seen += 1
-                if not is_answered(placeholder_id, exact, prefixes):
+                if not is_answered(placeholder_id, bare, prefixes, fields):
                     failures.append("%s:%d: %s%s names no case in HudPlaceholders"
                                     % (display, lineno, PLACEHOLDER_PREFIX, placeholder_id))
                 elif pattern_match and placeholder_id not in PATTERN_SAFE_PLACEHOLDERS:

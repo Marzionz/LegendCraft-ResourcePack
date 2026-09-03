@@ -13,7 +13,8 @@ tree, alongside `mobs-src/` and `tools/`).
 | `tools/merge_dev_pack.py` | merges the plugin build zips with the newest built base pack into `dist/LegendCraft-Pack-dev.zip` | `tools/test_pack_manifest.py` |
 | `tools/publish-pack.ps1` | uploads a pack to the rolling `dev` pre-release, or promotes a tested dev pack to an immutable `v<version>` | `tests/run-pack-pin-tests.ps1` |
 | `tools/check-pack-pin.ps1` | the production pre-start guard: refuses a dev pin, an absent pin, or a sha1 that is not the bytes at the pinned URL | `tests/run-pack-pin-tests.ps1` |
-| `tools/check_hud_placeholders.py` | every `papi:legendcraft_*` the HUD reads names a case in `LegendCraft-Classes`' expansion source | CI gate |
+| `tools/check_generator_drift.py` | the committed `hud/` tree equals generator output; images compared by decoded pixels, everything else byte for byte | CI gate |
+| `tools/check_hud_placeholders.py` | every `papi:legendcraft_*` the HUD reads names a case in `LegendCraft-Classes`' expansion source | `tools/test_hud_placeholders.py` |
 | `tools/check_hud_yaml.py` | the BetterHud files parse and hold the generator's invariants | CI gate |
 | `tools/check_pack_manifest.py` | a merged pack still carries what its inputs put in | `tools/test_pack_manifest.py` |
 
@@ -149,3 +150,10 @@ drive's restored state are both checked. Four assertions hold that — one per
 creating arm, plus one that throws the instant an alias is live and requires the
 drive to come back anyway. A fixture that mutates the machine it runs on is a
 defect of the gate, and the crash path is where that happens.
+
+## Adding a script to `tools/`
+
+`.gitignore` keeps `tools/` unpublished and re-includes the gated pipeline file by file, so a
+new script there is untracked until it earns a negation line. That fails closed rather than
+quietly: `ci.yml` names every gate script it runs, so one missing from the tree stops the run.
+Add the negation in the same change that adds the script.
