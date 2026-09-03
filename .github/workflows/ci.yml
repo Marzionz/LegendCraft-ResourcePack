@@ -1,0 +1,82 @@
+# CI for LegendCraft-ResourcePack: the gates over the runtime HUD configuration this repo
+# serves. The placeholder gate reads LegendCraft-Classes' expansion source from a sibling
+# checkout, so it needs LEGENDCRAFT_REPO_TOKEN, a repo-scoped PAT: that repo is private and
+# this workflow's own GITHUB_TOKEN cannot read another repository.
+name: CI
+
+on:
+  push:
+    branches: ['**']
+
+permissions:
+  contents: read
+
+# Every push runs to completion, so a tests-only push keeps its red run when the
+# implementation push follows seconds later; same-branch runs queue instead of cancelling.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  gates:
+    runs-on: [self-hosted, linux, legendcraft]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: LegendCraft-ResourcePack
+
+      - name: Check out LegendCraft-Classes (the placeholder contract's other side)
+        uses: actions/checkout@v4
+        with:
+          repository: Marzionz/LegendCraft-Classes
+          token: ${{ secrets.LEGENDCRAFT_REPO_TOKEN }}
+          path: LegendCraft-Classes
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install the generator's dependencies
+        run: python -m pip install --disable-pip-version-check pillow pyyaml
+
+      # Gate 1. The BetterHud YAML and the shared chrome art are generated. A hand edit to any
+      # of them survives review looking like config and is erased by the next regeneration, so
+      # the tree has to equal what the generator writes.
+      - name: Gate - generator drift
+        working-directory: LegendCraft-ResourcePack
+        run: |
+          python tools/generate_hud.py
+          git diff --exit-code -- hud/
+
+      - name: Gate - generator acceptance suite
+        working-directory: LegendCraft-ResourcePack/tools
+        run: python test_generate_hud.py
+
+      # Gate 2. Every placeholder the HUD reads is one the plugin answers, read from the
+      # expansion's own source rather than a copied list.
+      - name: Gate - placeholder audit
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/check_hud_placeholders.py --classes-root ../LegendCraft-Classes
+
+      # Gate 3. The files parse and hold the invariants the generator writes them under.
+      - name: Gate - BetterHud YAML shape
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/check_hud_yaml.py
+
+      # Gate 4. The merge that produces the served pack does not silently drop what its inputs
+      # put in. Run over fixtures the suite builds, since the plugin build zips only exist on
+      # the server box.
+      - name: Gate - pack manifest
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/test_pack_manifest.py
+
+      # The pack-channel rules: a versioned release is immutable, and promotion is the only
+      # path from the dev loop to one.
+      - name: Gate - pack pin and promotion
+        working-directory: LegendCraft-ResourcePack
+        run: pwsh -NoProfile -File tests/run-pack-pin-tests.ps1
+
+      - name: Gate - rig stager
+        working-directory: LegendCraft-ResourcePack
+        run: pwsh -NoProfile -File tests/run-deploy-rigs-tests.ps1
