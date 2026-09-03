@@ -53,7 +53,7 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: |
           python tools/generate_hud.py
-          git diff --exit-code -- hud/
+          python tools/check_generator_drift.py
 
       - name: Gate - generator acceptance suite
         working-directory: LegendCraft-ResourcePack/tools
