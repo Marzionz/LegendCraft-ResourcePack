@@ -29,6 +29,7 @@ tools/*
 !/tools/check_hud_placeholders.py
 !/tools/check_hud_yaml.py
 !/tools/check_pack_manifest.py
+!/tools/test_pack_manifest.py
 !/tools/check-pack-pin.ps1
 !/tools/stage_volya_hud.py
 !/tools/merge_dev_pack.py
