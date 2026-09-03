@@ -71,6 +71,12 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $RepoRoot = Split-Path -Parent $PSScriptRoot
+
+# The suite runs on Windows PowerShell locally and on pwsh on the Linux CI runner, and the
+# subjects it launches must run on whichever of the two is hosting it: 'powershell' is not an
+# executable on Linux and 'pwsh' is not the host here. Ask the running process what it is.
+$PwshExe = (Get-Process -Id $PID).Path
+$IsWindowsHost = [System.Environment]::OSVersion.Platform -eq [System.PlatformID]::Win32NT
 if (-not $PinScriptPath)     { $PinScriptPath     = Join-Path $RepoRoot 'tools\check-pack-pin.ps1' }
 if (-not $PublishScriptPath) { $PublishScriptPath = Join-Path $RepoRoot 'tools\publish-pack.ps1' }
 
@@ -109,7 +115,9 @@ function New-Pack {
     New-Item -ItemType Directory -Force -Path $staging | Out-Null
     Write-Utf8 (Join-Path $staging 'pack.mcmeta') $Marker
     if (Test-Path -LiteralPath $Path) { Remove-Item -LiteralPath $Path -Force }
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    # Windows PowerShell needs the assembly loaded; on pwsh it is already there and asking again
+    # is an error rather than a no-op.
+    try { Add-Type -AssemblyName System.IO.Compression.FileSystem -ErrorAction Stop } catch { }
     [System.IO.Compression.ZipFile]::CreateFromDirectory($staging, $Path)
     $sha = (Get-FileHash -LiteralPath $Path -Algorithm SHA1).Hash.ToLowerInvariant()
     Write-Utf8 ($Path + '.sha1') $sha
@@ -152,10 +160,18 @@ if ($args[0] -eq 'release' -and $args[1] -eq 'view') {
 }
 exit 0
 '@
-# publish-pack invokes gh as an executable; a .ps1 cannot be one, so the seam takes a command
-# line the suite can point at powershell running the stub.
-$GhShim = Join-Path $Fixture 'gh-shim.cmd'
-Write-Utf8 $GhShim ("@echo off`r`npowershell -NoProfile -ExecutionPolicy Bypass -File `"$GhStub`" %*`r`n")
+# publish-pack invokes gh as an executable; a .ps1 cannot be one, so the seam is pointed at a
+# tiny launcher that re-enters this host with the stub. The launcher is the only part of the
+# fixture that has to be written in the platform's own shell.
+if ($IsWindowsHost) {
+    $GhShim = Join-Path $Fixture 'gh-shim.cmd'
+    Write-Utf8 $GhShim ("@echo off`r`n`"$PwshExe`" -NoProfile -File `"$GhStub`" %*`r`n")
+}
+else {
+    $GhShim = Join-Path $Fixture 'gh-shim.sh'
+    Write-Utf8 $GhShim ("#!/usr/bin/env bash`nexec `"$PwshExe`" -NoProfile -File `"$GhStub`" `"`$@`"`n")
+    & chmod +x $GhShim
+}
 
 function Reset-Gh {
     param([string[]]$ExistingTags = @())
@@ -182,8 +198,11 @@ function Invoke-Script {
     $stdout = [System.IO.Path]::GetTempFileName()
     $stderr = [System.IO.Path]::GetTempFileName()
     try {
-        $argv = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $Path) + $ScriptArgs
-        $proc = Start-Process -FilePath 'powershell' -ArgumentList $argv -NoNewWindow -Wait -PassThru `
+        # -ExecutionPolicy is a Windows-only switch; passing it to pwsh on Linux is an error.
+        $argv = @('-NoProfile')
+        if ($IsWindowsHost) { $argv += @('-ExecutionPolicy', 'Bypass') }
+        $argv += @('-File', $Path) + $ScriptArgs
+        $proc = Start-Process -FilePath $PwshExe -ArgumentList $argv -NoNewWindow -Wait -PassThru `
             -RedirectStandardOutput $stdout -RedirectStandardError $stderr
         $text = (Get-Content -LiteralPath $stdout -Raw -ErrorAction SilentlyContinue) +
                 (Get-Content -LiteralPath $stderr -Raw -ErrorAction SilentlyContinue)
