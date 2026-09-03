@@ -84,7 +84,6 @@ PATTERN_SAFE_PLACEHOLDERS = {
     "slot2_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
     "slot3_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
     "ult_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
-    "feedback_line": "reads blank at rest and is ungated; accepted debt, waiting on HUD-FEEDBACK-EMPTY",
 }
 
 
