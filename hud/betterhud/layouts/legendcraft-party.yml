@@ -6,7 +6,7 @@
 # information the row already had.
 #
 # Ported from Volya's Party HUD 1.1.0 (MythicHUD) to BetterHud 2.1.0. Chrome + bar art staged by
-# `assets/tools/stage_volya_hud.py`; class icons are ours. Registry: `images/legendcraft-party.yml`.
+# `stage_volya_hud.py`; class icons are ours. Registry: `images/legendcraft-party.yml`.
 # Registered as layout 2 of `lc_stat_hud` (`generate_hud.py` `_bh_stat_hud_yml`) -- NOT as a second
 # hud, because BetterHud only repositions the first default-hud.
 #

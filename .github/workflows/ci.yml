@@ -91,4 +91,4 @@ jobs:
       # filesystem semantics the rig stager guards -- drive aliases, reparse points, the
       # bracket-as-wildcard trap in Test-Path -- none of which exist on this runner, so running
       # it here would grade a different set of rules than the ones that hold at the box. It is
-      # run on Windows when deploy-rigs.ps1 changes, per TOOLING.md.
+      # run on Windows when deploy-rigs.ps1 changes.
