@@ -33,6 +33,16 @@ REPO_ROOT = os.path.dirname(HERE)
 GENERATED_ROOT = "hud"
 PIXEL_COMPARED_SUFFIX = ".png"
 
+# The two files under hud/ that generate_hud.py does not write. The party frames are authored by
+# hand against the purchased chrome, and their registry and layout have no generator counterpart,
+# so regeneration cannot change them and a change to one is an edit somebody meant to make. Left
+# in, this gate would report a legitimate party edit as a hand-edited generated file and send
+# whoever made it to regenerate, which would do nothing.
+HAND_AUTHORED = {
+    "hud/betterhud/images/legendcraft-party.yml",
+    "hud/betterhud/layouts/legendcraft-party.yml",
+}
+
 
 def git(*args):
     result = subprocess.run(("git",) + args, cwd=REPO_ROOT, capture_output=True)
@@ -66,6 +76,8 @@ def main() -> int:
     reencoded = []
 
     for path in tracked:
+        if path in HAND_AUTHORED:
+            continue
         if not path.endswith(PIXEL_COMPARED_SUFFIX):
             drifted.append("%s differs from generator output" % path)
             continue
