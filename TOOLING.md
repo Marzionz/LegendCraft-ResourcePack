@@ -8,6 +8,14 @@ tree, alongside `mobs-src/` and `tools/`).
 |---|---|---|
 | `build.ps1` | zips `src/` into `dist/LegendCraft-Pack-<version>.zip` and prints the SHA1 Paper needs for `setResourcePack` | none |
 | `deploy-rigs.ps1` | stages named `.bbmodel` rigs — mobs, or props under `-Prop` — from the authoring tree into a BetterModel-shaped folder, and writes the verification list the owner works through at the box | `tests/run-deploy-rigs-tests.ps1` |
+| `tools/generate_hud.py` | writes the HUD art and the BetterHud YAML under `hud/` | `tools/test_generate_hud.py`, plus the CI drift gate |
+| `tools/deploy-hud.ps1` | the whole HUD loop against mc-dev: regenerate, copy, restart, merge, publish, repoint, restart | none — it drives a live server |
+| `tools/merge_dev_pack.py` | merges the plugin build zips with the newest built base pack into `dist/LegendCraft-Pack-dev.zip` | `tools/test_pack_manifest.py` |
+| `tools/publish-pack.ps1` | uploads a pack to the rolling `dev` pre-release, or promotes a tested dev pack to an immutable `v<version>` | `tests/run-pack-pin-tests.ps1` |
+| `tools/check-pack-pin.ps1` | the production pre-start guard: refuses a dev pin, an absent pin, or a sha1 that is not the bytes at the pinned URL | `tests/run-pack-pin-tests.ps1` |
+| `tools/check_hud_placeholders.py` | every `papi:legendcraft_*` the HUD reads names a case in `LegendCraft-Classes`' expansion source | CI gate |
+| `tools/check_hud_yaml.py` | the BetterHud files parse and hold the generator's invariants | CI gate |
+| `tools/check_pack_manifest.py` | a merged pack still carries what its inputs put in | `tools/test_pack_manifest.py` |
 
 ## `deploy-rigs.ps1`
 

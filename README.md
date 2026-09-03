@@ -105,3 +105,74 @@ built pack, preserving every source's `pack.mcmeta` OVERLAYS (dropping BetterHud
 exactly how the HUD broke on 2026-08-03). Run `build.ps1` first, run this after the server
 has booted with the current models, upload with `gh release upload dev ... --clobber`, pin
 the printed sha1 in mc-dev `server.properties`, restart.
+
+## The HUD (`hud/`, `tools/generate_hud.py`)
+
+`hud/` is the runtime configuration BetterHud parses at boot — `betterhud/{images,layouts,huds,texts}/`
+plus the art those files reference — and `tools/generate_hud.py` writes almost all of it. The
+YAML says so in its own first line: it is generated, and a hand edit is erased by the next run.
+Edit the generator, re-run it, commit both.
+
+```
+python tools/generate_hud.py        # rebuilds the art and the YAML
+python tools/test_generate_hud.py   # the generator's own acceptance suite
+```
+
+The two hand-authored exceptions are `betterhud/images/legendcraft-party.yml` and
+`betterhud/layouts/legendcraft-party.yml`; `tools/stage_volya_hud.py` re-stages the purchased
+chrome they draw. `tools/hud_icon_map.py` is data only — one row per class linking its finished
+icon art — kept separate so icon work never collides with the wiring logic. The deploy end to
+end is `tools/deploy-hud.ps1`, and `hud/betterhud/README.md` is the detail.
+
+### What CI holds
+
+`.github/workflows/ci.yml`, on every push:
+
+| gate | what it refuses |
+|---|---|
+| generator drift | a `hud/` tree that differs from what `generate_hud.py` writes |
+| placeholder audit | a `papi:legendcraft_*` token no `HudPlaceholders` case answers, and one read inside a `pattern:` that is not on `tools/check_hud_placeholders.py`'s allow-list |
+| YAML shape | an element with no name or layer, a condition missing `first`/`second`/`operation`, a layer outside the generator's band, an image reference resolving to no file, a layout drawing an unregistered image, a hud composing an undefined layout |
+| pack manifest | a merge that drops item models, sounds, `sounds.json`, or plugin-contributed assets its inputs carried |
+
+The placeholder gate reads `HudPlaceholders.java` out of a sibling `LegendCraft-Classes`
+checkout rather than a copied list, so it needs `LEGENDCRAFT_REPO_TOKEN` to read that private
+repo, and it fails loudly rather than passing when it cannot.
+
+## Pack channels
+
+Two channels, and they are not interchangeable.
+
+- **`dev`** — one rolling pre-release behind the fixed asset name `LegendCraft-Pack-dev.zip`,
+  clobbered on every iteration so the URL never moves and only the sha1 does. This is the loop
+  mc-dev follows.
+- **`v<version>`** — an immutable release. `publish-pack.ps1` refuses to upload to a
+  `v<version>` tag that already exists, in every mode: a server pinned to that tag verifies the
+  asset by hash, so replacing the bytes behind it fails their clients on the next join without
+  anything changing on their side. A new build is a new version.
+
+Promotion is the only path from one to the other:
+
+```
+pwsh -File tools\publish-pack.ps1 -Promote <sha1-of-the-dev-pack-you-tested> -Version 0.3.0
+```
+
+It hashes the current dev pack, refuses unless it equals the argument — the dev asset is
+clobbered constantly, so "the current dev pack" names no particular build and you have to say
+which one you watched behave — then re-uploads those exact bytes under `v<version>` and prints
+the `server.properties` lines for them.
+
+### Before starting a production server
+
+```
+pwsh -File tools\check-pack-pin.ps1 -ServerProperties <path-to-server.properties>
+```
+
+Exit 0 means the pin is legal. It refuses a `resource-pack` under the dev release, an asset
+named as a dev build, an absent pin, and — the one that catches a config nobody touched — a
+`resource-pack-sha1` that is not the sha1 of the bytes now served at that URL. mc-dev is
+exempt by the name it advertises, because mc-dev *is* the dev loop, and the exemption is
+printed rather than silent.
+
+No production server configuration lives in this repo tree yet, so nothing is wired to run
+this automatically; it waits for one.
