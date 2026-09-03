@@ -54,6 +54,8 @@
     AC-11  -Promote prints the prod server.properties lines for the promoted asset        PROM-03
     AC-12  -Promote refuses when the target v<version> tag already exists - promotion
            creates a version, it never replaces one                    PROM-04
+    AC-13  a pack built from this repo's src/ that has lost content is refused before
+           anything is uploaded                                        IMM-03
 
   FIRST RED, recorded in tests/RED-pack-pin.txt: all twelve arms ran and all twelve failed.
   check-pack-pin.ps1 did not exist, so PIN-01..PIN-06 failed on the missing script;
@@ -169,13 +171,27 @@ function Gh-Uploaded {
 }
 
 # --- runners ---------------------------------------------------------------
+# Both subjects report refusals on stderr. Piping a native command's stderr through `2>&1`
+# inside PowerShell 5.1 wraps every line in an ErrorRecord and, under -EA Stop, kills the
+# suite on the very refusals it exists to assert -- so the streams go to files instead.
 function Invoke-Script {
     param([string]$Path, [string[]]$ScriptArgs)
     if (-not (Test-Path -LiteralPath $Path)) {
         return @{ exit = 127; text = "script not found: $Path" }
     }
-    $out = & powershell -NoProfile -ExecutionPolicy Bypass -File $Path @ScriptArgs 2>&1
-    return @{ exit = $LASTEXITCODE; text = (($out | Out-String)) }
+    $stdout = [System.IO.Path]::GetTempFileName()
+    $stderr = [System.IO.Path]::GetTempFileName()
+    try {
+        $argv = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $Path) + $ScriptArgs
+        $proc = Start-Process -FilePath 'powershell' -ArgumentList $argv -NoNewWindow -Wait -PassThru `
+            -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+        $text = (Get-Content -LiteralPath $stdout -Raw -ErrorAction SilentlyContinue) +
+                (Get-Content -LiteralPath $stderr -Raw -ErrorAction SilentlyContinue)
+        return @{ exit = $proc.ExitCode; text = [string]$text }
+    }
+    finally {
+        Remove-Item -LiteralPath $stdout, $stderr -Force -ErrorAction SilentlyContinue
+    }
 }
 function Invoke-Pin     { param([string[]]$A) return Invoke-Script -Path $PinScriptPath -ScriptArgs $A }
 
@@ -255,6 +271,25 @@ Reset-Gh -ExistingTags @('dev')
 $r = Invoke-Publish @('-Dev', '-Zip', $DevPack, '-Repo', 'fixture/repo', '-GhPath', $GhShim)
 Assert 'IMM-02' 'the rolling dev pre-release is still clobbered' (
     $r.exit -eq 0 -and ((Gh-Uploaded) -join ' ') -match '--clobber')
+
+# The manifest audit only speaks about a pack built from THIS repo's src/, so this arm has to
+# put its subject in this repo's own dist/ rather than the fixture's. Written after the wiring
+# rather than before it, and disclosed as such; the kill that proves it is not vacuous is
+# deleting the audit call from publish-pack.ps1, which turns it red.
+$OwnDist = Join-Path $RepoRoot 'dist'
+New-Item -ItemType Directory -Force -Path $OwnDist | Out-Null
+$Hollow = Join-Path $OwnDist 'LegendCraft-Pack-0.0.1.zip'
+$null = New-Pack -Path $Hollow -Marker '{"hollow":1}'
+try {
+    Reset-Gh
+    $r = Invoke-Publish @('-Zip', $Hollow, '-Repo', 'fixture/repo', '-GhPath', $GhShim)
+    Assert 'IMM-03' 'a pack built here that lost content is refused before upload' (
+        $r.exit -ne 0 -and (Gh-Uploaded).Count -eq 0 -and
+        $r.text -match 'item model\(s\) in the source tree are absent')
+}
+finally {
+    Remove-Item -LiteralPath $Hollow, ($Hollow + '.sha1') -Force -ErrorAction SilentlyContinue
+}
 
 Write-Host ''
 Write-Host 'PROM - promotion is the only dev-to-versioned path'
