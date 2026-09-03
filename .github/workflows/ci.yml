@@ -65,6 +65,10 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python tools/check_hud_placeholders.py --classes-root ../LegendCraft-Classes
 
+      - name: Gate - placeholder audit acceptance suite
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/test_hud_placeholders.py
+
       # Gate 3. The files parse and hold the invariants the generator writes them under.
       - name: Gate - BetterHud YAML shape
         working-directory: LegendCraft-ResourcePack
