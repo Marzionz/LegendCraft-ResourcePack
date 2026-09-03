@@ -33,7 +33,8 @@
   behaviour:
 
     AC-1   a prod config whose resource-pack URL is under the dev release is refused,
-           naming the URL                                              PIN-01
+           naming the URL - held by a URL whose asset is NOT dev-named, so only this
+           rule can produce the refusal                                PIN-01
     AC-2   a prod config whose pinned asset name ends -dev.zip is refused, even when the
            URL is not under the dev release path                       PIN-02
     AC-3   a prod config whose resource-pack-sha1 does not match the sha1 of the asset at
@@ -138,7 +139,16 @@ function New-ServerProperties {
 
 # The guard has to hash the bytes at the pinned URL. A local file:// URL keeps that a real
 # fetch of real bytes while never touching the network.
-function As-FileUrl { param([string]$Path) return ([uri]$Path).AbsoluteUri }
+#
+# Built by hand rather than through [uri]: a Unix absolute path is not an absolute URI, so
+# ([uri]'/tmp/x').AbsoluteUri throws, and the arms that then failed to run were reading the
+# THROWN TEXT as a refusal. Windows needs the leading slash added and Unix already has one.
+function As-FileUrl {
+    param([string]$Path)
+    $full = [System.IO.Path]::GetFullPath($Path) -replace '\\', '/'
+    if ($full -notmatch '^/') { $full = '/' + $full }
+    return "file://$full"
+}
 
 # --- the gh stub -----------------------------------------------------------
 # Records every argument vector it is handed, and answers `release view` from a list of tags
@@ -241,10 +251,15 @@ $WrongSha  = '0000000000000000000000000000000000000000'
 Write-Host ''
 Write-Host 'PIN - the prod pre-start guard'
 
-$devPinned = New-ServerProperties -Name 'prod-dev-url' -Motd $ProdMotd -Url (As-FileUrl $DevPack) -Sha1 $DevSha
+# The URL rule and the asset-name rule are separate refusals, so this arm has to reach a URL
+# only the URL rule can catch: it is under the dev release, and its asset is NOT named as a dev
+# build. The first draft pinned the fixture's own LegendCraft-Pack-dev.zip, which the NAME rule
+# refuses first, leaving the release-path rule with no arm at all.
+$devReleaseUrl = 'https://github.com/OmarZiadeh/LegendCraft-ResourcePack/releases/download/dev/LegendCraft-Pack.zip'
+$devPinned = New-ServerProperties -Name 'prod-dev-url' -Motd $ProdMotd -Url $devReleaseUrl -Sha1 $DevSha
 $r = Invoke-Pin @('-ServerProperties', $devPinned)
 Assert 'PIN-01' 'a prod config pinned under the dev release is refused' (
-    $r.exit -ne 0 -and $r.text -match 'dev')
+    $r.exit -ne 0 -and $r.text -match 'points under the rolling dev release')
 
 # The dev asset served from a path that is NOT the dev release: the name alone must still refuse.
 $renamedDev = Join-Path $Dist 'v9\LegendCraft-Pack-9.9.9-dev.zip'
