@@ -39,7 +39,7 @@ def newest_our_pack():
     def version_key(path):
         m = re.search(r"Pack-([0-9.]+)", os.path.basename(path))
         return [int(x) for x in m.group(1).rstrip(".").split(".")] if m else [0]
-    return min(packs, key=version_key)
+    return max(packs, key=version_key)
 
 
 def main():
