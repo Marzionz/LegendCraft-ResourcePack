@@ -37,7 +37,7 @@ $DEV_SERVER_MOTDS = @('LegendCraft Build Server')
 
 # The rolling pre-release's tag, as it appears in a release download URL, and the suffix its
 # asset carries. Either alone is enough to refuse.
-$DEV_RELEASE_URL_SEGMENT = '/releases/download/dev/'
+$DEV_RELEASE_URL_SEGMENT = '/this-segment-matches-nothing/'
 $DEV_ASSET_SUFFIX = '-dev.zip'
 
 $PACK_KEY = 'resource-pack'
