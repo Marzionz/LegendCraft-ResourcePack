@@ -27,6 +27,7 @@ tools/*
 !/tools/generate_hud.py
 !/tools/hud_icon_map.py
 !/tools/test_generate_hud.py
+!/tools/check_generator_drift.py
 !/tools/check_hud_placeholders.py
 !/tools/check_hud_yaml.py
 !/tools/check_pack_manifest.py
