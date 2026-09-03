@@ -10,6 +10,11 @@ Acceptance criteria:
 2. Hiding one namespace directory before the merge fails the audit, naming what was lost.
 3. A plugin build zip whose entries do not survive the merge fails the audit.
 4. The audit reports the plugin half as unchecked rather than passing when given no source.
+5. With more than one built base pack on disk the merge takes the NEWEST. This is the defect
+   that shipped: the merge that produced the served pack resolved a stale base, so content
+   added since was absent from every pin with no repository change behind it. Arms 1-4 all
+   pass against a merge that picks any base at all, because one pack is both the newest and
+   the oldest.
 
     python tools/test_pack_manifest.py
 """
@@ -99,8 +104,15 @@ class PackManifestTest(unittest.TestCase):
             plugin_zip(path, entries)
             self.plugin_paths.append(path)
 
-    def merge(self, source_tree=None):
-        """Run the real merger over this fixture, returning the merged pack's path."""
+    def merge(self, source_tree=None, also_older_from=None):
+        """Run the real merger over this fixture, returning the merged pack's path.
+
+        `also_older_from` writes a LOWER-versioned base pack from a second tree, so the merge
+        has a real choice to get wrong.
+        """
+        if also_older_from is not None:
+            zip_tree(also_older_from,
+                     os.path.join(self.dist, "LegendCraft-Pack-1.0.0.zip"), BASE_MCMETA)
         zip_tree(source_tree or self.source_tree,
                  os.path.join(self.dist, "LegendCraft-Pack-9.9.9.zip"), BASE_MCMETA)
         env = dict(os.environ)
@@ -139,6 +151,15 @@ class PackManifestTest(unittest.TestCase):
         result = audit(merged, self.source_tree, [phantom])
         self.assertEqual(1, result.returncode, result.stdout)
         self.assertIn("did not survive the merge", result.stdout)
+
+    def test_the_merge_takes_the_newest_built_base_and_not_a_stale_one(self):
+        stale = os.path.join(self.workspace, "src-stale")
+        shutil.copytree(self.source_tree, stale)
+        shutil.rmtree(os.path.join(stale, *HIDDEN_NAMESPACE.split("/")))
+        merged = self.merge(also_older_from=stale)
+        result = audit(merged, self.source_tree, self.plugin_paths)
+        self.assertEqual(0, result.returncode,
+                         "the merge resolved the older base and dropped content:\n" + result.stdout)
 
     def test_the_plugin_half_reports_itself_unchecked_rather_than_passing(self):
         merged = self.merge()
