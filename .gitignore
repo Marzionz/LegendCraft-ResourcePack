@@ -23,6 +23,7 @@ tools/*
 
 # ...except the runtime HUD configuration pipeline. These are gated in CI, so they
 # have to be in the tracked tree for a run to read them.
+!/tools/requirements.txt
 !/tools/generate_hud.py
 !/tools/hud_icon_map.py
 !/tools/test_generate_hud.py

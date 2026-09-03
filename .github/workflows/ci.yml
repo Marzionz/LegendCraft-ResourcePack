@@ -43,7 +43,8 @@ jobs:
           python-version: '3.12'
 
       - name: Install the generator's dependencies
-        run: python -m pip install --disable-pip-version-check pillow pyyaml
+        working-directory: LegendCraft-ResourcePack
+        run: python -m pip install --disable-pip-version-check -r tools/requirements.txt
 
       # Gate 1. The BetterHud YAML and the shared chrome art are generated. A hand edit to any
       # of them survives review looking like config and is erased by the next regeneration, so
