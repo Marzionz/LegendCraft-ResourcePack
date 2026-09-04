@@ -4,7 +4,7 @@ The **server-required** resource pack: custom item models, textures, and sounds 
 every LegendCraft plugin. Authored by us (per `LegendCraft/Design/plugin-strategy.md §4`);
 `ModelEngine` will later hand us merge-ready assets for rigged **mob** models.
 
-- **Target:** Paper **26.1.2** — pack format **84** (`resource_major` from the server's
+- **Target:** Paper **26.2** — pack format **88** (`resource_major` from the server's
   `version.json`). Bump `src/pack.mcmeta` when the server's resource major changes.
 - **Mechanism:** the **modern item-model system** — the `minecraft:item_model` data
   component points an item at an *item model definition* under `assets/legendcraft/items/…`.
