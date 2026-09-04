@@ -1,0 +1,94 @@
+# CI for LegendCraft-ResourcePack: the gates over the runtime HUD configuration this repo
+# serves. The placeholder gate reads LegendCraft-Classes' expansion source from a sibling
+# checkout, so it needs LEGENDCRAFT_REPO_TOKEN, a PAT scoped to that repo's contents: it is
+# private and this workflow's own GITHUB_TOKEN cannot read another repository. The gate fails
+# rather than degrading when it cannot read that source -- a copied list is not the contract.
+name: CI
+
+on:
+  push:
+    branches: ['**']
+
+permissions:
+  contents: read
+
+# Every push runs to completion, so a tests-only push keeps its red run when the
+# implementation push follows seconds later; same-branch runs queue instead of cancelling.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  gates:
+    # GitHub-hosted, not the self-hosted label the sibling plugin repos use. This repository is
+    # public, and a self-hosted runner would put its CI on the machine that also hosts the
+    # private repos' runners and the development server. Nothing here needs that machine:
+    # these gates are Python and PowerShell over text.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: LegendCraft-ResourcePack
+
+      - name: Check out LegendCraft-Classes (the placeholder contract's other side)
+        uses: actions/checkout@v4
+        with:
+          repository: Marzionz/LegendCraft-Classes
+          token: ${{ secrets.LEGENDCRAFT_REPO_TOKEN }}
+          path: LegendCraft-Classes
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install the generator's dependencies
+        working-directory: LegendCraft-ResourcePack
+        run: python -m pip install --disable-pip-version-check -r tools/requirements.txt
+
+      # Gate 1. The BetterHud YAML and the shared chrome art are generated. A hand edit to any
+      # of them survives review looking like config and is erased by the next regeneration, so
+      # the tree has to equal what the generator writes.
+      - name: Gate - generator drift
+        working-directory: LegendCraft-ResourcePack
+        run: |
+          python tools/generate_hud.py
+          python tools/check_generator_drift.py
+
+      - name: Gate - generator acceptance suite
+        working-directory: LegendCraft-ResourcePack/tools
+        run: python test_generate_hud.py
+
+      # Gate 2. Every placeholder the HUD reads is one the plugin answers, read from the
+      # expansion's own source rather than a copied list.
+      - name: Gate - placeholder audit
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/check_hud_placeholders.py --classes-root ../LegendCraft-Classes
+
+      - name: Gate - placeholder audit acceptance suite
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/test_hud_placeholders.py
+
+      # Gate 3. The files parse and hold the invariants the generator writes them under.
+      - name: Gate - BetterHud YAML shape
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/check_hud_yaml.py
+
+      # Gate 4. The merge that produces the served pack does not silently drop what its inputs
+      # put in. Run over fixtures the suite builds, since the plugin build zips only exist on
+      # the server box.
+      - name: Gate - pack manifest
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/test_pack_manifest.py
+
+      # The pack-channel rules: a versioned release is immutable, and promotion is the only
+      # path from the dev loop to one.
+      - name: Gate - pack pin and promotion
+        working-directory: LegendCraft-ResourcePack
+        run: pwsh -NoProfile -File tests/run-pack-pin-tests.ps1
+
+      # tests/run-deploy-rigs-tests.ps1 is deliberately NOT here. It asserts against Windows
+      # filesystem semantics the rig stager guards -- drive aliases, reparse points, the
+      # bracket-as-wildcard trap in Test-Path -- none of which exist on this runner, so running
+      # it here would grade a different set of rules than the ones that hold at the box. It is
+      # run on Windows when deploy-rigs.ps1 changes.

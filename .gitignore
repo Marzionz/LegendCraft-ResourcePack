@@ -13,9 +13,32 @@ __pycache__/
 # design detail, and the tooling it documents has to be discoverable from the
 # tracked tree rather than from a file only this machine has.
 !/TOOLING.md
+!/README.md
+!/CLAUDE.md
+!/hud/betterhud/README.md
 
-# Internal authoring & generation tooling — not for public release
-tools/
+# Internal authoring & generation tooling — not for public release. `tools/*` rather
+# than `tools/`, because git does not descend into an excluded directory and a
+# negation under one can never re-include anything.
+tools/*
+
+# ...except the runtime HUD configuration pipeline. These are gated in CI, so they
+# have to be in the tracked tree for a run to read them.
+!/tools/requirements.txt
+!/tools/generate_hud.py
+!/tools/hud_icon_map.py
+!/tools/test_generate_hud.py
+!/tools/check_generator_drift.py
+!/tools/check_hud_placeholders.py
+!/tools/test_hud_placeholders.py
+!/tools/check_hud_yaml.py
+!/tools/check_pack_manifest.py
+!/tools/test_pack_manifest.py
+!/tools/check-pack-pin.ps1
+!/tools/stage_volya_hud.py
+!/tools/merge_dev_pack.py
+!/tools/deploy-hud.ps1
+!/tools/publish-pack.ps1
 
 # Mob authoring source (models, textures, specs) — not part of the shipped pack, kept private
 mobs-src/

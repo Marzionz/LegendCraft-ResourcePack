@@ -1,0 +1,6 @@
+# GENERATED -- do not hand-edit.
+# Font used by the stat HUD numerals (health/resource/level readouts).
+lc_stat_text:
+  merge-default-bitmap: true
+  use-unifont: true
+  include: []
