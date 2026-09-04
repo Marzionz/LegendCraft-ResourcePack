@@ -1,0 +1,1597 @@
+# HAND-AUTHORED (not generated) -- party frames, 4 rows, one per party member OTHER than you.
+#
+# CLASS variant (owner pick, 2026-08-28): each row leads with the member's class identity icon
+# rather than their player head. A party frame is read mid-fight to answer "who can heal me" --
+# the class answers that, and the name is already spelled out beside it, so the head was carrying
+# information the row already had.
+#
+# Ported from Volya's Party HUD 1.1.0 (MythicHUD) to BetterHud 2.1.0. Chrome + bar art staged by
+# `stage_volya_hud.py`; class icons are ours. Registry: `images/legendcraft-party.yml`.
+# Registered as layout 2 of `lc_stat_hud` (`generate_hud.py` `_bh_stat_hud_yml`) -- NOT as a second
+# hud, because BetterHud only repositions the first default-hud.
+#
+# HOW A ROW BINDS TO A PLAYER. Every element carries
+# `follow: papi:legendcraft_party_member_N`, which BetterHud resolves to a name and then uses as
+# the subject for that element's listener, conditions and pattern. With
+# `cancel-if-follower-not-exists: true` (the default, left implicit) an unfilled or offline slot
+# renders nothing at all -- so the stack sizes itself to the party and no `party_size` gate is
+# needed. That is also why this config is inert until LegendCraft-Classes answers the two new
+# ids: an unanswered follow resolves to no player and every row simply stays blank.
+#
+# The class icon is 24 conditioned elements per row, gated on the FOLLOWED member's
+# `legendcraft_subclass`. BetterHud cannot pick an image name from a placeholder, so an enumerated
+# set is the only shape available -- the same one the live skill row already uses for its per-class
+# ability art. A classless member (`subclass` returns "none") matches nothing and shows the bare
+# frame, which is correct: they have no class to announce.
+#
+# FOUR ROWS, NOT FIVE. `PartyService.PARTY_MAX_SIZE` is 5 including yourself, and your own
+# vitals are already the stat block above the hotbar. The frames show the other four.
+#
+# ROW LAYERS (this layout only -- layers do not cross layouts): 1 frame, 2 bar outlines,
+# 3 health fill, 4 resource fill, 6 leader crown, 7 class icon. Layer 5 is deliberately left free
+# for the class-shield pool overlay, which must sit above the health fill and below the crown; it
+# is specified but unbuilt (see `Plans/todo/hud-volya-integration.md`).
+#
+# Offsets are a first pass placed from the art's own dimensions and are expected to move once they
+# have been seen in-client, exactly like STAT_HUD_X/Y were.
+lc_party:
+  # A DEAD MEMBER'S WHOLE ROW GOES INERT. This block sits on the layout GROUP, so every image and
+  # text below inherits it: `HudLayout.Impl` builds each element's condition source as
+  # `group.plus(<that element's yaml>)`, and the composed override is invoked with the element's
+  # FOLLOWED player -- the same `HudPlayer` `follow` already resolved for its listener and its
+  # conditions. One block therefore dims all four rows against each row's own member, and it
+  # cannot reach the stat block, which is a different layout group.
+  #
+  # WHY NO `is_dead` PLACEHOLDER. `legendcraft_health` is a whole number captured with
+  # `Math.ceil`, so it reads "0" if and only if the member's health is actually <= 0 -- a member
+  # at 0.4 HP still reads "1" and stays lit. An absent snapshot reads empty rather than "0", so a
+  # member mid-disconnect does not flash dim on the way out. The gate needs nothing the plugin
+  # does not already answer.
+  #
+  # THE VALUE IS THE LOCKED-SLOT TRANSFORM, not Volya's flat `#787878`. `hud-and-icons.md` §3
+  # ("Ultimate extras") renders an unavailable ability as `brightness(..., 0.42, blue_shift=14)`,
+  # and a dead party member is the same reading: still in the row, not available. 0.42 x 255 =
+  # 107 (`#6B`), blue lifted 14 to `#79`. Reusing it gives the HUD one dimming vocabulary instead
+  # of two that mean the same thing.
+  #
+  # It is the brightness-and-temperature half of that transform ONLY. BetterHud multiplies the
+  # glyph by a single `TextColor` (`AdventuresKt.applyColor`), so the desaturate step cannot be
+  # expressed here and the row keeps its hue at 42%. That is still enough separation, because the
+  # two states differ on two axes rather than one: a living low-health member is full brightness
+  # AND has red left in the bar, a dead one is dimmed AND empty.
+  #
+  # `default-color` is deliberately NOT set. `ColorOverride.Companion.builder` iterates every key
+  # of this block and reads each value as an object, so a scalar sibling would be parsed as a
+  # malformed entry rather than as a default. It is not needed: an unmatched row yields a null
+  # colour, and `applyColor` returns the component untouched for null.
+  color-overrides:
+    dead:
+      color: "#6B6B79"
+      conditions:
+        1:
+          first: "papi:legendcraft_health"
+          second: "'0'"
+          operation: '=='
+  images:
+    1:
+      name: lc_party_frame
+      x: 0
+      y: 0
+      layer: 1
+      follow: papi:legendcraft_party_member_1
+    2:
+      name: lc_party_outline_health
+      x: 19
+      y: 8
+      layer: 2
+      follow: papi:legendcraft_party_member_1
+    3:
+      name: lc_party_outline_resource
+      x: 19
+      y: 15
+      layer: 2
+      follow: papi:legendcraft_party_member_1
+    4:
+      name: lc_party_fill_health
+      x: 20
+      y: 9
+      layer: 3
+      follow: papi:legendcraft_party_member_1
+    5:
+      name: lc_party_fill_mana
+      x: 20
+      y: 16
+      layer: 4
+      follow: papi:legendcraft_party_member_1
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'mana'"
+          operation: '=='
+    6:
+      name: lc_party_fill_energy
+      x: 20
+      y: 16
+      layer: 4
+      follow: papi:legendcraft_party_member_1
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'energy'"
+          operation: '=='
+    7:
+      name: lc_party_fill_rage
+      x: 20
+      y: 16
+      layer: 4
+      follow: papi:legendcraft_party_member_1
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'rage'"
+          operation: '=='
+    8:
+      name: lc_party_leader
+      x: 91
+      y: 3
+      layer: 6
+      follow: papi:legendcraft_party_member_1
+      conditions:
+        1:
+          first: "papi:legendcraft_is_party_leader"
+          second: "'yes'"
+          operation: '=='
+    9:
+      name: lc_party_class_alchemist
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'alchemist'"
+          operation: '=='
+    10:
+      name: lc_party_class_archer
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'archer'"
+          operation: '=='
+    11:
+      name: lc_party_class_assassin
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'assassin'"
+          operation: '=='
+    12:
+      name: lc_party_class_berserker
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'berserker'"
+          operation: '=='
+    13:
+      name: lc_party_class_bloodweaver
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'bloodweaver'"
+          operation: '=='
+    14:
+      name: lc_party_class_brawler
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'brawler'"
+          operation: '=='
+    15:
+      name: lc_party_class_cryomancer
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'cryomancer'"
+          operation: '=='
+    16:
+      name: lc_party_class_doomsayer
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'doomsayer'"
+          operation: '=='
+    17:
+      name: lc_party_class_hunter
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'hunter'"
+          operation: '=='
+    18:
+      name: lc_party_class_knight
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'knight'"
+          operation: '=='
+    19:
+      name: lc_party_class_mage
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'mage'"
+          operation: '=='
+    20:
+      name: lc_party_class_necromancer
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'necromancer'"
+          operation: '=='
+    21:
+      name: lc_party_class_ninja
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'ninja'"
+          operation: '=='
+    22:
+      name: lc_party_class_priest
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'priest'"
+          operation: '=='
+    23:
+      name: lc_party_class_pyromancer
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'pyromancer'"
+          operation: '=='
+    24:
+      name: lc_party_class_ranger
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'ranger'"
+          operation: '=='
+    25:
+      name: lc_party_class_rogue
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'rogue'"
+          operation: '=='
+    26:
+      name: lc_party_class_seraph
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'seraph'"
+          operation: '=='
+    27:
+      name: lc_party_class_shadowmancer
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'shadowmancer'"
+          operation: '=='
+    28:
+      name: lc_party_class_shaman
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'shaman'"
+          operation: '=='
+    29:
+      name: lc_party_class_sniper
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'sniper'"
+          operation: '=='
+    30:
+      name: lc_party_class_thief
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'thief'"
+          operation: '=='
+    31:
+      name: lc_party_class_warlock
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'warlock'"
+          operation: '=='
+    32:
+      name: lc_party_class_warrior
+      x: 2
+      y: 2
+      layer: 7
+      follow: papi:legendcraft_party_member_1
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'warrior'"
+          operation: '=='
+    33:
+      name: lc_party_frame
+      x: 0
+      y: 21
+      layer: 1
+      follow: papi:legendcraft_party_member_2
+    34:
+      name: lc_party_outline_health
+      x: 19
+      y: 29
+      layer: 2
+      follow: papi:legendcraft_party_member_2
+    35:
+      name: lc_party_outline_resource
+      x: 19
+      y: 36
+      layer: 2
+      follow: papi:legendcraft_party_member_2
+    36:
+      name: lc_party_fill_health
+      x: 20
+      y: 30
+      layer: 3
+      follow: papi:legendcraft_party_member_2
+    37:
+      name: lc_party_fill_mana
+      x: 20
+      y: 37
+      layer: 4
+      follow: papi:legendcraft_party_member_2
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'mana'"
+          operation: '=='
+    38:
+      name: lc_party_fill_energy
+      x: 20
+      y: 37
+      layer: 4
+      follow: papi:legendcraft_party_member_2
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'energy'"
+          operation: '=='
+    39:
+      name: lc_party_fill_rage
+      x: 20
+      y: 37
+      layer: 4
+      follow: papi:legendcraft_party_member_2
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'rage'"
+          operation: '=='
+    40:
+      name: lc_party_leader
+      x: 91
+      y: 24
+      layer: 6
+      follow: papi:legendcraft_party_member_2
+      conditions:
+        1:
+          first: "papi:legendcraft_is_party_leader"
+          second: "'yes'"
+          operation: '=='
+    41:
+      name: lc_party_class_alchemist
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'alchemist'"
+          operation: '=='
+    42:
+      name: lc_party_class_archer
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'archer'"
+          operation: '=='
+    43:
+      name: lc_party_class_assassin
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'assassin'"
+          operation: '=='
+    44:
+      name: lc_party_class_berserker
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'berserker'"
+          operation: '=='
+    45:
+      name: lc_party_class_bloodweaver
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'bloodweaver'"
+          operation: '=='
+    46:
+      name: lc_party_class_brawler
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'brawler'"
+          operation: '=='
+    47:
+      name: lc_party_class_cryomancer
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'cryomancer'"
+          operation: '=='
+    48:
+      name: lc_party_class_doomsayer
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'doomsayer'"
+          operation: '=='
+    49:
+      name: lc_party_class_hunter
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'hunter'"
+          operation: '=='
+    50:
+      name: lc_party_class_knight
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'knight'"
+          operation: '=='
+    51:
+      name: lc_party_class_mage
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'mage'"
+          operation: '=='
+    52:
+      name: lc_party_class_necromancer
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'necromancer'"
+          operation: '=='
+    53:
+      name: lc_party_class_ninja
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'ninja'"
+          operation: '=='
+    54:
+      name: lc_party_class_priest
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'priest'"
+          operation: '=='
+    55:
+      name: lc_party_class_pyromancer
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'pyromancer'"
+          operation: '=='
+    56:
+      name: lc_party_class_ranger
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'ranger'"
+          operation: '=='
+    57:
+      name: lc_party_class_rogue
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'rogue'"
+          operation: '=='
+    58:
+      name: lc_party_class_seraph
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'seraph'"
+          operation: '=='
+    59:
+      name: lc_party_class_shadowmancer
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'shadowmancer'"
+          operation: '=='
+    60:
+      name: lc_party_class_shaman
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'shaman'"
+          operation: '=='
+    61:
+      name: lc_party_class_sniper
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'sniper'"
+          operation: '=='
+    62:
+      name: lc_party_class_thief
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'thief'"
+          operation: '=='
+    63:
+      name: lc_party_class_warlock
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'warlock'"
+          operation: '=='
+    64:
+      name: lc_party_class_warrior
+      x: 2
+      y: 23
+      layer: 7
+      follow: papi:legendcraft_party_member_2
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'warrior'"
+          operation: '=='
+    65:
+      name: lc_party_frame
+      x: 0
+      y: 42
+      layer: 1
+      follow: papi:legendcraft_party_member_3
+    66:
+      name: lc_party_outline_health
+      x: 19
+      y: 50
+      layer: 2
+      follow: papi:legendcraft_party_member_3
+    67:
+      name: lc_party_outline_resource
+      x: 19
+      y: 57
+      layer: 2
+      follow: papi:legendcraft_party_member_3
+    68:
+      name: lc_party_fill_health
+      x: 20
+      y: 51
+      layer: 3
+      follow: papi:legendcraft_party_member_3
+    69:
+      name: lc_party_fill_mana
+      x: 20
+      y: 58
+      layer: 4
+      follow: papi:legendcraft_party_member_3
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'mana'"
+          operation: '=='
+    70:
+      name: lc_party_fill_energy
+      x: 20
+      y: 58
+      layer: 4
+      follow: papi:legendcraft_party_member_3
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'energy'"
+          operation: '=='
+    71:
+      name: lc_party_fill_rage
+      x: 20
+      y: 58
+      layer: 4
+      follow: papi:legendcraft_party_member_3
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'rage'"
+          operation: '=='
+    72:
+      name: lc_party_leader
+      x: 91
+      y: 45
+      layer: 6
+      follow: papi:legendcraft_party_member_3
+      conditions:
+        1:
+          first: "papi:legendcraft_is_party_leader"
+          second: "'yes'"
+          operation: '=='
+    73:
+      name: lc_party_class_alchemist
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'alchemist'"
+          operation: '=='
+    74:
+      name: lc_party_class_archer
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'archer'"
+          operation: '=='
+    75:
+      name: lc_party_class_assassin
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'assassin'"
+          operation: '=='
+    76:
+      name: lc_party_class_berserker
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'berserker'"
+          operation: '=='
+    77:
+      name: lc_party_class_bloodweaver
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'bloodweaver'"
+          operation: '=='
+    78:
+      name: lc_party_class_brawler
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'brawler'"
+          operation: '=='
+    79:
+      name: lc_party_class_cryomancer
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'cryomancer'"
+          operation: '=='
+    80:
+      name: lc_party_class_doomsayer
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'doomsayer'"
+          operation: '=='
+    81:
+      name: lc_party_class_hunter
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'hunter'"
+          operation: '=='
+    82:
+      name: lc_party_class_knight
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'knight'"
+          operation: '=='
+    83:
+      name: lc_party_class_mage
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'mage'"
+          operation: '=='
+    84:
+      name: lc_party_class_necromancer
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'necromancer'"
+          operation: '=='
+    85:
+      name: lc_party_class_ninja
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'ninja'"
+          operation: '=='
+    86:
+      name: lc_party_class_priest
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'priest'"
+          operation: '=='
+    87:
+      name: lc_party_class_pyromancer
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'pyromancer'"
+          operation: '=='
+    88:
+      name: lc_party_class_ranger
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'ranger'"
+          operation: '=='
+    89:
+      name: lc_party_class_rogue
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'rogue'"
+          operation: '=='
+    90:
+      name: lc_party_class_seraph
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'seraph'"
+          operation: '=='
+    91:
+      name: lc_party_class_shadowmancer
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'shadowmancer'"
+          operation: '=='
+    92:
+      name: lc_party_class_shaman
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'shaman'"
+          operation: '=='
+    93:
+      name: lc_party_class_sniper
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'sniper'"
+          operation: '=='
+    94:
+      name: lc_party_class_thief
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'thief'"
+          operation: '=='
+    95:
+      name: lc_party_class_warlock
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'warlock'"
+          operation: '=='
+    96:
+      name: lc_party_class_warrior
+      x: 2
+      y: 44
+      layer: 7
+      follow: papi:legendcraft_party_member_3
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'warrior'"
+          operation: '=='
+    97:
+      name: lc_party_frame
+      x: 0
+      y: 63
+      layer: 1
+      follow: papi:legendcraft_party_member_4
+    98:
+      name: lc_party_outline_health
+      x: 19
+      y: 71
+      layer: 2
+      follow: papi:legendcraft_party_member_4
+    99:
+      name: lc_party_outline_resource
+      x: 19
+      y: 78
+      layer: 2
+      follow: papi:legendcraft_party_member_4
+    100:
+      name: lc_party_fill_health
+      x: 20
+      y: 72
+      layer: 3
+      follow: papi:legendcraft_party_member_4
+    101:
+      name: lc_party_fill_mana
+      x: 20
+      y: 79
+      layer: 4
+      follow: papi:legendcraft_party_member_4
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'mana'"
+          operation: '=='
+    102:
+      name: lc_party_fill_energy
+      x: 20
+      y: 79
+      layer: 4
+      follow: papi:legendcraft_party_member_4
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'energy'"
+          operation: '=='
+    103:
+      name: lc_party_fill_rage
+      x: 20
+      y: 79
+      layer: 4
+      follow: papi:legendcraft_party_member_4
+      conditions:
+        1:
+          first: "papi:legendcraft_resource_type"
+          second: "'rage'"
+          operation: '=='
+    104:
+      name: lc_party_leader
+      x: 91
+      y: 66
+      layer: 6
+      follow: papi:legendcraft_party_member_4
+      conditions:
+        1:
+          first: "papi:legendcraft_is_party_leader"
+          second: "'yes'"
+          operation: '=='
+    105:
+      name: lc_party_class_alchemist
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'alchemist'"
+          operation: '=='
+    106:
+      name: lc_party_class_archer
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'archer'"
+          operation: '=='
+    107:
+      name: lc_party_class_assassin
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'assassin'"
+          operation: '=='
+    108:
+      name: lc_party_class_berserker
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'berserker'"
+          operation: '=='
+    109:
+      name: lc_party_class_bloodweaver
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'bloodweaver'"
+          operation: '=='
+    110:
+      name: lc_party_class_brawler
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'brawler'"
+          operation: '=='
+    111:
+      name: lc_party_class_cryomancer
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'cryomancer'"
+          operation: '=='
+    112:
+      name: lc_party_class_doomsayer
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'doomsayer'"
+          operation: '=='
+    113:
+      name: lc_party_class_hunter
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'hunter'"
+          operation: '=='
+    114:
+      name: lc_party_class_knight
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'knight'"
+          operation: '=='
+    115:
+      name: lc_party_class_mage
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'mage'"
+          operation: '=='
+    116:
+      name: lc_party_class_necromancer
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'necromancer'"
+          operation: '=='
+    117:
+      name: lc_party_class_ninja
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'ninja'"
+          operation: '=='
+    118:
+      name: lc_party_class_priest
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'priest'"
+          operation: '=='
+    119:
+      name: lc_party_class_pyromancer
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'pyromancer'"
+          operation: '=='
+    120:
+      name: lc_party_class_ranger
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'ranger'"
+          operation: '=='
+    121:
+      name: lc_party_class_rogue
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'rogue'"
+          operation: '=='
+    122:
+      name: lc_party_class_seraph
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'seraph'"
+          operation: '=='
+    123:
+      name: lc_party_class_shadowmancer
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'shadowmancer'"
+          operation: '=='
+    124:
+      name: lc_party_class_shaman
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'shaman'"
+          operation: '=='
+    125:
+      name: lc_party_class_sniper
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'sniper'"
+          operation: '=='
+    126:
+      name: lc_party_class_thief
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'thief'"
+          operation: '=='
+    127:
+      name: lc_party_class_warlock
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'warlock'"
+          operation: '=='
+    128:
+      name: lc_party_class_warrior
+      x: 2
+      y: 65
+      layer: 7
+      follow: papi:legendcraft_party_member_4
+      scale: 0.5
+      conditions:
+        1:
+          first: "papi:legendcraft_subclass"
+          second: "'warrior'"
+          operation: '=='
+  texts:
+    # TEXT PLACEMENT IS VOLYA'S, not a guess. Their CLASS preset puts the name on the top band
+    # and the HP readout CENTRED ON THE HEALTH BAR (`hp_text` / `hp_text_divider` / `hp_text_max`
+    # at x 56/58/61 over a bar starting at x 20), and it is the better read for a reason the art
+    # makes obvious: right-aligning the readout at the row's end collides with the leader crown,
+    # which lives at x 91-98. Nothing but the crown can go there.
+    #
+    # `outline: true` is BetterHud's text shadow -- `YamlsKt.getShadow` maps the literal `true` to
+    # 0xFF000000, opaque black (`false`/absent means none, and any other value is parsed as ARGB
+    # hex WITHOUT a leading `#`). It matters here because the readout now sits on the health fill,
+    # so it has to stay legible against both red `#C43B2E` and the empty channel `#16181C`.
+    # This also corrects `generate_hud.py`'s note that "BetterHud text has no native outline",
+    # which is stale for 2.1.0-447; the stat block's own outlined-digit font is left alone.
+    #
+    # OPEN: `scale: 0.30` is inherited from the stat block and renders about 5px from a font whose
+    # source glyphs are 8px, so the name is resampled rather than crisp. Volya avoids this with a
+    # pre-outlined replacement font (`volya-outline`, ascii height 7) rather than a bigger size.
+    # Sized art beats a scale number here, so this is left as-is until it has been seen in client.
+    1:
+      name: lc_stat_text
+      pattern: "[papi:legendcraft_party_member_1]"
+      align: left
+      scale: 0.30
+      outline: true
+      x: 20
+      y: 1
+      layer: 8
+      follow: papi:legendcraft_party_member_1
+    2:
+      name: lc_stat_text
+      pattern: "[papi:legendcraft_health]/[papi:legendcraft_max_health]"
+      align: center
+      scale: 0.30
+      outline: true
+      x: 58
+      y: 8
+      layer: 8
+      follow: papi:legendcraft_party_member_1
+    3:
+      name: lc_stat_text
+      pattern: "[papi:legendcraft_party_member_2]"
+      align: left
+      scale: 0.30
+      outline: true
+      x: 20
+      y: 22
+      layer: 8
+      follow: papi:legendcraft_party_member_2
+    4:
+      name: lc_stat_text
+      pattern: "[papi:legendcraft_health]/[papi:legendcraft_max_health]"
+      align: center
+      scale: 0.30
+      outline: true
+      x: 58
+      y: 29
+      layer: 8
+      follow: papi:legendcraft_party_member_2
+    5:
+      name: lc_stat_text
+      pattern: "[papi:legendcraft_party_member_3]"
+      align: left
+      scale: 0.30
+      outline: true
+      x: 20
+      y: 43
+      layer: 8
+      follow: papi:legendcraft_party_member_3
+    6:
+      name: lc_stat_text
+      pattern: "[papi:legendcraft_health]/[papi:legendcraft_max_health]"
+      align: center
+      scale: 0.30
+      outline: true
+      x: 58
+      y: 50
+      layer: 8
+      follow: papi:legendcraft_party_member_3
+    7:
+      name: lc_stat_text
+      pattern: "[papi:legendcraft_party_member_4]"
+      align: left
+      scale: 0.30
+      outline: true
+      x: 20
+      y: 64
+      layer: 8
+      follow: papi:legendcraft_party_member_4
+    8:
+      name: lc_stat_text
+      pattern: "[papi:legendcraft_health]/[papi:legendcraft_max_health]"
+      align: center
+      scale: 0.30
+      outline: true
+      x: 58
+      y: 71
+      layer: 8
+      follow: papi:legendcraft_party_member_4

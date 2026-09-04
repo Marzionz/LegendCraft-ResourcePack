@@ -1,0 +1,819 @@
+# GENERATED -- do not hand-edit.
+# Image registry for the LegendCraft skill-casting HUD (BetterHud 2.0.0 schema).
+lc_field:
+  type: single
+  file: legendcraft/indicators/field.png
+
+lc_skill_frame:
+  type: single
+  file: legendcraft/frames/skill_frame.png
+
+lc_frame_subclass:
+  type: single
+  file: legendcraft/frames/frame_subclass.png
+
+lc_frame_ult:
+  type: single
+  file: legendcraft/frames/frame_ult.png
+
+lc_pip_venom:
+  type: single
+  file: legendcraft/indicators/pip_venom.png
+
+lc_charge_full:
+  type: single
+  file: legendcraft/indicators/charge_full.png
+
+lc_charge_reloading:
+  type: single
+  file: legendcraft/indicators/charge_reloading.png
+
+lc_charge_empty:
+  type: single
+  file: legendcraft/indicators/charge_empty.png
+
+lc_charge_row_0:
+  type: single
+  file: legendcraft/indicators/charge_row_0.png
+
+lc_charge_row_1:
+  type: single
+  file: legendcraft/indicators/charge_row_1.png
+
+lc_charge_row_2:
+  type: single
+  file: legendcraft/indicators/charge_row_2.png
+
+lc_charge_row_3:
+  type: single
+  file: legendcraft/indicators/charge_row_3.png
+
+lc_key_mouse_left:
+  type: single
+  file: legendcraft/indicators/key_mouse_left.png
+
+lc_key_mouse_right:
+  type: single
+  file: legendcraft/indicators/key_mouse_right.png
+
+lc_key_q:
+  type: single
+  file: legendcraft/indicators/key_Q.png
+
+lc_key_f:
+  type: single
+  file: legendcraft/indicators/key_F.png
+
+lc_charge_badge:
+  type: single
+  file: legendcraft/indicators/charge_badge.png
+
+lc_hunter_ensnaring_trap:
+  type: single
+  file: legendcraft/skill-icons/hunter/ensnaring_trap.png
+
+lc_hunter_ensnaring_trap_cooldown:
+  type: single
+  file: legendcraft/skill-icons/hunter/ensnaring_trap_cooldown.png
+
+lc_hunter_ensnaring_trap_starved:
+  type: single
+  file: legendcraft/skill-icons/hunter/ensnaring_trap_starved.png
+
+lc_oom_soft:
+  type: single
+  file: legendcraft/indicators/oom_soft.png
+
+lc_input_slot1:
+  type: single
+  file: legendcraft/indicators/input_slot1.png
+  setting:
+    scale: 0.42
+
+lc_input_slot2:
+  type: single
+  file: legendcraft/indicators/input_slot2.png
+  setting:
+    scale: 0.42
+
+lc_input_slot3:
+  type: single
+  file: legendcraft/indicators/input_slot3.png
+  setting:
+    scale: 0.42
+
+lc_input_ult:
+  type: single
+  file: legendcraft/indicators/input_ult.png
+  setting:
+    scale: 0.42
+
+lc_cd_shroud_slot1:
+  type: listener
+  file: legendcraft/indicators/cd_shroud.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_slot1_cd_percent"
+      max: 100
+
+lc_cd_shroud_slot2:
+  type: listener
+  file: legendcraft/indicators/cd_shroud.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_slot2_cd_percent"
+      max: 100
+
+lc_cd_shroud_slot3:
+  type: listener
+  file: legendcraft/indicators/cd_shroud.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_slot3_cd_percent"
+      max: 100
+
+lc_cd_shroud_ult:
+  type: listener
+  file: legendcraft/indicators/cd_shroud.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_ult_cd_percent"
+      max: 100
+
+lc_deny_flash:
+  type: sequence
+  files:
+    - "legendcraft/indicators/deny_fade_0.png:1"
+    - "legendcraft/indicators/deny_fade_1.png:1"
+    - "legendcraft/indicators/deny_fade_2.png:1"
+    - "legendcraft/indicators/deny_fade_3.png:1"
+  setting:
+    scale: 0.5
+    animation-type: play_once
+
+lc_icon_placeholder:
+  type: single
+  file: legendcraft/indicators/icon_placeholder.png
+  setting:
+    scale: 0.5
+
+lc_hud_archer_pin_shot:
+  type: single
+  file: legendcraft/skill-icons/archer/pin_shot.png
+  setting:
+    scale: 0.5
+
+lc_hud_archer_rapid_fire:
+  type: single
+  file: legendcraft/skill-icons/archer/rapid_fire.png
+  setting:
+    scale: 0.5
+
+lc_hud_archer_grapple:
+  type: single
+  file: legendcraft/skill-icons/archer/grapple.png
+  setting:
+    scale: 0.5
+
+lc_hud_warrior_power_strike:
+  type: single
+  file: legendcraft/skill-icons/warrior/power_strike.png
+  setting:
+    scale: 0.5
+
+lc_hud_warrior_charge:
+  type: single
+  file: legendcraft/skill-icons/warrior/charge.png
+  setting:
+    scale: 0.5
+
+lc_hud_warrior_grab:
+  type: single
+  file: legendcraft/skill-icons/warrior/grab.png
+  setting:
+    scale: 0.5
+
+lc_hud_mage_fireball:
+  type: single
+  file: legendcraft/skill-icons/mage/fireball.png
+  setting:
+    scale: 0.5
+
+lc_hud_mage_arcane_ward:
+  type: single
+  file: legendcraft/skill-icons/mage/arcane_ward.png
+  setting:
+    scale: 0.5
+
+lc_hud_mage_frost_bolt:
+  type: single
+  file: legendcraft/skill-icons/mage/frost_bolt.png
+  setting:
+    scale: 0.5
+
+lc_hud_warlock_raise_thrall:
+  type: single
+  file: legendcraft/skill-icons/warlock/raise_thrall.png
+  setting:
+    scale: 0.5
+
+lc_hud_warlock_shadow_bolt:
+  type: single
+  file: legendcraft/skill-icons/warlock/shadow_bolt.png
+  setting:
+    scale: 0.5
+
+lc_hud_warlock_mark_of_misery:
+  type: single
+  file: legendcraft/skill-icons/warlock/mark_of_misery.png
+  setting:
+    scale: 0.5
+
+lc_hud_priest_holy_mend:
+  type: single
+  file: legendcraft/skill-icons/priest/holy_mend.png
+  setting:
+    scale: 0.5
+
+lc_hud_priest_concoction:
+  type: single
+  file: legendcraft/skill-icons/priest/concoction.png
+  setting:
+    scale: 0.5
+
+lc_hud_priest_spirit_burst:
+  type: single
+  file: legendcraft/skill-icons/priest/spirit_burst.png
+  setting:
+    scale: 0.5
+
+lc_hud_thief_ambush:
+  type: single
+  file: legendcraft/skill-icons/thief/ambush.png
+  setting:
+    scale: 0.5
+
+lc_hud_thief_flurry:
+  type: single
+  file: legendcraft/skill-icons/thief/flurry.png
+  setting:
+    scale: 0.5
+
+lc_hud_thief_roll:
+  type: single
+  file: legendcraft/skill-icons/thief/roll.png
+  setting:
+    scale: 0.5
+
+lc_hud_hunter_ensnaring_trap:
+  type: single
+  file: legendcraft/skill-icons/hunter/ensnaring_trap.png
+  setting:
+    scale: 0.5
+
+lc_hud_hunter_venomous_arrow:
+  type: single
+  file: legendcraft/skill-icons/hunter/venomous_arrow.png
+  setting:
+    scale: 0.5
+
+lc_hud_hunter_beast_companion:
+  type: single
+  file: legendcraft/skill-icons/hunter/beast_companion.png
+  setting:
+    scale: 0.5
+
+lc_hud_hunter_pack_ambush:
+  type: single
+  file: legendcraft/skill-icons/hunter/pack_ambush.png
+  setting:
+    scale: 0.5
+
+lc_hud_hunter_pack_ambush_locked:
+  type: single
+  file: legendcraft/skill-icons/hunter/pack_ambush_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_sniper_heartseeker:
+  type: single
+  file: legendcraft/skill-icons/sniper/heartseeker.png
+  setting:
+    scale: 0.5
+
+lc_hud_sniper_bolt:
+  type: single
+  file: legendcraft/skill-icons/sniper/bolt.png
+  setting:
+    scale: 0.5
+
+lc_hud_sniper_evasive_shot:
+  type: single
+  file: legendcraft/skill-icons/sniper/evasive_shot.png
+  setting:
+    scale: 0.5
+
+lc_hud_sniper_arrow_blitz:
+  type: single
+  file: legendcraft/skill-icons/sniper/arrow_blitz.png
+  setting:
+    scale: 0.5
+
+lc_hud_sniper_arrow_blitz_locked:
+  type: single
+  file: legendcraft/skill-icons/sniper/arrow_blitz_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_pyromancer_scorch:
+  type: single
+  file: legendcraft/skill-icons/pyromancer/scorch.png
+  setting:
+    scale: 0.5
+
+lc_hud_pyromancer_flame_surge:
+  type: single
+  file: legendcraft/skill-icons/pyromancer/flame_surge.png
+  setting:
+    scale: 0.5
+
+lc_hud_pyromancer_ember_shell:
+  type: single
+  file: legendcraft/skill-icons/pyromancer/ember_shell.png
+  setting:
+    scale: 0.5
+
+lc_hud_pyromancer_conflagration:
+  type: single
+  file: legendcraft/skill-icons/pyromancer/conflagration.png
+  setting:
+    scale: 0.5
+
+lc_hud_pyromancer_conflagration_locked:
+  type: single
+  file: legendcraft/skill-icons/pyromancer/conflagration_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_knight_bulwark:
+  type: single
+  file: legendcraft/skill-icons/knight/bulwark.png
+  setting:
+    scale: 0.5
+
+lc_hud_knight_shield_bash:
+  type: single
+  file: legendcraft/skill-icons/knight/shield_bash.png
+  setting:
+    scale: 0.5
+
+lc_hud_knight_war_cry:
+  type: single
+  file: legendcraft/skill-icons/knight/war_cry.png
+  setting:
+    scale: 0.5
+
+lc_hud_knight_vanguard:
+  type: single
+  file: legendcraft/skill-icons/knight/vanguard.png
+  setting:
+    scale: 0.5
+
+lc_hud_knight_vanguard_locked:
+  type: single
+  file: legendcraft/skill-icons/knight/vanguard_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_ranger_hamstring:
+  type: single
+  file: legendcraft/skill-icons/ranger/hamstring.png
+  setting:
+    scale: 0.5
+
+lc_hud_ranger_quickstep:
+  type: single
+  file: legendcraft/skill-icons/ranger/quickstep.png
+  setting:
+    scale: 0.5
+
+lc_hud_ranger_point_blank_shot:
+  type: single
+  file: legendcraft/skill-icons/ranger/point_blank_shot.png
+  setting:
+    scale: 0.5
+
+lc_hud_ranger_kiting_dance:
+  type: single
+  file: legendcraft/skill-icons/ranger/kiting_dance.png
+  setting:
+    scale: 0.5
+
+lc_hud_ranger_kiting_dance_locked:
+  type: single
+  file: legendcraft/skill-icons/ranger/kiting_dance_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_cryomancer_ice_lance:
+  type: single
+  file: legendcraft/skill-icons/cryomancer/ice_lance.png
+  setting:
+    scale: 0.5
+
+lc_hud_cryomancer_permafrost:
+  type: single
+  file: legendcraft/skill-icons/cryomancer/permafrost.png
+  setting:
+    scale: 0.5
+
+lc_hud_cryomancer_frost_nova:
+  type: single
+  file: legendcraft/skill-icons/cryomancer/frost_nova.png
+  setting:
+    scale: 0.5
+
+lc_hud_cryomancer_absolute_zero:
+  type: single
+  file: legendcraft/skill-icons/cryomancer/absolute_zero.png
+  setting:
+    scale: 0.5
+
+lc_hud_cryomancer_absolute_zero_locked:
+  type: single
+  file: legendcraft/skill-icons/cryomancer/absolute_zero_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_berserker_savage_cleave:
+  type: single
+  file: legendcraft/skill-icons/berserker/savage_cleave.png
+  setting:
+    scale: 0.5
+
+lc_hud_berserker_blood_rush:
+  type: single
+  file: legendcraft/skill-icons/berserker/blood_rush.png
+  setting:
+    scale: 0.5
+
+lc_hud_berserker_reavers_throw:
+  type: single
+  file: legendcraft/skill-icons/berserker/reavers_throw.png
+  setting:
+    scale: 0.5
+
+lc_hud_berserker_undying_rage:
+  type: single
+  file: legendcraft/skill-icons/berserker/undying_rage.png
+  setting:
+    scale: 0.5
+
+lc_hud_berserker_undying_rage_locked:
+  type: single
+  file: legendcraft/skill-icons/berserker/undying_rage_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_necromancer_raise_ghoul:
+  type: single
+  file: legendcraft/skill-icons/necromancer/raise_ghoul.png
+  setting:
+    scale: 0.5
+
+lc_hud_necromancer_soul_harvest:
+  type: single
+  file: legendcraft/skill-icons/necromancer/soul_harvest.png
+  setting:
+    scale: 0.5
+
+lc_hud_necromancer_defile:
+  type: single
+  file: legendcraft/skill-icons/necromancer/defile.png
+  setting:
+    scale: 0.5
+
+lc_hud_necromancer_bone_colossus:
+  type: single
+  file: legendcraft/skill-icons/necromancer/bone_colossus.png
+  setting:
+    scale: 0.5
+
+lc_hud_necromancer_bone_colossus_locked:
+  type: single
+  file: legendcraft/skill-icons/necromancer/bone_colossus_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_shadowmancer_shadowstep:
+  type: single
+  file: legendcraft/skill-icons/shadowmancer/shadowstep.png
+  setting:
+    scale: 0.5
+
+lc_hud_shadowmancer_maw_of_shadow:
+  type: single
+  file: legendcraft/skill-icons/shadowmancer/maw_of_shadow.png
+  setting:
+    scale: 0.5
+
+lc_hud_shadowmancer_void_bolt:
+  type: single
+  file: legendcraft/skill-icons/shadowmancer/void_bolt.png
+  setting:
+    scale: 0.5
+
+lc_hud_shadowmancer_nightfall:
+  type: single
+  file: legendcraft/skill-icons/shadowmancer/nightfall.png
+  setting:
+    scale: 0.5
+
+lc_hud_shadowmancer_nightfall_locked:
+  type: single
+  file: legendcraft/skill-icons/shadowmancer/nightfall_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_doomsayer_curse_of_ruin:
+  type: single
+  file: legendcraft/skill-icons/doomsayer/curse_of_ruin.png
+  setting:
+    scale: 0.5
+
+lc_hud_doomsayer_word_of_dread:
+  type: single
+  file: legendcraft/skill-icons/doomsayer/word_of_dread.png
+  setting:
+    scale: 0.5
+
+lc_hud_doomsayer_contagion:
+  type: single
+  file: legendcraft/skill-icons/doomsayer/contagion.png
+  setting:
+    scale: 0.5
+
+lc_hud_doomsayer_foretold_doom:
+  type: single
+  file: legendcraft/skill-icons/doomsayer/foretold_doom.png
+  setting:
+    scale: 0.5
+
+lc_hud_doomsayer_foretold_doom_locked:
+  type: single
+  file: legendcraft/skill-icons/doomsayer/foretold_doom_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_bloodweaver_crimson_bolt:
+  type: single
+  file: legendcraft/skill-icons/bloodweaver/crimson_bolt.png
+  setting:
+    scale: 0.5
+
+lc_hud_bloodweaver_hemorrhage:
+  type: single
+  file: legendcraft/skill-icons/bloodweaver/hemorrhage.png
+  setting:
+    scale: 0.5
+
+lc_hud_bloodweaver_sanguine_barrier:
+  type: single
+  file: legendcraft/skill-icons/bloodweaver/sanguine_barrier.png
+  setting:
+    scale: 0.5
+
+lc_hud_bloodweaver_exsanguinate:
+  type: single
+  file: legendcraft/skill-icons/bloodweaver/exsanguinate.png
+  setting:
+    scale: 0.5
+
+lc_hud_bloodweaver_exsanguinate_locked:
+  type: single
+  file: legendcraft/skill-icons/bloodweaver/exsanguinate_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_brawler_haymaker:
+  type: single
+  file: legendcraft/skill-icons/brawler/haymaker.png
+  setting:
+    scale: 0.5
+
+lc_hud_brawler_relentless_pursuit:
+  type: single
+  file: legendcraft/skill-icons/brawler/relentless_pursuit.png
+  setting:
+    scale: 0.5
+
+lc_hud_brawler_iron_grip:
+  type: single
+  file: legendcraft/skill-icons/brawler/iron_grip.png
+  setting:
+    scale: 0.5
+
+lc_hud_brawler_flurry:
+  type: single
+  file: legendcraft/skill-icons/brawler/flurry.png
+  setting:
+    scale: 0.5
+
+lc_hud_brawler_flurry_locked:
+  type: single
+  file: legendcraft/skill-icons/brawler/flurry_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_seraph_radiant_touch:
+  type: single
+  file: legendcraft/skill-icons/seraph/radiant_touch.png
+  setting:
+    scale: 0.5
+
+lc_hud_seraph_divine_wrath:
+  type: single
+  file: legendcraft/skill-icons/seraph/divine_wrath.png
+  setting:
+    scale: 0.5
+
+lc_hud_seraph_luminous_bond:
+  type: single
+  file: legendcraft/skill-icons/seraph/luminous_bond.png
+  setting:
+    scale: 0.5
+
+lc_hud_seraph_ascension:
+  type: single
+  file: legendcraft/skill-icons/seraph/ascension.png
+  setting:
+    scale: 0.5
+
+lc_hud_seraph_ascension_locked:
+  type: single
+  file: legendcraft/skill-icons/seraph/ascension_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_assassin_cloak:
+  type: single
+  file: legendcraft/skill-icons/assassin/cloak.png
+  setting:
+    scale: 0.5
+
+lc_hud_assassin_killing_blow:
+  type: single
+  file: legendcraft/skill-icons/assassin/killing_blow.png
+  setting:
+    scale: 0.5
+
+lc_hud_assassin_stalk:
+  type: single
+  file: legendcraft/skill-icons/assassin/stalk.png
+  setting:
+    scale: 0.5
+
+lc_hud_assassin_marked_for_death:
+  type: single
+  file: legendcraft/skill-icons/assassin/marked_for_death.png
+  setting:
+    scale: 0.5
+
+lc_hud_assassin_marked_for_death_locked:
+  type: single
+  file: legendcraft/skill-icons/assassin/marked_for_death_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_alchemist_caustic_flask:
+  type: single
+  file: legendcraft/skill-icons/alchemist/caustic_flask.png
+  setting:
+    scale: 0.5
+
+lc_hud_alchemist_stimulant:
+  type: single
+  file: legendcraft/skill-icons/alchemist/stimulant.png
+  setting:
+    scale: 0.5
+
+lc_hud_alchemist_volatile_concoction:
+  type: single
+  file: legendcraft/skill-icons/alchemist/volatile_concoction.png
+  setting:
+    scale: 0.5
+
+lc_hud_alchemist_grand_elixir:
+  type: single
+  file: legendcraft/skill-icons/alchemist/grand_elixir.png
+  setting:
+    scale: 0.5
+
+lc_hud_alchemist_grand_elixir_locked:
+  type: single
+  file: legendcraft/skill-icons/alchemist/grand_elixir_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_rogue_grit:
+  type: single
+  file: legendcraft/skill-icons/rogue/grit.png
+  setting:
+    scale: 0.5
+
+lc_hud_rogue_sidestep:
+  type: single
+  file: legendcraft/skill-icons/rogue/sidestep.png
+  setting:
+    scale: 0.5
+
+lc_hud_rogue_riposte:
+  type: single
+  file: legendcraft/skill-icons/rogue/riposte.png
+  setting:
+    scale: 0.5
+
+lc_hud_rogue_cornered:
+  type: single
+  file: legendcraft/skill-icons/rogue/cornered.png
+  setting:
+    scale: 0.5
+
+lc_hud_rogue_cornered_locked:
+  type: single
+  file: legendcraft/skill-icons/rogue/cornered_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_shaman_earthen_strike:
+  type: single
+  file: legendcraft/skill-icons/shaman/earthen_strike.png
+  setting:
+    scale: 0.5
+
+lc_hud_shaman_soul_infusion:
+  type: single
+  file: legendcraft/skill-icons/shaman/soul_infusion.png
+  setting:
+    scale: 0.5
+
+lc_hud_shaman_voltaic_lash:
+  type: single
+  file: legendcraft/skill-icons/shaman/voltaic_lash.png
+  setting:
+    scale: 0.5
+
+lc_hud_shaman_ancestral_wrath:
+  type: single
+  file: legendcraft/skill-icons/shaman/ancestral_wrath.png
+  setting:
+    scale: 0.5
+
+lc_hud_shaman_ancestral_wrath_locked:
+  type: single
+  file: legendcraft/skill-icons/shaman/ancestral_wrath_locked.png
+  setting:
+    scale: 0.5
+
+lc_hud_ninja_blur:
+  type: single
+  file: legendcraft/skill-icons/ninja/blur.png
+  setting:
+    scale: 0.5
+
+lc_hud_ninja_smoke_bomb:
+  type: single
+  file: legendcraft/skill-icons/ninja/smoke_bomb.png
+  setting:
+    scale: 0.5
+
+lc_hud_ninja_shuriken_volley:
+  type: single
+  file: legendcraft/skill-icons/ninja/shuriken_volley.png
+  setting:
+    scale: 0.5
+
+lc_hud_ninja_thousand_cuts:
+  type: single
+  file: legendcraft/skill-icons/ninja/thousand_cuts.png
+  setting:
+    scale: 0.5
+
+lc_hud_ninja_thousand_cuts_locked:
+  type: single
+  file: legendcraft/skill-icons/ninja/thousand_cuts_locked.png
+  setting:
+    scale: 0.5
+

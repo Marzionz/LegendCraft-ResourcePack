@@ -1,0 +1,10 @@
+# Pinned so the generator produces the same PIXELS everywhere. Not the same bytes: PNG stores
+# its pixels DEFLATE-compressed, and DEFLATE output belongs to the zlib the interpreter was
+# linked against rather than to the image, so CPython on Windows (zlib-ng) and on Linux (stock
+# zlib) write different files for identical art. check_generator_drift.py compares images by
+# decoded pixels for that reason; this pin is what keeps the pixels themselves reproducible.
+#
+# Bumping either line means regenerating hud/ with the new version and committing the result in
+# the same change, because a real pixel change is a change to files this repo serves.
+pillow==12.2.0
+PyYAML==6.0.3

@@ -1,0 +1,190 @@
+# HAND-AUTHORED (not generated) -- party-frame image registry.
+#
+# Three families, on purpose:
+#
+#  * CHROME (frame, bar outlines, leader crown) is Volya's Party HUD 1.1.0 art, staged verbatim by
+#    `stage_volya_hud.py`. Flat, translucent, desaturated, non-glowing -- already what
+#    `hud-and-icons.md` §1 asks of chrome, so there was nothing to change.
+#  * BARS are Volya's shapes re-ramped by that same script onto the locked LegendCraft palette, so a
+#    party member's HP is the same red as the caster's own stat block. Rage is ember-led rather than
+#    red-led: the stat block separates rage from health with two visible bands, which needs 7px, and
+#    a party resource bar is 2px.
+#  * CLASS ICONS are entirely OURS -- the 24 identity icons authored 2026-07-21. Volya's CLASS
+#    variant ships 61 icons for a roster we do not have; ours are the whole point of the variant.
+#
+# Config is a from-scratch BetterHud 2.1.0 rewrite; the source pack is MythicHUD and shares no syntax.
+#
+# WHY THE BARS ARE `class: placeholder` AND NOT `class: health`. Every element in a party row
+# carries `follow:`, which makes BetterHud resolve the row against another player
+# (`ImageRenderer` swaps in the followed `HudPlayer` before evaluating the listener and the
+# conditions). Reading through `papi:legendcraft_*` keeps that substitution on one mechanism --
+# PlaceholderAPI, evaluated against whoever `follow` resolved to. A built-in listener class is
+# fed by BetterHud's own per-player bookkeeping, and whether that bookkeeping is the followed
+# player's or the viewer's is not something the docs commit to. The stat block keeps `class:
+# health` because it has no follow and the question never arises.
+
+
+lc_party_frame:
+  type: single
+  file: legendcraft/party/frame_portrait.png
+
+# The COMPACT (83x20) and RAID (83x15) frames are NOT registered. Their PNGs stay staged in
+# `assets/hud/party/` so a variant change is cheap, but a registered image is built into the
+# resource pack whether a layout draws it or not -- dead weight in a pack every client downloads.
+# Re-add three lines here if either variant is ever wanted.
+
+lc_party_outline_health:
+  type: single
+  file: legendcraft/party/outline_health.png
+
+lc_party_outline_resource:
+  type: single
+  file: legendcraft/party/outline_resource.png
+
+lc_party_leader:
+  type: single
+  file: legendcraft/party/leader.png
+
+# The 24 class identity icons. Authored at 32x32; the frame reserves a 16px square, so the layout
+# renders them at `scale: 0.5`. Registered here rather than in the (historically named) "hunter"
+# registry because that file is GENERATED and these are not skill art.
+
+lc_party_class_alchemist:
+  type: single
+  file: legendcraft/class-icons/alchemist.png
+
+lc_party_class_archer:
+  type: single
+  file: legendcraft/class-icons/archer.png
+
+lc_party_class_assassin:
+  type: single
+  file: legendcraft/class-icons/assassin.png
+
+lc_party_class_berserker:
+  type: single
+  file: legendcraft/class-icons/berserker.png
+
+lc_party_class_bloodweaver:
+  type: single
+  file: legendcraft/class-icons/bloodweaver.png
+
+lc_party_class_brawler:
+  type: single
+  file: legendcraft/class-icons/brawler.png
+
+lc_party_class_cryomancer:
+  type: single
+  file: legendcraft/class-icons/cryomancer.png
+
+lc_party_class_doomsayer:
+  type: single
+  file: legendcraft/class-icons/doomsayer.png
+
+lc_party_class_hunter:
+  type: single
+  file: legendcraft/class-icons/hunter.png
+
+lc_party_class_knight:
+  type: single
+  file: legendcraft/class-icons/knight.png
+
+lc_party_class_mage:
+  type: single
+  file: legendcraft/class-icons/mage.png
+
+lc_party_class_necromancer:
+  type: single
+  file: legendcraft/class-icons/necromancer.png
+
+lc_party_class_ninja:
+  type: single
+  file: legendcraft/class-icons/ninja.png
+
+lc_party_class_priest:
+  type: single
+  file: legendcraft/class-icons/priest.png
+
+lc_party_class_pyromancer:
+  type: single
+  file: legendcraft/class-icons/pyromancer.png
+
+lc_party_class_ranger:
+  type: single
+  file: legendcraft/class-icons/ranger.png
+
+lc_party_class_rogue:
+  type: single
+  file: legendcraft/class-icons/rogue.png
+
+lc_party_class_seraph:
+  type: single
+  file: legendcraft/class-icons/seraph.png
+
+lc_party_class_shadowmancer:
+  type: single
+  file: legendcraft/class-icons/shadowmancer.png
+
+lc_party_class_shaman:
+  type: single
+  file: legendcraft/class-icons/shaman.png
+
+lc_party_class_sniper:
+  type: single
+  file: legendcraft/class-icons/sniper.png
+
+lc_party_class_thief:
+  type: single
+  file: legendcraft/class-icons/thief.png
+
+lc_party_class_warlock:
+  type: single
+  file: legendcraft/class-icons/warlock.png
+
+lc_party_class_warrior:
+  type: single
+  file: legendcraft/class-icons/warrior.png
+
+lc_party_fill_health:
+  type: listener
+  file: legendcraft/party/fill_health.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_health"
+      max: "(number)papi:legendcraft_max_health"
+
+lc_party_fill_mana:
+  type: listener
+  file: legendcraft/party/fill_mana.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_resource_current"
+      max: "(number)papi:legendcraft_resource_max"
+
+lc_party_fill_energy:
+  type: listener
+  file: legendcraft/party/fill_energy.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_resource_current"
+      max: "(number)papi:legendcraft_resource_max"
+
+lc_party_fill_rage:
+  type: listener
+  file: legendcraft/party/fill_rage.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_resource_current"
+      max: "(number)papi:legendcraft_resource_max"

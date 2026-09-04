@@ -1,0 +1,167 @@
+# GENERATED -- do not hand-edit.
+# Image registry for the LegendCraft chunky stat HUD (BetterHud 2.0.0).
+
+lc_bar_empty:
+  type: single
+  file: legendcraft/bars/bar_empty.png
+
+lc_xp_empty:
+  type: single
+  file: legendcraft/bars/xp_empty.png
+
+lc_icon_heart:
+  type: single
+  file: legendcraft/stat-icons/heart.png
+
+lc_icon_shield:
+  type: single
+  file: legendcraft/stat-icons/shield.png
+
+lc_icon_drumstick:
+  type: single
+  file: legendcraft/stat-icons/drumstick.png
+
+lc_gem_mana:
+  type: single
+  file: legendcraft/stat-icons/gem_mana.png
+
+lc_gem_energy:
+  type: single
+  file: legendcraft/stat-icons/gem_energy.png
+
+lc_gem_rage:
+  type: single
+  file: legendcraft/stat-icons/gem_rage.png
+
+lc_heart_poison:
+  type: single
+  file: legendcraft/vitals/heart_poison.png
+
+lc_heart_burning:
+  type: single
+  file: legendcraft/vitals/heart_burning.png
+
+lc_heart_freezing:
+  type: single
+  file: legendcraft/vitals/heart_freezing.png
+
+lc_heart_wither:
+  type: single
+  file: legendcraft/vitals/heart_wither.png
+
+lc_fill_health:
+  type: listener
+  file: legendcraft/bars/fill_health.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: health
+
+lc_fill_armor:
+  type: listener
+  file: legendcraft/bars/fill_armor.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: armor
+
+lc_fill_food:
+  type: listener
+  file: legendcraft/bars/fill_food.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: food
+
+lc_state_poison:
+  type: listener
+  file: legendcraft/vitals/state_poison.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: health
+
+lc_state_burning:
+  type: listener
+  file: legendcraft/vitals/state_burning.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: health
+
+lc_state_freezing:
+  type: listener
+  file: legendcraft/vitals/state_freezing.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: health
+
+lc_state_wither:
+  type: listener
+  file: legendcraft/vitals/state_wither.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: health
+
+lc_state_regeneration:
+  type: listener
+  file: legendcraft/vitals/state_regeneration.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: health
+
+lc_fill_mana:
+  type: listener
+  file: legendcraft/bars/fill_mana.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_resource_current"
+      max: "(number)papi:legendcraft_resource_max"
+
+lc_fill_energy:
+  type: listener
+  file: legendcraft/bars/fill_energy.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_resource_current"
+      max: "(number)papi:legendcraft_resource_max"
+
+lc_fill_rage:
+  type: listener
+  file: legendcraft/bars/fill_rage.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_resource_current"
+      max: "(number)papi:legendcraft_resource_max"
+
+lc_fill_xp:
+  type: listener
+  file: legendcraft/bars/xp_fill.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_xp_percent"
+      max: 100
+
