@@ -69,10 +69,15 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python tools/test_hud_placeholders.py
 
-      # Gate 3. The files parse and hold the invariants the generator writes them under.
+      # Gate 3. The files parse and hold the invariants the generator writes them under --
+      # including the one BetterHud's text parser imposes on every `pattern:` in the tree.
       - name: Gate - BetterHud YAML shape
         working-directory: LegendCraft-ResourcePack
         run: python tools/check_hud_yaml.py
+
+      - name: Gate - BetterHud YAML acceptance suite
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/test_hud_yaml.py
 
       # Gate 4. The merge that produces the served pack does not silently drop what its inputs
       # put in. Run over fixtures the suite builds, since the plugin build zips only exist on
