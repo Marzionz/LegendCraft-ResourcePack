@@ -1909,12 +1909,15 @@ def _bh_stat_layout_yml():
 
     txt_lines, tn = [], 1
 
-    def addt(pattern, x, y, align="center", scale=STAT_TEXT_SCALE, cond=None, font="lc_stat_text"):
+    def addt(pattern, x, y, align="center", scale=STAT_TEXT_SCALE, cond=None, font="lc_stat_text",
+             outline=False):
         nonlocal tn
         block = [f"    {tn}:", f"      name: {font}",
                  f'      pattern: "{pattern}"',
                  f"      align: {align}", f"      scale: {scale}",
                  f"      x: {x}", f"      y: {y}", f"      layer: {TILE_L_TEXT}"]
+        if outline:
+            block.append("      outline: true")
         if cond:
             block += conds_block(cond)
         txt_lines.extend(block)
@@ -2012,8 +2015,10 @@ def _bh_stat_layout_yml():
 
     # One painted line owns all short combat feedback. The plugin returns an empty snapshot
     # when its two-second TTL has elapsed, so the element disappears without a layout gate.
+    # `outline` is BetterHud's drop shadow. The stat numerals sit on their own dark bar art and
+    # read without one, but this line floats over open world -- white on sand or sky had no edge.
     addt("<white>[papi:legendcraft_feedback_line]", span_cx, FEEDBACK_LINE_Y_PX,
-         scale=FEEDBACK_TEXT_SCALE)
+         scale=FEEDBACK_TEXT_SCALE, outline=True)
 
     # BetterHud's text parser EATS a single "/". The structure that parses cleanly is a tag on
     # BOTH sides of the separator (current <white>, max <white>, <gray> carrying the divider); the

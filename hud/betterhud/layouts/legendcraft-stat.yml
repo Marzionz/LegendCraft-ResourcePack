@@ -3742,6 +3742,7 @@ lc_stat:
       x: 102
       y: -47
       layer: 8
+      outline: true
     10:
       name: lc_stat_text
       pattern: "<white>[papi:legendcraft_health]<gray> // <white>[papi:legendcraft_max_health]"
