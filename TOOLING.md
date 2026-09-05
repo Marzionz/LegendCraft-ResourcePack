@@ -159,11 +159,10 @@ That is BetterHud's text shaders, not the HUD and not the client. The plugin wri
 **never overwrites them again** — an upgrade keeps whatever is there. Those two files override
 the **vanilla global text shaders**, so a pair left from an older version does not dim the HUD:
 it dims every piece of text the client draws, chat, menus and item names included. Nothing in
-that symptom points at a resource pack, which is why it cost a day of the three-day HUD outage
-before anyone looked in `shaders/`.
+that symptom points at a resource pack, so `shaders/` is not where the search starts.
 
 The fix is to delete the two files and restart; the plugin writes fresh ones on the way up.
-`tools/deploy-hud.ps1` now does that on every run, between the config copy and the restart, so
+`tools/deploy-hud.ps1` does that on every run, between the config copy and the restart, so
 a deploy cannot leave a stale pair behind. Out of band, run the step on its own:
 
 ```
