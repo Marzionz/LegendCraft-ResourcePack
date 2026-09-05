@@ -2,8 +2,8 @@
 #
 # Automates the loop that is otherwise ~7 manual steps (see hud/betterhud/README.md):
 #   1. regenerate art + config      (generate_hud.py)
-#   2. copy into plugins/BetterHud
-#   3. restart server               -> BetterHud rebuilds build.zip
+#   2. copy into plugins/BetterHud, and clear the stale text shader templates
+#   3. restart server               -> BetterHud rebuilds build.zip + rewrites those templates
 #   4. merge build.zip into the newest built base pack (merge_dev_pack.py)
 #   5. publish the merged pack to the rolling GitHub "dev" pre-release (publish-pack.ps1 -Dev)
 #   6. point server.properties sha1 at it (URL is the stable dev-release URL; only sha1 moves)
@@ -92,6 +92,14 @@ foreach ($art in 'frames','indicators','skill-icons','vitals','party','class-ico
 # so the -stat loop above does not ship them.
 Copy-Item "$RP\hud\betterhud\images\legendcraft-party.yml"  "$BH\images\"  -Force
 Copy-Item "$RP\hud\betterhud\layouts\legendcraft-party.yml" "$BH\layouts\" -Force
+
+# BetterHud writes shaders/text.{vsh,fsh} once and never overwrites them, and they override
+# the vanilla GLOBAL text shaders -- so a pair left from an older version dims every piece of
+# text the client draws, chat and menus included, and reads as a client problem rather than a
+# HUD one. Clearing them here, BEFORE the restart, is what makes the plugin regenerate them on
+# the boot below. Idempotent: a re-run after a half-failed deploy reports them already gone.
+Write-Host "      clearing BetterHud's text shader templates so the restart rewrites them..."
+& "$RP\tools\clear-hud-shaders.ps1" -BetterHudRoot $BH
 
 Write-Host "[3/7] restarting server (BetterHud rebuilds build.zip)..."
 Stop-GameServer; Start-GameServer

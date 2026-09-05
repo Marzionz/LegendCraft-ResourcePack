@@ -9,14 +9,15 @@ tree, alongside `mobs-src/` and `tools/`).
 | `build.ps1` | zips `src/` into `dist/LegendCraft-Pack-<version>.zip` and prints the SHA1 Paper needs for `setResourcePack` | none |
 | `deploy-rigs.ps1` | stages named `.bbmodel` rigs — mobs, or props under `-Prop` — from the authoring tree into a BetterModel-shaped folder, and writes the verification list the owner works through at the box | `tests/run-deploy-rigs-tests.ps1` |
 | `tools/generate_hud.py` | writes the HUD art and the BetterHud YAML under `hud/` | `tools/test_generate_hud.py`, plus the CI drift gate |
-| `tools/deploy-hud.ps1` | the whole HUD loop against mc-dev: regenerate, copy, restart, merge, publish, repoint, restart | none — it drives a live server |
+| `tools/deploy-hud.ps1` | the whole HUD loop against mc-dev: regenerate, copy, clear the stale text shader templates, restart, merge, publish, repoint, restart | none — it drives a live server; the shader-clear step it calls is covered |
+| `tools/clear-hud-shaders.ps1` | removes BetterHud's `shaders/text.{vsh,fsh}` so the next boot regenerates them | `tests/run-hud-shader-clear-tests.ps1` |
 | `tools/merge_dev_pack.py` | merges the plugin build zips with the newest built base pack into `dist/LegendCraft-Pack-dev.zip` | `tools/test_pack_manifest.py` |
 | `tools/publish-pack.ps1` | uploads a pack to the rolling `dev` pre-release, or promotes a tested dev pack to an immutable `v<version>` | `tests/run-pack-pin-tests.ps1` |
 | `tools/check-pack-pin.ps1` | the production pre-start guard: refuses a dev pin, an absent pin, or a sha1 that is not the bytes at the pinned URL | `tests/run-pack-pin-tests.ps1` |
 | `tools/check_generator_drift.py` | the committed `hud/` tree equals generator output; images compared by decoded pixels, everything else byte for byte | CI gate |
 | `tools/check_hud_placeholders.py` | every `papi:legendcraft_*` the HUD reads names a case in `LegendCraft-Classes`' expansion source | `tools/test_hud_placeholders.py` |
-| `tools/check_hud_yaml.py` | the BetterHud files parse and hold the generator's invariants | CI gate |
-| `tools/check_pack_manifest.py` | a merged pack still carries what its inputs put in | `tools/test_pack_manifest.py` |
+| `tools/check_hud_yaml.py` | the BetterHud files parse and hold the generator's invariants, and every `pattern:` in the tree obeys the text parser's slash rule | `tools/test_hud_yaml.py` |
+| `tools/check_pack_manifest.py` | a merged pack still carries what its inputs put in, and its `pack.mcmeta` declares the format range the client needs before it applies any of it (`--manifest-only` audits `src/pack.mcmeta` alone, which is what CI can reach) | `tools/test_pack_manifest.py` |
 
 ## `deploy-rigs.ps1`
 
@@ -150,6 +151,27 @@ drive's restored state are both checked. Four assertions hold that — one per
 creating arm, plus one that throws the instant an alias is live and requires the
 drive to come back anyway. A fixture that mutates the machine it runs on is a
 defect of the gate, and the crash path is where that happens.
+
+## All game text is dim after a BetterHud upgrade or a box rebuild
+
+That is BetterHud's text shaders, not the HUD and not the client. The plugin writes
+`plugins/BetterHud/shaders/text.vsh` and `text.fsh` on its first boot after install and
+**never overwrites them again** — an upgrade keeps whatever is there. Those two files override
+the **vanilla global text shaders**, so a pair left from an older version does not dim the HUD:
+it dims every piece of text the client draws, chat, menus and item names included. Nothing in
+that symptom points at a resource pack, so `shaders/` is not where the search starts.
+
+The fix is to delete the two files and restart; the plugin writes fresh ones on the way up.
+`tools/deploy-hud.ps1` does that on every run, between the config copy and the restart, so
+a deploy cannot leave a stale pair behind. Out of band, run the step on its own:
+
+```
+powershell -NoProfile -File tools\clear-hud-shaders.ps1 -BetterHudRoot <server>\plugins\BetterHud
+```
+
+It touches only those two names, is safe to run twice, and refuses rather than deleting
+through anything that is not a plain file. The restart it needs afterwards is a person's step
+on a shared box, under the deploy lock — the script does not take one.
 
 ## Adding a script to `tools/`
 

@@ -131,9 +131,12 @@ end is `tools/deploy-hud.ps1`, and `hud/betterhud/README.md` is the detail.
 | gate | what it refuses |
 |---|---|
 | generator drift | a `hud/` tree that differs from what `generate_hud.py` writes |
-| placeholder audit | a `papi:legendcraft_*` token no `HudPlaceholders` case answers, and one read inside a `pattern:` that is not on `tools/check_hud_placeholders.py`'s allow-list |
+| placeholder audit | a `papi:legendcraft_*` token no `HudPlaceholders` case answers |
+| pattern slashes | a `pattern:` anywhere in `hud/betterhud/` carrying a slash run that is not `//` with a colour tag on each side — BetterHud's text parser eats one slash and fuses the literal in front of it onto the next placeholder token, refusing the whole hud |
 | YAML shape | an element with no name or layer, a condition missing `first`/`second`/`operation`, a layer outside the generator's band, an image reference resolving to no file, a layout drawing an unregistered image, a hud composing an undefined layout |
 | pack manifest | a merge that drops item models, sounds, `sounds.json`, or plugin-contributed assets its inputs carried |
+| pack.mcmeta formats | a `pack_format` of 80 or more with no `min_format`/`max_format`, or a triple that does not contain its own `pack_format` — the client answers that by discarding every overlay in the pack, and BetterHud ships its shader cores only in overlays |
+| shader-template clear | a HUD deploy that would restart onto BetterHud's stale `shaders/text.{vsh,fsh}`, which override the vanilla global text shaders and dim all game text |
 
 The placeholder gate reads `HudPlaceholders.java` out of a sibling `LegendCraft-Classes`
 checkout rather than a copied list, so it needs `LEGENDCRAFT_REPO_TOKEN` to read that private

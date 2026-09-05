@@ -13,12 +13,16 @@ Checked, per file kind:
                       a registered image; every layer is inside the generator's band
   hud      (huds/)    every layout it composes exists
   conditions          every numbered block declares first, second and operation
+
+And over EVERY `.yml` in the tree, at any depth: every `pattern:` obeys the text parser's
+slash rule (see SLASH_RUN_LENGTH below).
 """
 
 from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 
 import yaml
@@ -47,6 +51,24 @@ ELEMENT_SECTIONS = ("images", "texts")
 CONDITION_FIELDS = ("first", "second", "operation")
 # `conditions` carries numbered blocks plus an optional combinator; only the blocks have shape.
 CONDITION_GATE_KEY = "gate"
+
+# BetterHud 2.1.0-447's text parser EATS one "/" out of every run of them, and the literal in
+# front of the run fuses onto the next placeholder token: "HP/[papi:x]" comes back as
+# `this placeholder not found: HP[papi` and the hud does not load -- every other element in it
+# with it. A "//" run survives that as a single rendered "/", and only with a colour tag on
+# each side; without the tag after it, parsing fails outright.
+#
+# generate_hud.py writes that form as SEP. Hand-authored files inherit nothing from it, so the
+# rule runs over every pattern in the tree rather than over the generated ones alone.
+#
+# A closing MiniMessage tag ("</white>") is a one-slash run and is refused with the rest. The
+# patterns in the tree carry no closing tags: a colour ends where the next one opens.
+PATTERN_KEY = "pattern"
+SLASH_RUN_LENGTH = 2
+SLASH_RUN_RX = re.compile(r"/+")
+# A MiniMessage tag closing immediately before the run, and one opening immediately after it.
+TAG_BEFORE_RX = re.compile(r"<[^<>]+>\s*$")
+TAG_AFTER_RX = re.compile(r"^\s*<[^<>]+>")
 
 
 def numbered(mapping):
@@ -153,12 +175,69 @@ def check_hud(path, display, failures, layouts):
                                 % (display, hud_name, key, name))
 
 
+def patterns_in(node, trail):
+    """Every `pattern:` string in a parsed document, with the key path that reaches it.
+
+    Recursive rather than section-aware: the rule is the text parser's, so it holds wherever a
+    pattern is written, including file kinds and nesting depths the shape checks above do not
+    know about.
+    """
+    if isinstance(node, dict):
+        for key, value in node.items():
+            reached = trail + [str(key)]
+            if key == PATTERN_KEY and isinstance(value, str):
+                yield ".".join(reached), value
+            else:
+                yield from patterns_in(value, reached)
+    elif isinstance(node, list):
+        for index, value in enumerate(node):
+            yield from patterns_in(value, trail + [str(index)])
+
+
+def check_pattern_slashes(path, display, failures):
+    document = yaml.safe_load(open(path, encoding="utf-8").read()) or {}
+    for trail, pattern in patterns_in(document, []):
+        where = "%s: %s" % (display, trail)
+        for run in SLASH_RUN_RX.finditer(pattern):
+            if len(run.group(0)) != SLASH_RUN_LENGTH:
+                failures.append(
+                    "%s: %r carries a run of %d slash(es); BetterHud eats one, so a separator "
+                    "has to be written \"//\" to render as one"
+                    % (where, pattern, len(run.group(0))))
+                continue
+            if not TAG_BEFORE_RX.search(pattern[:run.start()]):
+                failures.append("%s: %r has no colour tag before its \"//\"; the literal in "
+                                "front fuses onto the next placeholder token"
+                                % (where, pattern))
+            if not TAG_AFTER_RX.search(pattern[run.end():]):
+                failures.append("%s: %r has no colour tag after its \"//\"" % (where, pattern))
+
+
 def files_in(hud_root, subdir):
     directory = os.path.join(hud_root, subdir)
     if not os.path.isdir(directory):
         return []
     return [os.path.join(directory, name)
             for name in sorted(os.listdir(directory)) if name.endswith(".yml")]
+
+
+def every_yml(hud_root):
+    for directory, _subdirs, names in os.walk(hud_root):
+        for name in sorted(names):
+            if name.endswith(".yml"):
+                yield os.path.join(directory, name)
+
+
+def display_path(path):
+    """The path as this repo names it, or the absolute one when it is not under this repo.
+
+    The suites point --hud-root at a fixture in temp, which on Windows can be a different
+    volume from the repo -- and relpath raises rather than answering across volumes.
+    """
+    try:
+        return os.path.relpath(path, REPO_ROOT)
+    except ValueError:
+        return path
 
 
 def main() -> int:
@@ -173,18 +252,26 @@ def main() -> int:
 
     for path in files_in(args.hud_root, "images"):
         counted += 1
-        check_registry(path, os.path.relpath(path, REPO_ROOT), failures, registered)
+        check_registry(path, display_path(path), failures, registered)
     layout_paths = files_in(args.hud_root, "layouts")
     for path in layout_paths:
         counted += 1
-        check_layout(path, os.path.relpath(path, REPO_ROOT), failures, layouts)
+        check_layout(path, display_path(path), failures, layouts)
     # Registry names are only complete once every registry file has been read, so the
     # cross-file check is a second pass rather than part of the first.
     for path in layout_paths:
-        check_layout_image_names(path, os.path.relpath(path, REPO_ROOT), failures, registered)
+        check_layout_image_names(path, display_path(path), failures, registered)
     for path in files_in(args.hud_root, "huds"):
         counted += 1
-        check_hud(path, os.path.relpath(path, REPO_ROOT), failures, layouts)
+        check_hud(path, display_path(path), failures, layouts)
+
+    # The pattern rule is the parser's, not a section's, so its walk is the whole tree rather
+    # than the three directories above -- a hand-authored file in a fourth one carries the
+    # same defect and would otherwise be read by nothing.
+    walked = 0
+    for path in every_yml(args.hud_root):
+        walked += 1
+        check_pattern_slashes(path, display_path(path), failures)
 
     if not counted:
         print("FAIL: no BetterHud files under %s -- this gate checked nothing" % args.hud_root)
@@ -194,8 +281,9 @@ def main() -> int:
         for failure in failures:
             print("  " + failure)
         return 1
-    print("OK: %d BetterHud file(s), %d registered image(s), %d layout(s)"
-          % (counted, len(registered), len(layouts)))
+    print("OK: %d BetterHud file(s), %d registered image(s), %d layout(s), "
+          "%d file(s) walked for pattern slashes"
+          % (counted, len(registered), len(layouts), walked))
     return 0
 
 

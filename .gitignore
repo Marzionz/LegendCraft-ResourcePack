@@ -32,12 +32,14 @@ tools/*
 !/tools/check_hud_placeholders.py
 !/tools/test_hud_placeholders.py
 !/tools/check_hud_yaml.py
+!/tools/test_hud_yaml.py
 !/tools/check_pack_manifest.py
 !/tools/test_pack_manifest.py
 !/tools/check-pack-pin.ps1
 !/tools/stage_volya_hud.py
 !/tools/merge_dev_pack.py
 !/tools/deploy-hud.ps1
+!/tools/clear-hud-shaders.ps1
 !/tools/publish-pack.ps1
 
 # Mob authoring source (models, textures, specs) — not part of the shipped pack, kept private

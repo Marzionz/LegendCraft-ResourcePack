@@ -69,10 +69,15 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python tools/test_hud_placeholders.py
 
-      # Gate 3. The files parse and hold the invariants the generator writes them under.
+      # Gate 3. The files parse and hold the invariants the generator writes them under --
+      # including the one BetterHud's text parser imposes on every `pattern:` in the tree.
       - name: Gate - BetterHud YAML shape
         working-directory: LegendCraft-ResourcePack
         run: python tools/check_hud_yaml.py
+
+      - name: Gate - BetterHud YAML acceptance suite
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/test_hud_yaml.py
 
       # Gate 4. The merge that produces the served pack does not silently drop what its inputs
       # put in. Run over fixtures the suite builds, since the plugin build zips only exist on
@@ -81,11 +86,24 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python tools/test_pack_manifest.py
 
+      # The merged pack's manifest is ours, copied through the merge verbatim, so the format
+      # triple the client needs can be audited here without any of the merge's inputs.
+      - name: Gate - the shipped pack.mcmeta declares a format range
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/check_pack_manifest.py --manifest-only
+
       # The pack-channel rules: a versioned release is immutable, and promotion is the only
       # path from the dev loop to one.
       - name: Gate - pack pin and promotion
         working-directory: LegendCraft-ResourcePack
         run: pwsh -NoProfile -File tests/run-pack-pin-tests.ps1
+
+      # The HUD deploy's shader-template clear. Unlike the rig stager it asserts nothing
+      # Windows-specific -- two named files under a folder -- so the runner grades the same
+      # rules that hold at the box.
+      - name: Gate - HUD shader-template clear
+        working-directory: LegendCraft-ResourcePack
+        run: pwsh -NoProfile -File tests/run-hud-shader-clear-tests.ps1
 
       # tests/run-deploy-rigs-tests.ps1 is deliberately NOT here. It asserts against Windows
       # filesystem semantics the rig stager guards -- drive aliases, reparse points, the
