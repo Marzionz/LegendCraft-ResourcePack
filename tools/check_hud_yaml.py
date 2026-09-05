@@ -56,12 +56,13 @@ CONDITION_GATE_KEY = "gate"
 # front of the run fuses onto the next placeholder token: "HP/[papi:x]" comes back as
 # `this placeholder not found: HP[papi` and the hud does not load -- every other element in it
 # with it. A "//" run survives that as a single rendered "/", and only with a colour tag on
-# each side; dropping the tag after it broke parsing outright at the box.
+# each side; without the tag after it, parsing fails outright.
 #
-# generate_hud.py writes exactly that as SEP and has since the stat block existed. The party
-# rows are hand-authored, so they inherited nothing and shipped the bare form, which is what
-# refused lc_stat_hud for three days. This rule is over every pattern in the tree rather than
-# the generated ones, because the generated ones were never the problem.
+# generate_hud.py writes that form as SEP. Hand-authored files inherit nothing from it, so the
+# rule runs over every pattern in the tree rather than over the generated ones alone.
+#
+# A closing MiniMessage tag ("</white>") is a one-slash run and is refused with the rest. The
+# patterns in the tree carry no closing tags: a colour ends where the next one opens.
 PATTERN_KEY = "pattern"
 SLASH_RUN_LENGTH = 2
 SLASH_RUN_RX = re.compile(r"/+")

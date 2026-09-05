@@ -12,9 +12,8 @@
   never overwrites them again -- not on an upgrade, not on a rebuild. Those two files override
   the vanilla GLOBAL text shaders, so a stale pair does not break the HUD in a way that points
   at the HUD: every piece of text the client draws goes dim, chat and menus included, and the
-  natural reading is a client or a video-driver problem. Deleting them so the plugin
-  regenerates them was the third of the three fixes behind the three-day HUD outage, and it
-  was found by hand at the box after the other two were already in.
+  natural reading is a client or a video-driver problem. Deleting them is what makes the
+  plugin regenerate them, so the deploy has to do it before the restart.
 
   RUN IT when clear-hud-shaders.ps1 or the deploy's wiring of it changes:
 

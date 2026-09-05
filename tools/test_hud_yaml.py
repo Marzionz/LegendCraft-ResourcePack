@@ -6,19 +6,15 @@ in front of it fuses onto the next placeholder token: `"HP/[papi:x]"` comes back
 does not load. The structure that survives is a `//` run with a colour tag on each side, so
 one slash is eaten and the other renders.
 
-`generate_hud.py` has carried that workaround as `SEP` since the stat block was written. The
-party layout is hand-authored and had nothing to inherit it from, so it shipped the bare form
-and refused `lc_stat_hud` for three days -- found by hand at the box, one reload at a time,
-with the log naming a placeholder that was never missing.
-
-The gate therefore walks EVERY `pattern:` in the tree, at any depth and in any file kind, not
-the four rows the outage was found in.
+`generate_hud.py` writes that form as `SEP`. Hand-authored layouts inherit nothing from it, so
+the gate walks EVERY `pattern:` in the tree, at any depth and in any file kind, rather than the
+generated files alone.
 
 Acceptance criteria:
 1. The SEP form -- a `//` run with a colour tag on each side -- passes.
 2. A bare `/` between two placeholders is refused, naming the file and the element.
 3. A `//` run with no colour tag BEFORE it is refused. (The literal that fuses is the one in
-   front of the slash, so this is the side the outage was on.)
+   front of the slash.)
 4. A `//` run with no colour tag AFTER it is refused.
 5. A run of three or more slashes is refused: one is eaten, and what is left is not `//`.
 6. A pattern in a file kind the shape checks do not read -- `texts/` -- is still refused, so

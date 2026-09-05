@@ -9,8 +9,7 @@
   after install, and never overwrites them again -- not on a plugin upgrade, not on a rebuild
   of the box. Those two files override the vanilla GLOBAL text shaders, so a stale pair does
   not fail in a way that points at the HUD: every piece of text the client draws goes dim,
-  chat and menus included, and the natural reading is a client or a video-driver problem. It
-  cost a day of the three-day HUD outage, and the fix was deleting them by hand.
+  chat and menus included, and the natural reading is a client or a video-driver problem.
 
   Removing them before the restart is what makes the plugin regenerate them, which is why the
   deploy runs this ahead of step 3 rather than after it.

@@ -10,13 +10,9 @@ The answerable set is read out of the expansion's OWN SOURCE, never a hand-copie
 copy drifts the moment somebody renames a case, and a gate reading a stale copy reports
 confidently and falsely.
 
-This gate once carried a second rule: an id read inside a `pattern:` had to appear on an
-allow-list, on the premise that a pattern resolving to nothing at rest made BetterHud drop the
-whole hud. That premise is FALSE, and was disproved at the box on 2026-09-05 -- a pattern whose
-only placeholder answers "" loads, and so does the hud that had been blamed on one. What
-actually refused the hud was a bare `/` in a pattern, which `tools/check_hud_yaml.py` now
-gates. The allow-list is gone: nothing consumed it but its own failure branch, and a rule
-whose stated reason is untrue gets satisfied by adding a line to it.
+An id that answers "" is not a failure here: a pattern whose only placeholder resolves to
+nothing still loads, and so does the hud around it. What a pattern's TEXT has to obey is the
+text parser's slash rule, gated by `tools/check_hud_yaml.py`.
 
     python tools/check_hud_placeholders.py [--classes-root <dir>] [--hud-root <dir>]
 """
