@@ -10,10 +10,13 @@ The answerable set is read out of the expansion's OWN SOURCE, never a hand-copie
 copy drifts the moment somebody renames a case, and a gate reading a stale copy reports
 confidently and falsely.
 
-Placeholders used inside a `pattern:` string carry a second requirement. A text element whose
-pattern resolves to nothing at rest is not merely invisible -- BetterHud drops the hud that
-contains it at parse time, taking every other element with it. Those ids must appear in
-PATTERN_SAFE_PLACEHOLDERS with the reason they are safe.
+This gate once carried a second rule: an id read inside a `pattern:` had to appear on an
+allow-list, on the premise that a pattern resolving to nothing at rest made BetterHud drop the
+whole hud. That premise is FALSE, and was disproved at the box on 2026-09-05 -- a pattern whose
+only placeholder answers "" loads, and so does the hud that had been blamed on one. What
+actually refused the hud was a bare `/` in a pattern, which `tools/check_hud_yaml.py` now
+gates. The allow-list is gone: nothing consumed it but its own failure branch, and a rule
+whose stated reason is untrue gets satisfied by adding a line to it.
 
     python tools/check_hud_placeholders.py [--classes-root <dir>] [--hud-root <dir>]
 """
@@ -42,8 +45,6 @@ PLACEHOLDER_PREFIX = "legendcraft_"
 # Every placeholder reference in a BetterHud file, in both the bracketed pattern form and the
 # bare form conditions and bar values use.
 PLACEHOLDER_REF_RX = re.compile(r"papi:" + PLACEHOLDER_PREFIX + r"([a-z0-9_]+)")
-# A pattern line's whole value, so a token can be attributed to the element field it sits in.
-PATTERN_LINE_RX = re.compile(r"^\s*pattern:\s*(.+)$")
 
 # Ids the expansion answers by an exact name test rather than a switch label.
 EQUALS_RX = re.compile(r"params\.equals\(\"([a-z0-9_]+)\"\)")
@@ -67,31 +68,6 @@ PARTY_MAX_SIZE_RX = re.compile(r"PARTY_MAX_SIZE\s*=\s*(\d+)")
 # is a third repository this gate does not check out. Without it the bound is unknown, and an
 # unknown bound is checked as a bound rather than waved through.
 FALLBACK_PARTY_MAX_SIZE = 5
-
-# Placeholders that may appear inside a `pattern:`. Two kinds, and each entry says which:
-# an id the expansion guarantees a non-empty answer for, or one that reads blank and is
-# recorded here as accepted debt with what it waits on.
-PATTERN_SAFE_PLACEHOLDERS = {
-    "health": "the vitals snapshot answers a number, or the element's own health listener hides it",
-    "max_health": "same snapshot as health; never blank while health is drawn",
-    "armor": "vitals snapshot, and the pattern pairs it with a literal denominator",
-    "food": "vitals snapshot, and the pattern pairs it with a literal denominator",
-    "level": "progression answers an integer for every player, floor included",
-    "xp_current": "progression answers a long, floored at zero",
-    "xp_needed": "progression answers a long, floored at zero",
-    "resource_current": "the resource service answers a rounded integer for every player",
-    "resource_max": "the resource service answers a rounded integer for every player",
-    "party_member_1": "the row is followed, and cancel-if-follower-not-exists drops it whole",
-    "party_member_2": "the row is followed, and cancel-if-follower-not-exists drops it whole",
-    "party_member_3": "the row is followed, and cancel-if-follower-not-exists drops it whole",
-    "party_member_4": "the row is followed, and cancel-if-follower-not-exists drops it whole",
-    "slot1_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
-    "slot2_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
-    "slot3_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
-    "ult_cd_secs": "blank off cooldown, but the element is gated on the same cooldown it reads",
-    "feedback_line": "reads blank at rest and is ungated; accepted debt, waiting on HUD-FEEDBACK-EMPTY",
-}
-
 
 def _read(path: str) -> str:
     with open(path, "r", encoding="utf-8") as handle:
@@ -180,23 +156,18 @@ def main() -> int:
         for lineno, line in enumerate(_read(path).splitlines(), start=1):
             if line.lstrip().startswith("#"):
                 continue
-            pattern_match = PATTERN_LINE_RX.match(line)
             for placeholder_id in PLACEHOLDER_REF_RX.findall(line):
                 seen += 1
                 if not is_answered(placeholder_id, bare, prefixes, fields):
                     failures.append("%s:%d: %s%s names no case in HudPlaceholders"
                                     % (display, lineno, PLACEHOLDER_PREFIX, placeholder_id))
-                elif pattern_match and placeholder_id not in PATTERN_SAFE_PLACEHOLDERS:
-                    failures.append(
-                        "%s:%d: %s%s is read inside a pattern but is not on the pattern allow-list"
-                        % (display, lineno, PLACEHOLDER_PREFIX, placeholder_id))
 
     if failures:
         print("FAIL: %d placeholder problem(s) across %d reference(s)" % (len(failures), seen))
         for failure in failures:
             print("  " + failure)
         return 1
-    print("OK: %d placeholder reference(s), every id answered, every pattern id allow-listed" % seen)
+    print("OK: %d placeholder reference(s), every id answered" % seen)
     return 0
 
 
