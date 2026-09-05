@@ -1,6 +1,9 @@
 {
   "pack": {
     "pack_format": 88,
+    "supported_formats": [9, 88],
+    "min_format": 9,
+    "max_format": 88,
     "description": "§6LegendCraft§r — server resource pack"
   }
 }
