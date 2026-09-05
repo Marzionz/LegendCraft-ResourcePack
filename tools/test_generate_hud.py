@@ -4,16 +4,21 @@ Run from the repository root:
     python tools/test_generate_hud.py
 
 Acceptance criteria:
-1. Both generated ability rows sit at y=-45; exactly three frames are gated to slot_count 3
+1. Both generated ability rows sit at y=-35; exactly three frames are gated to slot_count 3
    and exactly four are gated to slot_count 4.
-2. One centered feedback text element reads legendcraft_feedback_line at y=-57 and scale 0.5.
-3. The tile bottom stays 15px above the vanilla held-item-name lane used by the compositor.
+2. One centered feedback text element reads legendcraft_feedback_line at y=-47 and scale 0.5.
+3. The tile bottom stays 5px above the vanilla held-item-name lane used by the compositor.
 4. Checked-in layout YAML and the cross-repo placeholder manifest equal generator truth.
 
 First RED (2026-08-30, before generator implementation): four tests ran and all four failed.
 The checked-in manifest differed because shield_current/shield_max were absent; generated frame
 y values were {-25}, expected {-45}; the feedback element count was 0, expected 1; and native-lane
 clearance was -5px, expected 15px.
+
+Re-ruled 2026-09-05 (owner, after seeing hoist 20 and 10 in client): SKILL_ROW_HOIST_PX drops
+20 -> 10, moving the ability rows and the feedback line down 10px together and narrowing the
+held-item-lane clearance 15px -> 5px. Criteria 1-3 carry the new ruled values; the assertions
+themselves are unchanged, only the numbers they pin.
 """
 
 from pathlib import Path
@@ -26,10 +31,10 @@ import generate_hud as hud
 REPO_ROOT = Path(__file__).resolve().parents[1]
 LAYOUT_PATH = REPO_ROOT / "hud/betterhud/layouts/legendcraft-stat.yml"
 MANIFEST_PATH = REPO_ROOT / "hud/betterhud/hud-placeholders.txt"
-EXPECTED_SKILL_ROW_Y_PX = -45
-EXPECTED_FEEDBACK_LINE_Y_PX = -57
+EXPECTED_SKILL_ROW_Y_PX = -35
+EXPECTED_FEEDBACK_LINE_Y_PX = -47
 VANILLA_ITEM_NAME_OFFSET_PX = 59
-EXPECTED_NATIVE_CLEARANCE_PX = 15
+EXPECTED_NATIVE_CLEARANCE_PX = 5
 REQUIRED_CONTRACT_IDS = {"shield_current", "shield_max"}
 
 

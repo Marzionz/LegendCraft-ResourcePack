@@ -879,7 +879,7 @@ SLOT_IDS = ["slot1", "slot2", "slot3", "ult"]
 SKILL_FRAME_GAP = 2          # gap between framed skill tiles
 SKILL_ROW_GAP = 3            # gap between the skill row's bottom and the stat block's top
 VANILLA_ITEM_NAME_OFFSET_PX = 59  # previewed client lane centre, up from the screen bottom
-SKILL_ROW_HOIST_PX = 20           # keeps the tile bottom 15px above the client item-name lane
+SKILL_ROW_HOIST_PX = 10           # tile bottom sits (HOIST - 5)px above the item-name lane centre
 SKILL_ROW_Y_PX = -(SKILL_TILE + SKILL_ROW_GAP + SKILL_ROW_HOIST_PX)
 FEEDBACK_TEXT_SCALE = 0.50
 FEEDBACK_TEXT_HEIGHT_PX = 8  # rendered default-bitmap text height at FEEDBACK_TEXT_SCALE
@@ -1909,12 +1909,15 @@ def _bh_stat_layout_yml():
 
     txt_lines, tn = [], 1
 
-    def addt(pattern, x, y, align="center", scale=STAT_TEXT_SCALE, cond=None, font="lc_stat_text"):
+    def addt(pattern, x, y, align="center", scale=STAT_TEXT_SCALE, cond=None, font="lc_stat_text",
+             outline=False):
         nonlocal tn
         block = [f"    {tn}:", f"      name: {font}",
                  f'      pattern: "{pattern}"',
                  f"      align: {align}", f"      scale: {scale}",
                  f"      x: {x}", f"      y: {y}", f"      layer: {TILE_L_TEXT}"]
+        if outline:
+            block.append("      outline: true")
         if cond:
             block += conds_block(cond)
         txt_lines.extend(block)
@@ -2012,8 +2015,10 @@ def _bh_stat_layout_yml():
 
     # One painted line owns all short combat feedback. The plugin returns an empty snapshot
     # when its two-second TTL has elapsed, so the element disappears without a layout gate.
+    # `outline` is BetterHud's drop shadow. The stat numerals sit on their own dark bar art and
+    # read without one, but this line floats over open world -- white on sand or sky had no edge.
     addt("<white>[papi:legendcraft_feedback_line]", span_cx, FEEDBACK_LINE_Y_PX,
-         scale=FEEDBACK_TEXT_SCALE)
+         scale=FEEDBACK_TEXT_SCALE, outline=True)
 
     # BetterHud's text parser EATS a single "/". The structure that parses cleanly is a tag on
     # BOTH sides of the separator (current <white>, max <white>, <gray> carrying the divider); the
