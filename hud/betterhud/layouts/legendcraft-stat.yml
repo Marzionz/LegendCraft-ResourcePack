@@ -215,7 +215,7 @@ lc_stat:
     28:
       name: lc_skill_frame
       x: 67
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
@@ -225,7 +225,7 @@ lc_stat:
     29:
       name: lc_icon_placeholder
       x: 70
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
@@ -235,7 +235,7 @@ lc_stat:
     30:
       name: lc_hud_archer_pin_shot
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -250,7 +250,7 @@ lc_stat:
     31:
       name: lc_hud_warrior_power_strike
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -265,7 +265,7 @@ lc_stat:
     32:
       name: lc_hud_mage_fireball
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -280,7 +280,7 @@ lc_stat:
     33:
       name: lc_hud_warlock_raise_thrall
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -295,7 +295,7 @@ lc_stat:
     34:
       name: lc_hud_priest_holy_mend
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -310,7 +310,7 @@ lc_stat:
     35:
       name: lc_hud_thief_ambush
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -325,7 +325,7 @@ lc_stat:
     36:
       name: lc_hud_hunter_ensnaring_trap
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -340,7 +340,7 @@ lc_stat:
     37:
       name: lc_hud_sniper_heartseeker
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -355,7 +355,7 @@ lc_stat:
     38:
       name: lc_hud_pyromancer_scorch
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -370,7 +370,7 @@ lc_stat:
     39:
       name: lc_hud_knight_bulwark
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -385,7 +385,7 @@ lc_stat:
     40:
       name: lc_hud_ranger_hamstring
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -400,7 +400,7 @@ lc_stat:
     41:
       name: lc_hud_cryomancer_ice_lance
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -415,7 +415,7 @@ lc_stat:
     42:
       name: lc_hud_berserker_savage_cleave
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -430,7 +430,7 @@ lc_stat:
     43:
       name: lc_hud_necromancer_raise_ghoul
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -445,7 +445,7 @@ lc_stat:
     44:
       name: lc_hud_shadowmancer_shadowstep
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -460,7 +460,7 @@ lc_stat:
     45:
       name: lc_hud_doomsayer_curse_of_ruin
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -475,7 +475,7 @@ lc_stat:
     46:
       name: lc_hud_bloodweaver_crimson_bolt
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -490,7 +490,7 @@ lc_stat:
     47:
       name: lc_hud_brawler_haymaker
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -505,7 +505,7 @@ lc_stat:
     48:
       name: lc_hud_seraph_radiant_touch
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -520,7 +520,7 @@ lc_stat:
     49:
       name: lc_hud_assassin_cloak
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -535,7 +535,7 @@ lc_stat:
     50:
       name: lc_hud_alchemist_caustic_flask
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -550,7 +550,7 @@ lc_stat:
     51:
       name: lc_hud_rogue_grit
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -565,7 +565,7 @@ lc_stat:
     52:
       name: lc_hud_shaman_earthen_strike
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -580,7 +580,7 @@ lc_stat:
     53:
       name: lc_hud_ninja_blur
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -595,7 +595,7 @@ lc_stat:
     54:
       name: lc_cd_shroud_slot1
       x: 70
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
@@ -605,7 +605,7 @@ lc_stat:
     55:
       name: lc_oom_soft
       x: 70
-      y: -42
+      y: -32
       layer: 5
       conditions:
         gate: and
@@ -620,7 +620,7 @@ lc_stat:
     56:
       name: lc_deny_flash
       x: 70
-      y: -42
+      y: -32
       layer: 7
       conditions:
         gate: and
@@ -635,7 +635,7 @@ lc_stat:
     57:
       name: lc_charge_row_0
       x: 74
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -650,7 +650,7 @@ lc_stat:
     58:
       name: lc_charge_row_1
       x: 74
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -665,7 +665,7 @@ lc_stat:
     59:
       name: lc_charge_row_2
       x: 74
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -680,7 +680,7 @@ lc_stat:
     60:
       name: lc_charge_row_3
       x: 74
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -695,7 +695,7 @@ lc_stat:
     61:
       name: lc_input_slot1
       x: 73
-      y: -27
+      y: -17
       layer: 9
       conditions:
         1:
@@ -705,7 +705,7 @@ lc_stat:
     62:
       name: lc_skill_frame
       x: 91
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
@@ -715,7 +715,7 @@ lc_stat:
     63:
       name: lc_icon_placeholder
       x: 94
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
@@ -725,7 +725,7 @@ lc_stat:
     64:
       name: lc_hud_archer_rapid_fire
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -740,7 +740,7 @@ lc_stat:
     65:
       name: lc_hud_warrior_charge
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -755,7 +755,7 @@ lc_stat:
     66:
       name: lc_hud_mage_arcane_ward
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -770,7 +770,7 @@ lc_stat:
     67:
       name: lc_hud_warlock_shadow_bolt
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -785,7 +785,7 @@ lc_stat:
     68:
       name: lc_hud_priest_concoction
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -800,7 +800,7 @@ lc_stat:
     69:
       name: lc_hud_thief_flurry
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -815,7 +815,7 @@ lc_stat:
     70:
       name: lc_hud_hunter_venomous_arrow
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -830,7 +830,7 @@ lc_stat:
     71:
       name: lc_hud_sniper_bolt
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -845,7 +845,7 @@ lc_stat:
     72:
       name: lc_hud_pyromancer_flame_surge
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -860,7 +860,7 @@ lc_stat:
     73:
       name: lc_hud_knight_shield_bash
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -875,7 +875,7 @@ lc_stat:
     74:
       name: lc_hud_ranger_quickstep
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -890,7 +890,7 @@ lc_stat:
     75:
       name: lc_hud_cryomancer_permafrost
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -905,7 +905,7 @@ lc_stat:
     76:
       name: lc_hud_berserker_blood_rush
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -920,7 +920,7 @@ lc_stat:
     77:
       name: lc_hud_necromancer_soul_harvest
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -935,7 +935,7 @@ lc_stat:
     78:
       name: lc_hud_shadowmancer_maw_of_shadow
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -950,7 +950,7 @@ lc_stat:
     79:
       name: lc_hud_doomsayer_word_of_dread
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -965,7 +965,7 @@ lc_stat:
     80:
       name: lc_hud_bloodweaver_hemorrhage
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -980,7 +980,7 @@ lc_stat:
     81:
       name: lc_hud_brawler_relentless_pursuit
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -995,7 +995,7 @@ lc_stat:
     82:
       name: lc_hud_seraph_divine_wrath
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1010,7 +1010,7 @@ lc_stat:
     83:
       name: lc_hud_assassin_killing_blow
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1025,7 +1025,7 @@ lc_stat:
     84:
       name: lc_hud_alchemist_stimulant
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1040,7 +1040,7 @@ lc_stat:
     85:
       name: lc_hud_rogue_sidestep
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1055,7 +1055,7 @@ lc_stat:
     86:
       name: lc_hud_shaman_soul_infusion
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1070,7 +1070,7 @@ lc_stat:
     87:
       name: lc_hud_ninja_smoke_bomb
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1085,7 +1085,7 @@ lc_stat:
     88:
       name: lc_cd_shroud_slot2
       x: 94
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
@@ -1095,7 +1095,7 @@ lc_stat:
     89:
       name: lc_oom_soft
       x: 94
-      y: -42
+      y: -32
       layer: 5
       conditions:
         gate: and
@@ -1110,7 +1110,7 @@ lc_stat:
     90:
       name: lc_deny_flash
       x: 94
-      y: -42
+      y: -32
       layer: 7
       conditions:
         gate: and
@@ -1125,7 +1125,7 @@ lc_stat:
     91:
       name: lc_charge_row_0
       x: 98
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -1140,7 +1140,7 @@ lc_stat:
     92:
       name: lc_charge_row_1
       x: 98
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -1155,7 +1155,7 @@ lc_stat:
     93:
       name: lc_charge_row_2
       x: 98
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -1170,7 +1170,7 @@ lc_stat:
     94:
       name: lc_charge_row_3
       x: 98
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -1185,7 +1185,7 @@ lc_stat:
     95:
       name: lc_input_slot2
       x: 97
-      y: -27
+      y: -17
       layer: 9
       conditions:
         1:
@@ -1195,7 +1195,7 @@ lc_stat:
     96:
       name: lc_skill_frame
       x: 115
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
@@ -1205,7 +1205,7 @@ lc_stat:
     97:
       name: lc_icon_placeholder
       x: 118
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
@@ -1215,7 +1215,7 @@ lc_stat:
     98:
       name: lc_hud_archer_grapple
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1230,7 +1230,7 @@ lc_stat:
     99:
       name: lc_hud_warrior_grab
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1245,7 +1245,7 @@ lc_stat:
     100:
       name: lc_hud_mage_frost_bolt
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1260,7 +1260,7 @@ lc_stat:
     101:
       name: lc_hud_warlock_mark_of_misery
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1275,7 +1275,7 @@ lc_stat:
     102:
       name: lc_hud_priest_spirit_burst
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1290,7 +1290,7 @@ lc_stat:
     103:
       name: lc_hud_thief_roll
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1305,7 +1305,7 @@ lc_stat:
     104:
       name: lc_hud_hunter_beast_companion
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1320,7 +1320,7 @@ lc_stat:
     105:
       name: lc_hud_sniper_evasive_shot
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1335,7 +1335,7 @@ lc_stat:
     106:
       name: lc_hud_pyromancer_ember_shell
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1350,7 +1350,7 @@ lc_stat:
     107:
       name: lc_hud_knight_war_cry
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1365,7 +1365,7 @@ lc_stat:
     108:
       name: lc_hud_ranger_point_blank_shot
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1380,7 +1380,7 @@ lc_stat:
     109:
       name: lc_hud_cryomancer_frost_nova
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1395,7 +1395,7 @@ lc_stat:
     110:
       name: lc_hud_berserker_reavers_throw
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1410,7 +1410,7 @@ lc_stat:
     111:
       name: lc_hud_necromancer_defile
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1425,7 +1425,7 @@ lc_stat:
     112:
       name: lc_hud_shadowmancer_void_bolt
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1440,7 +1440,7 @@ lc_stat:
     113:
       name: lc_hud_doomsayer_contagion
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1455,7 +1455,7 @@ lc_stat:
     114:
       name: lc_hud_bloodweaver_sanguine_barrier
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1470,7 +1470,7 @@ lc_stat:
     115:
       name: lc_hud_brawler_iron_grip
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1485,7 +1485,7 @@ lc_stat:
     116:
       name: lc_hud_seraph_luminous_bond
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1500,7 +1500,7 @@ lc_stat:
     117:
       name: lc_hud_assassin_stalk
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1515,7 +1515,7 @@ lc_stat:
     118:
       name: lc_hud_alchemist_volatile_concoction
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1530,7 +1530,7 @@ lc_stat:
     119:
       name: lc_hud_rogue_riposte
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1545,7 +1545,7 @@ lc_stat:
     120:
       name: lc_hud_shaman_voltaic_lash
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1560,7 +1560,7 @@ lc_stat:
     121:
       name: lc_hud_ninja_shuriken_volley
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1575,7 +1575,7 @@ lc_stat:
     122:
       name: lc_cd_shroud_slot3
       x: 118
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
@@ -1585,7 +1585,7 @@ lc_stat:
     123:
       name: lc_oom_soft
       x: 118
-      y: -42
+      y: -32
       layer: 5
       conditions:
         gate: and
@@ -1600,7 +1600,7 @@ lc_stat:
     124:
       name: lc_deny_flash
       x: 118
-      y: -42
+      y: -32
       layer: 7
       conditions:
         gate: and
@@ -1615,7 +1615,7 @@ lc_stat:
     125:
       name: lc_charge_row_0
       x: 122
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -1630,7 +1630,7 @@ lc_stat:
     126:
       name: lc_charge_row_1
       x: 122
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -1645,7 +1645,7 @@ lc_stat:
     127:
       name: lc_charge_row_2
       x: 122
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -1660,7 +1660,7 @@ lc_stat:
     128:
       name: lc_charge_row_3
       x: 122
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -1675,7 +1675,7 @@ lc_stat:
     129:
       name: lc_input_slot3
       x: 121
-      y: -27
+      y: -17
       layer: 9
       conditions:
         1:
@@ -1685,7 +1685,7 @@ lc_stat:
     130:
       name: lc_skill_frame
       x: 55
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
@@ -1695,7 +1695,7 @@ lc_stat:
     131:
       name: lc_icon_placeholder
       x: 58
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
@@ -1705,7 +1705,7 @@ lc_stat:
     132:
       name: lc_hud_hunter_ensnaring_trap
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1720,7 +1720,7 @@ lc_stat:
     133:
       name: lc_hud_sniper_heartseeker
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1735,7 +1735,7 @@ lc_stat:
     134:
       name: lc_hud_pyromancer_scorch
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1750,7 +1750,7 @@ lc_stat:
     135:
       name: lc_hud_knight_bulwark
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1765,7 +1765,7 @@ lc_stat:
     136:
       name: lc_hud_ranger_hamstring
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1780,7 +1780,7 @@ lc_stat:
     137:
       name: lc_hud_cryomancer_ice_lance
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1795,7 +1795,7 @@ lc_stat:
     138:
       name: lc_hud_berserker_savage_cleave
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1810,7 +1810,7 @@ lc_stat:
     139:
       name: lc_hud_necromancer_raise_ghoul
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1825,7 +1825,7 @@ lc_stat:
     140:
       name: lc_hud_shadowmancer_shadowstep
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1840,7 +1840,7 @@ lc_stat:
     141:
       name: lc_hud_doomsayer_curse_of_ruin
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1855,7 +1855,7 @@ lc_stat:
     142:
       name: lc_hud_bloodweaver_crimson_bolt
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1870,7 +1870,7 @@ lc_stat:
     143:
       name: lc_hud_brawler_haymaker
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1885,7 +1885,7 @@ lc_stat:
     144:
       name: lc_hud_seraph_radiant_touch
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1900,7 +1900,7 @@ lc_stat:
     145:
       name: lc_hud_assassin_cloak
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1915,7 +1915,7 @@ lc_stat:
     146:
       name: lc_hud_alchemist_caustic_flask
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1930,7 +1930,7 @@ lc_stat:
     147:
       name: lc_hud_rogue_grit
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1945,7 +1945,7 @@ lc_stat:
     148:
       name: lc_hud_shaman_earthen_strike
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1960,7 +1960,7 @@ lc_stat:
     149:
       name: lc_hud_ninja_blur
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1975,7 +1975,7 @@ lc_stat:
     150:
       name: lc_cd_shroud_slot1
       x: 58
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
@@ -1985,7 +1985,7 @@ lc_stat:
     151:
       name: lc_oom_soft
       x: 58
-      y: -42
+      y: -32
       layer: 5
       conditions:
         gate: and
@@ -2000,7 +2000,7 @@ lc_stat:
     152:
       name: lc_deny_flash
       x: 58
-      y: -42
+      y: -32
       layer: 7
       conditions:
         gate: and
@@ -2015,7 +2015,7 @@ lc_stat:
     153:
       name: lc_charge_row_0
       x: 62
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2030,7 +2030,7 @@ lc_stat:
     154:
       name: lc_charge_row_1
       x: 62
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2045,7 +2045,7 @@ lc_stat:
     155:
       name: lc_charge_row_2
       x: 62
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2060,7 +2060,7 @@ lc_stat:
     156:
       name: lc_charge_row_3
       x: 62
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2075,7 +2075,7 @@ lc_stat:
     157:
       name: lc_input_slot1
       x: 61
-      y: -27
+      y: -17
       layer: 9
       conditions:
         1:
@@ -2085,7 +2085,7 @@ lc_stat:
     158:
       name: lc_skill_frame
       x: 79
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
@@ -2095,7 +2095,7 @@ lc_stat:
     159:
       name: lc_icon_placeholder
       x: 82
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
@@ -2105,7 +2105,7 @@ lc_stat:
     160:
       name: lc_hud_hunter_venomous_arrow
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2120,7 +2120,7 @@ lc_stat:
     161:
       name: lc_hud_sniper_bolt
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2135,7 +2135,7 @@ lc_stat:
     162:
       name: lc_hud_pyromancer_flame_surge
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2150,7 +2150,7 @@ lc_stat:
     163:
       name: lc_hud_knight_shield_bash
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2165,7 +2165,7 @@ lc_stat:
     164:
       name: lc_hud_ranger_quickstep
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2180,7 +2180,7 @@ lc_stat:
     165:
       name: lc_hud_cryomancer_permafrost
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2195,7 +2195,7 @@ lc_stat:
     166:
       name: lc_hud_berserker_blood_rush
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2210,7 +2210,7 @@ lc_stat:
     167:
       name: lc_hud_necromancer_soul_harvest
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2225,7 +2225,7 @@ lc_stat:
     168:
       name: lc_hud_shadowmancer_maw_of_shadow
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2240,7 +2240,7 @@ lc_stat:
     169:
       name: lc_hud_doomsayer_word_of_dread
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2255,7 +2255,7 @@ lc_stat:
     170:
       name: lc_hud_bloodweaver_hemorrhage
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2270,7 +2270,7 @@ lc_stat:
     171:
       name: lc_hud_brawler_relentless_pursuit
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2285,7 +2285,7 @@ lc_stat:
     172:
       name: lc_hud_seraph_divine_wrath
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2300,7 +2300,7 @@ lc_stat:
     173:
       name: lc_hud_assassin_killing_blow
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2315,7 +2315,7 @@ lc_stat:
     174:
       name: lc_hud_alchemist_stimulant
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2330,7 +2330,7 @@ lc_stat:
     175:
       name: lc_hud_rogue_sidestep
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2345,7 +2345,7 @@ lc_stat:
     176:
       name: lc_hud_shaman_soul_infusion
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2360,7 +2360,7 @@ lc_stat:
     177:
       name: lc_hud_ninja_smoke_bomb
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2375,7 +2375,7 @@ lc_stat:
     178:
       name: lc_cd_shroud_slot2
       x: 82
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
@@ -2385,7 +2385,7 @@ lc_stat:
     179:
       name: lc_oom_soft
       x: 82
-      y: -42
+      y: -32
       layer: 5
       conditions:
         gate: and
@@ -2400,7 +2400,7 @@ lc_stat:
     180:
       name: lc_deny_flash
       x: 82
-      y: -42
+      y: -32
       layer: 7
       conditions:
         gate: and
@@ -2415,7 +2415,7 @@ lc_stat:
     181:
       name: lc_charge_row_0
       x: 86
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2430,7 +2430,7 @@ lc_stat:
     182:
       name: lc_charge_row_1
       x: 86
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2445,7 +2445,7 @@ lc_stat:
     183:
       name: lc_charge_row_2
       x: 86
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2460,7 +2460,7 @@ lc_stat:
     184:
       name: lc_charge_row_3
       x: 86
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2475,7 +2475,7 @@ lc_stat:
     185:
       name: lc_input_slot2
       x: 85
-      y: -27
+      y: -17
       layer: 9
       conditions:
         1:
@@ -2485,7 +2485,7 @@ lc_stat:
     186:
       name: lc_skill_frame
       x: 103
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
@@ -2495,7 +2495,7 @@ lc_stat:
     187:
       name: lc_icon_placeholder
       x: 106
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
@@ -2505,7 +2505,7 @@ lc_stat:
     188:
       name: lc_hud_hunter_beast_companion
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2520,7 +2520,7 @@ lc_stat:
     189:
       name: lc_hud_sniper_evasive_shot
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2535,7 +2535,7 @@ lc_stat:
     190:
       name: lc_hud_pyromancer_ember_shell
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2550,7 +2550,7 @@ lc_stat:
     191:
       name: lc_hud_knight_war_cry
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2565,7 +2565,7 @@ lc_stat:
     192:
       name: lc_hud_ranger_point_blank_shot
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2580,7 +2580,7 @@ lc_stat:
     193:
       name: lc_hud_cryomancer_frost_nova
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2595,7 +2595,7 @@ lc_stat:
     194:
       name: lc_hud_berserker_reavers_throw
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2610,7 +2610,7 @@ lc_stat:
     195:
       name: lc_hud_necromancer_defile
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2625,7 +2625,7 @@ lc_stat:
     196:
       name: lc_hud_shadowmancer_void_bolt
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2640,7 +2640,7 @@ lc_stat:
     197:
       name: lc_hud_doomsayer_contagion
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2655,7 +2655,7 @@ lc_stat:
     198:
       name: lc_hud_bloodweaver_sanguine_barrier
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2670,7 +2670,7 @@ lc_stat:
     199:
       name: lc_hud_brawler_iron_grip
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2685,7 +2685,7 @@ lc_stat:
     200:
       name: lc_hud_seraph_luminous_bond
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2700,7 +2700,7 @@ lc_stat:
     201:
       name: lc_hud_assassin_stalk
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2715,7 +2715,7 @@ lc_stat:
     202:
       name: lc_hud_alchemist_volatile_concoction
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2730,7 +2730,7 @@ lc_stat:
     203:
       name: lc_hud_rogue_riposte
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2745,7 +2745,7 @@ lc_stat:
     204:
       name: lc_hud_shaman_voltaic_lash
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2760,7 +2760,7 @@ lc_stat:
     205:
       name: lc_hud_ninja_shuriken_volley
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2775,7 +2775,7 @@ lc_stat:
     206:
       name: lc_cd_shroud_slot3
       x: 106
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
@@ -2785,7 +2785,7 @@ lc_stat:
     207:
       name: lc_oom_soft
       x: 106
-      y: -42
+      y: -32
       layer: 5
       conditions:
         gate: and
@@ -2800,7 +2800,7 @@ lc_stat:
     208:
       name: lc_deny_flash
       x: 106
-      y: -42
+      y: -32
       layer: 7
       conditions:
         gate: and
@@ -2815,7 +2815,7 @@ lc_stat:
     209:
       name: lc_charge_row_0
       x: 110
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2830,7 +2830,7 @@ lc_stat:
     210:
       name: lc_charge_row_1
       x: 110
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2845,7 +2845,7 @@ lc_stat:
     211:
       name: lc_charge_row_2
       x: 110
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2860,7 +2860,7 @@ lc_stat:
     212:
       name: lc_charge_row_3
       x: 110
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -2875,7 +2875,7 @@ lc_stat:
     213:
       name: lc_input_slot3
       x: 109
-      y: -27
+      y: -17
       layer: 9
       conditions:
         1:
@@ -2885,7 +2885,7 @@ lc_stat:
     214:
       name: lc_skill_frame
       x: 127
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
@@ -2895,7 +2895,7 @@ lc_stat:
     215:
       name: lc_icon_placeholder
       x: 130
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
@@ -2905,7 +2905,7 @@ lc_stat:
     216:
       name: lc_hud_hunter_pack_ambush
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2920,7 +2920,7 @@ lc_stat:
     217:
       name: lc_hud_sniper_arrow_blitz
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2935,7 +2935,7 @@ lc_stat:
     218:
       name: lc_hud_pyromancer_conflagration
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2950,7 +2950,7 @@ lc_stat:
     219:
       name: lc_hud_knight_vanguard
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2965,7 +2965,7 @@ lc_stat:
     220:
       name: lc_hud_ranger_kiting_dance
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2980,7 +2980,7 @@ lc_stat:
     221:
       name: lc_hud_cryomancer_absolute_zero
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2995,7 +2995,7 @@ lc_stat:
     222:
       name: lc_hud_berserker_undying_rage
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3010,7 +3010,7 @@ lc_stat:
     223:
       name: lc_hud_necromancer_bone_colossus
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3025,7 +3025,7 @@ lc_stat:
     224:
       name: lc_hud_shadowmancer_nightfall
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3040,7 +3040,7 @@ lc_stat:
     225:
       name: lc_hud_doomsayer_foretold_doom
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3055,7 +3055,7 @@ lc_stat:
     226:
       name: lc_hud_bloodweaver_exsanguinate
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3070,7 +3070,7 @@ lc_stat:
     227:
       name: lc_hud_brawler_flurry
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3085,7 +3085,7 @@ lc_stat:
     228:
       name: lc_hud_seraph_ascension
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3100,7 +3100,7 @@ lc_stat:
     229:
       name: lc_hud_assassin_marked_for_death
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3115,7 +3115,7 @@ lc_stat:
     230:
       name: lc_hud_alchemist_grand_elixir
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3130,7 +3130,7 @@ lc_stat:
     231:
       name: lc_hud_rogue_cornered
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3145,7 +3145,7 @@ lc_stat:
     232:
       name: lc_hud_shaman_ancestral_wrath
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3160,7 +3160,7 @@ lc_stat:
     233:
       name: lc_hud_ninja_thousand_cuts
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3175,7 +3175,7 @@ lc_stat:
     234:
       name: lc_cd_shroud_ult
       x: 130
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
@@ -3185,7 +3185,7 @@ lc_stat:
     235:
       name: lc_oom_soft
       x: 130
-      y: -42
+      y: -32
       layer: 5
       conditions:
         gate: and
@@ -3200,7 +3200,7 @@ lc_stat:
     236:
       name: lc_deny_flash
       x: 130
-      y: -42
+      y: -32
       layer: 7
       conditions:
         gate: and
@@ -3215,7 +3215,7 @@ lc_stat:
     237:
       name: lc_hud_hunter_pack_ambush_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3234,7 +3234,7 @@ lc_stat:
     238:
       name: lc_hud_sniper_arrow_blitz_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3253,7 +3253,7 @@ lc_stat:
     239:
       name: lc_hud_pyromancer_conflagration_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3272,7 +3272,7 @@ lc_stat:
     240:
       name: lc_hud_knight_vanguard_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3291,7 +3291,7 @@ lc_stat:
     241:
       name: lc_hud_ranger_kiting_dance_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3310,7 +3310,7 @@ lc_stat:
     242:
       name: lc_hud_cryomancer_absolute_zero_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3329,7 +3329,7 @@ lc_stat:
     243:
       name: lc_hud_berserker_undying_rage_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3348,7 +3348,7 @@ lc_stat:
     244:
       name: lc_hud_necromancer_bone_colossus_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3367,7 +3367,7 @@ lc_stat:
     245:
       name: lc_hud_shadowmancer_nightfall_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3386,7 +3386,7 @@ lc_stat:
     246:
       name: lc_hud_doomsayer_foretold_doom_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3405,7 +3405,7 @@ lc_stat:
     247:
       name: lc_hud_bloodweaver_exsanguinate_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3424,7 +3424,7 @@ lc_stat:
     248:
       name: lc_hud_brawler_flurry_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3443,7 +3443,7 @@ lc_stat:
     249:
       name: lc_hud_seraph_ascension_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3462,7 +3462,7 @@ lc_stat:
     250:
       name: lc_hud_assassin_marked_for_death_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3481,7 +3481,7 @@ lc_stat:
     251:
       name: lc_hud_alchemist_grand_elixir_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3500,7 +3500,7 @@ lc_stat:
     252:
       name: lc_hud_rogue_cornered_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3519,7 +3519,7 @@ lc_stat:
     253:
       name: lc_hud_shaman_ancestral_wrath_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3538,7 +3538,7 @@ lc_stat:
     254:
       name: lc_hud_ninja_thousand_cuts_locked
       x: 130
-      y: -42
+      y: -32
       layer: 6
       conditions:
         gate: and
@@ -3557,7 +3557,7 @@ lc_stat:
     255:
       name: lc_charge_row_0
       x: 134
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -3572,7 +3572,7 @@ lc_stat:
     256:
       name: lc_charge_row_1
       x: 134
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -3587,7 +3587,7 @@ lc_stat:
     257:
       name: lc_charge_row_2
       x: 134
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -3602,7 +3602,7 @@ lc_stat:
     258:
       name: lc_charge_row_3
       x: 134
-      y: -41
+      y: -31
       layer: 6
       conditions:
         gate: and
@@ -3617,7 +3617,7 @@ lc_stat:
     259:
       name: lc_input_ult
       x: 133
-      y: -27
+      y: -17
       layer: 9
       conditions:
         1:
@@ -3631,7 +3631,7 @@ lc_stat:
       align: center
       scale: 0.38
       x: 78
-      y: -37
+      y: -27
       layer: 8
       conditions:
         1:
@@ -3644,7 +3644,7 @@ lc_stat:
       align: center
       scale: 0.38
       x: 102
-      y: -37
+      y: -27
       layer: 8
       conditions:
         1:
@@ -3657,7 +3657,7 @@ lc_stat:
       align: center
       scale: 0.38
       x: 126
-      y: -37
+      y: -27
       layer: 8
       conditions:
         1:
@@ -3670,7 +3670,7 @@ lc_stat:
       align: center
       scale: 0.38
       x: 66
-      y: -37
+      y: -27
       layer: 8
       conditions:
         1:
@@ -3683,7 +3683,7 @@ lc_stat:
       align: center
       scale: 0.38
       x: 90
-      y: -37
+      y: -27
       layer: 8
       conditions:
         1:
@@ -3696,7 +3696,7 @@ lc_stat:
       align: center
       scale: 0.38
       x: 114
-      y: -37
+      y: -27
       layer: 8
       conditions:
         1:
@@ -3709,7 +3709,7 @@ lc_stat:
       align: center
       scale: 0.38
       x: 138
-      y: -37
+      y: -27
       layer: 8
       conditions:
         gate: and
@@ -3727,7 +3727,7 @@ lc_stat:
       align: center
       scale: 0.38
       x: 138
-      y: -37
+      y: -27
       layer: 8
       conditions:
         1:
@@ -3740,7 +3740,7 @@ lc_stat:
       align: center
       scale: 0.5
       x: 102
-      y: -57
+      y: -47
       layer: 8
     10:
       name: lc_stat_text
