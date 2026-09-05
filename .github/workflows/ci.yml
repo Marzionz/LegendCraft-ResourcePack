@@ -86,6 +86,12 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python tools/test_pack_manifest.py
 
+      # The merged pack's manifest is ours, copied through the merge verbatim, so the format
+      # triple the client needs can be audited here without any of the merge's inputs.
+      - name: Gate - the shipped pack.mcmeta declares a format range
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/check_pack_manifest.py --manifest-only
+
       # The pack-channel rules: a versioned release is immutable, and promotion is the only
       # path from the dev loop to one.
       - name: Gate - pack pin and promotion

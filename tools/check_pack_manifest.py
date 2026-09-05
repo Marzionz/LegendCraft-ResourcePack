@@ -12,15 +12,31 @@ Counting the merged output against the SOURCE TREE, rather than checking that th
 just added is present, is what catches a loss: a stale input fails in exactly one direction,
 gaining nothing and quietly dropping what it never had.
 
+It also reads the manifest, which decides whether any of what it counted is applied. From
+pack_format 80 the client REQUIRES `min_format` and `max_format` beside `pack_format`; given
+only `pack_format` it logs one line -- "Error reading pack metadata, attempting fallback type"
+-- and discards every OVERLAY in the pack. BetterHud ships its shader cores only inside
+overlays, so a pack that loads and draws its art can still be missing the HUD's shaders, with
+nothing in the failure that names a manifest. Counting entries says nothing about that: the
+entries were all there.
+
     python tools/check_pack_manifest.py --pack <zip> [--source-tree <dir>] [--plugin-source <zip>]
+    python tools/check_pack_manifest.py --manifest-only [--source-tree <dir>]
 
 `--plugin-source` may be repeated; each one's entries must all have survived the merge. Given
 none, the plugin half is reported as unchecked rather than passed.
+
+`--manifest-only` audits `<source-tree>/pack.mcmeta` and nothing else. It exists because CI
+has no merged pack to audit -- the merge reads plugin build zips that only exist on the
+server box -- while the manifest defect is entirely in this repo's own tree: the merge copies
+our `pack.mcmeta` into the output verbatim. One of --pack and --manifest-only is required, so
+an invocation that names neither is refused rather than quietly auditing half of nothing.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 import zipfile
@@ -38,6 +54,13 @@ SOUND_SUFFIX = ".ogg"
 # pack.png is deliberately kept from the base on collision, so a plugin source's copy is
 # expected to be absent from the merge. Nothing else is.
 MERGE_COLLISION_WINNERS = ("pack.png", "pack.mcmeta")
+
+MANIFEST_NAME = "pack.mcmeta"
+# The pack_format at which the client starts requiring the other two. Below it a pack declaring
+# pack_format alone is correct, so demanding them there would refuse a healthy manifest.
+FORMAT_TRIPLE_FLOOR = 80
+FORMAT_KEY = "pack_format"
+RANGE_KEYS = ("min_format", "max_format")
 
 
 def tree_entries(source_tree: str):
@@ -63,18 +86,73 @@ def sound_indexes(entries):
     return {e for e in entries if e.rsplit("/", 1)[-1] == SOUND_INDEX_NAME}
 
 
+def check_manifest(raw, where, failures):
+    """The format keys the client needs before it will apply anything else in the pack."""
+    try:
+        meta = json.loads(raw)
+    except ValueError as error:
+        failures.append("%s is not readable JSON: %s" % (where, error))
+        return
+    pack = meta.get("pack")
+    if not isinstance(pack, dict):
+        failures.append("%s declares no `pack` block" % where)
+        return
+    pack_format = pack.get(FORMAT_KEY)
+    if not isinstance(pack_format, int):
+        failures.append("%s declares no integer %s" % (where, FORMAT_KEY))
+        return
+    if pack_format < FORMAT_TRIPLE_FLOOR:
+        return
+    missing = [key for key in RANGE_KEYS if not isinstance(pack.get(key), int)]
+    if missing:
+        failures.append(
+            "%s declares %s %d but no %s -- from %d the client discards every overlay in a pack "
+            "whose manifest lacks them, and says so only as `Error reading pack metadata`"
+            % (where, FORMAT_KEY, pack_format, " or ".join(missing), FORMAT_TRIPLE_FLOOR))
+        return
+    low, high = (pack.get(key) for key in RANGE_KEYS)
+    if not low <= pack_format <= high:
+        failures.append("%s declares %s %d, outside its own %d..%d"
+                        % (where, FORMAT_KEY, pack_format, low, high))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--pack", required=True)
+    parser.add_argument("--pack")
+    parser.add_argument("--manifest-only", action="store_true")
     parser.add_argument("--source-tree", default=DEFAULT_SOURCE_TREE)
     parser.add_argument("--plugin-source", action="append", default=[])
     args = parser.parse_args()
+    if not args.pack and not args.manifest_only:
+        parser.error("give --pack, or --manifest-only to audit the source tree's manifest alone")
+
+    failures = []
+    source_manifest = os.path.join(args.source_tree, MANIFEST_NAME)
+    if os.path.isfile(source_manifest):
+        with open(source_manifest, "rb") as handle:
+            check_manifest(handle.read(), os.path.relpath(source_manifest, REPO_ROOT), failures)
+    elif args.manifest_only:
+        failures.append("no %s under %s -- this gate checked nothing" % (MANIFEST_NAME, args.source_tree))
+
+    if args.manifest_only:
+        if failures:
+            print("FAIL: %d manifest problem(s)" % len(failures))
+            for failure in failures:
+                print("  " + failure)
+            return 1
+        print("OK: %s declares a format range the client will honour" % source_manifest)
+        return 0
 
     with zipfile.ZipFile(args.pack) as archive:
         packed = {n for n in archive.namelist() if not n.endswith("/")}
+        # The merge picks ours on collision, so the packed manifest is the source one -- unless
+        # a merge step rewrote it, which is exactly the case worth reading rather than assuming.
+        if MANIFEST_NAME in packed:
+            check_manifest(archive.read(MANIFEST_NAME),
+                           "%s: %s" % (os.path.basename(args.pack), MANIFEST_NAME), failures)
+        else:
+            failures.append("%s carries no %s" % (os.path.basename(args.pack), MANIFEST_NAME))
     source = tree_entries(args.source_tree)
-
-    failures = []
 
     missing_models = sorted(item_models(source) - packed)
     if missing_models:

@@ -15,8 +15,8 @@ tree, alongside `mobs-src/` and `tools/`).
 | `tools/check-pack-pin.ps1` | the production pre-start guard: refuses a dev pin, an absent pin, or a sha1 that is not the bytes at the pinned URL | `tests/run-pack-pin-tests.ps1` |
 | `tools/check_generator_drift.py` | the committed `hud/` tree equals generator output; images compared by decoded pixels, everything else byte for byte | CI gate |
 | `tools/check_hud_placeholders.py` | every `papi:legendcraft_*` the HUD reads names a case in `LegendCraft-Classes`' expansion source | `tools/test_hud_placeholders.py` |
-| `tools/check_hud_yaml.py` | the BetterHud files parse and hold the generator's invariants | CI gate |
-| `tools/check_pack_manifest.py` | a merged pack still carries what its inputs put in | `tools/test_pack_manifest.py` |
+| `tools/check_hud_yaml.py` | the BetterHud files parse and hold the generator's invariants, and every `pattern:` in the tree obeys the text parser's slash rule | `tools/test_hud_yaml.py` |
+| `tools/check_pack_manifest.py` | a merged pack still carries what its inputs put in, and its `pack.mcmeta` declares the format range the client needs before it applies any of it (`--manifest-only` audits `src/pack.mcmeta` alone, which is what CI can reach) | `tools/test_pack_manifest.py` |
 
 ## `deploy-rigs.ps1`
 
