@@ -39,6 +39,7 @@ tools/*
 !/tools/stage_volya_hud.py
 !/tools/merge_dev_pack.py
 !/tools/deploy-hud.ps1
+!/tools/clear-hud-shaders.ps1
 !/tools/publish-pack.ps1
 
 # Mob authoring source (models, textures, specs) — not part of the shipped pack, kept private
