@@ -98,6 +98,13 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: pwsh -NoProfile -File tests/run-pack-pin-tests.ps1
 
+      # The HUD deploy's shader-template clear. Unlike the rig stager it asserts nothing
+      # Windows-specific -- two named files under a folder -- so the runner grades the same
+      # rules that hold at the box.
+      - name: Gate - HUD shader-template clear
+        working-directory: LegendCraft-ResourcePack
+        run: pwsh -NoProfile -File tests/run-hud-shader-clear-tests.ps1
+
       # tests/run-deploy-rigs-tests.ps1 is deliberately NOT here. It asserts against Windows
       # filesystem semantics the rig stager guards -- drive aliases, reparse points, the
       # bracket-as-wildcard trap in Test-Path -- none of which exist on this runner, so running
