@@ -1527,7 +1527,7 @@ lc_party:
       follow: papi:legendcraft_party_member_1
     2:
       name: lc_stat_text
-      pattern: "[papi:legendcraft_health]/[papi:legendcraft_max_health]"
+      pattern: "[papi:legendcraft_health]<gray> // <white>[papi:legendcraft_max_health]"
       align: center
       scale: 0.30
       outline: true
@@ -1547,7 +1547,7 @@ lc_party:
       follow: papi:legendcraft_party_member_2
     4:
       name: lc_stat_text
-      pattern: "[papi:legendcraft_health]/[papi:legendcraft_max_health]"
+      pattern: "[papi:legendcraft_health]<gray> // <white>[papi:legendcraft_max_health]"
       align: center
       scale: 0.30
       outline: true
@@ -1567,7 +1567,7 @@ lc_party:
       follow: papi:legendcraft_party_member_3
     6:
       name: lc_stat_text
-      pattern: "[papi:legendcraft_health]/[papi:legendcraft_max_health]"
+      pattern: "[papi:legendcraft_health]<gray> // <white>[papi:legendcraft_max_health]"
       align: center
       scale: 0.30
       outline: true
@@ -1587,7 +1587,7 @@ lc_party:
       follow: papi:legendcraft_party_member_4
     8:
       name: lc_stat_text
-      pattern: "[papi:legendcraft_health]/[papi:legendcraft_max_health]"
+      pattern: "[papi:legendcraft_health]<gray> // <white>[papi:legendcraft_max_health]"
       align: center
       scale: 0.30
       outline: true
