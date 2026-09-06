@@ -1135,6 +1135,76 @@ def xp_fill(w=XP_W - 2, h=XP_H - 2):
             px[x, y] = col
     return im
 
+# --- air: the drowning read, on the empty band above the block ----------------
+# PR #7 blanked the vanilla oxygen bubbles. They render in the vanilla ARMOR lane, on top
+# of this block, and a resource pack can move no vanilla element -- so blanking them was
+# the only way to clear the lane, and it left drowning with no read at all. The read comes
+# back here, inside the stat block's own frame, on the band the skill row's hoist left
+# empty. Both halves are BetterHud's own: the fill rides the native `air` listener and all
+# three parts are gated on the built-in `air < max_air`, so nothing in this element reaches
+# LegendCraft-Classes and it cannot go dark the way a papi:legendcraft_* element does when
+# the plugin jar and this config ship from different revisions.
+AIR_W = 54                     # Volya's own air-bar width -- the short read we bought
+AIR_H = XP_H                   # the block's thin-rail weight (the vitals bars are 9)
+AIR_RAMP = ((0x8F, 0xD8, 0xEE), (0x4F, 0xA8, 0xC8), (0x1B, 0x4B, 0x5A))   # floor = deep-water teal
+
+# Volya's 7x7 icon_air.png, structure frozen verbatim from the bought pack: silhouette,
+# specular, the two glass pixels low-right, and her per-pixel alphas (rim 204, body 230,
+# translucent core 115). Only the hue is ours -- her four blues remap value-for-value onto
+# AIR_RAMP. Deliberately SMALLER than the 9x9 every other stat icon uses: this one flanks a
+# 5px rail, not a 9px bar, so icon and bar read at one weight.
+_AIR_ICON = (
+    "..aaa..",
+    ".abcda.",
+    "abefgda",
+    "acfg.da",
+    "adg..ha",
+    ".addha.",
+    "..aaa..",
+)
+AIR_ICON_H = 7
+AIR_ICON_PALETTE = {
+    "a": (0x00, 0x00, 0x00, 204),   # rim
+    "b": (0xB4, 0xE7, 0xF6, 230),
+    "c": (0x8F, 0xD8, 0xEE, 230),
+    "d": (0x4F, 0xA8, 0xC8, 230),
+    "e": (0xFF, 0xFF, 0xFF, 230),   # specular
+    "f": (0xDF, 0xF6, 0xFF, 230),
+    "g": (0x8F, 0xD8, 0xEE, 115),   # translucent glass core
+    "h": (0x1B, 0x4B, 0x5A, 230),
+}
+
+# Block-relative placement, shared with the layout emitter so art and YAML cannot drift.
+# The rail clears the block's top by 2 * STAT_ROW_GAP rather than one: the icon centres on
+# the rail and overhangs it 1px, and the doubled gap is what leaves the BUBBLE its own
+# clearance over the health bar instead of letting it crowd the row below.
+AIR_Y_PX = -(AIR_H + 2 * STAT_ROW_GAP)                    # -9
+AIR_ICON_Y_PX = AIR_Y_PX + (AIR_H - AIR_ICON_H) // 2      # -10, centred on the rail
+AIR_ICON_X_PX = (STAT_IW - AIR_ICON_H) // 2               # 1, centred in the icon column
+
+
+def air_empty(w=AIR_W, h=AIR_H):
+    return bar_empty(w, h)
+
+def air_fill(w=AIR_W - 2 * BAR_PAD, h=AIR_H - 2 * BAR_PAD):
+    light, main, dark = (_c(AIR_RAMP[i]) for i in range(3))
+    im = img(w, h)
+    px = im.load()
+    for y in range(h):
+        col = light if y == 0 else dark if y >= h - 1 else main
+        for x in range(w):
+            px[x, y] = col
+    return im
+
+def air_icon():
+    im = img(AIR_ICON_H, AIR_ICON_H)
+    px = im.load()
+    for y, row in enumerate(_AIR_ICON):
+        for x, ch in enumerate(row):
+            if ch != ".":
+                px[x, y] = AIR_ICON_PALETTE[ch]
+    return im
+
 # --- flanking stat icons -----------------------------------------------------
 # Every icon is a uniform 9x9 box (STAT_ICON_H) so heart/mana/shield/drumstick read at
 # the SAME size next to each other, matching the reference. Black outline (K) on all.
@@ -1575,11 +1645,14 @@ def export_stat_bars():
         save(bar_fill(kind), os.path.join(STAT_DIR, f"fill_{kind}.png"))
     save(xp_empty(), os.path.join(STAT_DIR, "xp_empty.png"))
     save(xp_fill(), os.path.join(STAT_DIR, "xp_fill.png"))
+    save(air_empty(), os.path.join(STAT_DIR, "air_empty.png"))
+    save(air_fill(), os.path.join(STAT_DIR, "fill_air.png"))
     save(hotbar_slot(False), os.path.join(STAT_DIR, "hotbar_slot.png"))
     save(hotbar_slot(True), os.path.join(STAT_DIR, "hotbar_slot_selected.png"))
     save(heart_icon(), os.path.join(SICON_DIR, "heart.png"))
     save(shield_icon(), os.path.join(SICON_DIR, "shield.png"))
     save(drumstick_icon(), os.path.join(SICON_DIR, "drumstick.png"))
+    save(air_icon(), os.path.join(SICON_DIR, "air.png"))
     for kind in GEM_COLOR:
         save(gem_icon(kind), os.path.join(SICON_DIR, f"gem_{kind}.png"))
     os.makedirs(VITALS_DIR, exist_ok=True)
@@ -1740,6 +1813,8 @@ def _bh_stat_images_yml():
     singles = {
         "lc_bar_empty": "legendcraft/bars/bar_empty.png",
         "lc_xp_empty": "legendcraft/bars/xp_empty.png",
+        "lc_air_empty": "legendcraft/bars/air_empty.png",
+        "lc_icon_air": "legendcraft/stat-icons/air.png",
         "lc_icon_heart": "legendcraft/stat-icons/heart.png",
         "lc_icon_shield": "legendcraft/stat-icons/shield.png",
         "lc_icon_drumstick": "legendcraft/stat-icons/drumstick.png",
@@ -1760,6 +1835,7 @@ def _bh_stat_images_yml():
         ("lc_fill_health", "legendcraft/bars/fill_health.png", "health"),
         ("lc_fill_armor", "legendcraft/bars/fill_armor.png", "armor"),
         ("lc_fill_food", "legendcraft/bars/fill_food.png", "food"),
+        ("lc_fill_air", "legendcraft/bars/fill_air.png", "air"),
         # Affliction fills ride the SAME health listener as lc_fill_health, so a tint reveals to
         # exactly the fraction the red fill does and never paints the empty channel.
         ("lc_state_poison", "legendcraft/vitals/state_poison.png", "health"),
@@ -1874,6 +1950,13 @@ def _bh_stat_layout_yml():
     add("lc_gem_energy", 0, iy1, 3, (RT, "energy"))
     add("lc_gem_rage", 0, iy1, 3, (RT, "rage"))
     add("lc_icon_drumstick", ir, iy1, 3)
+
+    # --- Air. All three parts carry the SAME gate, because a part that is not gated is a
+    # part that draws while you are breathing -- and the channel is the one most easily
+    # forgotten, since an ungated empty rail reads as decoration rather than as a bug.
+    add_builtin("lc_air_empty", bl, AIR_Y_PX, 1, "air", "max_air", "<")
+    add_builtin("lc_fill_air", bl + p, AIR_Y_PX + p, 2, "air", "max_air", "<")
+    add_builtin("lc_icon_air", AIR_ICON_X_PX, AIR_ICON_Y_PX, 3, "air", "max_air", "<")
 
     # --- Health-bar affliction states (hud-and-icons.md §2 "Bar behaviors"). ------------------
     # Every gate is a BetterHud BUILT-IN placeholder, so none of this reaches `HudPlaceholders`
