@@ -15,6 +15,19 @@ pattern resolves to nothing at rest is not merely invisible -- BetterHud drops t
 contains it at parse time, taking every other element with it. Those ids must appear in
 PATTERN_SAFE_PLACEHOLDERS with the reason they are safe.
 
+`legendcraft_*` is not the only provider the HUD reads, and an id it does not answer fails
+exactly the same way. So the rule is that EVERY operand names a provider and this gate says
+which one:
+
+  papi:legendcraft_*   LegendCraft-Classes, read out of the expansion's own source below.
+  papi:<anything else> another PlaceholderAPI expansion. Refused unless FOREIGN_PAPI_EXPANSIONS
+                       declares it, because an expansion nobody installed answers null and
+                       leaves the raw token in the string.
+  a bare operand       BetterHud's own built-in, checked against the sets below.
+  a literal            `true`, `0`, a quoted `'mana'`. Names no provider and is not graded as
+                       one -- without that exemption a gate demanding a provider for every
+                       operand would refuse the whole shipped tree.
+
     python tools/check_hud_placeholders.py [--classes-root <dir>] [--hud-root <dir>]
 """
 
@@ -44,6 +57,49 @@ PLACEHOLDER_PREFIX = "legendcraft_"
 PLACEHOLDER_REF_RX = re.compile(r"papi:" + PLACEHOLDER_PREFIX + r"([a-z0-9_]+)")
 # A pattern line's whole value, so a token can be attributed to the element field it sits in.
 PATTERN_LINE_RX = re.compile(r"^\s*pattern:\s*(.+)$")
+# Every `papi:` token, whatever expansion it names -- not just LegendCraft's.
+ANY_PAPI_REF_RX = re.compile(r"papi:([a-z0-9_]+)")
+# A condition's two operands, and a listener's class. Three grammar positions, three sets.
+OPERAND_LINE_RX = re.compile(r"^\s*(?:first|second):\s*(.+?)\s*$")
+LISTENER_CLASS_LINE_RX = re.compile(r"^\s*class:\s*(.+?)\s*$")
+
+# --- BetterHud's own vocabulary ------------------------------------------------------------
+# PINNED, not read live: BetterHud ships as a jar, no checkout of it exists in CI, and the
+# alternative to a pinned list is no check at all. These names were read out of the installed
+# jar's constant pools -- the placeholder categories from BukkitStandardModule's getNumbers /
+# getBooleans / getStrings (plus BukkitEntityModule and BukkitItemModule for the last three
+# strings), the listener classes from the same module's getListeners plus `placeholder` from
+# ListenerManagerImpl. On a version bump, RE-DERIVE from the new jar rather than assuming this
+# still holds; the build id is printed on every run so a stale pin is visible in the CI log.
+BETTERHUD_BUILD = "2.1.0-SNAPSHOT-447"
+
+# One set per grammar position. A union would accept `class: max_air` and `first: exp`, both of
+# which BetterHud answers null to -- the same silent blank element this gate exists to refuse.
+BETTERHUD_NUMBERS = frozenset("""
+    empty_space health last_damage last_health last_health_percentage vehicle_health food armor
+    air max_health health_percentage vehicle_max_health max_health_with_absorption
+    vehicle_max_health_with_absorption vehicle_health_percentage max_air level hotbar_slot
+    potion_effect_duration total_amount storage absorption vehicle_air vehicle_max_air
+""".split())
+BETTERHUD_BOOLEANS = frozenset("""
+    dead frozen burning has_off_hand has_main_hand has_permission
+""".split())
+BETTERHUD_STRINGS = frozenset("""
+    name world gamemode custom_variable custom_name display_name type
+""".split())
+BETTERHUD_PLACEHOLDERS = BETTERHUD_NUMBERS | BETTERHUD_BOOLEANS | BETTERHUD_STRINGS
+BETTERHUD_LISTENERS = frozenset("""
+    health vehicle_health food armor air exp absorption placeholder
+""".split())
+
+# PlaceholderAPI expansions OTHER than LegendCraft's that a HUD file may read. Empty on
+# purpose: the box's expansions folder is empty, so any foreign id today resolves to nothing.
+# An entry is `id prefix -> what installing that expansion takes`, and adding one is a claim
+# that the deploy actually installs it -- e.g. "player_": "/papi ecloud download Player".
+FOREIGN_PAPI_EXPANSIONS: dict = {}
+
+# Operands that name no provider at all.
+LITERAL_WORDS = frozenset(("true", "false"))
 
 # Ids the expansion answers by an exact name test rather than a switch label.
 EQUALS_RX = re.compile(r"params\.equals\(\"([a-z0-9_]+)\"\)")
@@ -153,6 +209,47 @@ def is_answered(placeholder_id: str, bare, prefixes, fields) -> bool:
     return placeholder_id in bare
 
 
+def unquote(raw: str) -> str:
+    """One layer of YAML quoting off, so `"papi:x"` and `"'mana'"` reach the classifier as
+    `papi:x` and `'mana'` -- the second still quoted, because that inner quoting is what makes
+    it a string LITERAL rather than a placeholder name."""
+    if len(raw) >= 2 and raw[0] == raw[-1] and raw[0] in "\"'":
+        return raw[1:-1]
+    return raw
+
+
+def classify_operand(raw: str):
+    """(kind, name) for one condition operand or listener class.
+
+    kind is "literal" (names no provider), "papi" (the name is a full expansion id), or
+    "builtin" (the name is BetterHud's own).
+    """
+    value = unquote(raw.strip())
+    if not value:
+        return ("literal", None)
+    # A quoted inner value is a string literal: `"'mana'"`, `"'3'"`.
+    if value[0] in "\"'":
+        return ("literal", None)
+    # Bar values carry a cast: `(number)papi:legendcraft_xp_percent`.
+    if value.startswith("(") and ")" in value:
+        value = value[value.index(")") + 1:]
+    if value.startswith("papi:"):
+        return ("papi", value[len("papi:"):])
+    if value in LITERAL_WORDS:
+        return ("literal", None)
+    try:
+        float(value)
+        return ("literal", None)
+    except ValueError:
+        pass
+    # An arg-taking built-in is `<name>:<arg>` -- only the head is the registered name.
+    return ("builtin", value.split(":", 1)[0])
+
+
+def foreign_expansion_declared(placeholder_id: str) -> bool:
+    return any(placeholder_id.startswith(prefix) for prefix in FOREIGN_PAPI_EXPANSIONS)
+
+
 def hud_files(hud_root: str):
     for directory, _subdirs, names in os.walk(hud_root):
         for name in sorted(names):
@@ -191,12 +288,45 @@ def main() -> int:
                         "%s:%d: %s%s is read inside a pattern but is not on the pattern allow-list"
                         % (display, lineno, PLACEHOLDER_PREFIX, placeholder_id))
 
+            # A `papi:` id from any OTHER expansion, wherever it sits. This is the door the
+            # gate did not watch: not being `legendcraft_` was the whole reason it passed.
+            for placeholder_id in ANY_PAPI_REF_RX.findall(line):
+                if placeholder_id.startswith(PLACEHOLDER_PREFIX):
+                    continue
+                seen += 1
+                if not foreign_expansion_declared(placeholder_id):
+                    failures.append(
+                        "%s:%d: papi:%s belongs to a PlaceholderAPI expansion this repo does not "
+                        "declare -- add it to FOREIGN_PAPI_EXPANSIONS with what installing it "
+                        "takes, or the id resolves to nothing and the element never draws"
+                        % (display, lineno, placeholder_id))
+
+            # Bare operands and listener classes: BetterHud's own vocabulary, two positions.
+            for line_rx, vocabulary, position in (
+                (OPERAND_LINE_RX, BETTERHUD_PLACEHOLDERS, "placeholder"),
+                (LISTENER_CLASS_LINE_RX, BETTERHUD_LISTENERS, "listener class"),
+            ):
+                match = line_rx.match(line)
+                if not match:
+                    continue
+                kind, name = classify_operand(match.group(1))
+                if kind != "builtin":
+                    continue
+                seen += 1
+                if name not in vocabulary:
+                    failures.append(
+                        "%s:%d: `%s` is no BetterHud %s in build %s -- BetterHud answers nothing "
+                        "to it and the element silently does not draw"
+                        % (display, lineno, name, position, BETTERHUD_BUILD))
+
     if failures:
         print("FAIL: %d placeholder problem(s) across %d reference(s)" % (len(failures), seen))
         for failure in failures:
             print("  " + failure)
         return 1
-    print("OK: %d placeholder reference(s), every id answered, every pattern id allow-listed" % seen)
+    print("OK: %d operand(s), every one attributed to a provider that answers it; "
+          "every pattern id allow-listed. BetterHud vocabulary pinned to build %s."
+          % (seen, BETTERHUD_BUILD))
     return 0
 
 

@@ -18,6 +18,23 @@ Acceptance criteria:
 4. A bare stat id is answered, and a made-up one is refused. (The two-sided control: without
    it, criteria 2 and 3 pass against a checker that refuses everything.)
 
+HUD-AIR (2026-09-05) widened the gate past the one provider it started with. The air element
+is gated on BetterHud's own `air` / `max_air` built-ins, which no source tree in either
+repository declares -- so before this the gate simply did not see them, and a typo in one
+would have shipped exactly the silent blank row this gate exists to refuse. The rule is that
+every operand names a provider, and the gate says which:
+
+5. A real BetterHud built-in used as a condition operand is answered -- by BetterHud, not by
+   HudPlaceholders, and the verdict says so.
+6. A misspelt built-in is refused, and the refusal names BetterHud as the provider that does
+   not answer it.
+7. A `papi:` id from any expansion other than LegendCraft's is refused while that expansion is
+   undeclared. `%player_remaining_air%` is the live case: PAPI's Player expansion answers it,
+   the box's expansions folder is empty, and nothing else in this repo would notice.
+8. A literal operand is not a placeholder. `true`, `0` and a quoted `'mana'` name no provider
+   and must not be graded as though they did. (The control for 5-7: without it, a checker that
+   demanded a provider for every operand would pass all three.)
+
     python tools/test_hud_placeholders.py
 """
 
@@ -47,10 +64,14 @@ LAYOUT_TEMPLATE = """lc_probe:
       layer: 1
       conditions:
         1:
-          first: "papi:legendcraft_%s"
-          second: "'1'"
-          operation: '=='
+          first: %s
+          second: %s
+          operation: '%s'
 """
+
+# The two operand forms the real layouts write, so a probe is shaped like what ships.
+def papi(placeholder_id):
+    return '"papi:legendcraft_%s"' % placeholder_id
 
 
 class PlaceholderGateTest(unittest.TestCase):
@@ -61,14 +82,17 @@ class PlaceholderGateTest(unittest.TestCase):
         self.hud_root = os.path.join(self.workspace, "betterhud")
         os.makedirs(os.path.join(self.hud_root, "layouts"))
 
-    def verdict(self, placeholder_id):
+    def gate(self, first, second="\"'1'\"", operation="=="):
         path = os.path.join(self.hud_root, "layouts", "probe.yml")
         with open(path, "w", encoding="utf-8") as handle:
-            handle.write(LAYOUT_TEMPLATE % placeholder_id)
+            handle.write(LAYOUT_TEMPLATE % (first, second, operation))
         result = subprocess.run(
             [sys.executable, CHECKER, "--classes-root", CLASSES_ROOT, "--hud-root", self.hud_root],
             capture_output=True, text=True)
         return result.returncode, result.stdout
+
+    def verdict(self, placeholder_id):
+        return self.gate(papi(placeholder_id))
 
     def assertAnswered(self, placeholder_id):
         code, out = self.verdict(placeholder_id)
@@ -79,6 +103,18 @@ class PlaceholderGateTest(unittest.TestCase):
         self.assertEqual(1, code, "%s should be refused but was accepted:\n%s"
                          % (placeholder_id, out))
         self.assertIn("names no case in HudPlaceholders", out)
+
+    def assertGateAccepted(self, first, second="\"'1'\"", operation="=="):
+        code, out = self.gate(first, second, operation)
+        self.assertEqual(0, code, "%s %s %s should be accepted:\n%s"
+                         % (first, operation, second, out))
+
+    def assertGateRefused(self, first, second="\"'1'\"", operation="==", naming=None):
+        code, out = self.gate(first, second, operation)
+        self.assertEqual(1, code, "%s %s %s should be refused but was accepted:\n%s"
+                         % (first, operation, second, out))
+        if naming:
+            self.assertIn(naming, out)
 
     def test_a_field_label_on_a_slot_prefix_is_answered(self):
         for placeholder_id in ("slot1_state", "slot2_cd_percent", "ult_charges"):
@@ -102,6 +138,34 @@ class PlaceholderGateTest(unittest.TestCase):
         self.assertAnswered("subclass")
         self.assertRefused("armour")
         self.assertRefused("slot1_bogus")
+
+
+class ProviderAttributionTest(PlaceholderGateTest):
+    """Every condition operand names a provider, and the gate says which one."""
+
+    def test_a_betterhud_builtin_operand_is_answered_by_betterhud(self):
+        # The air element's own gate, plus the built-ins the affliction stack already ships.
+        self.assertGateAccepted("air", "max_air", "<")
+        self.assertGateAccepted("burning", "true")
+        self.assertGateAccepted("potion_effect_duration:poison", "0", "!=")
+
+    def test_a_misspelt_builtin_is_refused_and_the_refusal_names_betterhud(self):
+        for first, second in (("air", "max_ar"), ("ari", "max_air"), ("frozn", "true")):
+            self.assertGateRefused(first, second, "<", naming="BetterHud")
+
+    def test_a_papi_id_from_an_undeclared_expansion_is_refused(self):
+        # The route the HUD-AIR brief offered as the fallback. The Player expansion answers
+        # these, the box has no expansions installed, and nothing here declares it -- so the
+        # gate must refuse rather than wave a token through because it is not `legendcraft_`.
+        for operand in ('"papi:player_remaining_air"', '"papi:player_max_air"',
+                        '"papi:server_online"'):
+            self.assertGateRefused(operand, naming="expansion")
+
+    def test_a_literal_operand_names_no_provider_and_is_not_graded_as_one(self):
+        self.assertGateAccepted("burning", "true")
+        self.assertGateAccepted("burning", "false")
+        self.assertGateAccepted("potion_effect_duration:wither", "0", "!=")
+        self.assertGateAccepted(papi("resource_type"), "\"'mana'\"")
 
 
 class TheRealTreeStillPassesTest(unittest.TestCase):

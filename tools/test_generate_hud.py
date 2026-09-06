@@ -19,6 +19,20 @@ Re-ruled 2026-09-05 (owner, after seeing hoist 20 and 10 in client): SKILL_ROW_H
 20 -> 10, moving the ability rows and the feedback line down 10px together and narrowing the
 held-item-lane clearance 15px -> 5px. Criteria 1-3 carry the new ruled values; the assertions
 themselves are unchanged, only the numbers they pin.
+
+HUD-AIR criteria (added 2026-09-05; PR #7 blanked the vanilla oxygen bubbles, which render in
+the vanilla armor lane on top of the stat block, and left drowning with no read at all):
+5. The stat block carries an air element -- channel, native fill, icon -- and all three parts
+   are hidden at full air by the same gate. A part that is not gated is a part that draws
+   while you are breathing.
+6. That element rides the empty band above the block -- the ground the owner's hoist of 10
+   opened -- on the same left rail as HP, resource and XP, clear of the keycap glyphs above
+   it and of the health row below it. It gets its own frame on empty ground rather than
+   recolouring a live rail: drawn over the XP bar the two channels share a field and an
+   outline, fuse into one rail, and read as a two-tone XP bar rather than as air.
+7. The fill is BetterHud's native `air` listener and the gate is BetterHud's own `air` /
+   `max_air` built-ins, so no part of this element reaches LegendCraft-Classes -- it cannot go
+   dark the way a papi:legendcraft_* element does when the jar and this config disagree.
 """
 
 from pathlib import Path
@@ -30,12 +44,16 @@ import generate_hud as hud
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 LAYOUT_PATH = REPO_ROOT / "hud/betterhud/layouts/legendcraft-stat.yml"
+IMAGES_PATH = REPO_ROOT / "hud/betterhud/images/legendcraft-stat.yml"
 MANIFEST_PATH = REPO_ROOT / "hud/betterhud/hud-placeholders.txt"
 EXPECTED_SKILL_ROW_Y_PX = -35
 EXPECTED_FEEDBACK_LINE_Y_PX = -47
 VANILLA_ITEM_NAME_OFFSET_PX = 59
 EXPECTED_NATIVE_CLEARANCE_PX = 5
 REQUIRED_CONTRACT_IDS = {"shield_current", "shield_max"}
+# The three parts of the air element, and the built-in comparison that gates all three.
+AIR_ELEMENT_NAMES = ("lc_air_empty", "lc_fill_air", "lc_icon_air")
+AIR_GATE_FIRST, AIR_GATE_SECOND, AIR_GATE_OP = "air", "max_air", "<"
 
 
 def layout_blocks(layout, name):
@@ -114,6 +132,88 @@ class HudlineGeometryTest(unittest.TestCase):
             generated_manifest_text(),
             MANIFEST_PATH.read_text(encoding="utf-8"),
         )
+
+
+class AirElementTest(unittest.TestCase):
+    """HUD-AIR: the drowning read PR #7 took away, paid back inside the stat block."""
+
+    def setUp(self):
+        self.layout = hud._bh_stat_layout_yml()
+        self.images = hud._bh_stat_images_yml()
+
+    def air_blocks(self):
+        blocks = {}
+        for name in AIR_ELEMENT_NAMES:
+            found = layout_blocks(self.layout, name)
+            self.assertEqual(1, len(found), "%s should be exactly one element" % name)
+            blocks[name] = found[0]
+        return blocks
+
+    def fill_air_entry(self):
+        # The registry entry is the name line plus every INDENTED line under it. No DOTALL
+        # here: with it, `.` swallows newlines and the "entry" runs to the end of the file.
+        entry = re.search(r"(?m)^lc_fill_air:\n(?:[ \t].*\n)*", self.images)
+        self.assertIsNotNone(entry, "lc_fill_air is not registered")
+        return entry.group(0)
+
+    def element_xy(self, block):
+        return (int(re.search(r"^      x: (-?\d+)$", block, re.MULTILINE).group(1)),
+                int(re.search(r"^      y: (-?\d+)$", block, re.MULTILINE).group(1)))
+
+    def test_every_part_of_the_air_element_is_hidden_at_full_air(self):
+        for name, block in self.air_blocks().items():
+            self.assertIn("      conditions:\n", block, "%s draws ungated" % name)
+            self.assertIn("          first: %s\n" % AIR_GATE_FIRST, block, name)
+            self.assertIn("          second: %s\n" % AIR_GATE_SECOND, block, name)
+            self.assertIn("          operation: '%s'\n" % AIR_GATE_OP, block, name)
+
+    def test_the_air_element_rides_the_band_above_the_block(self):
+        left_rail = hud.STAT_IW + hud.STAT_ICON_GAP
+        blocks = self.air_blocks()
+
+        channel = self.element_xy(blocks["lc_air_empty"])
+        self.assertEqual((left_rail, hud.AIR_Y_PX), channel,
+                         "the channel shares the left rail with HP, resource and XP")
+        self.assertEqual((left_rail + hud.BAR_PAD, hud.AIR_Y_PX + hud.BAR_PAD),
+                         self.element_xy(blocks["lc_fill_air"]))
+
+        icon = self.element_xy(blocks["lc_icon_air"])
+        self.assertEqual(((hud.STAT_IW - hud.AIR_ICON_H) // 2,
+                          hud.AIR_Y_PX + (hud.AIR_H - hud.AIR_ICON_H) // 2), icon,
+                         "the icon centres on its own rail and in the 9-wide icon column")
+
+        # The band is bounded on both sides, and the icon is the tallest part -- so it is the
+        # icon, not the rail, that has to clear each neighbour.
+        self.assertLess(icon[1] + hud.AIR_ICON_H, 0,
+                        "the bubble must not crowd the health row below it")
+        self.assertGreaterEqual(icon[1], hud.SKILL_ROW_Y_PX + hud.SKILL_TILE + hud.KEY_DROP,
+                                "the bubble must not collide with the keycap glyphs above it")
+
+    def test_the_fill_is_betterhuds_native_air_listener(self):
+        body = self.fill_air_entry()
+        self.assertIn("  type: listener\n", body)
+        self.assertIn("      class: air\n", body)
+
+    def test_no_part_of_the_air_element_reads_a_placeholder_the_plugin_serves(self):
+        for name, block in self.air_blocks().items():
+            self.assertNotIn("papi:", block, "%s reaches PlaceholderAPI" % name)
+        self.assertNotIn("papi:", self.fill_air_entry())
+
+
+class AirArtTest(unittest.TestCase):
+    """The three PNGs the element points at exist, at the sizes the layout offsets assume."""
+
+    def test_the_air_art_is_written_at_the_ruled_sizes(self):
+        from PIL import Image
+        for name, size in (
+            ("bars/air_empty.png", (hud.AIR_W, hud.AIR_H)),
+            ("bars/fill_air.png", (hud.AIR_W - 2 * hud.BAR_PAD, hud.AIR_H - 2 * hud.BAR_PAD)),
+            ("stat-icons/air.png", (hud.AIR_ICON_H, hud.AIR_ICON_H)),
+        ):
+            path = REPO_ROOT / "hud" / name
+            self.assertTrue(path.is_file(), "%s was never written" % name)
+            with Image.open(path) as art:
+                self.assertEqual(size, art.size, name)
 
 
 if __name__ == "__main__":
