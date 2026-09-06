@@ -25,8 +25,11 @@ the vanilla armor lane on top of the stat block, and left drowning with no read 
 5. The stat block carries an air element -- channel, native fill, icon -- and all three parts
    are hidden at full air by the same gate. A part that is not gated is a part that draws
    while you are breathing.
-6. That element rides the XP row and stays inside its left third, so it clears the centred
-   level numeral and the right-aligned XP numerals on the rail it draws over.
+6. That element rides the empty band above the block -- the ground the owner's hoist of 10
+   opened -- on the same left rail as HP, resource and XP, clear of the keycap glyphs above
+   it and of the health row below it. It gets its own frame on empty ground rather than
+   recolouring a live rail: drawn over the XP bar the two channels share a field and an
+   outline, fuse into one rail, and read as a two-tone XP bar rather than as air.
 7. The fill is BetterHud's native `air` listener and the gate is BetterHud's own `air` /
    `max_air` built-ins, so no part of this element reaches LegendCraft-Classes -- it cannot go
    dark the way a papi:legendcraft_* element does when the jar and this config disagree.
@@ -146,6 +149,13 @@ class AirElementTest(unittest.TestCase):
             blocks[name] = found[0]
         return blocks
 
+    def fill_air_entry(self):
+        # The registry entry is the name line plus every INDENTED line under it. No DOTALL
+        # here: with it, `.` swallows newlines and the "entry" runs to the end of the file.
+        entry = re.search(r"(?m)^lc_fill_air:\n(?:[ \t].*\n)*", self.images)
+        self.assertIsNotNone(entry, "lc_fill_air is not registered")
+        return entry.group(0)
+
     def element_xy(self, block):
         return (int(re.search(r"^      x: (-?\d+)$", block, re.MULTILINE).group(1)),
                 int(re.search(r"^      y: (-?\d+)$", block, re.MULTILINE).group(1)))
@@ -157,34 +167,37 @@ class AirElementTest(unittest.TestCase):
             self.assertIn("          second: %s\n" % AIR_GATE_SECOND, block, name)
             self.assertIn("          operation: '%s'\n" % AIR_GATE_OP, block, name)
 
-    def test_the_air_element_rides_the_xp_row_inside_its_left_third(self):
-        xpy = 2 * hud.BAR_H + hud.STAT_BAR_VGAP + hud.STAT_ROW_GAP
-        xpx = hud.STAT_IW + hud.STAT_ICON_GAP
+    def test_the_air_element_rides_the_band_above_the_block(self):
+        left_rail = hud.STAT_IW + hud.STAT_ICON_GAP
         blocks = self.air_blocks()
 
         channel = self.element_xy(blocks["lc_air_empty"])
-        self.assertEqual((xpx, xpy), channel,
-                         "the channel sits on the XP row, at the XP bar's left end")
-        self.assertLessEqual(channel[0] + hud.AIR_W, xpx + hud.XP_W // 3,
-                             "the bar must clear the centred level numeral")
-        self.assertEqual((xpx + hud.BAR_PAD, xpy + hud.BAR_PAD),
+        self.assertEqual((left_rail, hud.AIR_Y_PX), channel,
+                         "the channel shares the left rail with HP, resource and XP")
+        self.assertEqual((left_rail + hud.BAR_PAD, hud.AIR_Y_PX + hud.BAR_PAD),
                          self.element_xy(blocks["lc_fill_air"]))
+
         icon = self.element_xy(blocks["lc_icon_air"])
-        self.assertEqual(0, icon[0], "the icon takes the XP row's empty left icon column")
-        self.assertEqual(xpy + (hud.XP_H - hud.AIR_ICON_H) // 2, icon[1])
+        self.assertEqual(((hud.STAT_IW - hud.AIR_ICON_H) // 2,
+                          hud.AIR_Y_PX + (hud.AIR_H - hud.AIR_ICON_H) // 2), icon,
+                         "the icon centres on its own rail and in the 9-wide icon column")
+
+        # The band is bounded on both sides, and the icon is the tallest part -- so it is the
+        # icon, not the rail, that has to clear each neighbour.
+        self.assertLess(icon[1] + hud.AIR_ICON_H, 0,
+                        "the bubble must not crowd the health row below it")
+        self.assertGreaterEqual(icon[1], hud.SKILL_ROW_Y_PX + hud.SKILL_TILE + hud.KEY_DROP,
+                                "the bubble must not collide with the keycap glyphs above it")
 
     def test_the_fill_is_betterhuds_native_air_listener(self):
-        entry = re.search(r"(?ms)^lc_fill_air:\n(?:[ \t].*\n|\n)*", self.images)
-        self.assertIsNotNone(entry, "lc_fill_air is not registered")
-        body = entry.group(0)
+        body = self.fill_air_entry()
         self.assertIn("  type: listener\n", body)
         self.assertIn("      class: air\n", body)
 
     def test_no_part_of_the_air_element_reads_a_placeholder_the_plugin_serves(self):
         for name, block in self.air_blocks().items():
             self.assertNotIn("papi:", block, "%s reaches PlaceholderAPI" % name)
-        entry = re.search(r"(?ms)^lc_fill_air:\n(?:[ \t].*\n|\n)*", self.images)
-        self.assertNotIn("papi:", entry.group(0))
+        self.assertNotIn("papi:", self.fill_air_entry())
 
 
 class AirArtTest(unittest.TestCase):
@@ -193,8 +206,8 @@ class AirArtTest(unittest.TestCase):
     def test_the_air_art_is_written_at_the_ruled_sizes(self):
         from PIL import Image
         for name, size in (
-            ("bars/air_empty.png", (hud.AIR_W, hud.XP_H)),
-            ("bars/fill_air.png", (hud.AIR_W - 2 * hud.BAR_PAD, hud.XP_H - 2 * hud.BAR_PAD)),
+            ("bars/air_empty.png", (hud.AIR_W, hud.AIR_H)),
+            ("bars/fill_air.png", (hud.AIR_W - 2 * hud.BAR_PAD, hud.AIR_H - 2 * hud.BAR_PAD)),
             ("stat-icons/air.png", (hud.AIR_ICON_H, hud.AIR_ICON_H)),
         ):
             path = REPO_ROOT / "hud" / name

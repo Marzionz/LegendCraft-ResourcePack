@@ -9,6 +9,14 @@ lc_xp_empty:
   type: single
   file: legendcraft/bars/xp_empty.png
 
+lc_air_empty:
+  type: single
+  file: legendcraft/bars/air_empty.png
+
+lc_icon_air:
+  type: single
+  file: legendcraft/stat-icons/air.png
+
 lc_icon_heart:
   type: single
   file: legendcraft/stat-icons/heart.png
@@ -75,6 +83,15 @@ lc_fill_food:
   setting:
     listener:
       class: food
+
+lc_fill_air:
+  type: listener
+  file: legendcraft/bars/fill_air.png
+  split: 25
+  split-type: left
+  setting:
+    listener:
+      class: air
 
 lc_state_poison:
   type: listener
