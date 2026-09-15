@@ -326,7 +326,8 @@ class DriftTest(unittest.TestCase):
                 with Image.open(io.BytesIO(fresh)) as a, Image.open(io.BytesIO(stored)) as b:
                     self.assertEqual((a.mode, a.size, a.tobytes()), (b.mode, b.size, b.tobytes()), relative)
             else:
-                self.assertEqual(fresh, stored, relative)
+                # A Windows checkout under core.autocrlf rewrites line endings; the content is what is compared.
+                self.assertEqual(fresh.replace(b"\r\n", b"\n"), stored.replace(b"\r\n", b"\n"), relative)
 
 
 if __name__ == "__main__":
