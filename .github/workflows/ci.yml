@@ -59,6 +59,12 @@ jobs:
         working-directory: LegendCraft-ResourcePack/tools
         run: python test_generate_hud.py
 
+      # The skill-card sprites and marks font are generated from the approved ornament art; the
+      # suite regenerates them into a scratch tree and compares against src/.
+      - name: Gate - skill card generator acceptance suite
+        working-directory: LegendCraft-ResourcePack/tools
+        run: python test_generate_skill_cards.py
+
       # Gate 2. Every placeholder the HUD reads is one the plugin answers, read from the
       # expansion's own source rather than a copied list.
       - name: Gate - placeholder audit
