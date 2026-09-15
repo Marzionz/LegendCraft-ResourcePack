@@ -37,8 +37,24 @@ src/
     items/<domain>/<name>.json        item MODEL DEFINITION (what item_model points at)
     models/item/<domain>/<name>.json  the item MODEL (parent + textures)
     textures/item/<domain>/<name>.png the texture
+    textures/gui/sprites/tooltip/<domain>/<name>_{background,frame}.png   tooltip style sprites
+    font/<domain>/<name>.json         a font (+ its bitmap under textures/font/<domain>/)
     sounds/<domain>/…                 custom sounds (+ sounds.json) — later
 ```
+
+### Skill-card tooltip styles
+
+A plugin sets `DataComponentTypes.TOOLTIP_STYLE` to `legendcraft:classes/<name>`; the client
+then draws `tooltip/classes/<name>_background` and `_frame` from the GUI atlas behind the
+item's tooltip. All of these are written by `tools/generate_skill_cards.py` (see `TOOLING.md`):
+
+| Style id | Use |
+|---|---|
+| `legendcraft:classes/skill_card` | the common card |
+| `legendcraft:classes/skill_card_ultimate_bloodweaver` | Bloodweaver's ultimate card: the corner veins, pulsing |
+
+The font `legendcraft:classes/skill_card` holds the card's stat marks: U+E000 mana, U+E001
+health, U+E002 cooldown, U+E003 and U+E004 the keybind brackets.
 
 ### Adding a flat (sprite) item — the three files
 
