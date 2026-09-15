@@ -8,6 +8,7 @@ tree, alongside `mobs-src/` and `tools/`).
 |---|---|---|
 | `build.ps1` | zips `src/` into `dist/LegendCraft-Pack-<version>.zip` and prints the SHA1 Paper needs for `setResourcePack` | none |
 | `deploy-rigs.ps1` | stages named `.bbmodel` rigs — mobs, or props under `-Prop` — from the authoring tree into a BetterModel-shaped folder, and writes the verification list the owner works through at the box | `tests/run-deploy-rigs-tests.ps1` |
+| `tools/generate_skill_cards.py` | writes the codex skill-card tooltip styles (nine-slice background and frame sprites, the Bloodweaver ultimate corner ornaments and their pulse) and the stat-marks font under `src/`, from the approved ornament art in `tools/skill_card_art/` | `tools/test_generate_skill_cards.py`, which also holds the committed assets equal to generator output |
 | `tools/generate_hud.py` | writes the HUD art and the BetterHud YAML under `hud/` | `tools/test_generate_hud.py`, plus the CI drift gate |
 | `tools/deploy-hud.ps1` | the whole HUD loop against mc-dev: regenerate, copy, restart, merge, publish, repoint, restart | none — it drives a live server |
 | `tools/merge_dev_pack.py` | merges the plugin build zips with the newest built base pack into `dist/LegendCraft-Pack-dev.zip` | `tools/test_pack_manifest.py` |
