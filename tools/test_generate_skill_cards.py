@@ -149,8 +149,9 @@ def to_frame(cells, origin, mirrored, width):
 
 
 class GeneratedTree:
-    def __init__(self):
+    def __init__(self, add_cleanup):
         self.tmp = tempfile.TemporaryDirectory()
+        add_cleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         gen.build(self.root)
 
@@ -161,7 +162,7 @@ class GeneratedTree:
 class UltimateOrnamentTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.tree = GeneratedTree()
+        cls.tree = GeneratedTree(cls.addClassCleanup)
 
     def ultimate_frames(self):
         png = self.tree.path(ULTIMATE + "_frame.png")
@@ -215,7 +216,7 @@ class UltimateOrnamentTest(unittest.TestCase):
 class NineSliceTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.tree = GeneratedTree()
+        cls.tree = GeneratedTree(cls.addClassCleanup)
 
     def check_style(self, style):
         for part in ("background", "frame"):
@@ -264,7 +265,7 @@ class NineSliceTest(unittest.TestCase):
 class PanelColourTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.tree = GeneratedTree()
+        cls.tree = GeneratedTree(cls.addClassCleanup)
 
     def image(self, relative):
         path = self.tree.path(relative)
@@ -299,7 +300,7 @@ class PanelColourTest(unittest.TestCase):
 class MarksFontTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.tree = GeneratedTree()
+        cls.tree = GeneratedTree(cls.addClassCleanup)
 
     def test_6_marks_font(self):
         font = self.tree.path(FONT_JSON)
@@ -323,7 +324,7 @@ class MarksFontTest(unittest.TestCase):
 
 class DriftTest(unittest.TestCase):
     def test_7_committed_assets_equal_generator_output(self):
-        tree = GeneratedTree()
+        tree = GeneratedTree(self.addCleanup)
         written = sorted(p.relative_to(tree.root).as_posix() for p in tree.root.rglob("*") if p.is_file())
         self.assertTrue(written, "the generator wrote nothing")
         for relative in written:
