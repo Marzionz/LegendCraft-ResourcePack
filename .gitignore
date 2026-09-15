@@ -40,5 +40,10 @@ tools/*
 !/tools/deploy-hud.ps1
 !/tools/publish-pack.ps1
 
+# ...and the skill-card asset generator, its suite, and the approved ornament art it rasterizes.
+!/tools/generate_skill_cards.py
+!/tools/test_generate_skill_cards.py
+!/tools/skill_card_art/
+
 # Mob authoring source (models, textures, specs) — not part of the shipped pack, kept private
 mobs-src/
