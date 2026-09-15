@@ -24,7 +24,6 @@ from pathlib import Path
 import io
 import json
 import re
-import subprocess
 import tempfile
 import unittest
 
@@ -60,7 +59,7 @@ PULSE_LOW, PULSE_HIGH = 0.3, 1.0
 PULSE_STEP_TICKS = 3
 VEIN_GROUPS = ("blood-root", "blood-branch", "blood-tip")
 
-MARKS = ("", "", "", "", "")
+MARKS = ("\ue000", "\ue001", "\ue002", "\ue003", "\ue004")
 MARK_ADVANCES = (8, 8, 8, 5, 5)
 MARK_CELL = 8
 
@@ -132,6 +131,14 @@ def frames_of(png, mcmeta):
     return [image.crop((0, k * height, width, (k + 1) * height)) for k in range(count)], meta
 
 
+def opacity(pixel, fill, ground):
+    """How much of ``fill`` a pixel shows: its alpha over empty ground, its blend over an opaque base."""
+    if ground is None:
+        return pixel[3] / 255
+    channel = max(range(3), key=lambda i: abs(fill[i] - ground[i]))
+    return (pixel[channel] - ground[channel]) / (fill[channel] - ground[channel])
+
+
 def to_frame(cells, origin, mirrored, width):
     left, top = origin
     placed = set()
@@ -190,14 +197,15 @@ class UltimateOrnamentTest(unittest.TestCase):
         self.assertEqual(PULSE_PERIOD_TICKS, frametime * len(frames))
         width = frames[0].width
         layers = svg_layers()
-        others = set().union(*(cells for _, css, cells in layers if css is None))
+        groups = set().union(*(cells for _, css, cells in layers if css is not None))
         peaks = []
         for group in VEIN_GROUPS:
             fill, cells = next((f, c) for f, css, c in layers if css == group)
-            probe = sorted(cells - others)[0] if cells - others else None
-            self.assertIsNotNone(probe, group + " has no pixel over transparent ground")
+            others = set().union(*(c for f, css, c in layers if css not in (None, group)))
+            probe = sorted(cells - others)[0]
+            ground = next((f for f, css, c in reversed(layers) if css is None and probe in c), None)
             (point,) = to_frame({probe}, ORNAMENT_LEFT, False, width)
-            alphas = [frame.getpixel(point)[3] / 255 for frame in frames]
+            alphas = [opacity(frame.getpixel(point), fill, ground) for frame in frames]
             self.assertAlmostEqual(PULSE_HIGH, max(alphas), delta=0.02, msg=group)
             self.assertAlmostEqual(PULSE_LOW, min(alphas), delta=0.02, msg=group)
             peaks.append(alphas.index(max(alphas)) * frametime)
@@ -219,6 +227,8 @@ class NineSliceTest(unittest.TestCase):
         frames, meta = frames_of(self.tree.path(style + "_frame.png"), self.tree.path(style + "_frame.png.mcmeta"))
         scaling = meta["gui"]["scaling"]
         border = scaling["border"]
+        if isinstance(border, int):
+            border = {"left": border, "right": border, "top": border, "bottom": border}
         width, height = scaling["width"], scaling["height"]
         return frames, border, width, height
 
@@ -265,13 +275,12 @@ class PanelColourTest(unittest.TestCase):
     def test_5_common_colours(self):
         frame = self.image(COMMON + "_frame.png")
         background = self.image(COMMON + "_background.png")
-        middle = frame.width // 2
         self.assertEqual(mix(COMMON_ACCENT, PANEL_BORDER_BASE, PANEL_BORDER_ACCENT) + (255,),
-                         frame.getpixel((middle, PANEL_BORDER_INSET)))
+                         frame.getpixel((frame.width // 2, PANEL_BORDER_INSET)))
         self.assertEqual(mix(COMMON_ACCENT, PANEL_FILL_BASE, PANEL_FILL_ACCENT) + (255,),
-                         background.getpixel((middle, PANEL_BORDER_INSET)))
+                         background.getpixel((background.width // 2, PANEL_BORDER_INSET)))
         self.assertEqual(hex_rgb(PANEL_FILL_END) + (255,),
-                         background.getpixel((middle, background.height - 1 - PANEL_BORDER_INSET)))
+                         background.getpixel((background.width // 2, background.height - 1 - PANEL_BORDER_INSET)))
 
     def test_5_ultimate_colours(self):
         frame = self.image(ULTIMATE + "_frame.png")
@@ -282,9 +291,9 @@ class PanelColourTest(unittest.TestCase):
         self.assertEqual(mix(BLOODWEAVER_ACCENT, ULTIMATE_RING_BASE, ULTIMATE_RING_ACCENT) + (255,),
                          frame.getpixel((PANEL_BORDER_INSET + 2, frame.height // 2)))
         self.assertEqual(mix(BLOODWEAVER_ACCENT, PANEL_FILL_BASE, PANEL_FILL_ACCENT) + (255,),
-                         background.getpixel((middle, PANEL_BORDER_INSET)))
+                         background.getpixel((background.width // 2, PANEL_BORDER_INSET)))
         self.assertEqual(hex_rgb(PANEL_FILL_END) + (255,),
-                         background.getpixel((middle, background.height - 1 - PANEL_BORDER_INSET)))
+                         background.getpixel((background.width // 2, background.height - 1 - PANEL_BORDER_INSET)))
 
 
 class MarksFontTest(unittest.TestCase):
