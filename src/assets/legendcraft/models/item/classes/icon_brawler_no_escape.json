@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "legendcraft:item/classes/icon_brawler_no_escape"
-  }
-}
