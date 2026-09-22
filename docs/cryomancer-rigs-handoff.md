@@ -1,47 +1,61 @@
-# Cryomancer frozen-shell rework — draft handoff
+# Cryomancer second pass — draft handoff
 
-2026-09-22. Scope is **only `status_frozen_shell` v4**, the roster-wide Frozen tomb.
-Private authoring work: [Models draft PR #7](https://github.com/Marzionz/LegendCraft-Models/pull/7), branch `cryomancer-rigs`, commit `da02898`.
+2026-09-22. Two private draft assets: **status_frozen_shell v5** and new
+**az_cold_front**. [Models draft PR #7](https://github.com/Marzionz/LegendCraft-Models/pull/7),
+branch cryomancer-rigs, commit `a5a2567c6585e80e3cece16a06842e9522f11da5`. This public PR contains links and status only.
 
-The draft replaces the berg with one closed, beveled ice monolith and a newly
-painted, cutout interpretation of the approved `cryo_prison` material. The public
-pack receives only this links/status document. No model, texture, private render,
-runtime pack change, merge or deployment is included here.
+## Review
 
-## Review surfaces (private access required)
+- [V3 / v4 / v5 interactive comparison](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell_preview.html),
+  [tomb contract](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell.md),
+  [same-scale comparison](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell_comparison_s1.png).
+- [Absolute Zero interactive preview](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/az_cold_front_preview.html),
+  [ring contract and exact per-tick table](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/az_cold_front.md),
+  [day/night acceptance board](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/az_cold_front_acceptance.png),
+  [approved concept comparison](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/az_cold_front_concept_comparison.png).
+- [Tomb / comparison-only cage idle](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/tools/status_frozen_shell_tomb_cage_idle.gif),
+  [cage still](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/tools/status_frozen_shell_cage_comparison_s1.png),
+  [Ice Lance hue board](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell_ice_lance_continuity.png).
 
-- [Complete model contract and v3 history](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell.md).
-- [Interactive v3/v4 preview](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell_preview.html): download/open in a browser; three.js CDN, no build. Shared orbit camera, all clips, pause/tick scrub, day/night, captive and 1.8-block reference capsules, 0.55/1/1.3 scales and 16/24-block cameras.
-- [Player-fit comparison](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell_comparison_s1.png), [swarm comparison](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell_comparison_s0p55.png), [elite comparison](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell_comparison_s1p3.png).
-- [Ice Lance frame-1 continuity board](https://github.com/Marzionz/LegendCraft-Models/blob/cryomancer-rigs/props/status_frozen_shell_ice_lance_continuity.png).
-- [Verification evidence](https://github.com/Marzionz/LegendCraft-Models/tree/cryomancer-rigs/tools): `status_frozen_shell_validation.json`, `status_frozen_shell_blockbench_evidence.json`, `status_frozen_shell_preview_evidence.json`, `status_frozen_shell_continuity.json`, `status_frozen_shell_pack_gates.json`.
+Private access required. Download the HTML and open locally; each embeds real
+model data and textures, loads three.js from CDN, and needs no build step.
 
-## Status and retained contract
+## Ruling applied
 
-**DRAFT; owner approval outstanding.** Retains one rig auto-fit-scaled to the victim,
-player scale 1, real span approximately 0.55–1.3, mandatory re-anchor, unyawed root,
-no `hi` bones, and Core `EntityModels.spawnAt` delivery. The four public clips keep
-their names/durations/modes: `form` 15t once, `idle` 80t loop, `crack` 12t once,
-`shatter` 16t hold. Old tier/ridge motion is remapped to the monolith as a unit.
-Attach/shatter transients remain particles; no second cracked texture.
+V5 is one 18×36×18u beveled monolith, four-tone cutout ice. Form is full size at
+tick 0, idle is a three-tick facet shimmer with no mass motion, crack only brightens
+facet lines, and shatter cuts immediately while ten shards pop and drift for 34t.
+Fit-scale, mandatory re-anchor, identity root and EntityModels.spawnAt survive.
+The explicit new dimensions supersede v4's oversized envelope. Exact/no-blend
+playback and the new fit envelope still require a runtime check.
 
-**Ice Lance frame-1 continuity is a MISMATCH.** Its pointed, stepped berg, deeper
-blue body and dense white fracture web do not continue the new flat-capped pale
-cyan monolith and cutout windows. The approved sheet was checked read-only and
-remains unchanged. Owner follow-up is required; no shatter-sheet work is included.
+The approved Ice Lance frame 1 is now the **burst over the empty shell space**,
+not a silhouette swap frame. The sheet remains unchanged. Its deeper blue versus
+the pale tomb still needs the owner's hue-continuity judgment.
 
-`ice_break` ogg versus the ruled vanilla glass-break/chime stack remains open for
-hook time. The VFX header names the prop correctly, while its older FROST_ENCASE
-body still says translucent PACKED_ICE BlockDisplay / approximately 3-tick growth.
-That contradiction is recorded privately; the hub was not edited.
+Absolute Zero uses eight registered strip frames at two ticks each. Separate
+sweep_l20 and sweep_l60 clips arrive at authored radii 8 / 12 at tick 12 and finish
+frames 7–8 there. Matching exits cut the wall and release sixteen chips for 20t.
+Entity scale stays 1; all travel and frame stepping are authored keyframes.
 
-Validation includes a closed 26-vertex/48-triangle manifold, binary alpha,
-embedded/loose PNG equality, tick-aligned keys, 134 Blockbench frames covering old
-and new clips, and 871 browser/editor element-bound comparisons within .002u with
-zero JavaScript errors. All nine local public-pack gate commands pass, 49 test arms.
-BetterModel mesh export, armor/captive cutout visibility, lighting, fit/re-anchor,
-terrain seating and hook timing still need human in-game checks.
+The 16–24-face limit conflicts with a face under ~1.6 blocks at radius 12: the
+chosen 24 faces are 3.133 blocks wide; 48 would be required for 1.6. A flat polygon
+also cannot match a circle at every point. This draft is inscribed: corners match
+radius exactly, face centers sit up to 0.103 blocks inside at L60, never outside.
+These are explicit review departures, not claims that the incompatible conditions
+were all met.
 
-Nothing else in Cryomancer was built or edited: Absolute Zero wavefront, Ice Lance
-sheet, Frost Nova patch, Permafrost, killed Chill body prop and all shipped az/frost
-props remain outside this handoff. No other class's authoring files changed.
+## Verification / status
+
+Both remain **DRAFT, not owner approved**. Static structure/material/timing/radius
+checks pass. Blockbench captured 144 frames across 17 delivered clips plus the
+comparison cage's idle. Preview/editor agreement: 240,894 scalar components,
+maximum difference .00001 (editor zero-scale clamp), zero significant mismatch or
+JavaScript error. Nine pack commands / 49 test arms pass; local prop staging and
+preflight pass. Human BetterModel export, frame stepping, cutout/emissive lighting,
+terrain, tier/tick alignment, renderer cost and crowded-combat review remain owed.
+
+No runtime pack contents, plugins, balance, hub, sounds or shipped az/frost props
+changed. Frost Nova patch, Ice Lance sheet, Permafrost and Chill body prop remain
+out of scope. No merge or deployment. Stale FROST_ENCASE wording is recorded in
+the private contract; the hub was not edited.
