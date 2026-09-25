@@ -2,7 +2,7 @@
   "littleroom.vikings.viking_shield3": {
     "category": "master",
     "sounds": [
-      "littleroom/vikings/viking_shield3"
+      "littleroom_vikings_sounds:littleroom/vikings/viking_shield3"
     ]
   }
 }
