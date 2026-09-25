@@ -1,0 +1,7 @@
+{
+ "parent": "legendcraft:item/classes/knight_horn_blast",
+ "textures": {
+  "0": "legendcraft:item/classes/knight_horn_blast_35",
+  "particle": "legendcraft:item/classes/knight_horn_blast_35"
+ }
+}
