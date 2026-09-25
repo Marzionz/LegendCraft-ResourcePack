@@ -6,11 +6,11 @@ The item key the plugin sets is `legendcraft:classes/knight_horn` via `ModelRegi
 
 ## Shape and source
 
-`knight_horn.bbmodel` is a Blockbench **Java Block/Item** project with one embedded 64×64 texture. Its 215 cubes form five successive curved body sections, a deep hollow bell, an extended silver blowing tube and bored mouthpiece, an octagonal silver bell band, one thin gold inlay ring, and a broad U-shaped leather loop with two silver fittings and gold rivets. Two small rectangular blue enamel insets sit on the neck collar. There is no painted chevron or checkmark.
+`knight_horn.bbmodel` is a Blockbench **Java Block/Item** project with one embedded 64×64 texture. Its 379 cubes form five successive curved body sections, a deep hollow bell, an extended silver blowing tube and bored mouthpiece, a silver bell band with stepped octagonal corners, one thin gold inlay ring, and a broad U-shaped leather loop with two silver fittings and gold rivets. Two small rectangular blue enamel insets sit on the neck collar. There is no painted chevron or checkmark.
 
-The mouthpiece is narrow and the bell is broad: a bovine war horn, distinct from the vanilla goat horn silhouette. The body uses stepped cross-sections with x rotations of −22.5°, 0°, and 22.5°. The terminal bell faces straight along −z, so its octagonal walls and reinforcement can use separate cubes rotated ±45° about z. This preserves the concept's octagonal opening without requiring two rotation axes on any element. The leather loop uses seven cuboids at 0°, ±22.5°, and ±45° about x. There are no meshes or multi-axis element rotations.
+The mouthpiece is narrow and the bell is broad: a bovine war horn, distinct from the vanilla goat horn silhouette. The body uses stepped cross-sections with x rotations of −22.5°, 0°, and 22.5°. The terminal bell and every rim layer continue the final **22.5° upward pitch**. Their octagonal corners use small rectangular steps, allowing the whole bell to tilt without requiring two rotation axes on any cube. The leather loop uses seven cuboids at 0°, ±22.5°, and ±45° about x. There are no meshes or multi-axis element rotations.
 
-`(8,8,8)` sits at the centre of the mouthpiece opening. The horn runs along model **−z**; its body dips in y before rising toward the bell. The leather loop hangs toward **−y**. Rotated geometry bounds are `[5.361, 2.476, -1.383]` to `[10.639, 10.601, 8.219]`, giving approximately 9.6 units of overall z extent. Sixteen units equal one block.
+`(8,8,8)` sits at the centre of the mouthpiece opening. The horn runs along model **−z**; its body dips in y before rising toward the bell. The body centre falls to y≈6.78, then the mouth of the bell rises to y≈8.71. The leather loop hangs toward **−y**. Rotated geometry bounds are `[5.370, 2.476, -2.234]` to `[10.630, 11.132, 8.219]`, giving approximately 10.5 units of overall z extent. Sixteen units equal one block.
 
 ## Approved concept
 
@@ -18,7 +18,7 @@ The owner approved the following concept with “i think its good lets do it” 
 
 ![Owner-approved 3D horn concept](knight_horn_concept_approved.png)
 
-The rebuild preserves the long silver mouthpiece, cream-to-dark-brown body, broad octagonal opening, silver/gold band, blue neck insets, and hanging loop with two riveted fittings. Its body taper and curved leather are discrete cube steps, and its material painting is a 64×64 atlas. Those are the deliberate translations from the concept into the Java item format. The approved concept itself is outside the runtime pack.
+The rebuild preserves the long silver mouthpiece, cream-to-dark-brown body, upward-facing bell, broad opening, silver/gold band, blue neck insets, and hanging loop with two riveted fittings. Its body taper, rim corners, and curved leather are discrete cube steps, and its material painting is a 64×64 atlas. The owner pointed out that the earlier horizontal terminal bell had flattened the concept's upturn; the final geometry restores that upturn. The approved concept itself is outside the runtime pack.
 
 The runtime files are:
 
@@ -58,7 +58,7 @@ Rotations are degrees, translations are Java display units, and scales are multi
 | `firstperson_lefthand` | −53.11, −73.49, −15.99 | 3.11, 4.23, 0.68 | 0.65, 0.65, 0.65 |
 | `thirdperson_righthand` | 5, −30, 0 | −3.07, 2.57, 3.69 | 0.85, 0.85, 0.85 |
 | `thirdperson_lefthand` | 5, −30, 0 | −3.07, 2.57, 3.69 | 0.85, 0.85, 0.85 |
-| `gui` | 15, −120, 0 | −4.99, 2.61, 0 | 1.10, 1.10, 1.10 |
+| `gui` | 15, −120, 0 | −5.12, 2.26, 0 | 1.10, 1.10, 1.10 |
 | `ground` | 0, 0, 0 | 0, 2, 0 | 0.60, 0.60, 0.60 |
 | `fixed` | 0, 90, −35 | 0, −1, −1 | 0.80, 0.80, 0.80 |
 
@@ -75,6 +75,10 @@ Third-person views use the player reference with a level head, the active arm ra
 The side camera is `[42,29,-22]`, targeting `[0,22,-5]`. Other third-person views use the Display editor's default camera. Ground uses the block reference and fixed uses the item-frame reference.
 
 ![GUI three-quarter view](knight_horn_gui.png)
+
+![Side profile: dipped body and upward-facing bell](knight_horn_profile.png)
+
+The profile is an orthographic geometry check using a temporary display rotation `[0,-90,0]` and visual recentering. It does not replace the shipped GUI transform.
 
 ![First-person right hand, Horn Tooting reference](knight_horn_firstperson_righthand.png)
 
@@ -102,11 +106,11 @@ The unmodified vanilla goat-horn model and texture were extracted from the [offi
 
 2026-09-24, branch `knight-horn`, based on freshly fetched `origin/main` at `d56ded2`.
 
-- Blockbench exported both the `.bbmodel` source and the Java runtime model. Source/model checks passed for all 215 cube bounds, rotations and face UVs, all seven display transforms, and pixel-for-pixel equality between the embedded atlas and the runtime PNG.
+- Blockbench exported both the `.bbmodel` source and the Java runtime model. Source/model checks passed for all 379 cube bounds, rotations and face UVs, all seven display transforms, and pixel-for-pixel equality between the embedded atlas and the runtime PNG.
 - Every element coordinate is within −16..32. All rotations use one legal Java axis/angle. One 64×64 texture resolves through `legendcraft:item/classes/knight_horn`; all faces reference it. No source texture path points at this machine.
 - `python tools/test_pack_manifest.py`: **5 tests passed**.
-- `pwsh -NoProfile -File build.ps1`: **passed**, producing `dist/LegendCraft-Pack-0.2.4.zip`, approximately 775.4 KB. `VERSION` advances from 0.2.3 to 0.2.4 for the new asset; the rebuilt draft retains 0.2.4 because it has not been released.
-- Pack SHA1: `2e6998165c99a03d2c9c8515c5958425f22d065a`.
+- `pwsh -NoProfile -File build.ps1`: **passed**, producing `dist/LegendCraft-Pack-0.2.4.zip`, approximately 784.7 KB. `VERSION` advances from 0.2.3 to 0.2.4 for the new asset; the rebuilt draft retains 0.2.4 because it has not been released.
+- Pack SHA1: `192bbb95f78f6c560675b4b6d0c868bddfc0fc02`.
 - `python tools/check_pack_manifest.py --pack dist/LegendCraft-Pack-0.2.4.zip --source-tree src`: **passed**, carrying 218 item models, 8 sounds, and 1 `sounds.json`. Plugin-contributed inputs are reported **unchecked** because this is the base-pack build and no plugin source zip was provided.
 - Zip entries for the horn item definition, element model, and texture were each checked byte-for-byte against `src/`.
 
@@ -114,12 +118,12 @@ The unmodified vanilla goat-horn model and texture were extracted from the [offi
 
 The owner identified gaps along the body joins after the concept rebuild. A temporary monochrome render probe reproduced actual see-through openings where the 22.5° smoke flare meets the straight terminal bell. The terminal walls originally began at an axial plane that stopped short of the tilted body's upper edge. A radial coverage probe missed this: it intersected other surfaces farther inside the horn. The oblique render sweep caught the openings.
 
-Five existing cubes, `dark_bell_step1_1`, `_2`, `_3`, `_7`, and `_8`, now extend backward to overlap the slanted join. Each extension covers the maximum y extent of that wall against the 22.5° joint plane, plus 0.18 units of overlap. The source and runtime model carry the same five coordinate changes. The hollow bell remains open; the texture, cube count, overall bounds, and display transforms are unchanged.
+The initial repair extended five terminal-wall cubes to overlap that slanted edge. The subsequent silhouette correction replaces the horizontal terminal section: the smoke flare, rising bell, and rim now share the same 22.5° pitch and use overlapping layer depths. This restores the concept's upturn while keeping the joint sealed and the hollow bell open.
 
-The same Blockbench diagnostic was run before and after the fix: opaque white material, strap/fittings hidden, pitches −45°/0°/45°, and eight yaw angles 45° apart. At each angle a 900×750 transparent-margin capture was checked for enclosed transparent regions larger than two pixels. The original geometry failed in **10 of 24 views, with 18 openings**; the corrected geometry passed with **0 openings in all 24 views**. These are results for the sampled views, not a claim about every possible camera angle. The shaded display renders and pack checks were then refreshed.
+The same Blockbench diagnostic was run before and after the join repair, and again on the final upward-bell geometry: opaque white material, strap/fittings hidden, pitches −45°/0°/45°, and eight yaw angles 45° apart. At each angle a 900×750 transparent-margin capture was checked for enclosed transparent regions larger than two pixels. The original geometry failed in **10 of 24 views, with 18 openings**; both the repaired horizontal version and the final upward-bell geometry passed with **0 openings in all 24 views**. These are results for the sampled views, not a claim about every possible camera angle. The shaded display renders and pack checks were then refreshed.
 
 ![Before: opening at the body-to-bell join, monochrome diagnostic](knight_horn_join_before.png)
 
-![After: the same view with the joint sealed](knight_horn_join_after.png)
+![After: final upward-bell geometry, same view, sealed joint](knight_horn_join_after.png)
 
 The owner has approved the concept; these updated renders show the resulting model on the same draft PR. The later on-box tune still needs to check mouth contact through the full use action, resting-hand appearance, head pitch/crouching, both player arm widths, actual client FOV, and the bell's crosshair clearance. Plugin integration and deployment are separate later work. This draft has not been merged or deployed.
