@@ -4,6 +4,8 @@ Static held-item art for the Knight's War Cry. The client uses a `GOAT_HORN` wit
 
 The item key the plugin sets is `legendcraft:classes/knight_horn` via `ModelRegistry.modelKey(CLASSES, "knight_horn")`.
 
+**Owner approval:** The finished 3D model and renders were approved on 2026-09-25 at asset commit `aab152bc1e4f7c4a2346dfe4d8501dde2a3ec182`, after the upward-curve correction and both small body-join repairs. Approval covers the art/model; the later in-game positioning tune and plugin integration remain separate work.
+
 ## Shape and source
 
 `knight_horn.bbmodel` is a Blockbench **Java Block/Item** project with one embedded 64×64 texture. Its 379 cubes form five successive curved body sections, a deep hollow bell, an extended silver blowing tube and bored mouthpiece, a silver bell band with stepped octagonal corners, one thin gold inlay ring, and a broad U-shaped leather loop with two silver fittings and gold rivets. Two small rectangular blue enamel insets sit on the neck collar. There is no painted chevron or checkmark.
@@ -140,4 +142,4 @@ The wider render check uses 120 views: pitches −60°/−30°/0°/30°/60° and
 
 ![After: the same profile with local join overlaps](knight_horn_small_join_after.png)
 
-The owner has approved the concept; these updated renders show the resulting model on the same draft PR. The later on-box tune still needs to check mouth contact through the full use action, resting-hand appearance, head pitch/crouching, both player arm widths, actual client FOV, and the bell's crosshair clearance. Plugin integration and deployment are separate later work. This draft has not been merged or deployed.
+The owner has approved the finished model and renders on the same draft PR. The later on-box tune still needs to check mouth contact through the full use action, resting-hand appearance, head pitch/crouching, both player arm widths, actual client FOV, and the bell's crosshair clearance. Plugin integration and deployment are separate later work. This draft has not been merged or deployed.
