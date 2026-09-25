@@ -1,0 +1,14 @@
+{
+  "samus.universal.rupture_big": {
+    "category": "master",
+    "sounds": [
+      "samus_universal_sounds:samus/universal/rupture_big"
+    ]
+  },
+  "samus.universal.hit_impact_big": {
+    "category": "master",
+    "sounds": [
+      "samus_universal_sounds:samus/universal/hit_impact_big"
+    ]
+  }
+}
