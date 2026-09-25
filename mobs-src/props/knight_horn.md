@@ -104,13 +104,13 @@ The unmodified vanilla goat-horn model and texture were extracted from the [offi
 
 ## Verification
 
-2026-09-24, branch `knight-horn`, based on freshly fetched `origin/main` at `d56ded2`.
+Latest validation: 2026-09-25, branch `knight-horn`, originally based on freshly fetched `origin/main` at `d56ded2`.
 
 - Blockbench exported both the `.bbmodel` source and the Java runtime model. Source/model checks passed for all 379 cube bounds, rotations and face UVs, all seven display transforms, and pixel-for-pixel equality between the embedded atlas and the runtime PNG.
 - Every element coordinate is within −16..32. All rotations use one legal Java axis/angle. One 64×64 texture resolves through `legendcraft:item/classes/knight_horn`; all faces reference it. No source texture path points at this machine.
 - `python tools/test_pack_manifest.py`: **5 tests passed**.
 - `pwsh -NoProfile -File build.ps1`: **passed**, producing `dist/LegendCraft-Pack-0.2.4.zip`, approximately 784.7 KB. `VERSION` advances from 0.2.3 to 0.2.4 for the new asset; the rebuilt draft retains 0.2.4 because it has not been released.
-- Pack SHA1: `192bbb95f78f6c560675b4b6d0c868bddfc0fc02`.
+- Pack SHA1: `31cd69fed60495b4cb259a0c50ab1fe0e478a11c`.
 - `python tools/check_pack_manifest.py --pack dist/LegendCraft-Pack-0.2.4.zip --source-tree src`: **passed**, carrying 218 item models, 8 sounds, and 1 `sounds.json`. Plugin-contributed inputs are reported **unchecked** because this is the base-pack build and no plugin source zip was provided.
 - Zip entries for the horn item definition, element model, and texture were each checked byte-for-byte against `src/`.
 
@@ -125,5 +125,19 @@ The same Blockbench diagnostic was run before and after the join repair, and aga
 ![Before: opening at the body-to-bell join, monochrome diagnostic](knight_horn_join_before.png)
 
 ![After: final upward-bell geometry, same view, sealed joint](knight_horn_join_after.png)
+
+### Small body-joint wedges
+
+After accepting the upward silhouette, the owner identified two remaining small gaps. These were unfilled wedges where the throat changes from −22.5° to the horizontal middle, and where the middle turns upward to 22.5°. The wedges opened into the exterior silhouette, so an enclosed-hole image check alone did not detect them.
+
+Six existing cream-body cubes now overlap the adjacent slanted end planes by 0.06 units: `cream_curve_step1_1`, `_2`, and `_3` extend toward the throat; `cream_curve_step3_1`, `_2`, and `_3` extend toward the rising body. The curve, bell pitch, texture, cube count, overall bounds, and all display transforms remain the same. No mouthpiece changes from the diagnostic investigation were retained.
+
+A targeted check queried actual rotated-cube occupancy at the two missing-material locations, centred on `[8,5.91674,5.21439]` and `[8,5.56660,3.20314]`. Each location used 27 points with x offsets −0.2/0/+0.2 and y/z offsets −0.02/0/+0.02. The previous geometry left **54 of 54 points uncovered**; the repaired geometry covers **all 54**.
+
+The wider render check uses 120 views: pitches −60°/−30°/0°/30°/60° and yaw every 15°, camera zoom 4, captured on 1100×900 canvases. It checks completely transparent pixels (alpha below 16) with eight-neighbour background connectivity, so diagonally connected silhouette pixels are not falsely classified as enclosed holes. No enclosed holes remain in these 120 sampled views, including one-pixel candidates. This complements the local occupancy check for the two exterior wedges.
+
+![Before: the two small body-joint wedges in profile](knight_horn_small_join_before.png)
+
+![After: the same profile with local join overlaps](knight_horn_small_join_after.png)
 
 The owner has approved the concept; these updated renders show the resulting model on the same draft PR. The later on-box tune still needs to check mouth contact through the full use action, resting-hand appearance, head pitch/crouching, both player arm widths, actual client FOV, and the bell's crosshair clearance. Plugin integration and deployment are separate later work. This draft has not been merged or deployed.
