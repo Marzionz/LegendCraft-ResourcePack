@@ -106,8 +106,20 @@ The unmodified vanilla goat-horn model and texture were extracted from the [offi
 - Every element coordinate is within −16..32. All rotations use one legal Java axis/angle. One 64×64 texture resolves through `legendcraft:item/classes/knight_horn`; all faces reference it. No source texture path points at this machine.
 - `python tools/test_pack_manifest.py`: **5 tests passed**.
 - `pwsh -NoProfile -File build.ps1`: **passed**, producing `dist/LegendCraft-Pack-0.2.4.zip`, approximately 775.4 KB. `VERSION` advances from 0.2.3 to 0.2.4 for the new asset; the rebuilt draft retains 0.2.4 because it has not been released.
-- Pack SHA1: `7b55e77d0ab22c813a5cbfea8fe1392e6230a6ac`.
+- Pack SHA1: `2e6998165c99a03d2c9c8515c5958425f22d065a`.
 - `python tools/check_pack_manifest.py --pack dist/LegendCraft-Pack-0.2.4.zip --source-tree src`: **passed**, carrying 218 item models, 8 sounds, and 1 `sounds.json`. Plugin-contributed inputs are reported **unchecked** because this is the base-pack build and no plugin source zip was provided.
 - Zip entries for the horn item definition, element model, and texture were each checked byte-for-byte against `src/`.
+
+### Body-join repair
+
+The owner identified gaps along the body joins after the concept rebuild. A temporary monochrome render probe reproduced actual see-through openings where the 22.5° smoke flare meets the straight terminal bell. The terminal walls originally began at an axial plane that stopped short of the tilted body's upper edge. A radial coverage probe missed this: it intersected other surfaces farther inside the horn. The oblique render sweep caught the openings.
+
+Five existing cubes, `dark_bell_step1_1`, `_2`, `_3`, `_7`, and `_8`, now extend backward to overlap the slanted join. Each extension covers the maximum y extent of that wall against the 22.5° joint plane, plus 0.18 units of overlap. The source and runtime model carry the same five coordinate changes. The hollow bell remains open; the texture, cube count, overall bounds, and display transforms are unchanged.
+
+The same Blockbench diagnostic was run before and after the fix: opaque white material, strap/fittings hidden, pitches −45°/0°/45°, and eight yaw angles 45° apart. At each angle a 900×750 transparent-margin capture was checked for enclosed transparent regions larger than two pixels. The original geometry failed in **10 of 24 views, with 18 openings**; the corrected geometry passed with **0 openings in all 24 views**. These are results for the sampled views, not a claim about every possible camera angle. The shaded display renders and pack checks were then refreshed.
+
+![Before: opening at the body-to-bell join, monochrome diagnostic](knight_horn_join_before.png)
+
+![After: the same view with the joint sealed](knight_horn_join_after.png)
 
 The owner has approved the concept; these updated renders show the resulting model on the same draft PR. The later on-box tune still needs to check mouth contact through the full use action, resting-hand appearance, head pitch/crouching, both player arm widths, actual client FOV, and the bell's crosshair clearance. Plugin integration and deployment are separate later work. This draft has not been merged or deployed.
