@@ -1,0 +1,7 @@
+{
+ "parent": "legendcraft:item/classes/knight_horn",
+ "textures": {
+  "0": "legendcraft:item/classes/knight_horn_fade_65",
+  "particle": "legendcraft:item/classes/knight_horn_fade_65"
+ }
+}
