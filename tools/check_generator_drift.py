@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-"""Gate: the committed HUD tree is what the generator writes.
+"""Gate: the committed HUD tree and flipbook frames are what the generators write.
 
 The BetterHud YAML and the shared chrome art are generated, and every generated file says so
-in its own first line. A hand edit to one survives review looking like ordinary configuration
-and is silently erased by the next regeneration, so the tree has to equal generator output.
+in its own first line. The flipbook frames under the pack's `classes/` item, model and texture
+folders are generated from the flipbook rigs. A hand edit to either survives review looking like
+ordinary content and is silently erased by the next regeneration, so the tree has to equal
+generator output.
 
-Run the generator first, then this. It reads what changed rather than re-deriving it.
+Run the generators first, then this. It reads what changed rather than re-deriving it, so the
+files in the flipbook folders that no generator writes are never reported: regeneration leaves
+them untouched.
 
     python tools/generate_hud.py
+    python tools/gen-flipbook-frames.py
     python tools/check_generator_drift.py
 
 A PNG is compared by DECODED PIXELS, not by the bytes of the file. PNG stores its pixels
@@ -30,7 +35,12 @@ from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
-GENERATED_ROOT = "hud"
+GENERATED_ROOTS = (
+    "hud",
+    "src/assets/legendcraft/items/classes",
+    "src/assets/legendcraft/models/item/classes",
+    "src/assets/legendcraft/textures/item/classes",
+)
 PIXEL_COMPARED_SUFFIX = ".png"
 
 # The two files under hud/ that generate_hud.py does not write. The party frames are authored by
@@ -52,8 +62,9 @@ def git(*args):
 
 
 def changed_paths():
-    tracked = git("diff", "--name-only", "--", GENERATED_ROOT).decode().split()
-    untracked = git("ls-files", "--others", "--exclude-standard", "--", GENERATED_ROOT).decode().split()
+    tracked = git("diff", "--name-only", "--", *GENERATED_ROOTS).decode().split()
+    untracked = git("ls-files", "--others", "--exclude-standard", "--",
+                    *GENERATED_ROOTS).decode().split()
     return sorted(tracked), sorted(untracked)
 
 
@@ -67,9 +78,10 @@ def pixels(data):
 
 
 def main() -> int:
-    if not os.path.isdir(os.path.join(REPO_ROOT, GENERATED_ROOT)):
-        print("FAIL: no %s/ tree -- this gate checked nothing" % GENERATED_ROOT)
-        return 1
+    for root in GENERATED_ROOTS:
+        if not os.path.isdir(os.path.join(REPO_ROOT, root)):
+            print("FAIL: no %s/ tree -- this gate checked nothing there" % root)
+            return 1
 
     tracked, untracked = changed_paths()
     drifted = []
@@ -100,7 +112,8 @@ def main() -> int:
         print("FAIL: %d generated file(s) do not match the generator" % len(drifted))
         for entry in drifted:
             print("  " + entry)
-        print("  regenerate with `python tools/generate_hud.py` and commit the result;")
+        print("  regenerate with `python tools/generate_hud.py` and "
+              "`python tools/gen-flipbook-frames.py` and commit the result;")
         print("  a generated file is never hand-edited.")
         return 1
 
