@@ -1,0 +1,68 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/seraph_wrath_bolt_5",
+    "particle": "legendcraft:item/classes/seraph_wrath_bolt_5"
+  },
+  "elements": [
+    {
+      "from": [4, 8, 8],
+      "to": [12, 32, 8],
+      "faces": {
+        "north": {
+          "uv": [16, 0, 0, 16],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [8, 8, 4],
+      "to": [8, 32, 12],
+      "faces": {
+        "north": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [16, 0, 0, 16],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

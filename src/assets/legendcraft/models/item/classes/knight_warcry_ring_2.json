@@ -1,0 +1,22 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/knight_warcry_ring_2",
+    "particle": "legendcraft:item/classes/knight_warcry_ring_2"
+  },
+  "elements": [
+    {
+      "from": [3.611432, 8.012, 3.611432],
+      "to": [12.388568, 8.012, 12.388568],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

@@ -146,7 +146,7 @@ end is `tools/deploy-hud.ps1`, and `hud/betterhud/README.md` is the detail.
 
 | gate | what it refuses |
 |---|---|
-| generator drift | a `hud/` tree that differs from what `generate_hud.py` writes |
+| generator drift | a `hud/` tree that differs from what `generate_hud.py` writes, or flipbook frames that differ from what `gen-flipbook-frames.py` writes |
 | placeholder audit | a `papi:legendcraft_*` token no `HudPlaceholders` case answers, and one read inside a `pattern:` that is not on `tools/check_hud_placeholders.py`'s allow-list |
 | YAML shape | an element with no name or layer, a condition missing `first`/`second`/`operation`, a layer outside the generator's band, an image reference resolving to no file, a layout drawing an unregistered image, a hud composing an undefined layout |
 | pack manifest | a merge that drops item models, sounds, `sounds.json`, or plugin-contributed assets its inputs carried |
