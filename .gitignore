@@ -26,7 +26,6 @@ tools/*
 # have to be in the tracked tree for a run to read them.
 !/tools/requirements.txt
 !/tools/generate_hud.py
-!/tools/gen-flipbook-frames.py
 !/tools/hud_icon_map.py
 !/tools/test_generate_hud.py
 !/tools/check_generator_drift.py
