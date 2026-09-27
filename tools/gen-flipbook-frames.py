@@ -74,6 +74,11 @@ UNIFORM_TOLERANCE = 1.0e-6
 
 ALLOWED_SHRINKS = (1, 2, 4)
 
+# A tinted flipbook multiplies every face by the first colour of the worn item's
+# custom_model_data component; an item with no colour draws the frame as painted.
+TINT_INDEX = 0
+UNTINTED = -1
+
 FRAME_SUFFIX = re.compile(r"^_\d+(?:_\d+)?\.(?:json|png)$")
 
 
@@ -124,13 +129,16 @@ def read_table(path=TABLE_PATH):
                                  % (frames, shrink, ALLOWED_SHRINKS))
         native = [strip_code(bone) for bone in row.get("native", "").split(",")
                   if strip_code(bone)]
+        tint = strip_code(row.get("tint", ""))
+        if tint not in ("", "yes"):
+            raise GeneratorError("row %s: tint is `yes` or empty, not %r" % (frames, tint))
         if not re.fullmatch(r"[a-z0-9_]+", frames or "!"):
             raise GeneratorError("row %r: frames must be a lower-case item name" % frames)
         if frames in seen:
             raise GeneratorError("row %s appears twice" % frames)
         seen.add(frames)
         parsed.append({"frames": frames, "rig": rig, "clip": clip, "shrink": shrink,
-                       "native": native})
+                       "native": native, "tint": tint == "yes"})
     if not parsed:
         raise GeneratorError("%s names no flipbook" % path)
     return parsed
@@ -504,6 +512,8 @@ def build(row):
                              "texture": "#%d" % used.index(texture_index)}
                     if face.get("rotation"):
                         entry["rotation"] = int(face["rotation"])
+                    if row["tint"]:
+                        entry["tintindex"] = TINT_INDEX
                     faces[side] = entry
                 if not faces:
                     continue
@@ -527,6 +537,9 @@ def build(row):
         }
         item = {"model": {"type": "minecraft:model",
                           "model": "%s:item/classes/%s" % (NAMESPACE, name)}}
+        if row["tint"]:
+            item["model"]["tints"] = [{"type": "minecraft:custom_model_data",
+                                       "index": TINT_INDEX, "default": UNTINTED}]
         files[os.path.join("models", "item", "classes", name + ".json")] = encode(model)
         files[os.path.join("items", "classes", name + ".json")] = encode(item)
     return files
