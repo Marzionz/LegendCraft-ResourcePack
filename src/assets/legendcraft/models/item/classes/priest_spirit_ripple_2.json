@@ -1,0 +1,38 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/priest_spirit_ripple_2",
+    "particle": "legendcraft:item/classes/priest_spirit_ripple_2"
+  },
+  "elements": [
+    {
+      "from": [-10.2857, 8.05, -10.2857],
+      "to": [26.2857, 8.05, 26.2857],
+      "faces": {
+        "north": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}
