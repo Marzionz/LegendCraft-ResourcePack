@@ -1,0 +1,22 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/knight_ghost_shield_1",
+    "particle": "legendcraft:item/classes/knight_ghost_shield_1"
+  },
+  "elements": [
+    {
+      "from": [2.24, 0.44, 7.775],
+      "to": [13.76, 15.56, 8.225],
+      "faces": {
+        "north": {
+          "uv": [14.5, 0, 1.5, 16],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [1.5, 0, 14.5, 16],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}
