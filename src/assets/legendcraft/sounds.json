@@ -10,5 +10,11 @@
     "sounds": [
       "legendcraft:pyromancer/conflagration_blast"
     ]
+  },
+  "pyromancer.conflagration_blast_low": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/conflagration_blast_low"
+    ]
   }
 }
