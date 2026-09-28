@@ -4,11 +4,5 @@
     "sounds": [
       "samus_awakened_pyromancer_sounds:samus/awakened_pyromancer/firestorm_form"
     ]
-  },
-  "samus.awakened_pyromancer.ultimate_spear_smash": {
-    "category": "master",
-    "sounds": [
-      "samus_awakened_pyromancer_sounds:samus/awakened_pyromancer/ultimate_spear_smash"
-    ]
   }
 }

@@ -1,0 +1,14 @@
+{
+  "pyromancer.conflagration_charge": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/conflagration_charge"
+    ]
+  },
+  "pyromancer.conflagration_blast": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/conflagration_blast"
+    ]
+  }
+}
