@@ -1,6 +1,6 @@
 # Conflagration channel rim
 
-Conflagration's ground rune chain charges clockwise during the Pyromancer ultimate's 70-tick channel. The plugin swaps one of 24 item models onto one ground display, then removes it for detonation. Each major piece follows its glyph: thick crosses and stepped hooks, with cardinal diamonds and boxed squares. Two small hook/bar fragments per sector overlap neighbouring outlines into a packed chain. There are no square backings behind crosses or hooks. Charged strokes carry white cores, yellow-orange faces and orange-red rims; cold strokes are warm red-brown with brighter red cores. Attached flame tongues lie flat on the ground.
+Conflagration's ground rune chain charges clockwise during the Pyromancer ultimate's 70-tick channel. The plugin swaps one of 24 item models onto one ground display, then removes it for detonation. Each major piece follows its glyph: heavy crosses and stepped hooks, with cardinal diamonds and boxed squares. Two small hook/bar fragments per sector overlap neighbouring outlines into a packed chain. There are no square backings behind crosses or hooks. Charged strokes carry thin white cores, broad yellow-orange bodies and heavy orange-red rims; cold strokes are warm red-brown with brighter red cores. Attached flame tongues lie flat on the ground.
 
 ## Registration and dimensions
 
@@ -8,28 +8,30 @@ The centre is the origin. North is -Z; sector 1 is centred there, and sectors 2.
 
 | Feature | Dimensions |
 | --- | --- |
-| Cross pieces | Nominal 5.5..5.75 u across; 12..14-source-pixel strokes (1.5..1.75 u), before raster rotation |
-| Stepped S/L hooks | Nominal 5.5 x 3.875 u; 12-source-pixel strokes (1.5 u) |
-| Cardinal diamonds | 6.25 u tip to tip; centre radius 25.25 u |
-| Boxed squares | 4.75 x 4.75 u before raster/radial clipping; 1.5 u strokes; screen-axis aligned |
-| Gap fragments | 48 per frame, two per sector: short hooks about 1.5 x 2 u, bars about 1.5 x 0.75 u; stroke widths 6..7 pixels (0.75..0.875 u); clipped at the heat-sector boundary |
-| Outline and bevel | One source texel (0.125 u) dark silhouette outline and one lighter inset edge; lower-right recess shading |
-| Glyph cores | 4 source pixels (0.5 u) down the middle of major strokes; 2 pixels (0.25 u) in fragments |
-| Flame tongues | Nominal 6..8 source texels long (0.75..1 u), 3..4 texels wide (0.375..0.5 u), narrowing at the tip; raster diagonals can span an additional pixel; attached root overlap removed from the flame layer |
-| Piece/fragment envelope | 22.000000..28.463244 u, measured at opaque pixel corners |
-| Flame envelope | 23.143911..29.433452 u, measured at opaque pixel corners; below the 30 u cap |
+| Cross pieces | Nominal 5.75..6 u across; 14..16-source-pixel strokes (1.75..2 u), before diagonal raster joins |
+| Stepped S/L hooks | Nominal 5.75 x 4.125 u; 14-source-pixel strokes (1.75 u) |
+| Cardinal diamonds | About 6.5 u tip to tip before radial clipping; centre radius 25.25 u |
+| Boxed squares | About 5 x 5 u before radial clipping; 1.75 u strokes; screen-axis aligned |
+| Gap fragments | 48 per frame, two per sector; retained short hooks/bars, thickened toward 14..15-source-pixel strokes (1.75..1.875 u); intersections and sector/radial clipping vary the local width |
+| Outline and bevel | Two-source-pixel dark outline (0.25 u; diagonal raster footprint reaches 2.83 pixels), one-source-pixel lighter upper/left bevel; lower/right recess |
+| Glyph cores | Approximately 5 source pixels (0.625 u) down major strokes; inherited marks and bearings retained; head mostly white-yellow |
+| Flame tongues | Nominal 6..10 x 5..6 art texels on a two-source-pixel grid: 12..20 x 10..12 PNG pixels (1.5..2.5 x 1.25..1.5 u); length shortened at the 30 u cap; two/three overlapping tongues make each mass |
+| Piece/fragment envelope | 22.000000..28.474221 u, measured at opaque pixel corners |
+| Flame envelope | 24.987810..29.992968 u, measured at opaque pixel corners; below the 30 u cap |
 | Carrier planes | Two 64 x 64 u planes per frame, x/z -32..32 u, zero thickness |
 | Block plane y | 0.20 + 0.02(N-1) u |
 | Flame plane y | Block plane y + 0.06 u; no opaque overlap |
 | Complete geometry y | 0.20..0.72 u |
 
-The major pieces and fragments form one eight-connected opaque chain, with touching or overlapping outlines and small ground cutouts inside the glyphs. There are no long one-texel links. Older lit pieces have two tongues; the three newest have three. Frame 24 has three per major piece, 72 nominal tongues total. Most point outward; selected third tongues point inward. The newest piece remains white-yellow with two pale tongues, including in frame 24. All flames attach to the chain and have no opaque overlap with the lower plane.
+The major pieces and fragments form one eight-connected opaque chain, with touching outlines and small ground cutouts inside the glyphs. There are no square backings behind the crosses/hooks. Older lit pieces have two tongues; the three newest have three. Frame 24 has three per major piece, 72 nominal tongues total. Tongues cluster on the outer edge; all are attached and flat. Each mass progresses from #FFD24A roots through #FF8A00 body into #E8500F and #B7331A tips. The head alone keeps a mostly white-yellow body and pale roots. Flame coverage grows from 357 pixels in frame 1 to 7,510 in frame 24 (r4 final: 2,066). No opaque flame pixel overlaps the lower plane.
+
+The flame art-texel interpretation is recorded as OPEN in `C:/Users/omarz/.claude/comms/orchestrator-inbox.md`, CONFLAG-RIM-R5: literal 6..10 PNG pixels remained tiny in native comparison. This pass uses a two-PNG-pixel flame art grid to deliver broad visible masses while preserving the 512px textures and 30 u cap. Glyph outlines still use source pixels.
 
 28 u = 1.75 blocks. `FLIPBOOKS.md` remains `pyro_conflag_rim | pyro_conflag_rim | fuse | 2`. Item display scale remains `2 * trueRadius / 1.75`; the unshrunk rig uses `trueRadius / 1.75`. Runtime keys remain `pyro_conflag_rim_1` through `pyro_conflag_rim_24`. No recentering or ground snapping is introduced.
 
 ## Rig and timing
 
-Unyawed `root -> fx -> frame_1..frame_24`. Each frame directly owns two elements: glyph/fragment plane and flame plane. **Two elements per frame, 48 total**, within the 48-element per-frame budget. The pieces are texture artwork, not separate cubes. The elements, outliner and animation data compare equal to r3 commit `5055d8c`.
+Unyawed `root -> fx -> frame_1..frame_24`. Each frame directly owns two elements: glyph/fragment plane and flame plane. **Two elements per frame, 48 total**, within the 48-element per-frame budget. The pieces are texture artwork, not separate cubes. The elements, outliner and animation data compare equal to r4 commit `07d6568` (and r3 `5055d8c`).
 
 `fuse` is a 1.2-second hold clip. Each frame bone has a step scale key on every tick 0..24: shown scale 1 for its one tick, hidden scale 0.001 otherwise. Frame N is shown on [N-1, N). At tick 24 all frames are hidden. `hidden` is a one-second loop with 21 all-hidden tick keys per frame. There are no position or rotation channels. The plugin's existing 70-tick channel scheduling is unchanged; the diagnostic GIF holds each drawing for three ticks, totalling 72 ticks.
 
@@ -70,31 +72,42 @@ Unyawed `root -> fx -> frame_1..frame_24`. Each frame directly owns two elements
 | Lit face | `#FFD24A`, `#FF8A00` |
 | Lit rim and glyph socket | `#E8500F`, `#B7331A` |
 | Cold face and recess | `#7A1F10`, `#39281F` |
-| Cold outline | `#171310` (`#241F1B` remains allowed) |
+| Cold outline | `#171310`, `#241F1B` |
 | Cold bevel | `#594037` |
 | Cold glyph and lit edge | `#B7331A`, `#E8500F` |
-| Flames | `#E8500F`, `#FF8A00`, occasional `#B7331A` tips; head licks `#FFD24A`/`#FFF4E0` |
+| Flames | `#FFD24A` roots, `#FF8A00` body, `#E8500F` upper flame and `#B7331A` tips; pale head roots |
 
-All nine used colours belong to the r3 palette. `#241F1B` and the approved greys `#4A423C` and `#3B3430` remain allowed but unused. No colours were added.
+All ten used colours belong to the retained palette. The approved greys `#4A423C` and `#3B3430` remain unused. No palette additions. In frame 24, charged band pixels excluding the newest head measure **23.21% white core, 48.63% yellow-orange body, 28.16% orange-red rim**. The head is excluded because it intentionally remains mostly white-yellow.
 
 ## Renders and verification
 
-The existing MCP-native geometry was loaded into an isolated Blockbench project, textures refreshed through native Texture APIs in an Undo transaction, and the result exported through the native project codec at `http://localhost:3000/bb-mcp`. Mutations and rendering targeted project UUID `55179775-ccf4-005c-55eb-6e20ae0ffbb0`. Other rigs and sessions' render slots were not modified.
+Round 5 retains all geometry, outliner data, animation data, registration and non-source texture metadata exactly from r4. Only the 48 embedded texture sources change. Existing MCP-native planes were loaded into isolated project UUID `022eabb1-d15a-f99b-4580-df445dd67f95` at `http://localhost:3000/bb-mcp`; texture refresh used native Texture APIs and a scoped Undo transaction. The project codec verified the export. Its new group serialization, float normalization and preview-created empty animators were kept out of the deliverable by transferring only the verified native texture sources into the unchanged r4 structure. All native operations target that UUID and restore the previously selected project.
 
-The `PROP-PREVIEW.md` generator produced a baseline preview and the final real-model HTML. The final render loop used cloned native Blockbench geometry and actual evaluated animation states in an isolated Three.js renderer. The HTML has 8/12-block radius choices, clip/tick controls, top/bystander views and frame turnaround. HTML interaction was not browser-tested in this session.
+`PROP-PREVIEW.md`'s generator produced baseline and final HTML from the real model. The final page retains r4's 8/12-block radius, top/bystander, tick/clip and turnaround controls. Its embedded rig data equals the final source model. HTML interaction was not browser-tested.
+
+The full render set was replaced using cloned native Blockbench meshes and native evaluated animation states in a separate Three.js renderer:
 
 - `pyro_conflag_rim_render_contact.png`: all 24 frames, north up.
-- `pyro_conflag_rim_render_vs_concept.png`: frames 1, 4, 7, 10, 13, 16, 20, 24 beside the eight untouched concept cells at matched nominal ring scale.
-- `pyro_conflag_rim_render_zoom_vs_concept.png`: frames 1/24 above their north-east quarter enlargements, beside the owner's unchanged cell 1/8 zoom panel. Both full cells are 443 px; the quarter crop is x 221..443, y 0..222, enlarged to 443 px with nearest sampling. Native full views are fitted to 429 px within the grey cell using the same scale ratio as the full comparison.
-- `pyro_conflag_rim_render_frame_12_eye.png` and `_render_frame_24_eye.png`: eye-level views of the 8-block-radius ring.
-- `pyro_conflag_rim_render_fuse.gif`: 72 frames at 20 fps, each of the 24 drawings held for three ticks.
-- `pyro_conflag_rim_render_end_hidden.png` and `_render_hidden.png`: empty-ground checks.
+- `pyro_conflag_rim_render_vs_concept.png`: frames 1, 4, 7, 10, 13, 16, 20, 24 beside the untouched concept cells.
+- `pyro_conflag_rim_render_zoom_vs_concept.png`: frames 1/24 and north-east quarter crops beside the untouched owner zoom panel.
+- `pyro_conflag_rim_render_frame_12_eye.png` and `_render_frame_24_eye.png`: original 8-block-radius shallow eye views.
+- `pyro_conflag_rim_render_distance.png`: frame 24 at radii 8/12 blocks, from 8/12 blocks outside the nominal rim, eye height 1.6 blocks.
+- `pyro_conflag_rim_render_fuse.gif`: 72 encoded frames at 50 ms; each drawing held three ticks.
+- `pyro_conflag_rim_render_end_hidden.png` and `_render_hidden.png`: freshly rendered empty ground; byte-identical to r4.
 - `pyro_conflag_rim_render_preview.html`: final real-model interactive preview.
 
-Ground is `#777777`, sky `#11141C`. Top camera: (0,74,0.001) u, target origin, FOV 50 degrees. Eye camera: (0,25.6,96) u, target (0,8,0) u, FOV 70 degrees, rig scale 8/1.75. That eye is 1.6 blocks high and 6 blocks from the centre, inside the ring.
+Ground is #777777, sky #11141C. Native top camera: (0,74,0.001) u, target origin, FOV 50 degrees, 768px square. Original eye camera: (0,25.6,96) u, target (0,8,0) u, FOV 70 degrees, rig scale 8/1.75. Distance-sheet cameras use z = 16 * (fieldRadius + distanceFromRim) u and scale = fieldRadius/1.75.
 
-Both final vs-concept renders, the full contact sheet and the final eye view were visually inspected before commit. The glyph silhouettes, touching fragment chain and enlarged tongues were checked against the concept at full-cell and quarter-zoom sizes. Checks pass for unchanged geometry/outliner/clips, per-frame count, flatness, single textured face, embedded/editable equality, binary alpha, exact palette, pixel-corner radial bounds, 24 clockwise heat sectors, attached nonoverlapping tongues, fuse/hidden keys, hidden renders and GIF cadence. All 96 rim outputs equal a fresh generator build; generated keys, shrink and geometry remain unchanged. The pack build, manifest and post-commit drift output are recorded in the handoff report.
+Comparison framing corrects r4's roughly 12% undersized native ring against the reference. Zoom cells remain 443px; native views are resized to 482px and centred/cropped, retaining all opaque art. North-east crops remain (221,0)..(443,222), enlarged with nearest sampling. Full comparison cells use 392px native views centred in 360px cells. Both reference panels compare pixel-identical to r4. This is a presentation correction only; the rig radius and runtime registration are unchanged.
+
+Both final vs-concept renders, the contact sheet, eye view and distance sheet were inspected before commit. Verification passes for exact retained model data, two elements per frame, flatness, single up face, 512px texture size, editable/embedded equality, binary alpha, palette membership, pixel-corner radial bounds, clockwise heat sectors, connected band, attached nonoverlapping flames, fuse/hidden states, hidden renders and GIF timing. All 96 generated rim outputs equal an independent fresh generator build; all 48 runtime JSON files equal r4. Shrink remains 2. The build, manifest and post-commit drift output are recorded in the r5 report.
 
 ## Remaining differences from the concept
 
-The chain is more regular and finely rastered than the concept. Crosses and stepped hooks repeat symmetrically; boxed squares have open centres rather than the reference's inner cross motifs. The flame tongues are larger than r3 and visible along the charged arc, but remain smaller and more evenly distributed than the concept's broad irregular flame masses. Their specified 6..8-source-texel bodies are literal; diagonal raster coverage can add one pixel. The head is a crisp white-yellow glyph rather than a soft flare. Binary alpha omits bloom and translucent haze; detached speckles and particles remain absent. At the shallow eye camera, the flat ground artwork is strongly foreshortened. Minecraft lighting, terrain contact, 8/12-block display scaling and playback still need the in-game look.
+The repeated crosses/hooks, diamond grid marks and open-centred boxed squares retain r4's vocabulary. The reference has less regular shapes and inner cross motifs in its boxes. This chain is more regular and crisply rastered; its flame masses are more evenly distributed and bend less organically. The flame tips stay inside 30 u, so some are shortened at the cap. The head is a hard white-yellow glyph rather than a soft flare. Binary alpha excludes bloom, translucent haze and detached sparks.
+
+At shallow eye angles the flat ring is strongly foreshortened: the band and heat progression read, but fine glyph and flame details compress. Minecraft lighting, terrain contact, z-sorting, 8/12-block scaling and actual playback still need an in-game look.
+
+## Round 5 authorization
+
+The owner's brief authorizes this texture polish, native renders, regeneration, one local commit and the handoff without a separate preview ruling turn. It overrides the skill's END THE TURN / later-ruling gate, the equivalent PROP-PREVIEW loop step 1, and the instruction to push authoring work. No push, PR, plugin code or field rig change is part of this pass.
