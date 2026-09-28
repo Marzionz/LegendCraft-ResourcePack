@@ -42,5 +42,6 @@ Columns:
 | `pyro_conflag_stream` | `pyro_conflag_stream` | `flow` | 1 | | |
 | `pyro_conflag_cashout` | `pyro_conflag_cashout` | `snap` | 1 | | |
 | `pyro_conflag_explosion` | `pyro_conflag_explosion` | `detonate` | 4 | | |
+| `pyro_conflag_field` | `pyro_conflag_field` | `blast` | 2 | | |
 | `pyro_conflag_rim` | `pyro_conflag_rim` | `fuse` | 2 | | |
 | `pyro_scorch_explosion` | `pyro_scorch_explosion` | `burst` | 2 | | |

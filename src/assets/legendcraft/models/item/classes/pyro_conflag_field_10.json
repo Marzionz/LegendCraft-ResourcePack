@@ -1,0 +1,62 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/pyro_conflag_field_10_1",
+    "1": "legendcraft:item/classes/pyro_conflag_field_10_2",
+    "2": "legendcraft:item/classes/pyro_conflag_field_10_3",
+    "3": "legendcraft:item/classes/pyro_conflag_field_10_4",
+    "4": "legendcraft:item/classes/pyro_conflag_field_10_5",
+    "particle": "legendcraft:item/classes/pyro_conflag_field_10_1"
+  },
+  "elements": [
+    {
+      "from": [-8, 8.07, -8],
+      "to": [24, 8.07, 24],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [-8, 8.13, -8],
+      "to": [24, 8.13, 24],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#1"
+        }
+      }
+    },
+    {
+      "from": [-8, 8.2, -8],
+      "to": [24, 8.2, 24],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [-8, 8.27, -8],
+      "to": [24, 8.27, 24],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#3"
+        }
+      }
+    },
+    {
+      "from": [-8, 8.34, -8],
+      "to": [24, 8.34, 24],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#4"
+        }
+      }
+    }
+  ]
+}
