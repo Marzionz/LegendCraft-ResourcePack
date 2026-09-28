@@ -116,8 +116,8 @@ pwsh -File deploy-rigs.ps1 -Rig wept,glassjackal,sorrowmoth,eyeless_warden,grief
 ## Dev pack publishing
 
 `tools/merge_dev_pack.py` (durable, re-runnable) builds `dist/LegendCraft-Pack-dev.zip` —
-the pack mc-dev points at — by merging BetterModel + BetterHud generated packs with our
-built pack, preserving every source's `pack.mcmeta` OVERLAYS (dropping BetterHud's is
+the pack mc-dev points at — by merging the BetterModel, BetterHud and MythicArmors generated
+packs with our built pack, preserving every source's `pack.mcmeta` OVERLAYS (dropping BetterHud's is
 exactly how the HUD broke on 2026-08-03). Run `build.ps1` first, run this after the server
 has booted with the current models, upload with `gh release upload dev ... --clobber`, pin
 the printed sha1 in mc-dev `server.properties`, restart.
