@@ -24,6 +24,7 @@ Columns:
 
 | frames | rig | clip | shrink | native | tint |
 | --- | --- | --- | --- | --- | --- |
+| `knight_vanguard_flash` | `knight_vanguard_flash` | `flash` | 4 | | |
 | `knight_vanguard_burst` | `knight_vanguard_burst` | `burst` | 4 | | |
 | `knight_warcry_ring` | `knight_warcry_ring` | `burst` | 1 | | |
 | `priest_spirit_ripple` | `priest_spirit_ripple` | `burst` | 1 | | |
