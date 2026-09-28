@@ -37,9 +37,9 @@ All registered rings are within half a texture pixel of the target. The disc hei
 
 ## Fireball recipe
 
-Each lobe has an axis-aligned cube and an overlapping cube yawed 45 degrees, sized to 84% in x/z and 91% in y. Selected lobes add a 76%-size cube pitched 32 degrees and rolled 15 degrees. The three low central pitched cubes are lifted just enough to keep their transformed bottom at y = 0.03 u. Cube surfaces overlap without identical coplanar faces inside a cluster.
+Each lobe starts with an axis-aligned cube and an overlapping cube yawed 45 degrees, sized to 84% in x/z and 91% in y. Selected lobes add a 76%-size cube pitched 32 degrees and rolled 15 degrees. The three low central pitched cubes retain their original lifts to keep their transformed bottom at y = 0.03 u. The outward roll described below composes over these starting orientations. Cube surfaces overlap without identical coplanar faces inside a cluster.
 
-The peak has nine lobes. Its largest central white-hot core is 24 u across, with cooler lobes around and behind it. The lobe mass measures 47.819 x 40.874 x 45.789 u: **2.989 blocks wide, 2.555 tall, 2.862 deep**, grounded at y = 0. Frame 1's single nested lobe measures approximately 0.60 blocks across. Frame 4's lowest lobe surface rises to y = 7.917 u, about half a block above the ground. Frames 5-6 separate into drifting puffs, frame 7 leaves three small smoke puffs, and frame 8 retains only five ember cubes above the disc.
+The peak has nine lobes. Its largest central white-hot core is 24 u across, with cooler lobes around and behind it. All lobe placements follow commit `126172b`, with only the individual bounds corrections listed below. Frame 1's single nested lobe measures approximately 0.60 blocks across. Frame 4 lifts the cloud clear of the ground. Frames 5-6 separate into drifting puffs, frame 7 leaves three small smoke puffs, and frame 8 retains only five ember cubes above the disc.
 
 Angled streak cubes are 1-1.5 u thick and 5-10 u long; they use narrow vertical texture strips with a hot upper end and darker tail. Small rotated ember cubes punctuate the surrounding empty space. Streaks occur only in frames 1-4; later frames carry isolated embers.
 
@@ -54,7 +54,41 @@ Angled streak cubes are 1-1.5 u thick and 5-10 u long; they use narrow vertical 
 | 7 | 12-13 | 3 | 6 | 0 | 5 | 1 | 12 | Three small smoke puffs |
 | 8 | 14-15 | 0 | 0 | 0 | 5 | 1 | 6 | Last ember cubes above the cooling ring |
 
-Total: 166 elements, maximum 39 per frame against a 48-element limit. Every rotated corner fits the authored [-32, 64] constraint and the generated item box at shrink 2. Whole-rig world bounds across all shown frames: x/z [-32, 32], y [0, 47.853777] u. After shrink and item-centre translation, y reaches only 31.926889, below the item limit of 32.
+Total: 166 elements, maximum 39 per frame against a 48-element limit. Every rotated corner fits the authored [-32, 64] constraint and the generated item box at shrink 2. Whole-rig world bounds across all shown frames: x/z [-32, 32], y [0, 47.999999137] u. After shrink and item-centre translation, y remains below the item limit of 32.
+
+## Accumulated outward roll
+
+The owner requested the original fireball placements with outward rolling lobes, without the rejected central mushroom-cloud arrangement. Only 61 lobe cube rotations change from `126172b`, plus the ten bounds corrections below. Disc, streak and ember geometry, every material, frame membership, lobe count, hierarchy and both clips are unchanged. Frame 1 and all lobes exactly on the vertical centre axis do not roll.
+
+For a lobe centre `(x, y, z)`, horizontal outward direction is `d = (x, 0, z) / sqrt(x*x + z*z)`. Its horizontal tangent roll axis is `(d.z, 0, -d.x)`. Positive roll tips the initial top face toward `d`, outward and down. Compose this roll before the baseline cube orientation in Blockbench's rest-space ZYX Euler convention; do not add Euler components independently. The core, its 45-degree-yawed partner and any pitched third receive the same rigid roll about the lobe centre. This uses the unyawed prop convention in `SIGNS.md`; it introduces no animation rotation keys.
+
+| Frame | Accumulated outward roll |
+| --- | ---: |
+| 1 | 0 degrees; central flash |
+| 2 | 0 degrees; starting phase |
+| 3 | 45 degrees |
+| 4 | 90 degrees |
+| 5 | 135 degrees |
+| 6 | 180 degrees |
+| 7 | 225 degrees; remaining smoke lobes |
+| 8 | No lobes |
+
+All off-axis lobes share this frame phase, including lobes first exposed at the peak. Surviving puffs keep the accumulated phase when their local lobe numbers change in later frames; the roll never resets. Direction follows each frame's original horizontal centre.
+
+Bounds corrections are the only changes to positions or sizes. Ground lifts preserve cube size and move `from`, `to` and `origin` together. Uniform reductions preserve the original centre. The three upper reductions keep shrink 2: the generated item box imposes authored y <= 48 u, tighter than the general 64 u ceiling. Each correction leaves approximately 0.000001 u clearance.
+
+| Frame | Cube | Correction |
+| --- | --- | --- |
+| 3 | `lobe_2_core` | Lift 0.606602718 u |
+| 3 | `lobe_2_yaw` | Lift 1.126004837 u |
+| 3 | `lobe_3_core` | Lift 0.606602718 u |
+| 3 | `lobe_3_yaw` | Lift 1.126004837 u |
+| 3 | `lobe_7_core` | Lift 3.772500907 u |
+| 3 | `lobe_7_yaw` | Lift 0.665798855 u |
+| 3 | `lobe_8_core` | Lift 1.475500895 u |
+| 5 | `lobe_2_core` | Uniform size multiplier 0.989197106 |
+| 7 | `lobe_2_core` | Uniform size multiplier 0.680917505 |
+| 7 | `lobe_2_yaw` | Uniform size multiplier 0.783105699 |
 
 ## Textures and palette
 
@@ -64,7 +98,7 @@ Every visible texture pixel belongs to this exact palette, with binary cutout al
 
 `#FFF4E0 #FFD24A #FF8A00 #E8500F #B7331A #7A1F10 #4A423C #3B3430 #241F1B #171310`
 
-The generator emits eight item definitions, eight geometry files, and 29 per-frame texture copies (45 files total). The item definitions retain their existing paths and contents; the geometry and texture layout change.
+The generator emits eight item definitions, eight geometry files, and 29 per-frame texture copies (45 files total). For the roll change, only geometry files 3-7 differ; all definitions, texture copies and geometry files 1, 2 and 8 remain identical.
 
 ## Rig and clips
 
@@ -78,10 +112,11 @@ Hierarchy: unyawed `root` -> `fx` -> `frame_1` through `frame_8`. Each frame own
 
 Geometry, bone creation and keyframes were authored inside Blockbench through its localhost MCP using native Cube, Group and Animation APIs, with Undo transactions. Blockbench's project codec exported the rig; its group serialization was folded into the legacy outliner layout the flipbook generator reads. Geometry was not generated as external model JSON.
 
-The prop preview was generated from the saved rig with `--clip burst --chest 0` at `C:/Users/omarz/AppData/Local/Temp/bb-pyro_scorch_explosion/preview.html`. The scratch preview reader was adjusted to tolerate empty bone animators and normalize each texture's UV size. The final Blockbench pass rendered and inspected all eight frames, the peak from a second side 90 degrees around, and frames 3 and 6 straight down.
+The prop preview was regenerated from the saved rig with `--clip burst --chest 0` at `C:/Users/omarz/AppData/Local/Temp/bb-pyro-scorch-roll/preview.html`; `before.html` preserves the baseline preview. The scratch preview reader tolerates empty bone animators and normalizes each texture's UV size. The final Blockbench pass rendered all eight frames, frames 3-6 from the same second side 90 degrees around, and frames 3 and 6 straight down. The codec used raw export to preserve exact baseline coordinates without decimal rounding. Saved geometry was reloaded into Blockbench for world-bounds verification.
 
 - `pyro_scorch_explosion_render_frame_01.png` through `_08.png`: perspective bystander eye at (0, 25.6, 96) u, 1.6 blocks high and 6 blocks out; target (0, 15, 0), vertical FOV 50 degrees.
-- `_frame_03_side.png`: same eye height and distance, camera (96, 25.6, 0).
+- `_frame_03_side.png` through `_frame_06_side.png`: same eye height and distance, camera (96, 25.6, 0).
+- `_roll_frames_03_06.png`: these four side views in one horizontal sheet, labelled 45, 90, 135 and 180 degrees accumulated roll.
 - `_frame_03_top.png`, `_frame_06_top.png`: camera above the origin at 112 u.
 - `_contact.png`: all eight bystander views on a neutral background.
 - `_burst_end_hidden.png`, `_hidden.png`: hidden end and hidden loop verification.
@@ -95,3 +130,5 @@ No in-game deployment or plugin edit was performed. Human checks still owed: the
 ## History
 
 2026-09-27: replaced the superseded side-sheet cross with a three-dimensional cube fireball and smoke sequence over registered 64 x 64 ground cells. Preserved the names, frame hierarchy, clips and shrink-2 runtime contract; replaced all renders and regenerated the item-model flipbook.
+
+2026-09-27: added accumulated outward lobe roll to the `126172b` placements through Blockbench MCP. Preserved all non-lobe elements and textures exactly, made the ten listed bounds corrections, replaced the renders, added the frames 3-6 roll sheet and regenerated the item frames.
