@@ -1,80 +1,97 @@
 ﻿# Scorch land explosion
 
-Scorch's meteor explodes where it stops, damaging enemies within 4.0 blocks and applying a Burning stack. This ground-snapped effect lasts 16 ticks: eight drawings, two ticks each. The ground ring communicates the damage edge to a bystander.
+Scorch's meteor bursts where it stops, damaging enemies within 4.0 blocks and applying a Burning stack. A block-ish 3D fireball rises above the approved 2D ground ring for 16 ticks: eight frames, two ticks each. The ring communicates the damage edge.
 
-The rig is the source for `tools/gen-flipbook-frames.py` and the prop preview. Runtime uses **one item display swapping item models**, `legendcraft:classes/pyro_scorch_explosion_1` through `_8`. Never deploy this rig to BetterModel; its scale steps select authoring frames only.
+This frame-stack rig is the input to `tools/gen-flipbook-frames.py` and the prop preview. Runtime uses ONE item display swapping `legendcraft:classes/pyro_scorch_explosion_1` through `_8`. The rig is never deployed to BetterModel.
 
-## Approved sources
+## Sources
 
-- `pyro_scorch_explosion_concept_ground.png`: 1774 x 887 RGBA, ground ring and char.
-- `pyro_scorch_explosion_concept_side.png`: 1774 x 887 RGBA, flash, dome, flames, smoke and sparks.
+- `pyro_scorch_explosion_concept_ground.png`: approved 1774 x 887 RGBA sheet, eight cells in a 4 x 2 grid. The disc uses this drawing, including the diamond, square, cross and hooked runes.
+- `pyro_scorch_explosion_concept_side.png`: 1774 x 887 RGBA sheet, reference for the fireball's silhouette, heat progression and timing only. It is not a texture.
+- Craft reference: Unending Blows `src/assets/legendcraft/textures/item/flurrybwl/strike_*.png` and `impact_*.png`: narrow shaded strokes, hot heads, dark tails and empty space.
 
-Both sheets contain four columns and two rows, read left to right, then top to bottom. Their art is cropped, registered, palette-quantized and nearest-neighbour downsampled, without repainting or synthesizing the ring. Previous frame art, emissive pairs, GIF and sheet are superseded and are not inputs.
+The earlier crossed side-sheet build and its renders are superseded.
 
-## Geometry and radius contract
+## Ground disc and radius contract
 
-Hierarchy: unyawed `root` -> `fx` -> `frame_1` through `frame_8`. Each frame contains four zero-thickness planes (32 total):
+Each frame has one horizontal 64 x 64 u disc, centred on the origin at y = 0.25 + 0.035(N-1) u. At 16 u per block, its square is 4 x 4 blocks. Only the up face is textured; the authoring texture uses double-sided preview rendering. The generated ground surface faces up.
 
-- `disc_N`: 64 x 64 model units, centred on the origin, horizontal at y = 0.25 + 0.035(N-1). Ground cell: 128 x 128 pixels.
-- `cross_a_N`, `cross_b_N`, `cross_c_N`: each 56 units wide x 42 tall, standing at y = 0, with rest yaw 0, 60 and 120 degrees around the origin. Local depth stagger: 0.035(N-1) units. Each carries the same 112 x 84 side cell.
+Every disc texture is 64 x 64 pixels, nearest-neighbour sampled: 16 px per block. Frames 2-8 register their outer ring edge to radius **28 pixels = 28 u = 1.75 blocks at authored scale 1**. This is the plugin's radius contract. Frame 1 keeps its own smaller flash size.
 
-One model unit is 1/16 block. Each plane has one textured face and textures render double-sided. The six half-planes are spaced 60 degrees apart. The generator accepts these rotations; no 0/45/-45 fallback was needed.
+Source cells use local centre (221.5, 221.5). Retained connected art determines each frame's outer radius; the registration scales around that centre to 28 output pixels. Source alpha below 32 is dropped, components smaller than five source pixels are removed, and isolated single-pixel red noise inside the output ring is removed. Retained strokes, runes, embers and solid marks are mapped to the nearest palette RGB; output alpha is exclusively 0 or 255. No ring artwork is synthesized. Nearest-neighbour rasterization leaves these maximum occupied pixel-centre radii:
 
-**The ring's outer radius is 56 texture pixels at 32 px/block: 28 model units, or 1.75 blocks at authored scale 1.** The disc square is 4 blocks wide; the star is 3.5 blocks wide and 2.625 blocks tall. The 56-pixel radius must not be confused with a 56-model-unit radius.
-
-Frames 2-8 are individually centred and rescaled to the same 56-pixel outer-radius target. Frame 1 retains its smaller flash. Measured outer occupied pixel-centre radii after nearest-neighbour sampling:
-
-| Frame | Radius (texture pixels) |
+| Frame | Radius (pixels) |
 | --- | ---: |
-| 1 | 32.932 (flash) |
-| 2 | 55.933 |
-| 3 | 56.147 |
-| 4 | 56.147 |
-| 5 | 55.700 |
-| 6 | 55.376 |
-| 7 | 55.556 |
-| 8 | 55.879 |
+| 1 | 24.052 (unscaled flash registration) |
+| 2 | 28.364 |
+| 3 | 27.973 |
+| 4 | 27.613 |
+| 5 | 27.830 |
+| 6 | 28.151 |
+| 7 | 27.577 |
+| 8 | 27.830 |
 
-Every ring is within one output texel of the target; the subpixel differences come from nearest-neighbour rasterization. Registration reuses the resumed session's centres and per-cell scales. All side cells use 0.28 output pixels per source pixel and source-cell x centre 221.5. Baselines are 406 for the top row and 399 for the bottom row, aligning both rows to y = 0. Frame 3 fills most of the height; later frames retain that scale.
+All registered rings are within half a texture pixel of the target. The disc heights are 0.250, 0.285, 0.320, 0.355, 0.390, 0.425, 0.460 and 0.495 u.
 
-The FLIPBOOKS row uses **shrink 2** to fit the item-model box. Display scale must be `2 * trueRadius / 1.75`; for a 4-block damage radius this is `32/7`, approximately 4.571429. The factor 2 restores generator shrink; the remaining factor aligns the ring with damage. Ground-snap at impact and remove the display at tick 16.
+`FLIPBOOKS.md` remains **shrink 2**. Display scale must be `2 * trueRadius / 1.75`, including shrink restoration. At a 4.0-block damage radius this is `32/7`, approximately 4.571429. Ground-snap at impact; remove the display at tick 16. No plugin constant change is needed.
 
-## Textures
+## Fireball recipe
 
-Eight embedded 128 x 212 RGBA atlases contain the ground cell at `(0,0)-(128,128)` and the side cell at `(8,128)-(120,212)`. Each generated frame copies its atlas unchanged. No `_e` emissive pair is used. Every visible output pixel belongs to this ramp, with alpha exclusively 0 or 255:
+Each lobe has an axis-aligned cube and an overlapping cube yawed 45 degrees, sized to 84% in x/z and 91% in y. Selected lobes add a 76%-size cube pitched 32 degrees and rolled 15 degrees. The three low central pitched cubes are lifted just enough to keep their transformed bottom at y = 0.03 u. Cube surfaces overlap without identical coplanar faces inside a cluster.
+
+The peak has nine lobes. Its largest central white-hot core is 24 u across, with cooler lobes around and behind it. The lobe mass measures 47.819 x 40.874 x 45.789 u: **2.989 blocks wide, 2.555 tall, 2.862 deep**, grounded at y = 0. Frame 1's single nested lobe measures approximately 0.60 blocks across. Frame 4's lowest lobe surface rises to y = 7.917 u, about half a block above the ground. Frames 5-6 separate into drifting puffs, frame 7 leaves three small smoke puffs, and frame 8 retains only five ember cubes above the disc.
+
+Angled streak cubes are 1-1.5 u thick and 5-10 u long; they use narrow vertical texture strips with a hot upper end and darker tail. Small rotated ember cubes punctuate the surrounding empty space. Streaks occur only in frames 1-4; later frames carry isolated embers.
+
+| Frame | Ticks | Lobe clusters | Lobe cubes | Streaks | Embers | Disc | Total elements | Read |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 1 | 0-1 | 1 | 3 | 5 | 3 | 1 | 12 | Small white-hot flash |
+| 2 | 2-3 | 4 | 10 | 8 | 6 | 1 | 25 | Swelling white/yellow centre and orange crown |
+| 3 | 4-5 | 9 | 21 | 9 | 8 | 1 | 39 | Full billowing peak, hottest in the middle |
+| 4 | 6-7 | 8 | 18 | 6 | 8 | 1 | 33 | Raised tearing lobes, darker outer edges |
+| 5 | 8-9 | 5 | 12 | 0 | 8 | 1 | 21 | Separated orange-red puffs with dark cores |
+| 6 | 10-11 | 4 | 10 | 0 | 7 | 1 | 18 | Grey smoke, dark lower puffs and embers |
+| 7 | 12-13 | 3 | 6 | 0 | 5 | 1 | 12 | Three small smoke puffs |
+| 8 | 14-15 | 0 | 0 | 0 | 5 | 1 | 6 | Last ember cubes above the cooling ring |
+
+Total: 166 elements, maximum 39 per frame against a 48-element limit. Every rotated corner fits the authored [-32, 64] constraint and the generated item box at shrink 2. Whole-rig world bounds across all shown frames: x/z [-32, 32], y [0, 47.853777] u. After shrink and item-centre translation, y reaches only 31.926889, below the item limit of 32.
+
+## Textures and palette
+
+Fourteen embedded PNGs: eight 64 x 64 ground cells and six hand-composed 16 x 16 heat materials: `white_hot`, `yellow`, `orange`, `ember_red`, `smoke_grey`, `dark_smoke`. Stepped pixel contours form an asymmetric curled core, an upper highlight rim, and split darker underside. Ember-red materials have charcoal centres. Up faces sample the upper ten rows, down faces the lower eight, and vertical faces the full material; every cube face has multiple painted colours. Materials are reused across lobes and frames. There are no emissive pairs.
+
+Every visible texture pixel belongs to this exact palette, with binary cutout alpha:
 
 `#FFF4E0 #FFD24A #FF8A00 #E8500F #B7331A #7A1F10 #4A423C #3B3430 #241F1B #171310`
 
-The resumed texture pass rejects alpha below 128 and desaturated soft fringe, then maps retained fire/char colours to the nearest ramp entry. Raw concept RGB values are quantized, not required to equal a ramp hex before conversion. Sampling is nearest-neighbour throughout. Saved atlases were reused after checking their palette, binary alpha, ring registration and side scale.
+The generator emits eight item definitions, eight geometry files, and 29 per-frame texture copies (45 files total). The item definitions retain their existing paths and contents; the geometry and texture layout change.
 
-## Clips and timing
+## Rig and clips
 
-`burst`: 0.8 seconds, hold mode. Scale 1 shows a frame; 0.001 hides it. Every changing segment has a key one tick before the step and at the step, using step interpolation. Exactly one frame is visible at ticks 0-15. All frames have hidden keys at tick 16: **the clip ends hidden**. `hidden` loops with every frame at 0.001. Both clips use only scale keys on the 20-tps grid. Rest geometry follows the unyawed prop convention from `SIGNS.md`; there are no animated rotation or position signs.
+Hierarchy: unyawed `root` -> `fx` -> `frame_1` through `frame_8`. Each frame owns its disc, cube clusters, streaks and embers directly. This follows the unyawed prop convention in `SIGNS.md`; neither clip has position or rotation keys.
 
-| Frame | Visible ticks | Seconds [start, end) | Ground | Upright |
-| --- | --- | --- | --- | --- |
-| 1 | 0-1 | 0.00-0.10 | Flash disc | Small flash |
-| 2 | 2-3 | 0.10-0.20 | Forming fire ring | Spiky starburst |
-| 3 | 4-5 | 0.20-0.30 | Full ring over char | Peak dome |
-| 4 | 6-7 | 0.30-0.40 | Full ring over char | Breaking flame tongues |
-| 5 | 8-9 | 0.40-0.50 | Flames sink to embers | Thinning flames, first smoke |
-| 6 | 10-11 | 0.50-0.60 | Ember ring | Low flames, embers and smoke |
-| 7 | 12-13 | 0.60-0.70 | Cooling ember ring | Last flame, puffs and embers |
-| 8 | 14-15 | 0.70-0.80 | Cooling char and embers | Last sparks |
-| Hidden | 16 onward | 0.80 onward | Hidden | Hidden |
+`burst`: 0.8 seconds, hold mode, 20-tps grid. Frame N shows at tick 2(N-1), remains for two ticks, and hides at tick 2N. Scale 1 is shown, 0.001 hidden, with step interpolation. Every changing segment has a holding key one tick before the change. Exactly one frame shows at ticks 0-15. Every frame has a hidden key at tick 16: **the clip ends hidden**.
 
-## Verification
+`hidden`: 1-second loop, all frame bones at 0.001 throughout.
 
-Geometry was edited in Blockbench through its MCP and exported by Blockbench's project codec. Legacy outliner serialization keeps the file compatible with the existing generator. No external script generated model geometry JSON.
+## Verification and renders
 
-The real saved rig feeds the prop preview (`--clip burst --chest 0`): `C:/Users/omarz/AppData/Local/Temp/bb-pyro_scorch_explosion/preview.html`. The brief explicitly overrides the skill's intermediate owner-ruling stop.
+Geometry, bone creation and keyframes were authored inside Blockbench through its localhost MCP using native Cube, Group and Animation APIs, with Undo transactions. Blockbench's project codec exported the rig; its group serialization was folded into the legacy outliner layout the flipbook generator reads. Geometry was not generated as external model JSON.
 
-Inspected Blockbench renders: `pyro_scorch_explosion_render_frame_01.png` through `_08.png`, eye height 1.6 blocks, horizontal distance 6 blocks, looking at the origin; `_frame_03_top.png` and `_frame_06_top.png` look straight down. `_contact.png` collects all eight bystander views. `_burst_end_hidden.png` and `_hidden.png` document both hidden states. These views show authored scale.
+The prop preview was generated from the saved rig with `--clip burst --chest 0` at `C:/Users/omarz/AppData/Local/Temp/bb-pyro_scorch_explosion/preview.html`. The scratch preview reader was adjusted to tolerate empty bone animators and normalize each texture's UV size. The final Blockbench pass rendered and inspected all eight frames, the peak from a second side 90 degrees around, and frames 3 and 6 straight down.
 
-Verification passed: eight frames, four planes each, 24 generated files; tick selection, one-tick changing segments, final hidden state, exact output palette, binary alpha and ring registration. `LegendCraft-Pack-0.2.4.zip` passed the source manifest gate; all 24 Scorch ZIP entries were additionally compared byte-for-byte with generated output. The handoff records post-commit drift output.
+- `pyro_scorch_explosion_render_frame_01.png` through `_08.png`: perspective bystander eye at (0, 25.6, 96) u, 1.6 blocks high and 6 blocks out; target (0, 15, 0), vertical FOV 50 degrees.
+- `_frame_03_side.png`: same eye height and distance, camera (96, 25.6, 0).
+- `_frame_03_top.png`, `_frame_06_top.png`: camera above the origin at 112 u.
+- `_contact.png`: all eight bystander views on a neutral background.
+- `_burst_end_hidden.png`, `_hidden.png`: hidden end and hidden loop verification.
 
-Owner review of the new renders and in-game checks remain: ring alignment at the 4-block boundary, six-sided read, item-model face visibility and alpha sorting, lighting, and two-tick model swaps. No deployment was performed.
+Checks passed: element budgets and face coverage; every rotated corner; nearest-neighbour ground dimensions; palette and binary alpha; all 17 tick states; one-tick changing segments; hidden loop; all 45 generated files byte-for-byte against the current rig. `python tools/gen-flipbook-frames.py` reports 16 flipbooks, 113 frames and 411 files written. The pack build and source manifest check passed for `dist/LegendCraft-Pack-0.2.4.zip`. Post-commit drift output is recorded in the handoff report.
+
+The brief explicitly overrides the skill's intermediate review stop. `legendcraft-blockbench/SKILL.md` says: "the commit and the handoff are all forbidden" before a later owner ruling. `PROP-PREVIEW.md` says: "Then the turn ends: the ruling is the next message". Those are explicit skill gates; this brief instead authorizes completing the build, renders, checks and commit in this session. It also overrides the skill's separate authoring-repository push/index workflow: only the named pack-branch paths are committed, with no push.
+
+No in-game deployment or plugin edit was performed. Human checks still owed: the 4-block damage-edge alignment at runtime scale, lighting and alpha cutout in Minecraft, and the two-tick item-model swaps ending with display removal. Preview and renders show authored scale, before the plugin's radius multiplier.
 
 ## History
 
-2026-09-27: rebuilt from the two owner-approved transparent sheets. Reused registered textures and scale clips from the resumed session; replaced its two-plane cross with the requested 0/60/120-degree star. Generated the shrink-2 item-model flipbook, replaced the obsolete contract, and captured the new render set.
+2026-09-27: replaced the superseded side-sheet cross with a three-dimensional cube fireball and smoke sequence over registered 64 x 64 ground cells. Preserved the names, frame hierarchy, clips and shrink-2 runtime contract; replaced all renders and regenerated the item-model flipbook.
