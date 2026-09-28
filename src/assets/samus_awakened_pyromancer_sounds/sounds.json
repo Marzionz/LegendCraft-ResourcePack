@@ -1,0 +1,8 @@
+{
+  "samus.awakened_pyromancer.firestorm_form": {
+    "category": "master",
+    "sounds": [
+      "samus_awakened_pyromancer_sounds:samus/awakened_pyromancer/firestorm_form"
+    ]
+  }
+}
