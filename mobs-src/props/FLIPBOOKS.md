@@ -41,3 +41,4 @@ Columns:
 | `pyro_conflag_cashout` | `pyro_conflag_cashout` | `snap` | 1 | | |
 | `pyro_conflag_explosion` | `pyro_conflag_explosion` | `detonate` | 4 | | |
 | `knight_ghost_shield` | `knight_ghost_shield` | `flare` | 1 | | |
+| `knight_horn_blast` | `knight_horn_blast` | `war_cry` | 1 | | |
