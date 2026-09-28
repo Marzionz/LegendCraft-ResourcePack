@@ -1,9 +1,9 @@
 # Knight Vanguard landing flash
 
-One soft, translucent spotlight surrounds the Knight at the landing origin,
+One bright spotlight of white light with a blue glow surrounds the Knight at the landing origin,
 alongside `knight_vanguard_burst` on the same tick. The Knight stands inside the
 light and remains visible. The opening low flash becomes a rising beam,
-which holds its full peak size and fades, then leaves rising gold motes
+which holds its full peak size and fades, then leaves rising white-blue motes
 and a last ground glint. There are no radial rays, stars, replacement shapes,
 separate shafts, rods, ribbons or beam caps.
 
@@ -58,15 +58,15 @@ are 64 × 64 with logical UV dimensions 16 × 16; ring/mote/glint textures are
 
 | Texture suffix | Alpha bytes | Purpose |
 | --- | --- | --- |
-| `_outer.png` | 0, 31 | Widest, faintest shell and haze; 12.16% maximum |
-| `_inner.png`, `_inner_02.png` … `_inner_09.png` | 0, 31, 56, 89, 115 | Main gradient, painted centre and moving streaks |
+| `_outer.png` | 0, 71 | Widest, faintest shell and haze; 27.84% maximum |
+| `_inner.png`, `_inner_02.png` … `_inner_09.png` | 0, 71, 118, 168, 198 | Main gradient, painted centre and moving streaks |
 | `_inner_10.png` | 0, 31, 56 | Historical texture, no assigned faces |
 | `_inner_11.png` | 0, 31 | Historical texture, no assigned faces |
-| `_ring.png` | 0, 31, 56, 255 | Original faint disc and bright thin band |
+| `_ring.png` | 0, 71, 118, 255 | Disc and bright thin band |
 | `_ring_fade.png` | 0, 31 | Historical texture, no assigned faces |
 | `_ray.png` | 89, 255 | Historical texture, no assigned faces |
-| `_mote.png` | 255 | Original gold/brass cubes |
-| `_glint.png` | 0, 89 | Original final centre glint |
+| `_mote.png` | 255 | White-blue cubes |
+| `_glint.png` | 0, 168 | Final centre glint |
 
 Fade files are `_outer_fade_<frame>.png`, `_inner_fade_<frame>.png` and
 `_ring_fade_<frame>.png`, for frames 10–13. Their RGB pixels exactly copy
@@ -75,22 +75,24 @@ centre marks and streaks scale together with `floor(source_alpha × factor + 0.5
 
 | Frame | Peak alpha factor | Outer alpha bytes | Inner alpha bytes | Ring alpha bytes |
 | --- | --- | --- | --- | --- |
-| 10 | 75% | 0, 23 | 0, 23, 42, 67, 86 | 0, 23, 42, 191 |
-| 11 | 50% | 0, 16 | 0, 16, 28, 45, 58 | 0, 16, 28, 128 |
-| 12 | 25% | 0, 8 | 0, 8, 14, 22, 29 | 0, 8, 14, 64 |
+| 10 | 75% | 0, 53 | 0, 53, 89, 126, 149 | 0, 53, 89, 191 |
+| 11 | 50% | 0, 36 | 0, 36, 59, 84, 99 | 0, 36, 59, 128 |
+| 12 | 25% | 0, 18 | 0, 18, 30, 42, 50 | 0, 18, 30, 64 |
 | 13 | 0% | 0 | 0 | 0 |
 
-Reading upward from the ground, main inner bitmap rows 48–63 use alpha 89
-(34.90%), rows 28–47 use 56 (21.96%), and rows 4–27 use 31 (12.16%). Rows
+Reading upward from the ground, main inner bitmap rows 48–63 use alpha 168
+(65.88%), rows 28–47 use 118 (46.27%), and rows 4–27 use 71 (27.84%). Rows
 4–15 become progressively sparse transparent pixels; rows 0–3 are fully clear.
-Edge columns use at most 31. The painted white centre reaches 115 (45.10%) only
+Edge columns use at most 71. The painted white centre reaches 198 (77.65%) only
 near the ground and follows the upward fade. Two short one-pixel-wide streaks
-climb four bitmap rows per frame; their alpha never exceeds 89.
+climb four bitmap rows per frame; their alpha never exceeds 168.
 
 Column colours are white `#FFFFFF`, ice `#E8F2FF`, pale blue `#A9CFFF` and sky
 `#6FA8FF`; sky is its darkest colour. The original broader effect palette still
 permits azure `#1F5FB0`, deep azure `#123C75`, gold `#FFD86B` and brass `#C49A3A`.
-Motes retain gold and brass. Only the peak ring and motes use opaque pixels.
+Motes are white-blue, `#A8CFFF` to `#F2FAFF` by their original shading. Every light alpha
+is the original raised along `1 - (1 - a)^2.5`, so the column reads as real light.
+Only the peak ring and motes use opaque pixels.
 The retired standalone core and middle-shaft textures are removed.
 
 ## Rig and timing

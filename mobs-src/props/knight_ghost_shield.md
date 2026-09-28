@@ -1,6 +1,6 @@
 # knight_ghost_shield — Bulwark absorbed-hit ghost heater
 
-A flat azure heater appears on the incoming hit's bearing, expands, and fades over
+A heater of white light glowing blue at its edge appears on the incoming hit's bearing, expands, and fades over
 six ticks (0.3 s). This is an item-model flipbook source, not a BetterModel deployment.
 The silhouette reuses the shipped `knight_bulwark_shields` shield_0 front texture's
 opaque outline, resampled with nearest neighbour; the emblem and trim are removed.
@@ -20,10 +20,11 @@ Base size: **12.8×16.8 u = 0.8×1.05 blocks**, centred on the origin. Each fram
 contains one flat cube, 0.5 u deep before its baked expansion. Front faces **+Z**;
 the opposite face also draws. Only the north and south faces are textured, with
 outward-facing materials, so a view does not blend two copies of the same fill.
-There is no rim geometry, emblem, gold, shaded field, or baked lighting.
+There is no rim geometry, emblem, gold or baked lighting.
 
-Fill: flat `#5B95E0`. Frames 1–2 have a one-pixel `#DCE3EC` boundary at 80% alpha
-(204/255). From frame 3, the boundary is the fill. Transparent pixels stay empty;
+Fill: white light `#F5FCFF` at the core, glowing `#80C7FF` toward the edge over the
+outermost eight pixels, with a one-pixel `#DBF0FF` boundary. The edge band carries up
+to 15% more alpha than the core, so the glow reads brighter than the fill. Transparent pixels stay empty;
 the outline has no antialiasing. Full brightness is the plugin's display setting.
 
 The 64×64 atlas contains a 52×64 silhouette, mapped using UV `[6,0,58,64]`.
@@ -39,14 +40,14 @@ expansion; the clip only selects frames using uniform step scale 1 or 0.001.
 Every frame bone has a key on every tick, including tick 6. No position or rotation
 keys, native bones, tint, or display-transform animation are required.
 
-| Frame | Tick interval | Time (s) | Baked scale | Fill alpha | Alpha byte | Width × height (u) |
+| Frame | Tick interval | Time (s) | Baked scale | Core alpha | Core / edge alpha byte | Width × height (u) |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | 0–1 | 0.00–0.05 | 0.90 | 55% | 140 | 11.520 × 15.120 |
-| 2 | 1–2 | 0.05–0.10 | 1.00 | 50% | 128 | 12.800 × 16.800 |
-| 3 | 2–3 | 0.10–0.15 | 1.08 | 40% | 102 | 13.824 × 18.144 |
-| 4 | 3–4 | 0.15–0.20 | 1.15 | 30% | 76 | 14.720 × 19.320 |
-| 5 | 4–5 | 0.20–0.25 | 1.22 | 18% | 46 | 15.616 × 20.496 |
-| 6 | 5–6 | 0.25–0.30 | 1.26 | 8% | 20 | 16.128 × 21.168 |
+| 1 | 0–1 | 0.00–0.05 | 0.90 | 86% | 220 / 255 | 11.520 × 15.120 |
+| 2 | 1–2 | 0.05–0.10 | 1.00 | 82% | 210 / 255 | 12.800 × 16.800 |
+| 3 | 2–3 | 0.10–0.15 | 1.08 | 72% | 184 / 211 | 13.824 × 18.144 |
+| 4 | 3–4 | 0.15–0.20 | 1.15 | 59% | 150 / 172 | 14.720 × 19.320 |
+| 5 | 4–5 | 0.20–0.25 | 1.22 | 39% | 100 / 115 | 15.616 × 20.496 |
+| 6 | 5–6 | 0.25–0.30 | 1.26 | 18% | 47 / 54 | 16.128 × 21.168 |
 
 `flare`: 0.30 s, hold its final all-hidden pose. Frame N is the only shown bone
 from tick N−1 to N. At tick 6 every bone is 0.001: **ENDS HIDDEN**.
