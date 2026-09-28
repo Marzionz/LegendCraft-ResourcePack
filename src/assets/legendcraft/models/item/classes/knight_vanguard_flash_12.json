@@ -3,6 +3,7 @@
     "0": "legendcraft:item/classes/knight_vanguard_flash_12_1",
     "1": "legendcraft:item/classes/knight_vanguard_flash_12_2",
     "2": "legendcraft:item/classes/knight_vanguard_flash_12_3",
+    "3": "legendcraft:item/classes/knight_vanguard_flash_12_4",
     "particle": "legendcraft:item/classes/knight_vanguard_flash_12_1"
   },
   "elements": [
@@ -298,8 +299,8 @@
       }
     },
     {
-      "from": [5.5, 8.105, 5.5],
-      "to": [10.5, 13, 10.5],
+      "from": [4.8, 8.105, 4.8],
+      "to": [11.2, 24, 11.2],
       "faces": {
         "north": {
           "uv": [0.75736, 0, 15.24264, 16],
@@ -320,10 +321,10 @@
       }
     },
     {
-      "from": [5.5, 8.105, 5.5],
-      "to": [10.5, 13, 10.5],
+      "from": [4.8, 8.105, 4.8],
+      "to": [11.2, 24, 11.2],
       "rotation": {
-        "origin": [8, 10.5525, 8],
+        "origin": [8, 16.0525, 8],
         "y": 45
       },
       "faces": {
@@ -342,6 +343,54 @@
         "west": {
           "uv": [0.75736, 0, 15.24264, 16],
           "texture": "#2"
+        }
+      }
+    },
+    {
+      "from": [5.312, 8.105, 5.312],
+      "to": [10.688, 24, 10.688],
+      "faces": {
+        "north": {
+          "uv": [0.75736, 0, 15.24264, 16],
+          "texture": "#3"
+        },
+        "east": {
+          "uv": [0.75736, 0, 15.24264, 16],
+          "texture": "#3"
+        },
+        "south": {
+          "uv": [0.75736, 0, 15.24264, 16],
+          "texture": "#3"
+        },
+        "west": {
+          "uv": [0.75736, 0, 15.24264, 16],
+          "texture": "#3"
+        }
+      }
+    },
+    {
+      "from": [5.312, 8.105, 5.312],
+      "to": [10.688, 24, 10.688],
+      "rotation": {
+        "origin": [8, 16.0525, 8],
+        "y": 45
+      },
+      "faces": {
+        "north": {
+          "uv": [0.75736, 0, 15.24264, 16],
+          "texture": "#3"
+        },
+        "east": {
+          "uv": [0.75736, 0, 15.24264, 16],
+          "texture": "#3"
+        },
+        "south": {
+          "uv": [0.75736, 0, 15.24264, 16],
+          "texture": "#3"
+        },
+        "west": {
+          "uv": [0.75736, 0, 15.24264, 16],
+          "texture": "#3"
         }
       }
     }
