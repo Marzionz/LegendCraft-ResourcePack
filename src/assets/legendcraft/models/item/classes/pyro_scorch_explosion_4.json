@@ -1,0 +1,58 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/pyro_scorch_explosion_4",
+    "particle": "legendcraft:item/classes/pyro_scorch_explosion_4"
+  },
+  "elements": [
+    {
+      "from": [-8, 8.1775, -8],
+      "to": [24, 8.1775, 24],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 9.660377],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [-6, 8, 8.0525],
+      "to": [22, 29, 8.0525],
+      "faces": {
+        "north": {
+          "uv": [1, 9.660377, 15, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [-5.954534, 8, 8.02625],
+      "to": [22.045466, 29, 8.02625],
+      "rotation": {
+        "origin": [8.045466, 18.5, 8.02625],
+        "y": 60
+      },
+      "faces": {
+        "north": {
+          "uv": [1, 9.660377, 15, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [-5.954534, 8, 7.97375],
+      "to": [22.045466, 29, 7.97375],
+      "rotation": {
+        "origin": [8.045466, 18.5, 7.97375],
+        "x": 180,
+        "y": 60,
+        "z": 180
+      },
+      "faces": {
+        "north": {
+          "uv": [1, 9.660377, 15, 16],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}
