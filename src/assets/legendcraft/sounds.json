@@ -1,0 +1,8 @@
+{
+  "pyromancer.scorch_explosion": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/scorch_explosion"
+    ]
+  }
+}
