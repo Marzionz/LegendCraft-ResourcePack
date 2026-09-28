@@ -1,27 +1,16 @@
 {
   "textures": {
-    "0": "legendcraft:item/classes/pyro_conflag_rim_15_1",
-    "1": "legendcraft:item/classes/pyro_conflag_rim_15_2",
-    "particle": "legendcraft:item/classes/pyro_conflag_rim_15_1"
+    "0": "legendcraft:item/classes/pyro_conflag_rim_15",
+    "particle": "legendcraft:item/classes/pyro_conflag_rim_15"
   },
   "elements": [
     {
-      "from": [-8, 8.24, -8],
-      "to": [24, 8.24, 24],
+      "from": [-11.06375, 8.24, -11.06375],
+      "to": [27.06375, 8.24, 27.06375],
       "faces": {
         "up": {
           "uv": [0, 0, 16, 16],
           "texture": "#0"
-        }
-      }
-    },
-    {
-      "from": [-8, 8.27, -8],
-      "to": [24, 8.27, 24],
-      "faces": {
-        "up": {
-          "uv": [0, 0, 16, 16],
-          "texture": "#1"
         }
       }
     }
