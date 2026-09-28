@@ -1,0 +1,123 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/knight_vanguard_flash_14_1",
+    "1": "legendcraft:item/classes/knight_vanguard_flash_14_2",
+    "particle": "legendcraft:item/classes/knight_vanguard_flash_14_1"
+  },
+  "elements": [
+    {
+      "from": [11.07625, 15.95, 7.83125],
+      "to": [11.41375, 16.2875, 8.16875],
+      "rotation": {
+        "origin": [11.245, 16.11875, 8],
+        "z": 15
+      },
+      "faces": {
+        "north": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [5.187607, 17.25, 10.3728],
+      "to": [5.400107, 17.4625, 10.5853],
+      "rotation": {
+        "origin": [5.293857, 17.35625, 10.47905],
+        "y": 17,
+        "z": 15
+      },
+      "faces": {
+        "north": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [8.251756, 18.55, 3.814429],
+      "to": [8.464256, 18.7625, 4.026929],
+      "rotation": {
+        "origin": [8.358006, 18.65625, 3.920679],
+        "y": 34,
+        "z": 15
+      },
+      "faces": {
+        "north": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [7.475, 8.17625, 7.475],
+      "to": [8.525, 8.17625, 8.525],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#1"
+        }
+      }
+    }
+  ]
+}
