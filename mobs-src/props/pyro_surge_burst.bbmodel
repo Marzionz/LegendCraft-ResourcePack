@@ -24,90 +24,6 @@
   },
   "elements": [
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.25,
-        -32
-      ],
-      "to": [
-        32,
-        0.25,
-        32
-      ],
-      "autouv": 0,
-      "color": 4,
-      "origin": [
-        0,
-        0.25,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 11
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "4ec191c1-631b-9e1d-992d-ff51980070f9"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -820,90 +736,6 @@
       "uuid": "16635af9-ff66-e638-ee92-0a9a90a80e86"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.28500000000000003,
-        -32
-      ],
-      "to": [
-        32,
-        0.28500000000000003,
-        32
-      ],
-      "autouv": 0,
-      "color": 3,
-      "origin": [
-        0,
-        0.28500000000000003,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 11
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "cb522206-e0ed-c336-9378-51279ab33044"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -1614,90 +1446,6 @@
       },
       "type": "cube",
       "uuid": "e95b72fc-59f0-c5b0-5472-ceb00642fbf9"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.32,
-        -32
-      ],
-      "to": [
-        32,
-        0.32,
-        32
-      ],
-      "autouv": 0,
-      "color": 3,
-      "origin": [
-        0,
-        0.32,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 11
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "1597c139-ca2b-43ee-4b88-dfde51336b2e"
     },
     {
       "name": "basalt_0",
@@ -4009,90 +3757,6 @@
       "uuid": "9aa6f127-0923-c613-bdc9-60dfe440f80b"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.355,
-        -32
-      ],
-      "to": [
-        32,
-        0.355,
-        32
-      ],
-      "autouv": 0,
-      "color": 6,
-      "origin": [
-        0,
-        0.355,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 11
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "b3c30641-7548-17f2-f4ac-d55a9ef769b9"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -6400,90 +6064,6 @@
       },
       "type": "cube",
       "uuid": "03fb578c-5e20-fd5e-fc4b-f2caba48ed9d"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.39,
-        -32
-      ],
-      "to": [
-        32,
-        0.39,
-        32
-      ],
-      "autouv": 0,
-      "color": 3,
-      "origin": [
-        0,
-        0.39,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 11
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "dd8a4120-05c7-e882-ac62-b210d2f767fb"
     },
     {
       "name": "basalt_0",
@@ -8795,90 +8375,6 @@
       "uuid": "539ba6b7-3151-7c3e-2d52-a15eefb331a9"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.42500000000000004,
-        -32
-      ],
-      "to": [
-        32,
-        0.42500000000000004,
-        32
-      ],
-      "autouv": 0,
-      "color": 2,
-      "origin": [
-        0,
-        0.42500000000000004,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 11
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "01497258-4153-e54e-6437-aef3cf4e6f98"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -11186,90 +10682,6 @@
       },
       "type": "cube",
       "uuid": "1c85b03b-3a27-10bf-fecf-9a0496f0017e"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.46,
-        -32
-      ],
-      "to": [
-        32,
-        0.46,
-        32
-      ],
-      "autouv": 0,
-      "color": 6,
-      "origin": [
-        0,
-        0.46,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 11
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "bffbb98b-95ce-7d88-6127-9a991569842c"
     },
     {
       "name": "basalt_0",
@@ -13581,90 +12993,6 @@
       "uuid": "cf8bf82d-693e-9f04-41be-2f2d1bd42865"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.495,
-        -32
-      ],
-      "to": [
-        32,
-        0.495,
-        32
-      ],
-      "autouv": 0,
-      "color": 8,
-      "origin": [
-        0,
-        0.495,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 11
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "8a9b0975-eae5-206a-abdf-7c22ebe59f50"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -15972,90 +15300,6 @@
       },
       "type": "cube",
       "uuid": "4ec0bbf4-ad48-a4d0-072a-cdc237d2b9c3"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.53,
-        -32
-      ],
-      "to": [
-        32,
-        0.53,
-        32
-      ],
-      "autouv": 0,
-      "color": 0,
-      "origin": [
-        0,
-        0.53,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 11
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "b66d447d-367a-5dc4-7062-e4dc5ea5e90b"
     },
     {
       "name": "basalt_0",
@@ -18367,90 +17611,6 @@
       "uuid": "2eac4222-14d2-e4ed-cc57-0b12e98303c4"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.5650000000000001,
-        -32
-      ],
-      "to": [
-        32,
-        0.5650000000000001,
-        32
-      ],
-      "autouv": 0,
-      "color": 1,
-      "origin": [
-        0,
-        0.5650000000000001,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 14
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "af4cd5c3-c766-b918-a02e-15f1f9e9a5e2"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -20760,90 +19920,6 @@
       "uuid": "76ea6349-23d3-0e1c-5ab9-5c9754304b92"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.6000000000000001,
-        -32
-      ],
-      "to": [
-        32,
-        0.6000000000000001,
-        32
-      ],
-      "autouv": 0,
-      "color": 8,
-      "origin": [
-        0,
-        0.6000000000000001,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 14
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "fcd73b7c-a680-b41c-ec1f-b34bacfbfbdd"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -23069,90 +22145,6 @@
       "uuid": "fb748fd0-12bf-2b41-782f-5a2f028458e2"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.635,
-        -32
-      ],
-      "to": [
-        32,
-        0.635,
-        32
-      ],
-      "autouv": 0,
-      "color": 1,
-      "origin": [
-        0,
-        0.635,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 14
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "8f8bcfb3-26b8-a287-8616-fdef300ffeeb"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -24132,90 +23124,6 @@
       "uuid": "1f5ad4da-2496-00c9-354c-8543c5c49a4a"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.25,
-        -32
-      ],
-      "to": [
-        32,
-        0.25,
-        32
-      ],
-      "autouv": 0,
-      "color": 2,
-      "origin": [
-        0,
-        0.25,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 12
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "f9f7ee1a-9e7a-191a-1d8e-d28972681bcd"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -24928,90 +23836,6 @@
       "uuid": "14886c57-5164-73c7-1cac-2cbcf69efac7"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.28500000000000003,
-        -32
-      ],
-      "to": [
-        32,
-        0.28500000000000003,
-        32
-      ],
-      "autouv": 0,
-      "color": 7,
-      "origin": [
-        0,
-        0.28500000000000003,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 12
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "2bc7ef76-5e7f-f664-5500-7d6e36e639ab"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -25722,90 +24546,6 @@
       },
       "type": "cube",
       "uuid": "7305718a-45d2-bbb6-c945-401d0b743442"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.32,
-        -32
-      ],
-      "to": [
-        32,
-        0.32,
-        32
-      ],
-      "autouv": 0,
-      "color": 8,
-      "origin": [
-        0,
-        0.32,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 12
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "6d6dbc23-336e-5090-8d8a-6974fb8d113f"
     },
     {
       "name": "basalt_0",
@@ -28730,90 +27470,6 @@
       "uuid": "b266091e-3577-a905-cbb4-7111caa4a3bd"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.355,
-        -32
-      ],
-      "to": [
-        32,
-        0.355,
-        32
-      ],
-      "autouv": 0,
-      "color": 2,
-      "origin": [
-        0,
-        0.355,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 12
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "e08dc829-d816-c6c3-7bea-e8ff0fe8e480"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -31734,90 +30390,6 @@
       },
       "type": "cube",
       "uuid": "6eaff1e1-6c55-e4cb-49b9-e3f2a06a8004"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.39,
-        -32
-      ],
-      "to": [
-        32,
-        0.39,
-        32
-      ],
-      "autouv": 0,
-      "color": 1,
-      "origin": [
-        0,
-        0.39,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 12
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "e0e7cd21-cc50-a2c3-e6fd-ff56b482be72"
     },
     {
       "name": "basalt_0",
@@ -34742,90 +33314,6 @@
       "uuid": "4bcd298c-923a-cbd4-f129-5a2e5937ed96"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.42500000000000004,
-        -32
-      ],
-      "to": [
-        32,
-        0.42500000000000004,
-        32
-      ],
-      "autouv": 0,
-      "color": 3,
-      "origin": [
-        0,
-        0.42500000000000004,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 12
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "e8b8471a-3809-fd52-8d50-ec019ec9d0cb"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -37746,90 +36234,6 @@
       },
       "type": "cube",
       "uuid": "a95d644d-c5e4-3fe3-7008-0e2aeeb280f9"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.46,
-        -32
-      ],
-      "to": [
-        32,
-        0.46,
-        32
-      ],
-      "autouv": 0,
-      "color": 8,
-      "origin": [
-        0,
-        0.46,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 12
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "955c811d-c966-3bb6-1479-26b2d012d59c"
     },
     {
       "name": "basalt_0",
@@ -40754,90 +39158,6 @@
       "uuid": "8fd56971-a300-fb09-fc94-d85588b51b4c"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.495,
-        -32
-      ],
-      "to": [
-        32,
-        0.495,
-        32
-      ],
-      "autouv": 0,
-      "color": 7,
-      "origin": [
-        0,
-        0.495,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 12
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "4b52b327-8eb5-8f1d-47d8-0cb597ab9738"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -43758,90 +42078,6 @@
       },
       "type": "cube",
       "uuid": "fccf8935-55af-3f02-5ec2-2d1c14d7b744"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.53,
-        -32
-      ],
-      "to": [
-        32,
-        0.53,
-        32
-      ],
-      "autouv": 0,
-      "color": 5,
-      "origin": [
-        0,
-        0.53,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 12
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "ba3513cf-3565-fb4f-28e3-d7bfb51c9021"
     },
     {
       "name": "basalt_0",
@@ -46766,90 +45002,6 @@
       "uuid": "af3492bb-3bb7-ae41-5a1a-cf6d47d948fc"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.5650000000000001,
-        -32
-      ],
-      "to": [
-        32,
-        0.5650000000000001,
-        32
-      ],
-      "autouv": 0,
-      "color": 7,
-      "origin": [
-        0,
-        0.5650000000000001,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 14
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "dbbe51c6-a67d-8909-9a00-a5a0e2359cc5"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -49772,90 +47924,6 @@
       "uuid": "2cd19044-6da6-9a7a-f9a3-d08eb74e0dcc"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.6000000000000001,
-        -32
-      ],
-      "to": [
-        32,
-        0.6000000000000001,
-        32
-      ],
-      "autouv": 0,
-      "color": 8,
-      "origin": [
-        0,
-        0.6000000000000001,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 14
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "cfe34cdd-f8a3-8480-4772-e8d35302e571"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -52526,90 +50594,6 @@
       "uuid": "d6bbb639-6bd1-df85-1467-3709c991d3bf"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.635,
-        -32
-      ],
-      "to": [
-        32,
-        0.635,
-        32
-      ],
-      "autouv": 0,
-      "color": 2,
-      "origin": [
-        0,
-        0.635,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 14
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "06d33c36-bd1c-9ca6-406e-4167283bff2f"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -53320,90 +51304,6 @@
       },
       "type": "cube",
       "uuid": "a3c65136-ce4a-cbfe-090b-97822fff2845"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.25,
-        -32
-      ],
-      "to": [
-        32,
-        0.25,
-        32
-      ],
-      "autouv": 0,
-      "color": 5,
-      "origin": [
-        0,
-        0.25,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 13
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "073ff094-e1e6-2170-f25b-27cde0c01605"
     },
     {
       "name": "basalt_0",
@@ -54118,90 +52018,6 @@
       "uuid": "0be24a28-7a5d-cb47-1bbd-f8bfcb3661c2"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.28500000000000003,
-        -32
-      ],
-      "to": [
-        32,
-        0.28500000000000003,
-        32
-      ],
-      "autouv": 0,
-      "color": 4,
-      "origin": [
-        0,
-        0.28500000000000003,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 13
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "325b7082-5334-e9b9-aacd-76236ec31bc4"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -54912,90 +52728,6 @@
       },
       "type": "cube",
       "uuid": "5091a2f9-7be4-df6d-37d1-1a2d37947aa0"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.32,
-        -32
-      ],
-      "to": [
-        32,
-        0.32,
-        32
-      ],
-      "autouv": 0,
-      "color": 3,
-      "origin": [
-        0,
-        0.32,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 13
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "37a5514d-11e6-f094-ec9f-e5fd57b80475"
     },
     {
       "name": "basalt_0",
@@ -58800,90 +56532,6 @@
       "uuid": "8bf1d5d5-7e5e-1a93-4a2e-75d123df85d6"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.355,
-        -32
-      ],
-      "to": [
-        32,
-        0.355,
-        32
-      ],
-      "autouv": 0,
-      "color": 9,
-      "origin": [
-        0,
-        0.355,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 13
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "06814355-9165-2f13-a1cf-27f4cbe45d90"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -62684,90 +60332,6 @@
       },
       "type": "cube",
       "uuid": "d9184012-1444-d4be-2449-77972ad7349a"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.39,
-        -32
-      ],
-      "to": [
-        32,
-        0.39,
-        32
-      ],
-      "autouv": 0,
-      "color": 8,
-      "origin": [
-        0,
-        0.39,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 13
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "85ba0ee9-b1b9-bcdf-f984-d0756bf6ce92"
     },
     {
       "name": "basalt_0",
@@ -66572,90 +64136,6 @@
       "uuid": "829e59ab-9e74-d8f7-aab9-3fa2eaa0be5c"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.42500000000000004,
-        -32
-      ],
-      "to": [
-        32,
-        0.42500000000000004,
-        32
-      ],
-      "autouv": 0,
-      "color": 6,
-      "origin": [
-        0,
-        0.42500000000000004,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 13
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "497f452d-fc49-72cb-924c-39696e074951"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -70456,90 +67936,6 @@
       },
       "type": "cube",
       "uuid": "22dc50d3-b444-2759-7bc3-ef2a7e5c4b32"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.46,
-        -32
-      ],
-      "to": [
-        32,
-        0.46,
-        32
-      ],
-      "autouv": 0,
-      "color": 6,
-      "origin": [
-        0,
-        0.46,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 13
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "c795c0a8-570e-cac4-f69c-011865afd14d"
     },
     {
       "name": "basalt_0",
@@ -74344,90 +71740,6 @@
       "uuid": "60d85fe7-c55b-4992-2acf-162bb73ee33a"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.495,
-        -32
-      ],
-      "to": [
-        32,
-        0.495,
-        32
-      ],
-      "autouv": 0,
-      "color": 3,
-      "origin": [
-        0,
-        0.495,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 13
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "441a78d7-c890-cf06-fced-6050bb2f298c"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -78228,90 +75540,6 @@
       },
       "type": "cube",
       "uuid": "0967cae6-dc1f-baf0-9cb1-4797fc8eb488"
-    },
-    {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.53,
-        -32
-      ],
-      "to": [
-        32,
-        0.53,
-        32
-      ],
-      "autouv": 0,
-      "color": 6,
-      "origin": [
-        0,
-        0.53,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 13
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "b6c13f15-fa85-499c-c695-75cb447781dc"
     },
     {
       "name": "basalt_0",
@@ -82116,90 +79344,6 @@
       "uuid": "f9860fbe-e582-17fc-2d53-d9b4f19d9233"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.5650000000000001,
-        -32
-      ],
-      "to": [
-        32,
-        0.5650000000000001,
-        32
-      ],
-      "autouv": 0,
-      "color": 4,
-      "origin": [
-        0,
-        0.5650000000000001,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 14
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "85e68733-715a-c9dd-1551-d67a6749be49"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -86002,90 +83146,6 @@
       "uuid": "21c670dd-d1ae-f9a4-3604-03b18be18bcc"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.6000000000000001,
-        -32
-      ],
-      "to": [
-        32,
-        0.6000000000000001,
-        32
-      ],
-      "autouv": 0,
-      "color": 9,
-      "origin": [
-        0,
-        0.6000000000000001,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 14
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "da485257-ba6d-7ece-bf21-865307576b43"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -89468,90 +86528,6 @@
       "uuid": "ff311083-b347-df60-9cb0-58d007d33e31"
     },
     {
-      "name": "ground_ring",
-      "box_uv": false,
-      "render_order": "default",
-      "locked": false,
-      "export": true,
-      "scope": 0,
-      "allow_mirror_modeling": true,
-      "from": [
-        -32,
-        0.635,
-        -32
-      ],
-      "to": [
-        32,
-        0.635,
-        32
-      ],
-      "autouv": 0,
-      "color": 8,
-      "origin": [
-        0,
-        0.635,
-        0
-      ],
-      "faces": {
-        "north": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "east": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "south": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "west": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        },
-        "up": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": 14
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            64,
-            64
-          ],
-          "texture": null
-        }
-      },
-      "type": "cube",
-      "uuid": "e8c0267e-3626-d73b-cdfb-8f39bb9941e3"
-    },
-    {
       "name": "basalt_0",
       "box_uv": false,
       "render_order": "default",
@@ -90337,7 +87313,6 @@
               ],
               "color": 0,
               "children": [
-                "4ec191c1-631b-9e1d-992d-ff51980070f9",
                 "67161b10-cb20-d1ff-d777-47d33158e4b0",
                 "3943173c-cd9f-9500-a527-332aa0bdd2e8",
                 "03ebf2d1-4bf2-cc40-2e23-aa220542f53f",
@@ -90378,7 +87353,6 @@
               ],
               "color": 0,
               "children": [
-                "cb522206-e0ed-c336-9378-51279ab33044",
                 "b02cc854-b1bc-87fc-49e6-1a373e696d93",
                 "9e8eab65-ac04-e32b-a053-a1d0f9d37f41",
                 "48293dd1-cb6d-e964-1fdc-5e9753d5293e",
@@ -90419,7 +87393,6 @@
               ],
               "color": 0,
               "children": [
-                "1597c139-ca2b-43ee-4b88-dfde51336b2e",
                 "96b7cec1-b213-0877-6ac6-669cffc664ef",
                 "8850508c-1aaa-f3c5-a11a-0f3bfcba1f04",
                 "20c5baa6-304e-5d55-3bb3-cb1cf8514a15",
@@ -90478,7 +87451,6 @@
               ],
               "color": 0,
               "children": [
-                "b3c30641-7548-17f2-f4ac-d55a9ef769b9",
                 "efc95be4-105c-885b-cd6f-511a8ba0f740",
                 "b685866d-b789-f380-4e14-2eb45276e80b",
                 "5dacfe81-231b-6c0a-ed44-4bbfc2360f97",
@@ -90537,7 +87509,6 @@
               ],
               "color": 0,
               "children": [
-                "dd8a4120-05c7-e882-ac62-b210d2f767fb",
                 "c003951a-06b5-794c-9fab-61d6fa2b2322",
                 "6e7391e1-721e-bc8e-425a-4bc343221c0a",
                 "e864da6c-6cf8-8b29-4d6e-4b85d7439720",
@@ -90596,7 +87567,6 @@
               ],
               "color": 0,
               "children": [
-                "01497258-4153-e54e-6437-aef3cf4e6f98",
                 "69e6b31f-60bf-fb0a-c1b5-aacb96bf3ab1",
                 "067d65dc-5560-197c-ee34-c445ceaa7e4a",
                 "708e8050-a191-0200-9690-2cd780561c4f",
@@ -90655,7 +87625,6 @@
               ],
               "color": 0,
               "children": [
-                "bffbb98b-95ce-7d88-6127-9a991569842c",
                 "58b0674e-d228-76af-1f5c-6c40b7d93035",
                 "94c0cd32-ec87-0f1c-34de-a2eb20911fb8",
                 "ec75320a-7fe0-2201-e54e-40836a81a924",
@@ -90714,7 +87683,6 @@
               ],
               "color": 0,
               "children": [
-                "8a9b0975-eae5-206a-abdf-7c22ebe59f50",
                 "e070da55-0db1-8fb8-5edf-4bf381420bff",
                 "9afa2fbe-01db-8caf-1beb-e14eef2232c1",
                 "6915fe8f-3bef-d7e9-05df-37593827b312",
@@ -90773,7 +87741,6 @@
               ],
               "color": 0,
               "children": [
-                "b66d447d-367a-5dc4-7062-e4dc5ea5e90b",
                 "55c906cc-8ab1-c569-45cd-6601309f5cde",
                 "b98ec33a-2c8e-47ef-1c67-bd83614e6cd2",
                 "30098b9a-5815-d4b5-cf99-30882047a98c",
@@ -90832,7 +87799,6 @@
               ],
               "color": 0,
               "children": [
-                "af4cd5c3-c766-b918-a02e-15f1f9e9a5e2",
                 "18cf002f-1326-6bc1-de04-029ab55ca9d3",
                 "4387ef9d-b92a-7ad8-3d6b-93652881ec61",
                 "650af60b-ec99-e088-2ccf-7cec799f6182",
@@ -90891,7 +87857,6 @@
               ],
               "color": 0,
               "children": [
-                "fcd73b7c-a680-b41c-ec1f-b34bacfbfbdd",
                 "e005aaf7-4977-6f20-8609-61b8aa95436e",
                 "d19485ba-8a05-6a28-e7ad-10647d7c7f22",
                 "6737bef0-98cc-398c-d640-14801ec1e13f",
@@ -90949,7 +87914,6 @@
               ],
               "color": 0,
               "children": [
-                "8f8bcfb3-26b8-a287-8616-fdef300ffeeb",
                 "219b299d-b14b-0fcc-40c8-011685b5645f",
                 "c147f94a-c0e4-58c3-3256-9a9e1a1dae26",
                 "7d97fb9a-1901-2dbe-22b6-2cba4ae5acab",
@@ -90993,7 +87957,6 @@
               ],
               "color": 0,
               "children": [
-                "f9f7ee1a-9e7a-191a-1d8e-d28972681bcd",
                 "ab02e223-a3eb-7b4c-2978-5096fcb50fbc",
                 "7243cc18-5f26-7fd6-2ea4-dc3bed037218",
                 "78b7f66f-46f0-1e00-28fa-c5f185ac6273",
@@ -91034,7 +87997,6 @@
               ],
               "color": 0,
               "children": [
-                "2bc7ef76-5e7f-f664-5500-7d6e36e639ab",
                 "72d471c3-0546-23c6-7c21-b6928500e999",
                 "b957583d-bcdd-7c99-eeaa-75382b505d5a",
                 "d6673b9a-e614-cbc8-8940-adaa4dde8723",
@@ -91075,7 +88037,6 @@
               ],
               "color": 0,
               "children": [
-                "6d6dbc23-336e-5090-8d8a-6974fb8d113f",
                 "47db15fa-8ff5-2035-a07b-52ce4415ddcf",
                 "f75780a2-800a-a018-c295-d65ce1953056",
                 "428b2734-9fcf-63ca-5663-c7726d94ff1d",
@@ -91141,7 +88102,6 @@
               ],
               "color": 0,
               "children": [
-                "e08dc829-d816-c6c3-7bea-e8ff0fe8e480",
                 "68014f1c-09b7-7b10-78ff-e1d35d93b84f",
                 "c99e6879-aee4-7ee9-5b45-a677867d4da1",
                 "2aa8fcce-b977-fe47-edcf-70c41ba09611",
@@ -91207,7 +88167,6 @@
               ],
               "color": 0,
               "children": [
-                "e0e7cd21-cc50-a2c3-e6fd-ff56b482be72",
                 "2f659f8c-2281-ebf3-f017-5f3c378b7720",
                 "da2c43fe-76d4-838b-7788-343dc87f198a",
                 "50cb6116-151d-4014-f9ed-c7c236b2f99b",
@@ -91273,7 +88232,6 @@
               ],
               "color": 0,
               "children": [
-                "e8b8471a-3809-fd52-8d50-ec019ec9d0cb",
                 "f3e7e805-e5b6-07b4-bb97-f6587d202f23",
                 "21f26f1f-2107-3f82-da3d-27e0b13604a4",
                 "04c3e715-0517-7260-89db-3f5a31e7eb21",
@@ -91339,7 +88297,6 @@
               ],
               "color": 0,
               "children": [
-                "955c811d-c966-3bb6-1479-26b2d012d59c",
                 "3b43d912-824a-601c-ef03-9f8fe39fedc8",
                 "98953141-8212-8bd2-c010-3a02613ce53c",
                 "f34f4ee4-044e-6ee5-2171-64745505097f",
@@ -91405,7 +88362,6 @@
               ],
               "color": 0,
               "children": [
-                "4b52b327-8eb5-8f1d-47d8-0cb597ab9738",
                 "0a3cd45e-2132-98a5-c483-0d80f362f3e2",
                 "3568af29-3f5f-a861-0f87-51f78d20c8d6",
                 "e798985f-16f9-88e8-1b2e-25a0bc17910b",
@@ -91471,7 +88427,6 @@
               ],
               "color": 0,
               "children": [
-                "ba3513cf-3565-fb4f-28e3-d7bfb51c9021",
                 "076f1fe3-9cfc-53e8-d281-20726233ad77",
                 "ebd59df8-370f-c024-c0df-80deeb4d249f",
                 "ca11e401-db70-6a72-e1d1-3815d6b61645",
@@ -91537,7 +88492,6 @@
               ],
               "color": 0,
               "children": [
-                "dbbe51c6-a67d-8909-9a00-a5a0e2359cc5",
                 "63307b93-14b9-d49d-8116-79feccb12a75",
                 "bb664c90-bd74-5f35-8ba9-ac3f02780415",
                 "67af3dd2-750d-4b34-ebd5-fde3d9f0b675",
@@ -91603,7 +88557,6 @@
               ],
               "color": 0,
               "children": [
-                "cfe34cdd-f8a3-8480-4772-e8d35302e571",
                 "86320bf3-c5ad-bce0-a980-d8e8f93d1ee3",
                 "5a918aa0-bbef-e17c-1618-d0e3321e3aae",
                 "5761273c-ed6a-95ff-bc24-508565fcd8a6",
@@ -91666,7 +88619,6 @@
               ],
               "color": 0,
               "children": [
-                "06d33c36-bd1c-9ca6-406e-4167283bff2f",
                 "7d5e3063-fa52-2bdd-6ebb-23db3efcc57d",
                 "f47e42d0-9406-445d-292f-d95f5235e76e",
                 "1e2be319-7583-3865-fe2a-cf25a63fc010",
@@ -91707,7 +88659,6 @@
               ],
               "color": 0,
               "children": [
-                "073ff094-e1e6-2170-f25b-27cde0c01605",
                 "b9e6c655-a693-9954-fc62-0df089f654d0",
                 "0bca0c37-e5df-149e-a87f-87045429a7ba",
                 "f1b8eb5a-2ff4-107a-8d5e-47d65e932e31",
@@ -91748,7 +88699,6 @@
               ],
               "color": 0,
               "children": [
-                "325b7082-5334-e9b9-aacd-76236ec31bc4",
                 "260f1b56-6dbd-c185-1a22-dc35b42d69ec",
                 "7d16ee62-b626-15a0-af0e-28b6deaef589",
                 "828f9c7c-f313-3a8e-07f2-e37685dcf637",
@@ -91789,7 +88739,6 @@
               ],
               "color": 0,
               "children": [
-                "37a5514d-11e6-f094-ec9f-e5fd57b80475",
                 "7efab159-b9f1-9f8f-77e4-b121e9d58d1f",
                 "a4321652-d429-ff33-2459-66439360c705",
                 "65895fec-3a79-5128-bb40-2104162e8da3",
@@ -91865,7 +88814,6 @@
               ],
               "color": 0,
               "children": [
-                "06814355-9165-2f13-a1cf-27f4cbe45d90",
                 "ceef1ebc-0d15-c9bb-283c-57555dec7923",
                 "89e23356-7259-099e-1136-5c95ea18aa7f",
                 "6afc68a7-dec6-ca93-7e06-3a6add465730",
@@ -91941,7 +88889,6 @@
               ],
               "color": 0,
               "children": [
-                "85ba0ee9-b1b9-bcdf-f984-d0756bf6ce92",
                 "cf72533a-2126-6078-5ef8-af09793f0532",
                 "26138972-9837-ed3f-dbf0-82d53ac03d0a",
                 "97648e77-2201-9ed0-673a-bb72edc5189b",
@@ -92017,7 +88964,6 @@
               ],
               "color": 0,
               "children": [
-                "497f452d-fc49-72cb-924c-39696e074951",
                 "c69afd46-c660-f66f-54de-e4658b456fc9",
                 "bf4e1cf2-bc8c-27f4-5f76-4adfe972e608",
                 "49180e53-bdcd-f169-ed49-ea79c05cf051",
@@ -92093,7 +89039,6 @@
               ],
               "color": 0,
               "children": [
-                "c795c0a8-570e-cac4-f69c-011865afd14d",
                 "f80e8352-3f5d-8da0-8a0e-7589d579a447",
                 "064a5c4e-35f7-d802-cff1-fd77ae5c61e5",
                 "afb214fd-cc7c-2c14-1252-e959732cfa0b",
@@ -92169,7 +89114,6 @@
               ],
               "color": 0,
               "children": [
-                "441a78d7-c890-cf06-fced-6050bb2f298c",
                 "ce5dec7e-4f62-7bc6-a343-90debbf4e980",
                 "31f39f60-52e2-1bfc-e078-266cc5f3138e",
                 "87433b09-ae86-8c49-4f23-e6d2e8aa41dc",
@@ -92245,7 +89189,6 @@
               ],
               "color": 0,
               "children": [
-                "b6c13f15-fa85-499c-c695-75cb447781dc",
                 "1fc2348d-a6e6-d8eb-7bde-ab3f455d6cb3",
                 "78246147-ae9d-8cd0-b721-d5dceddc0d97",
                 "e56b3b09-cab7-0e66-ba5c-2088e09cb117",
@@ -92321,7 +89264,6 @@
               ],
               "color": 0,
               "children": [
-                "85e68733-715a-c9dd-1551-d67a6749be49",
                 "b391a4e8-fa71-5592-888e-7ed6da9521e3",
                 "892e6489-1e96-153d-873b-f3b51550249d",
                 "89f11efe-4bda-19ef-a354-a1a614efa21c",
@@ -92397,7 +89339,6 @@
               ],
               "color": 0,
               "children": [
-                "da485257-ba6d-7ece-bf21-865307576b43",
                 "44887e01-1751-f015-1fcb-aac9d8fe5658",
                 "2acc9fd8-98d0-fc8e-5166-3b0ae52660b9",
                 "cc082969-4dc3-dfb7-2586-a67a9d4bec53",
@@ -92468,7 +89409,6 @@
               ],
               "color": 0,
               "children": [
-                "e8c0267e-3626-d73b-cdfb-8f39bb9941e3",
                 "9cdeb15e-3be1-77af-88b5-4db5baa9f74c",
                 "3ea89aa4-3947-5b64-d73b-ed8643d30317",
                 "8c9f4e24-67c3-fd1e-addd-cfffde078383",
@@ -92987,7 +89927,7 @@
   "animations": [
     {
       "uuid": "79ecb186-8cab-d00a-01fb-5b39e1f801fd",
-      "name": "burst_low",
+      "name": "pillar_low",
       "loop": "hold",
       "override": false,
       "length": 0.6,
@@ -100312,7 +97252,7 @@
     },
     {
       "uuid": "4fa4553f-f950-1e37-1f42-c13cda99280a",
-      "name": "burst_mid",
+      "name": "pillar_mid",
       "loop": "hold",
       "override": false,
       "length": 0.6,
@@ -107637,7 +104577,7 @@
     },
     {
       "uuid": "194e1b6b-5165-72cb-891f-edd0316f2e6e",
-      "name": "burst_high",
+      "name": "pillar_high",
       "loop": "hold",
       "override": false,
       "length": 0.6,
