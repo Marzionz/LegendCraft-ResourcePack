@@ -10,5 +10,11 @@
     "sounds": [
       "samus_universal_sounds:samus/universal/hit_impact_big"
     ]
+  },
+  "samus.universal.explosion_small": {
+    "category": "master",
+    "sounds": [
+      "samus_universal_sounds:samus/universal/explosion_small"
+    ]
   }
 }
