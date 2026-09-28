@@ -1,0 +1,8 @@
+{
+  "brawler.unending_blows_finisher": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:brawler/unending_blows_finisher"
+    ]
+  }
+}
