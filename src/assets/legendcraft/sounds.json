@@ -16,5 +16,11 @@
     "sounds": [
       "legendcraft:pyromancer/conflagration_blast_low"
     ]
+  },
+  "brawler.unending_blows_finisher": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:brawler/unending_blows_finisher"
+    ]
   }
 }

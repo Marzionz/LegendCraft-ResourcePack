@@ -24,6 +24,7 @@ Columns:
 
 | frames | rig | clip | shrink | native | tint |
 | --- | --- | --- | --- | --- | --- |
+| `knight_vanguard_flash` | `knight_vanguard_flash` | `flash` | 4 | | |
 | `knight_vanguard_burst` | `knight_vanguard_burst` | `burst` | 4 | | |
 | `knight_warcry_ring` | `knight_warcry_ring` | `burst` | 1 | | |
 | `priest_spirit_ripple` | `priest_spirit_ripple` | `burst` | 1 | | |
@@ -45,3 +46,5 @@ Columns:
 | `pyro_conflag_field` | `pyro_conflag_field` | `blast` | 2 | | |
 | `pyro_conflag_rim` | `pyro_conflag_rim` | `fuse` | 2 | | |
 | `pyro_scorch_explosion` | `pyro_scorch_explosion` | `burst` | 2 | | |
+| `knight_ghost_shield` | `knight_ghost_shield` | `flare` | 1 | | |
+| `knight_horn_blast` | `knight_horn_blast` | `war_cry` | 1 | | |
