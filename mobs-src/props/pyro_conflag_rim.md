@@ -1,28 +1,36 @@
 # Conflagration channel rim
 
-Conflagration's ground rune ring charges clockwise during the Pyromancer ultimate's 70-tick channel. The plugin swaps one of 24 item models onto one ground display, then removes it for detonation. The art is a chunky chain of beveled rune blocks, with four cardinal diamonds, four boxed squares, hooks and crosses. The charged arc carries a flat cutout flame fringe on both edges. There are no raised flames, towers, embers or particle speckles.
+Conflagration's ground rune chain charges clockwise during the Pyromancer ultimate's 70-tick channel. The plugin swaps one of 24 item models onto one ground display, then removes it for detonation. Separate square rune blocks, cardinal diamonds and boxed squares are joined by thin links, with ground visible between them. Charged blocks carry white glyphs, yellow-orange faces and orange-red rims. Cold blocks are warm red-brown. Small attached flame licks lie flat on the ground; there is no continuous band or fringe, raised fire, ember or speckle.
 
-## Registration
+## Registration and dimensions
 
-The ring is centred at the origin. North is -Z; tile 1 is centred there, with tiles 2..24 proceeding clockwise from above at 15-degree intervals. There are **24 painted tiles**, unchanged. Frame N lights tiles 1..N, covering N/24 of the angular sectors.
+The centre is the origin. North is -Z; sector 1 is centred there, and sectors 2..24 proceed clockwise from above in 15-degree steps. Frame N lights sectors 1..N. The 28 u nominal rim radius, 30 u absolute flame cap and runtime registration are unchanged.
 
-The ordinary blocks are 4.5 u deep, from radius 23.5 to 28 u; their tangential rectangle is 6.8 u wide before trimming to its sector and circular registration. Narrow 2.3 u radial links join the nodes. The four diamond nodes are centred at radius 25.25 u and measure 6.5 u tip to tip. Boxed-square nodes are 5.1 u across, with about 6.5 u of radial envelope after trimming. Node artwork stays within radii 22..28.5 u. All opaque pixel corners, rather than just pixel centres, respect those limits. Measured combined band/node artwork spans radii **22.000000..28.465988 u**.
+| Feature | Dimensions |
+| --- | --- |
+| Ordinary blocks | 5 x 5 u, 40 x 40 source pixels before raster rotation; local tangent follows the circle; centre radius 25.5 u |
+| Cardinal diamonds | 6.5 u tip to tip; centre radius 25.25 u |
+| Boxed-square blocks | 5.1 x 5.1 u before radial/sector clipping; centre radius 25.25 u |
+| Links | 1 or 2 texture pixels wide (0.125 or 0.25 u), chords between neighbours; only the exposed gap is visible |
+| Outline | One texture pixel (0.125 u) around all four sides, plus inset bevel shading |
+| Glyph strokes | Usually 4 pixels (0.5 u); small hook/bar terminals 3 pixels (0.375 u); vocabulary and sector order retained |
+| Flame tongues | Nominal 2..4 pixels long and 2..4 pixels wide (0.25..0.5 u), stepped raster tips; attached to the edge with a 1-pixel root overlap removed from the flame layer |
+| Block/link envelope | 22.000000..28.465988 u, measured at opaque pixel corners |
+| Flame envelope | 22.299103..28.993534 u, measured at opaque pixel corners; below the 30 u cap |
+| Carrier planes | Two 64 x 64 u planes per frame, x/z -32..32 u, zero thickness |
+| Block plane y | 0.20 + 0.02(N-1) u |
+| Flame plane y | Block plane y + 0.06 u; no opaque overlap |
+| Complete geometry y | 0.20..0.72 u |
 
-Glyph strokes are 0.625..0.75 u thick. Cross/hook marks span about 3 u, boxed-square glyphs 2.6 u, and the diamond checker is about 3.2 u across. A stepped light top-left bevel and dark bottom-right bevel make each block read as relief while remaining planar.
+The links occupy only a narrow line across each gap; there is no filled angular strip connecting blocks. Older lit blocks have two licks; the three newest have four, and every block has four in frame 24. Most licks are outside, with selected inner-edge licks. The newest block stays white-yellow with a white glyph and two pale licks, including in frame 24.
 
-The halo grows along the charged arc and reaches its greatest coverage in frame 24. Its measured full envelope is **20.155644..29.992707 u**; its outer edge remains inside 30 u, at most 2 u outside the band's 28 u outer radius. Orange/red tongues are connected to the rim, with no detached components. The inner fringe reaches about 1.85 u inside the deepest node edge.
+28 u = 1.75 blocks. `FLIPBOOKS.md` remains `pyro_conflag_rim | pyro_conflag_rim | fuse | 2`. Item display scale remains `2 * trueRadius / 1.75`; the unshrunk rig uses `trueRadius / 1.75`. Runtime keys remain `pyro_conflag_rim_1` through `pyro_conflag_rim_24`. No recentering or ground snapping is introduced.
 
-The two carrier planes each span x/z -32..32 u with transparent margins. Their visible art, not the transparent rectangle, defines registration. Band and glyphs share one painted layer; the halo uses a separate plane 0.06 u above it and has no opaque overlap with the band. Band y = 0.20 + 0.02(N-1) u; halo y = band y + 0.06 u. All geometry is zero-thickness and lies at **y 0.20..0.72 u**.
+## Rig and timing
 
-28 u = 1.75 blocks. `FLIPBOOKS.md` retains `pyro_conflag_rim | pyro_conflag_rim | fuse | 2`. The generated item restores the shrink using `2 * trueRadius / 1.75`; the unshrunk authoring rig uses `trueRadius / 1.75`. No recentering or ground snapping is required. Runtime keys remain `pyro_conflag_rim_1` through `pyro_conflag_rim_24`.
+Unyawed `root -> fx -> frame_1..frame_24`. Each frame directly owns two elements: block/glyph/link plane and flame plane. **Two elements per frame, 48 total**, within the 48-element per-frame budget. The blocks are texture artwork, not separate cubes. The elements, outliner and animation data compare equal to r2 commit `397c6eb`.
 
-## Frames and rig
-
-Unyawed `root -> fx -> frame_1..frame_24`; every frame directly owns its two elements. The 24 painted blocks are texture detail, not 24 separate elements. Total: **48 elements; 2 per frame**, below the 48-per-frame budget.
-
-`fuse` is a 1.2-second hold clip. Every frame bone has one scale key per tick from tick 0 through 24, with step interpolation: shown scale 1 for its one tick, hidden scale 0.001 otherwise. Frame N shows on [N-1, N). At tick 24 every frame is hidden, so the clip **ends hidden**. `hidden` is a one-second loop with 21 all-hidden tick keys per frame. There are no position or rotation animation channels.
-
-The newest block is white-yellow; its two predecessors carry yellow centres, and older blocks have orange faces with yellow glyphs and white-hot stroke cores. Uncharged blocks are charcoal-brown with dark ember-red strokes. Frame 24 gives every glyph a white-hot face while preserving orange block faces and the full halo.
+`fuse` is a 1.2-second hold clip. Each frame bone has a step scale key on every tick 0..24: shown scale 1 for its one tick, hidden scale 0.001 otherwise. Frame N is shown on [N-1, N). At tick 24 all frames are hidden. `hidden` is a one-second loop with 21 all-hidden tick keys per frame. There are no position or rotation channels. The plugin's existing 70-tick channel scheduling is unchanged; the diagnostic GIF holds each drawing for three ticks, totalling 72 ticks.
 
 | Frame | Visible interval | Lit tiles | Band y (u) | Halo y (u) | Elements |
 | --- | --- | --- | ---: | ---: | ---: |
@@ -53,29 +61,39 @@ The newest block is white-yellow; its two predecessors carry yellow centres, and
 
 ## Texture and palette
 
-48 embedded, editable 512 x 512 PNGs: `pyro_conflag_rim_tex_band_01.png` through `_24.png`, and `pyro_conflag_rim_tex_halo_01.png` through `_24.png`. Each samples a 64 u canvas at 8 pixels/u. Ordinary blocks therefore have about 54 x 36 pixels of paint, exceeding the former 32 x 32 tile density. At a 12-block field radius the effective density is about 18.7 texels per world block. The halo uses deliberately stepped 2-pixel clusters. All texture alpha is binary 0/255; every plane has only its up face textured and uses double-sided preview rendering.
+48 embedded, editable 512 x 512 PNGs: `pyro_conflag_rim_tex_band_01.png` through `_24.png` and `pyro_conflag_rim_tex_halo_01.png` through `_24.png`. The retained filenames describe the carrier layers; their contents are separate blocks and small licks. All embedded PNG bytes equal their editable counterparts. Sampling remains 8 pixels/u over the 64 u canvas, about 18.7 texels per world block at a 12-block field radius. Alpha is binary 0/255. Only the up face is textured on each plane, with double-sided preview rendering.
 
-Approved palette: `#FFF4E0 #FFD24A #FF8A00 #E8500F #B7331A #7A1F10 #4A423C #3B3430 #241F1B #171310`.
+| Role | Colours |
+| --- | --- |
+| Lit glyph | `#FFF4E0` |
+| Lit face | `#FFD24A`, `#FF8A00` |
+| Lit rim and glyph socket | `#E8500F`, `#B7331A` |
+| Cold face and recess | `#7A1F10`, `#39281F` |
+| Cold outline | `#241F1B`, `#171310` |
+| Cold bevel | `#594037` |
+| Cold glyph and lit edge | `#B7331A`, `#E8500F` |
+| Flames | `#E8500F`, `#FF8A00`, occasional `#B7331A` tips; head licks `#FFD24A`/`#FFF4E0` |
 
-Two added brown mid-tones: **#594037** (warm bevel) and **#39281F** (charcoal-brown face). The final PNGs use those two additions plus eight approved colours; `#4A423C` and `#3B3430` remain allowed but unused. No other opaque RGB values occur.
+All ten used colours were already allowed in r2, including its two added bevel tones `#594037` and `#39281F`. The approved greys `#4A423C` and `#3B3430` remain unused. No colours were added.
 
-## Mapping to the concept
+## Renders and verification
 
-`pyro_conflag_rim_concept.png` remains the untouched eight-cell source. The adaptation preserves its alternating block silhouettes, cardinal diamond checkers, boxed squares, hooks/crosses, ember-red uncharged runes, orange charged blocks, hot head and thickening inner/outer flame fringe. The final frame keeps colour in the band instead of whitening the whole ring. The 24-sector timing contract starts at north even where a concept cell's hot head falls elsewhere.
+The existing MCP-native geometry was loaded into an isolated Blockbench project, textures refreshed through native Texture APIs in an Undo transaction, and the result exported through the native project codec at `http://localhost:3000/bb-mcp`. Mutations and rendering targeted project UUID `ffb8ab86-da14-6373-2f82-26587a5bc2b4`. Other rigs and sessions' render slots were not modified.
 
-This is a crisp binary-alpha interpretation: the concept's soft glow, semi-transparent fire haze and scattered speckles are not reproduced. The halo is constrained to 30 u even where a reference lick extends farther. The glyph vocabulary is redrawn on a regular 24-sector layout, not traced pixel for pixel from the eight-cell sheet.
+The `PROP-PREVIEW.md` generator produced a baseline preview and the final real-model HTML. The final render loop used cloned native Blockbench geometry and actual evaluated animation states in an isolated Three.js renderer. The HTML has 8/12-block radius choices, clip/tick controls, top/bystander views and frame turnaround. HTML interaction was not browser-tested in this session.
 
-## Verification and renders
-
-Geometry and animation were authored with native Cube, Group, Texture and Animation APIs through the Blockbench MCP, in a separate UUID-scoped project. Export uses Blockbench's project codec; no external script generated geometry JSON. Texture painting used scripts. The prop preview was generated from the saved `.bbmodel` through `PROP-PREVIEW.md`'s tool, with ground registration, binary cutout depth, 8/12-block scale choices and camera controls. Browser automation was unavailable in this session, so interaction with the HTML was not independently browser-tested. Native Blockbench geometry and real animation states supplied all final renders; the renderer used an isolated scene so existing sessions' offscreen views were untouched.
-
-The ground is mid-grey `#777777`, with a dark `#11141C` sky. Top-down renders use camera (0,74,0.001) u, target origin, vertical FOV 50 degrees. Bystander frames use (0,25.6,96) u, target (0,8,0) u, vertical FOV 70 degrees, with the rig scaled by 8/1.75. That is an eye 1.6 blocks high and 6 blocks from the centre, **inside the 8-block field**, so the image shows the far arc rather than the whole ring.
-
-- `pyro_conflag_rim_render_preview.html`: real-model interactive preview and tick table.
 - `pyro_conflag_rim_render_contact.png`: all 24 frames, north up.
-- `pyro_conflag_rim_render_vs_concept.png`: frames 1, 4, 7, 10, 13, 16, 20, 24 in a 4 x 2 panel beside the eight reference cells at matched ring scale; reference alpha is composited on the same grey.
-- `pyro_conflag_rim_render_frame_12_eye.png` and `_render_frame_24_eye.png`: the requested scaled eye views.
-- `pyro_conflag_rim_render_fuse.gif`: 72 encoded frames at 20 fps, each art frame held for three 50 ms ticks; total 3.6 seconds.
-- `pyro_conflag_rim_render_end_hidden.png` and `_render_hidden.png`: empty-ground end/loop checks.
+- `pyro_conflag_rim_render_vs_concept.png`: frames 1, 4, 7, 10, 13, 16, 20, 24 beside the eight untouched concept cells at matched nominal ring scale.
+- `pyro_conflag_rim_render_zoom_vs_concept.png`: frames 1/24 above their north-east quarter enlargements, beside the owner's unchanged cell 1/8 zoom panel. Both full cells are 443 px; the quarter crop is x 221..443, y 0..222, enlarged to 443 px with nearest sampling. Native full views are fitted to 429 px within the grey cell using the same scale ratio as the full comparison.
+- `pyro_conflag_rim_render_frame_12_eye.png` and `_render_frame_24_eye.png`: eye-level views of the 8-block-radius ring.
+- `pyro_conflag_rim_render_fuse.gif`: 72 frames at 20 fps, each of the 24 drawings held for three ticks.
+- `pyro_conflag_rim_render_end_hidden.png` and `_render_hidden.png`: empty-ground checks.
+- `pyro_conflag_rim_render_preview.html`: final real-model interactive preview.
 
-The side-by-side render was visually inspected before commit. Contract checks pass for topology, counts, flatness, single textured faces, embedded/editable PNG equality, palette, binary alpha, all opaque-pixel radial bounds, clockwise heat sectors, attached halo components, every fuse and hidden key, the hidden end state, and GIF cadence. Generated frame keys, geometry and texture bytes are verified against the generator. Pack build, manifest and post-commit drift output are recorded in the handoff report. Minecraft lighting, display scaling and particle integration remain in-game checks; no plugin code or deployment is part of this asset.
+Ground is `#777777`, sky `#11141C`. Top camera: (0,74,0.001) u, target origin, FOV 50 degrees. Eye camera: (0,25.6,96) u, target (0,8,0) u, FOV 70 degrees, rig scale 8/1.75. That eye is 1.6 blocks high and 6 blocks from the centre, inside the ring.
+
+Both final vs-concept renders, the full contact sheet and the final eye view were visually inspected before commit. Checks pass for unchanged geometry/outliner/clips, per-frame count, flatness, single textured face, embedded/editable equality, binary alpha, exact palette, pixel-corner radial bounds, 24 clockwise heat sectors, attached nonoverlapping licks, fuse/hidden keys, hidden renders and GIF cadence. All 96 rim outputs equal a fresh generator build; generated keys, shrink and geometry remain unchanged. The pack build, manifest and post-commit drift output are recorded in the handoff report.
+
+## Remaining differences from the concept
+
+The square blocks and fine links form a more regular chain than the concept's irregular, glyph-shaped silhouettes. Glyph vocabulary and sector order follow r2 rather than tracing the reference. Literal 2..4 source-texel licks are shorter and subtler than the flame shapes visible in the concept zoom. The cold faces are more uniformly red-brown, and the head is a crisp white-yellow diamond or square rather than a soft flare. Binary alpha omits the reference's bloom and translucent haze; detached speckles and particles are absent. Minecraft lighting, terrain contact, 8/12-block display scaling and playback still need the in-game look.
