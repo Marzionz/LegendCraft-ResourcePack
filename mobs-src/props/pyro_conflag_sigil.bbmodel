@@ -33,20 +33,20 @@
       "allow_mirror_modeling": true,
       "from": [
         -24,
-        -24,
-        -1
+        0.4,
+        -24
       ],
       "to": [
         24,
-        24,
-        -1
+        0.4,
+        24
       ],
       "autouv": 0,
       "color": 9,
       "origin": [
         0,
-        0,
-        -1
+        0.4,
+        0
       ],
       "faces": {
         "north": {
@@ -56,7 +56,7 @@
             47,
             47
           ],
-          "texture": 0
+          "texture": null
         },
         "east": {
           "uv": [
@@ -89,10 +89,10 @@
           "uv": [
             0,
             0,
-            0,
-            0
+            47,
+            47
           ],
-          "texture": null
+          "texture": 0
         },
         "down": {
           "uv": [
@@ -123,8 +123,8 @@
       },
       "origin": [
         0,
-        0,
-        -1
+        0.4,
+        0
       ],
       "rotation": [
         0,
@@ -154,8 +154,8 @@
       },
       "origin": [
         0,
-        0,
-        -1
+        0.4,
+        0
       ],
       "rotation": [
         0,
@@ -216,11 +216,11 @@
       },
       "origin": [
         0,
-        -0.3,
-        -0.3
+        0.4,
+        0
       ],
       "rotation": [
-        90,
+        0,
         0,
         0
       ],
@@ -236,8 +236,108 @@
   ],
   "outliner": [
     {
-      "name": "root",
       "uuid": "106aa87c-557c-73a8-b504-3aa5facdf59a",
+      "isOpen": false,
+      "children": [
+        {
+          "uuid": "39b7f094-e265-063a-5d1b-fc0be8c1cea4",
+          "isOpen": false,
+          "children": [
+            {
+              "uuid": "857c769a-f75b-fb85-98e9-be9dc7089943",
+              "isOpen": true,
+              "children": [
+                {
+                  "uuid": "055eb913-611b-2c3c-8bc7-6203a01d1c20",
+                  "isOpen": true,
+                  "children": [
+                    "59bbd5c1-869f-55c1-7168-6eb5fca7b27b"
+                  ],
+                  "name": "h_out",
+                  "export": true,
+                  "locked": false,
+                  "scope": 0,
+                  "selected": false,
+                  "visibility": true,
+                  "_static": {
+                    "properties": {},
+                    "temp_data": {}
+                  },
+                  "origin": [
+                    0,
+                    0.4,
+                    0
+                  ],
+                  "rotation": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "color": 0,
+                  "reset": false,
+                  "shade": true,
+                  "mirror_uv": false,
+                  "autouv": 0,
+                  "primary_selected": false
+                }
+              ],
+              "name": "h_magic_fire_circle",
+              "export": true,
+              "locked": false,
+              "scope": 0,
+              "selected": false,
+              "visibility": true,
+              "_static": {
+                "properties": {},
+                "temp_data": {}
+              },
+              "origin": [
+                0,
+                0.4,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0
+              ],
+              "color": 0,
+              "reset": false,
+              "shade": true,
+              "mirror_uv": false,
+              "autouv": 0,
+              "primary_selected": false
+            }
+          ],
+          "name": "plane_mount",
+          "export": true,
+          "locked": false,
+          "scope": 0,
+          "selected": false,
+          "visibility": true,
+          "_static": {
+            "properties": {},
+            "temp_data": {}
+          },
+          "origin": [
+            0,
+            0.4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "color": 0,
+          "reset": false,
+          "shade": true,
+          "mirror_uv": false,
+          "autouv": 0,
+          "primary_selected": false
+        }
+      ],
+      "name": "root",
       "export": true,
       "locked": false,
       "scope": 0,
@@ -258,110 +358,10 @@
         0
       ],
       "color": 0,
-      "children": [
-        {
-          "name": "plane_mount",
-          "uuid": "39b7f094-e265-063a-5d1b-fc0be8c1cea4",
-          "export": true,
-          "locked": false,
-          "scope": 0,
-          "selected": false,
-          "visibility": true,
-          "_static": {
-            "properties": {},
-            "temp_data": {}
-          },
-          "origin": [
-            0,
-            -0.3,
-            -0.3
-          ],
-          "rotation": [
-            90,
-            0,
-            0
-          ],
-          "color": 0,
-          "children": [
-            {
-              "name": "h_magic_fire_circle",
-              "uuid": "857c769a-f75b-fb85-98e9-be9dc7089943",
-              "export": true,
-              "locked": false,
-              "scope": 0,
-              "selected": false,
-              "visibility": true,
-              "_static": {
-                "properties": {},
-                "temp_data": {}
-              },
-              "origin": [
-                0,
-                0,
-                -1
-              ],
-              "rotation": [
-                0,
-                0,
-                0
-              ],
-              "color": 0,
-              "children": [
-                {
-                  "name": "h_out",
-                  "uuid": "055eb913-611b-2c3c-8bc7-6203a01d1c20",
-                  "export": true,
-                  "locked": false,
-                  "scope": 0,
-                  "selected": false,
-                  "visibility": true,
-                  "_static": {
-                    "properties": {},
-                    "temp_data": {}
-                  },
-                  "origin": [
-                    0,
-                    0,
-                    -1
-                  ],
-                  "rotation": [
-                    0,
-                    0,
-                    0
-                  ],
-                  "color": 0,
-                  "children": [
-                    "59bbd5c1-869f-55c1-7168-6eb5fca7b27b"
-                  ],
-                  "reset": false,
-                  "shade": true,
-                  "mirror_uv": false,
-                  "autouv": 0,
-                  "isOpen": true,
-                  "primary_selected": false
-                }
-              ],
-              "reset": false,
-              "shade": true,
-              "mirror_uv": false,
-              "autouv": 0,
-              "isOpen": true,
-              "primary_selected": false
-            }
-          ],
-          "reset": false,
-          "shade": true,
-          "mirror_uv": false,
-          "autouv": 0,
-          "isOpen": false,
-          "primary_selected": false
-        }
-      ],
       "reset": false,
       "shade": true,
       "mirror_uv": false,
       "autouv": 0,
-      "isOpen": false,
       "primary_selected": false
     }
   ],
@@ -407,7 +407,7 @@
       "override": false,
       "length": 3,
       "snapping": 20,
-      "selected": false,
+      "selected": true,
       "group_name": "",
       "scope": 0,
       "anim_time_update": "",
@@ -446,8 +446,8 @@
               "data_points": [
                 {
                   "x": "0",
-                  "y": "0",
-                  "z": "120"
+                  "y": "-120",
+                  "z": "0"
                 }
               ],
               "uuid": "d6e3f4dc-94c0-32bc-33a8-6dc945b4afa0",
@@ -460,7 +460,7 @@
               "data_points": [
                 {
                   "x": "0",
-                  "y": "0",
+                  "y": "1",
                   "z": "0"
                 }
               ],
@@ -507,6 +507,12 @@
           "type": "bone",
           "rotation_global": false,
           "quaternion_interpolation": false
+        },
+        "39b7f094-e265-063a-5d1b-fc0be8c1cea4": {
+          "name": "plane_mount",
+          "type": "bone",
+          "rotation_global": false,
+          "quaternion_interpolation": false
         }
       }
     },
@@ -517,7 +523,7 @@
       "override": false,
       "length": 0.3,
       "snapping": 20,
-      "selected": true,
+      "selected": false,
       "group_name": "",
       "scope": 0,
       "anim_time_update": "",
@@ -542,8 +548,8 @@
               "data_points": [
                 {
                   "x": "0",
-                  "y": "0",
-                  "z": "120"
+                  "y": "-120",
+                  "z": "0"
                 }
               ],
               "uuid": "d5f7b32e-29be-95d7-1bbe-27115ba1dbd9",
@@ -556,8 +562,8 @@
               "data_points": [
                 {
                   "x": "0",
-                  "y": "0",
-                  "z": "150"
+                  "y": "-150",
+                  "z": "0"
                 }
               ],
               "uuid": "61575a4a-d83a-9370-c29a-be92885e4265",
@@ -585,7 +591,7 @@
               "data_points": [
                 {
                   "x": "1.842592593",
-                  "y": "1.842592593",
+                  "y": "1",
                   "z": "1.842592593"
                 }
               ],
@@ -600,7 +606,7 @@
               "data_points": [
                 {
                   "x": "2.407407407",
-                  "y": "2.407407407",
+                  "y": "1",
                   "z": "2.407407407"
                 }
               ],
@@ -615,7 +621,7 @@
               "data_points": [
                 {
                   "x": "2.75",
-                  "y": "2.75",
+                  "y": "1",
                   "z": "2.75"
                 }
               ],
@@ -630,7 +636,7 @@
               "data_points": [
                 {
                   "x": "2.925925926",
-                  "y": "2.925925926",
+                  "y": "1",
                   "z": "2.925925926"
                 }
               ],
@@ -645,7 +651,7 @@
               "data_points": [
                 {
                   "x": "2.990740741",
-                  "y": "2.990740741",
+                  "y": "1",
                   "z": "2.990740741"
                 }
               ],
@@ -660,7 +666,7 @@
               "data_points": [
                 {
                   "x": "3",
-                  "y": "3",
+                  "y": "1",
                   "z": "3"
                 }
               ],
