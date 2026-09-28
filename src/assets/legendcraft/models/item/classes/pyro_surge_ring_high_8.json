@@ -1,0 +1,18 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/pyro_surge_ring_high_8",
+    "particle": "legendcraft:item/classes/pyro_surge_ring_high_8"
+  },
+  "elements": [
+    {
+      "from": [-8, 8.2475, -8],
+      "to": [24, 8.2475, 24],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

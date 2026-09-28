@@ -1,61 +1,71 @@
-﻿# Flame Surge — three-dimensional rune-flame eruption
+# Flame Surge — independently scaled flame pillar
 
-Flame Surge's stack read is a tapering, twisted cube-flame pillar over a registered ground rune ring. `burst_low` (0–2 stacks) is dull red/deep orange with one diamond and smoke; `burst_mid` (3–4 stacks) is orange/yellow with three diamonds; `burst_high` (5 stacks) is yellow/white-hot with five diamonds and cyan flecks, without smoke. Each has 12 frames at one tick each, 0.6 seconds, ending hidden.
+The tapering, twisted cube-flame pillar, basalt chunks, rising diamond runes, embers and smoke are preserved from pack commit `80f5f73`. The ground planes now live in [pyro_surge_ring.bbmodel](pyro_surge_ring.bbmodel); see [the ring contract](pyro_surge_ring.md). Two synchronized item displays let the ring reach the blast radius while the pillar keeps its authored height.
 
-This is a FRAME STACK authoring rig. Runtime uses the three existing `FLIPBOOKS.md` rows, each at **shrink 4**, as item-model flipbooks. It is not a BetterModel deployment. No plugin changes are included. `surge_volcano` is unchanged.
+This is a FRAME STACK authoring rig for item-model flipbooks, not a BetterModel deployment. No plugin code or `surge_volcano` changes are included.
+
+## Rows and runtime scale
+
+| Frames stem | Clip | Stacks | Shrink | Frames |
+| --- | --- | --- | ---: | ---: |
+| `pyro_surge_pillar_low` | `pillar_low` | 0–2 | 4 | 12 |
+| `pyro_surge_pillar_mid` | `pillar_mid` | 3–4 | 4 | 12 |
+| `pyro_surge_pillar_full` | `pillar_high` | 5 | 4 | 12 |
+
+The item-model stem calls the five-stack band `full`; its authoring clip calls it `high`. The pillar display scale is **4**, restoring shrink only. Do not apply the ring reach multiplier to it. Pair pillar low/mid/full with ring low/mid/high at the same origin and tick. The retired `pyro_surge_burst_low|mid|high` rows and all 264 generated files are removed.
+
+Peak geometry remains 25.84 / 41.84 / 57.84 model units, about 1.62 / 2.62 / 3.62 blocks including tip overlap. The ring can cover the true 4-block blast reach without stretching the high pillar to about 8.26 blocks.
 
 ## Shape and materials
 
-The approved Flame Surge concept supplies the silhouette and heat bands. Scorch's accepted explosion supplies the lobe recipe and its six hand-shaded 16×16 material tiles: each central flame tier pairs a cube with a 45-degree-yawed companion at 84% width/depth and 91% height. Tiers taper upward and advance their yaw per frame. Short off-axis tongues carry smaller raised tips. Five basalt chunks kick up at the foot; embers remain during collapse. Small cutout diamond glyph cubes rise with the core. Low alone carries three smoke cubes.
+The approved Flame Surge concept supplies the silhouette and heat bands. Scorch's accepted explosion supplies the lobe recipe and six hand-shaded 16×16 material tiles: each central flame tier pairs a cube with a 45-degree-yawed companion at 84% width/depth and 91% height. Tiers taper upward and advance their yaw per frame. Off-axis tongues carry raised tips. Five basalt chunks kick up at the foot; embers remain during collapse. Cutout diamond glyph cubes rise with the core. Low alone carries three smoke cubes.
 
-Peak geometry reaches 25.84 / 41.84 / 57.84 model units (about 1.62 / 2.62 / 3.62 blocks), including the tip overlap. These are the requested approximate 1.5 / 2.5 / 3.5-block bands. Surface UVs use the full 16×16 side tile, brighter upper ten rows on tops, darker lower eight rows on undersides. The new basalt tile has deliberately clustered chipped plates; the rune tiles have stepped hot diamonds with darker borders. Editable PNGs beside this file match all embedded textures.
+Low is dull red/deep orange with one diamond and smoke; mid is orange/yellow with three diamonds; high is yellow/white-hot with five diamonds and cyan flecks, without smoke. Surface UVs use the full 16×16 side tile, brighter upper ten rows on tops, darker lower eight rows on undersides. The basalt tile has clustered chipped plates; rune tiles have stepped hot diamonds with darker borders. Existing editable PNGs remain unchanged and match embedded textures.
 
-All visible pixels use only `#FFF4E0 #FFD24A #FF8A00 #E8500F #B7331A #7A1F10 #4A423C #3B3430 #241F1B #171310`, with `#9FE8FF` exclusively on high-band fleck cubes. Alpha is exclusively 0 or 255. No emissive-pair textures or painted side billboards.
+Visible pixels use only `#FFF4E0 #FFD24A #FF8A00 #E8500F #B7331A #7A1F10 #4A423C #3B3430 #241F1B #171310`, with `#9FE8FF` exclusively on high-band flecks. Alpha is 0 or 255. No emissive-pair textures or painted side billboards. Both rigs retain the original embedded texture collection; the generator emits only textures used by each frame.
 
-## Ring registration and runtime scale
+## Bones, timing and budgets
 
-One horizontal 64×64 u plane per frame, centred on the origin, at y = 0.25 + 0.035(frame−1) u; only its up face is textured, double-sided in authoring. The 64×64 ring textures follow Scorch's one pixel per model unit registration: centre (31.5,31.5), outer edge 28 pixels = 28 u = **1.75 blocks**. Maximum occupied pixel-centre radius is 27.973201 pixels in all four heat states, within half a pixel of the target. This registration is identical in every band and every frame. Ground glyphs include diamonds, boxed squares, crosses and hooked strokes. The ring remains at full radius as it dims.
+Unyawed identity `root` → `fx` → `low_f1`…`low_f12`, `mid_f1`…`mid_f12`, `high_f1`…`high_f12`. Each frame owns its original cubes, with its single ground plane removed.
 
-The ring reach multiplier is `trueRadius / 1.75`; at 4 blocks it is `16/7`. Including shrink restoration, its item-display scale is `4 × 16/7 = 64/7` (9.142857).
-
-**OPEN hook dependency:** one existing item display draws both ring and pillar, so its transform cannot scale only the ring. Applying the reach multiplier to the pillar produces about 3.69 / 5.98 / 8.26 blocks of height. That is not recommended: keep the pillar near its authored height and split the ring into an independently driven display in a hook follow-up, with separate generated art rows requested at that time. The OPEN block “Flame Surge burst ring reach versus pillar scale (2026-09-28)” is in the orchestrator inbox. The combined existing rows are retained; no unauthorized plugin or row-contract expansion was made.
-
-## Bones and clips
-
-Unyawed identity `root` → `fx` → `low_f1`…`low_f12`, `mid_f1`…`mid_f12`, `high_f1`…`high_f12`. Existing frame names 1–6 remain; 7–12 extend each band. Each frame owns all its cubes and ground plane.
-
-`burst_low`, `burst_mid`, `burst_high`: hold, 0.6 s. Every frame bone has a step scale key on every tick 0–12. Exactly frame N of the chosen band is at 1 from tick N−1 to N; all other frame bones are at 0.001. All bones are hidden at tick 12. Every changing key segment lasts exactly one tick. `hidden` retains its 0.05-second loop and hides every frame. No position or rotation keys; static cube turns use the unyawed-prop convention in the skill's `SIGNS.md`.
+`pillar_low`, `pillar_mid`, `pillar_high`: hold, 0.6 seconds, **ENDS HIDDEN**. Every frame bone retains step scale keys at every tick 0–12. Exactly frame N of the selected band is at scale 1 from tick N−1 to N; all other frame bones are at 0.001. All frame bones hide at tick 12. Every changing key segment is exactly one tick. `hidden` retains its 0.05-second loop and hides every frame. No position or rotation keys changed; static cube turns retain the original unyawed-prop convention.
 
 | Frames | Ticks | Read |
 | --- | --- | --- |
-| 1–2 | 0–1 | Ground ring lit, basalt kicking up, low sparks |
-| 3–6 | 2–5 | Pillar erupts upward; glyphs rise through its core |
+| 1–2 | 0–1 | Basalt kicking up, low sparks |
+| 3–6 | 2–5 | Pillar erupts; glyphs rise through its core |
 | 7–9 | 6–8 | Full height; tongue/tip yaw and roll change each tick |
-| 10–12 | 9–11 | Cooling collapse to embers; low smoke; dim ring |
-| End | 12 | All hidden |
+| 10–12 | 9–11 | Cooling collapse to embers; low smoke |
+| End | 12 | All hidden; runtime removes both displays |
 
-| Band | Element counts, frames 1–12 | Maximum |
+| Band | Pillar elements, frames 1–12 | Maximum |
 | --- | --- | ---: |
-| Low | 9, 9, 27, 27, 27, 27, 27, 27, 27, 27, 26, 12 | 27 |
-| Mid | 9, 9, 34, 34, 34, 34, 34, 34, 34, 34, 31, 9 | 34 |
-| High | 9, 9, 44, 44, 44, 44, 44, 44, 44, 44, 39, 9 | 44 |
+| Low | 8, 8, 26, 26, 26, 26, 26, 26, 26, 26, 25, 11 | 26 |
+| Mid | 8, 8, 33, 33, 33, 33, 33, 33, 33, 33, 30, 8 | 33 |
+| High | 8, 8, 43, 43, 43, 43, 43, 43, 43, 43, 38, 8 | 43 |
 
-1,020 total authoring elements, with at most 44 drawn at once. The generator emits 36 frame models across the three rows: low 97 files, mid 79, high 88 (264 total item definitions, geometry and per-frame texture copies).
+984 pillar elements plus 36 ring planes exactly partition the original 1,020 elements. Adding the one visible ring plane preserves the original combined maxima of 27 / 34 / 44. Pillar rows emit 85 / 67 / 76 files (228 total); ring rows emit 108 files. The split has 72 frame models and 336 generated files total.
 
 ## Verification and renders
 
-Geometry, bones and animation keys were created with native Blockbench Cube/Group/Animation APIs through `bb.py` at `http://localhost:3000/bb-mcp`, in Undo transactions. The native project codec exported the result; group metadata was folded into legacy outliner objects for the generator. No geometry was constructed as external JSON. Reloaded Blockbench world bounds agree with the independent rotated-corner bounds; all shown corners are above ground (minimum 0.03 u). All frames fit shrink 4; `FLIPBOOKS.md` needed no change.
+The split used native Blockbench `Cube.remove()` operations through `bb.py` at `http://localhost:3000/bb-mcp`, inside Undo transactions. Clips were renamed in Blockbench. The native project codec's raw export preserves full floating-point precision; exported group metadata was folded into legacy outliner objects for the existing generator. No external JSON constructed or edited geometry.
 
-The `PROP-PREVIEW.md` loop produced a before page in `%TEMP%/bb-pyro-surge/burst_before.html` and the delivered `pyro_surge_burst_render_preview.html` from the actual exported rig. The scratch renderer handles each texture's UV resolution. The browser security policy refused local-file navigation, so browser playback was not verified; native Blockbench supplied the visual review.
+Independent comparison against `80f5f73` confirms exact equality of every retained element, including coordinates, origins, rotations, faces and UVs. All embedded texture bytes and animation data are unchanged apart from clip names. The rigs have disjoint element UUID sets whose union is exactly the source. All six rows have twelve one-tick spans, one visible frame bone per tick, and hidden terminal/parked states. Generated bytes match generator output. Original geometric bounds and above-ground placement are preserved by exact comparison; shrink 4 passes generator bounds validation.
 
-`pyro_surge_burst_render_{low,mid,high}.gif`: exactly twelve 50 ms frames, 20 fps. Matching `_contact.png` and `_peak.png` files show each band. Camera (0,25.6,96) u, target (0,22,0), perspective FOV 50: bystander eye 1.6 blocks high and six blocks out, at authored scale. The contact sheets were visually inspected. The `_burst_high_hidden.png` and `_hidden_hidden.png` renders show the terminal and parked states.
+`pyro_surge_burst_render_{low,mid,high}.gif` and matching `_contact.png` / `_peak.png` files were regenerated because the ground ring is absent. Each GIF has twelve 50 ms frames. All contact sheets were visually inspected. Native camera (0,25.6,96) u, target (0,22,0), perspective FOV 50, at authored scale. Terminal and parked states were rendered again and are empty; existing `_burst_high_hidden.png` and `_hidden_hidden.png` artifacts remain because those states did not change. The former filename is retained as an artifact name; the clip is now `pillar_high`.
 
-Verified palette/binary alpha; identical ring radius in every ground state; 12 spans per clip; exactly one frame active per tick; one-tick changes and hidden ends; per-frame element budgets; rotated bounds; all 264 generated outputs byte-for-byte; GIF count and duration. `python tools/gen-flipbook-frames.py`: `OK: 16 flipbook(s), 147 frame(s), 721 file(s) written`. The required pre-commit drift check reports the expected uncommitted generated changes. `build.ps1` succeeds for `dist/LegendCraft-Pack-0.2.4.zip`; `check_pack_manifest.py --source-tree src` passes with 371 item models, 12 sounds, three sounds.json files. The post-commit drift result is quoted in the handoff report.
+`pyro_surge_burst_render_preview.html` was regenerated from the delivered rig with per-texture UV resolution. Browser playback was not verified this session; native Blockbench supplied visual verification.
 
-In-game checks still owed: 12 one-tick swaps and removal at tick 12, reach scaling after the OPEN hook decision, cutout/lighting against terrain and target bodies, and ground placement on slopes.
+Required checks: generator `OK: 19 flipbook(s), 183 frame(s), 793 file(s) written`; pre-commit drift reports the expected 600 uncommitted changes (264 removals plus 336 additions); `build.ps1` passes for `dist/LegendCraft-Pack-0.2.4.zip`; manifest check with `--source-tree src` passes with 407 item models, 12 sounds and three sounds.json files. Post-commit drift and commit SHA are quoted in `C:/Users/omarz/.claude/comms/pyro-rig-flame-surge-split-report.md`.
+
+The generator only removes stale frames for rows still in its table. Retired combined outputs were removed using its existing `stale_frames` matcher, restricted to the three retired stems, before regeneration; generator code is unchanged.
+
+In-game checks owed to the hook session: synchronized swaps and removal at tick 12, independent ring reach scaling, cutout/lighting against terrain and targets, and placement on slopes.
 
 ## History and skill overrides
 
-2026-09-28: replaced the six-frame crossed side paintings with 12-frame three-dimensional rune pillars at three strengths, preserved the row names/shrink and regenerated their item frames. The old `tools/build_pyro_surge_frames.py` and `tools/build_pyro_surge_rigs.py` are STALE for this asset; the committed model is authoritative.
+2026-09-28, `80f5f73`: replaced six-frame crossed paintings with the twelve-frame three-dimensional eruption. `tools/build_pyro_surge_frames.py` and `tools/build_pyro_surge_rigs.py` remain STALE for this asset; committed rigs are authoritative.
 
-The brief explicitly overrides `legendcraft-blockbench/SKILL.md`'s line “the commit and the handoff are all forbidden” before a later owner ruling, and `PROP-PREVIEW.md`'s “Then the turn ends: the ruling is the next message”. Those are explicit skill gates, overridden here by the instruction to finish renders, checks and commits without pausing. It also overrides the skill's separate models-repository index/push workflow: only this pack worktree's named asset paths are committed, with no push or PR.
+2026-09-28: split the registered ring into its own rig and three heat-band rows; retained the pillar except removal of ring planes and clip renames. The owner's ruling resolves the prior shared-display scaling dependency for these assets. The plugin hook must play two displays.
+
+The brief overrides `C:/Users/omarz/.codex/skills/legendcraft-blockbench/SKILL.md`: “the commit and the handoff are all forbidden” before a later preview ruling; and `PROP-PREVIEW.md`: “Then the turn ends: the ruling is the next message”. These are explicit skill gates; this brief directs completion without pausing. It also overrides the separate models-repository index/push workflow: only named pack-worktree asset paths are committed, without push or PR. This worktree has no `mobs-src/README.md`; `FLIPBOOKS.md` indexes this deliverable.
