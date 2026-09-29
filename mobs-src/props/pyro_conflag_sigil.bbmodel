@@ -110,7 +110,7 @@
   ],
   "groups": [
     {
-      "name": "h_magic_fire_circle",
+      "name": "magic_fire_circle",
       "uuid": "857c769a-f75b-fb85-98e9-be9dc7089943",
       "export": true,
       "locked": false,
@@ -141,7 +141,7 @@
       "primary_selected": false
     },
     {
-      "name": "h_out",
+      "name": "fire_circle_out",
       "uuid": "055eb913-611b-2c3c-8bc7-6203a01d1c20",
       "export": true,
       "locked": false,
@@ -253,7 +253,7 @@
                   "children": [
                     "59bbd5c1-869f-55c1-7168-6eb5fca7b27b"
                   ],
-                  "name": "h_out",
+                  "name": "fire_circle_out",
                   "export": true,
                   "locked": false,
                   "scope": 0,
@@ -281,7 +281,7 @@
                   "primary_selected": false
                 }
               ],
-              "name": "h_magic_fire_circle",
+              "name": "magic_fire_circle",
               "export": true,
               "locked": false,
               "scope": 0,
@@ -416,13 +416,13 @@
       "loop_delay": "",
       "animators": {
         "857c769a-f75b-fb85-98e9-be9dc7089943": {
-          "name": "h_magic_fire_circle",
+          "name": "magic_fire_circle",
           "type": "bone",
           "rotation_global": false,
           "quaternion_interpolation": false
         },
         "055eb913-611b-2c3c-8bc7-6203a01d1c20": {
-          "name": "h_out",
+          "name": "fire_circle_out",
           "type": "bone",
           "rotation_global": false,
           "quaternion_interpolation": false,
@@ -532,13 +532,13 @@
       "loop_delay": "",
       "animators": {
         "857c769a-f75b-fb85-98e9-be9dc7089943": {
-          "name": "h_magic_fire_circle",
+          "name": "magic_fire_circle",
           "type": "bone",
           "rotation_global": false,
           "quaternion_interpolation": false
         },
         "055eb913-611b-2c3c-8bc7-6203a01d1c20": {
-          "name": "h_out",
+          "name": "fire_circle_out",
           "type": "bone",
           "rotation_global": false,
           "quaternion_interpolation": false,
@@ -702,7 +702,7 @@
       "loop_delay": "",
       "animators": {
         "857c769a-f75b-fb85-98e9-be9dc7089943": {
-          "name": "h_magic_fire_circle",
+          "name": "magic_fire_circle",
           "type": "bone",
           "rotation_global": false,
           "quaternion_interpolation": false,
@@ -740,7 +740,7 @@
           ]
         },
         "055eb913-611b-2c3c-8bc7-6203a01d1c20": {
-          "name": "h_out",
+          "name": "fire_circle_out",
           "type": "bone",
           "rotation_global": false,
           "quaternion_interpolation": false,

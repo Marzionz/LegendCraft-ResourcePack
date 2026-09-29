@@ -27,10 +27,10 @@ Every bone has rest rotation `[0,0,0]`. The identity root follows the unyawed pr
 | --- | --- | --- | --- |
 | `root` | scene | `[0,0,0]` | `[0,0,0]` |
 | `plane_mount` | `root` | `[0,0.40,0]` | `[0,0,0]` |
-| `h_magic_fire_circle` | `plane_mount` | `[0,0.40,0]` | `[0,0,0]` |
-| `h_out` | `h_magic_fire_circle` | `[0,0.40,0]` | `[0,0,0]` |
+| `magic_fire_circle` | `plane_mount` | `[0,0.40,0]` | `[0,0,0]` |
+| `fire_circle_out` | `magic_fire_circle` | `[0,0.40,0]` | `[0,0,0]` |
 
-`plane_mount` is an identity organizational bone. Visible motion is keyed on `h_out`, around the vertical Y axis at `[0,0.40,0]`. Native format-5 world transforms confirm negative Y keys move a +X mark toward +Z: clockwise from above. Do not apply the older format-4 keyframe sign inversion to this file.
+No bone name carries a BetterModel tag prefix: an `h_` or `hi_` bone turns with the wearer's head, which tilts a worn ground circle with the caster's view pitch. `plane_mount` is an identity organizational bone. Visible motion is keyed on `fire_circle_out`, around the vertical Y axis at `[0,0.40,0]`. Native format-5 world transforms confirm negative Y keys move a +X mark toward +Z: clockwise from above. Do not apply the older format-4 keyframe sign inversion to this file.
 
 ## Clips
 
@@ -60,6 +60,6 @@ The saved file was reloaded into an isolated Blockbench project. Native geometry
 
 Verified the exact exported flat element, all four zero bone rotations, up-face UV orientation, native clockwise Y motion, equal clip-swap transforms, tick grid, playback modes, unchanged atlas bytes and source/stage byte equality. The renders were visually inspected.
 
-`deploy-rigs.ps1 -Prop` and `-Prop -Preflight`: **DEPLOYABLE**. Staged `dist/props/models/pyro_conflag_sigil.bbmodel` SHA1 **`18210ceafb7b6b2e8cfc8a4f771a5296967439ae`**. `build.ps1` and `check_pack_manifest.py --pack dist/LegendCraft-Pack-0.2.4.zip --source-tree src` passed: 490 item models, 17 sounds, 5 sounds.json. Plugin-contributed assets are unchecked because no plugin source was supplied.
+`deploy-rigs.ps1 -Prop` and `-Prop -Preflight`: **DEPLOYABLE**. Staged `dist/props/models/pyro_conflag_sigil.bbmodel` SHA1 **`d3cbc15d4c1ae5a3c73c3dd9c2ef0781e5fbb088`**. `build.ps1` and `check_pack_manifest.py --pack dist/LegendCraft-Pack-0.2.4.zip --source-tree src` passed: 490 item models, 17 sounds, 5 sounds.json. Plugin-contributed assets are unchecked because no plugin source was supplied.
 
 In-game BetterModel playback, caster attachment, brightness and alpha sorting remain runtime checks. This contract stages an asset; it does not change plugin code or deploy to a server.
