@@ -34,11 +34,17 @@ Columns:
 | `seraph_ascension_finale` | `seraph_ascension_finale` | `finale` | 4 | | |
 | `thf_blink_flash` | `thf_blink_flash` | `flash` | 2 | `flash` | yes |
 | `pyro_shell_detonation` | `pyro_shell_detonation` | `detonate` | 4 | | |
-| `pyro_surge_burst_low` | `pyro_surge_burst` | `burst_low` | 4 | | |
-| `pyro_surge_burst_mid` | `pyro_surge_burst` | `burst_mid` | 4 | | |
-| `pyro_surge_burst_high` | `pyro_surge_burst` | `burst_high` | 4 | | |
+| `pyro_surge_pillar_low` | `pyro_surge_burst` | `pillar_low` | 4 | | |
+| `pyro_surge_pillar_mid` | `pyro_surge_burst` | `pillar_mid` | 4 | | |
+| `pyro_surge_pillar_full` | `pyro_surge_burst` | `pillar_high` | 4 | | |
+| `pyro_surge_ring_low` | `pyro_surge_ring` | `ring_low` | 2 | | |
+| `pyro_surge_ring_mid` | `pyro_surge_ring` | `ring_mid` | 2 | | |
+| `pyro_surge_ring_high` | `pyro_surge_ring` | `ring_high` | 2 | | |
 | `pyro_conflag_stream` | `pyro_conflag_stream` | `flow` | 1 | | |
 | `pyro_conflag_cashout` | `pyro_conflag_cashout` | `snap` | 1 | | |
 | `pyro_conflag_explosion` | `pyro_conflag_explosion` | `detonate` | 4 | | |
+| `pyro_conflag_field` | `pyro_conflag_field` | `blast` | 2 | | |
+| `pyro_conflag_rim` | `pyro_conflag_rim` | `fuse` | 2 | | |
+| `pyro_scorch_explosion` | `pyro_scorch_explosion` | `burst` | 2 | | |
 | `knight_ghost_shield` | `knight_ghost_shield` | `flare` | 1 | | |
 | `knight_horn_blast` | `knight_horn_blast` | `war_cry` | 1 | | |
