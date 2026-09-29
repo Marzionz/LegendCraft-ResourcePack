@@ -1,0 +1,18 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/pyro_conflag_rim_20",
+    "particle": "legendcraft:item/classes/pyro_conflag_rim_20"
+  },
+  "elements": [
+    {
+      "from": [-11.06375, 8.1, -11.06375],
+      "to": [27.06375, 8.1, 27.06375],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

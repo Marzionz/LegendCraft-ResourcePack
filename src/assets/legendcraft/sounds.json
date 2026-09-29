@@ -1,4 +1,22 @@
 {
+  "pyromancer.conflagration_charge": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/conflagration_charge"
+    ]
+  },
+  "pyromancer.conflagration_blast": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/conflagration_blast"
+    ]
+  },
+  "pyromancer.conflagration_blast_low": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/conflagration_blast_low"
+    ]
+  },
   "brawler.unending_blows_finisher": {
     "category": "master",
     "sounds": [
