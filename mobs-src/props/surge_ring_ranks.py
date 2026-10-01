@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Flame Surge rune ring ranks: writes the ring's four rank flipbooks and their burn-away frames.
+"""Flame Surge rune ring ranks: writes the ring's three rank flipbooks and their burn-away frames.
 
 Durable and re-runnable. Reads the three band flipbooks `tools/gen-flipbook-frames.py` generates
 from `pyro_surge_ring.bbmodel` (`pyro_surge_ring_{low,mid,high}_<n>`, textures and item models
@@ -8,8 +8,8 @@ under `src/assets/legendcraft/`) and writes, beside them:
     pyro_surge_ring_<rank>_<n>         n 1..9, the ring lighting up, one frame a tick
     pyro_surge_ring_<rank>_burn_<k>    k 1..10, the ring burning away from the held frame 9
 
-for the four ranks Flame Surge's flame takes by the target's Burning stacks: red (the low band),
-orange (mid), white (high) and blue (the high band recoloured through the blue rank's ramp).
+for the three ranks Flame Surge's flame takes by the target's Burning stacks: red (the low band),
+orange (mid) and white (high). The top tier wears the white rank too.
 
 The band frames are each authored a little higher than the last (y 8.12 to 8.32 in the item
 model), so a flipbook stepping through them drifts upward. Every frame written here lies on
@@ -51,21 +51,13 @@ RANKS = {
     "red": "low",
     "orange": "mid",
     "white": "high",
-    "blue": "high",
 }
-
-# The blue rank's ramp, dark to hot, from Flame Surge's blue flame. It tops out at pale cyan
-# rather than white: the high band's outer ring sits at its brightest, and white there reads as
-# the white rank. The luma is pressed down a little so most of the ring lands on the bright blue.
-BLUE_RAMP = [(0x1E, 0x59, 0x6E), (0x2E, 0x8F, 0xB8), (0x4C, 0xC7, 0xFF), (0x9F, 0xE8, 0xFF)]
-BLUE_GAMMA = 1.6
 
 # The colour a texel burns at just before it goes, per rank.
 HOT_EDGE = {
     "red": (0xFF, 0xD2, 0x4A),    # gold
     "orange": (0xFF, 0xF4, 0xE0),  # white-hot
     "white": (0xFF, 0xFF, 0xFF),   # white
-    "blue": (0xE8, 0xFF, 0xFF),    # ice white
 }
 
 # The colour the ring cools toward while it burns, per rank.
@@ -73,7 +65,6 @@ EMBER = {
     "red": (0x4A, 0x10, 0x0A),
     "orange": (0x7A, 0x1F, 0x10),
     "white": (0x7A, 0x1F, 0x10),
-    "blue": (0x0E, 0x2C, 0x3A),
 }
 
 
@@ -87,17 +78,6 @@ def ramp(t: float, stops: list[tuple[int, int, int]]) -> tuple[int, int, int]:
     f = t - i
     a, b = stops[i], stops[i + 1]
     return tuple(round(a[c] + (b[c] - a[c]) * f) for c in range(3))
-
-
-def blue(source: Image.Image) -> Image.Image:
-    texels = [p for p in source.get_flattened_data() if p[3] > 0]
-    lo = min(luma(p[:3]) for p in texels)
-    hi = max(luma(p[:3]) for p in texels)
-    out = Image.new("RGBA", source.size)
-    out.putdata([(0, 0, 0, 0) if p[3] == 0
-                 else ramp(((luma(p[:3]) - lo) / max(hi - lo, 1e-6)) ** BLUE_GAMMA, BLUE_RAMP) + (p[3],)
-                 for p in source.get_flattened_data()])
-    return out
 
 
 def noise(size: tuple[int, int]) -> list[float]:
@@ -153,7 +133,7 @@ def main() -> int:
         for n in range(1, LIT_FRAMES + 1):
             with Image.open(os.path.join(TEXTURES_DIR, "%s_%s_%d.png" % (STEM, band, n))) as source:
                 lit = source.convert("RGBA")
-            frames.append(blue(lit) if rank == "blue" else lit)
+            frames.append(lit)
         for n, texture in enumerate(frames, start=1):
             write_frame("%s_%s_%d" % (STEM, rank, n), texture, plane)
             written += 1

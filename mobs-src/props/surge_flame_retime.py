@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Flame Surge flame retime: rebuilds the four shipping surge_flame rigs' `erupt` clip at the source's pace.
+"""Flame Surge flame retime: rebuilds the three shipping surge_flame rigs' `erupt` clip at the source's pace.
 
 Durable and re-runnable. Geometry, textures and bones come from the artist's delivery
 (`surge_flame_<rank>.bbmodel`); the clip comes from the samusdev source state
@@ -35,7 +35,6 @@ DOWNSCALE = {
     "red": 0.0910929713,
     "orange": 0.1392054562,
     "white": 0.1873179410,
-    "blue": 0.2354304259,
 }
 
 

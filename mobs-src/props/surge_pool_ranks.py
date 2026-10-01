@@ -11,8 +11,8 @@ opaque. It writes under `src/assets/legendcraft/`:
     pyro_surge_pool_<rank>_<n>         n 1..12, the pool cooling from its rank's heat to a crust
     pyro_surge_pool_<rank>_burn_<k>    k 1..10, the crusted pool burning away from frame 12
 
-for the four ranks Flame Surge's flame takes by the target's Burning stacks: red, orange, white
-and blue.
+for the three ranks Flame Surge's flame takes by the target's Burning stacks: red, orange and
+white. The top tier wears the white rank too.
 
 Each texel's luma, normalised over the disc and raised to the rank's gamma, is mapped through the
 rank's ramp (dark, body, hot, core). Cooling frame n pulls every texel toward the rank's crust by `c = 0.85 * (n - 1) / 11`,
@@ -50,18 +50,16 @@ RAMPS = {
     "red": [(0x3A, 0x08, 0x06), (0x8E, 0x1A, 0x0C), (0xD8, 0x36, 0x1A), (0xFF, 0x7A, 0x3A)],
     "orange": [(0x4A, 0x12, 0x06), (0xC0, 0x40, 0x0A), (0xFF, 0x8A, 0x1A), (0xFF, 0xD2, 0x4A)],
     "white": [(0xC8, 0x6A, 0x2A), (0xFF, 0xC4, 0x70), (0xFF, 0xF2, 0xCC), (0xFF, 0xFF, 0xFF)],
-    "blue": [(0x0E, 0x2C, 0x3A), (0x2E, 0x8F, 0xB8), (0x4C, 0xC7, 0xFF), (0xE8, 0xFF, 0xFF)],
 }
 
 # The power each rank raises the normalised luma to before its ramp: below 1 lifts the disc's
 # darker skin toward the rank's hot stops, so the white rank reads white-hot rather than tan.
-GAMMA = {"red": 1.0, "orange": 1.0, "white": 0.5, "blue": 0.8}
+GAMMA = {"red": 1.0, "orange": 1.0, "white": 0.5}
 
 CRUST = {
     "red": (0x24, 0x0A, 0x08),
     "orange": (0x24, 0x0A, 0x08),
     "white": (0x2A, 0x10, 0x0A),
-    "blue": (0x0A, 0x16, 0x22),
 }
 
 

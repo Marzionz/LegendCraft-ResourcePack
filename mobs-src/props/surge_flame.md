@@ -5,7 +5,7 @@ Source model: `ModelEngine\blueprints\RPG_Class_Awakened_Pyromancer\Infernal Jud
 Source clip: `lava_obsidian_infernal_judgement`, 3.05 s, under `lava_obsidian_pieces_eruption_vfx`.
 Retained: the ground-flame tongues (`allef_impactv1`, `allef_impactv2`), the rising streaks (`allef_impact_mini`), the paired flying fragments (`allef_mini_flame2`) and the flying rocks (`allef_stone`), with all their descendants. Excluded: the grounded spike ring `allef_stone_impact` (Conflagration's). No smoke is visible in this state.
 
-`surge_flame_red`, `surge_flame_orange`, `surge_flame_white` and `surge_flame_blue` are BetterModel rigs that erupt out of the throat of the `surge_volcano` pimple when Flame Surge lands. The rank follows the target's Burning stacks. The volcano itself is the shipped rig, unchanged. Together they replace the painted `pyro_surge_burst` fire pillar on the plugin side. The painted ground rune ring, [`pyro_surge_ring`](pyro_surge_ring.md), plays under them in the flame's rank and stands for the Level 45 patch's life. The Level 45 patch lies on the [magma pool](pyro_surge_pool.md) under its flame motes; `pyro_surge_patch` is no longer laid. The Level 30 bloom and the Level 60 snap are unchanged.
+`surge_flame_red`, `surge_flame_orange` and `surge_flame_white` are BetterModel rigs that erupt out of the throat of the `surge_volcano` pimple when Flame Surge lands. The rank follows the target's Burning stacks; the top tier, at 5 stacks, wears the white-hot rig taller, so Flame Surge never wears Cryomancer's blues. The volcano itself is the shipped rig, unchanged. Together they replace the painted `pyro_surge_burst` fire pillar on the plugin side. The painted ground rune ring, [`pyro_surge_ring`](pyro_surge_ring.md), plays under them in the flame's rank and stands for the Level 45 patch's life. The Level 45 patch lies on the [magma pool](pyro_surge_pool.md) under its flame motes; `pyro_surge_patch` is no longer laid. The Level 30 bloom and the Level 60 snap are unchanged.
 
 ## Shape and ranks
 
@@ -16,7 +16,7 @@ Each rank is one retained effect: 41 elements (29 fire planes, 12 flying-rock cu
 | 0–1 | red | 1.50 blocks | 0.0910929713 | 2.5 | 3.75 blocks |
 | 2–3 | orange | 2.25 blocks | 0.1392054562 | 2.2222 | 5.00 blocks |
 | 4 | white | 3.00 blocks | 0.1873179410 | 2.0833 | 6.25 blocks |
-| 5 | blue | 3.75 blocks | 0.2354304259 | 2.0 | 7.50 blocks |
+| 5 | white | 3.00 blocks | 0.1873179410 | 2.5 | 7.50 blocks |
 
 Heights are the highest visible fire texel, detached fire included. The plugin spawns each rank at standing height over built height.
 
