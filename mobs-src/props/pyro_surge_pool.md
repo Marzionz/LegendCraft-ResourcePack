@@ -25,7 +25,7 @@ Every frame is one horizontal 32 × 32 u plane at y 8.1, x/z −8..24, its up fa
 
 ## Hook contract
 
-One item display on the eruption's ground point, unyawed, scaled to the blast radius over 1 block (4 at base tuning), so it fills the rune ring; the field's damage reaches 3 blocks at base tuning,, for the field's life L (80 ticks at base tuning):
+One item display on the eruption's ground point, unyawed, scaled to the blast radius over 1 block (4 at base tuning) so it fills the rune ring, for the field's life L (80 ticks at base tuning). The field's damage reaches only its own radius (3 blocks at base tuning).
 
 | Tick | Frame |
 | ---: | --- |
@@ -37,4 +37,4 @@ Over it until the burn-away, a bubble rises every 2 ticks at its own point withi
 
 ## Verification
 
-The frames were checked by eye on a contact sheet of every rank at cooling 1, 4, 8, 12 and burn 2, 5. The pool's read on the ground, its sorting under the rune ring and the bubbles are a human's in-game checks.
+The frames were checked by eye on a contact sheet of every rank at cooling 1, 6, 12 and burn 3. The pool's read on the ground, its sorting under the rune ring and the bubbles are a human's in-game checks.
