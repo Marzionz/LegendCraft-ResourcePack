@@ -18,11 +18,12 @@ egg's size to restore it. Rotation angles, UVs and faces are unchanged. A model 
 overruns the box is refused.
 
 The delivered atlases paint about 100 texels per block, smooth gradients included, which reads as
-clean against the roster's block-scale art. Each atlas is drawn at a quarter of its size (about
-25 texels per block, the glyphs still legible): every 4 x 4 cell takes the median alpha of its
-texels, so the faint inner faces keep their alpha and a cell on a face edge stays either drawn or
-clear, and the mean colour of its drawn texels. The colours are then cut to 16 per atlas with no
-dithering, so the gradients fall into hard steps. UVs are unchanged; the item model scales them
+clean against the roster's block-scale art. Each 512 x 1024 atlas is drawn at 176 x 352, about a
+third of its size and 35 texels per block, the glyphs still crisp; both sides are multiples of 16
+so the atlas never caps the client's mipmapping. Every cell takes the median alpha of the texels
+it covers, so the faint inner faces keep their alpha and a cell on a face edge stays either drawn
+or clear, and the mean colour of its drawn texels. The colours are then cut to 20 per atlas with
+no dithering, so the gradients fall into hard steps. UVs are unchanged; the item model scales them
 to whatever size the atlas is.
 
     python mobs-src/props/ember_shell_ship.py <delivery>/shipping
@@ -48,8 +49,8 @@ SHRINK = 2.0
 CENTRE = 8.0
 BOX_MIN, BOX_MAX = -16.0, 32.0
 PRECISION = 6
-PIXEL = 4
-ATLAS_COLOURS = 16
+ATLAS_SIZE = (176, 352)
+ATLAS_COLOURS = 20
 
 FINISHED = re.compile(r"^ember_shell_egg_(\d)_tier_(\d)\.json$")
 FORM = re.compile(r"^form_a_egg_(\d)_tier_(\d)_(\d\d)\.json$")
@@ -92,11 +93,14 @@ def ship_model(source: dict, name: str) -> dict:
 def pixelate(source: Image.Image) -> Image.Image:
     rgba = source.convert("RGBA")
     width, height = rgba.size
-    cells = Image.new("RGBA", (width // PIXEL, height // PIXEL))
+    out_w, out_h = ATLAS_SIZE
+    cells = Image.new("RGBA", ATLAS_SIZE)
     texels, drawn = rgba.load(), cells.load()
-    for y in range(height // PIXEL):
-        for x in range(width // PIXEL):
-            block = [texels[x * PIXEL + i, y * PIXEL + j] for i in range(PIXEL) for j in range(PIXEL)]
+    for y in range(out_h):
+        y0, y1 = y * height // out_h, (y + 1) * height // out_h
+        for x in range(out_w):
+            x0, x1 = x * width // out_w, (x + 1) * width // out_w
+            block = [texels[i, j] for i in range(x0, x1) for j in range(y0, y1)]
             alpha = sorted(texel[3] for texel in block)[len(block) // 2]
             if alpha == 0:
                 drawn[x, y] = (0, 0, 0, 0)
