@@ -26,11 +26,13 @@ Two 32 × 32 textures per rank. `flame_<rank>.png` recolours only the fire UV re
 
 ## Clip
 
-`erupt`, 0.90 s, hold. The 3.05 s source state is compressed 3.3888889× and sampled onto linear keys on the 0.05 s grid, with constant and collinear keys removed. The ground flame shows from about 0.04 s to 0.27 s; the rocks fly until 0.90 s. The fire grows and collapses by non-uniform scale with exact-zero and step hides, and the rocks scale out at the end.
+`erupt`, 3.05 s, hold: the source state at its own pace. The flame flies up, shudders at its peak and falls back like a lava burst; the rocks fly out and scale away at the end. The fire grows and collapses by non-uniform scale with exact-zero and step hides.
 
-The artist's delivery opens the clip with a 0.20 s lead, timed to the volcano inside the comparison scene. `surge_flame_retime.py` cuts it: keys move 0.20 s earlier, the pose each channel holds at 0.20 s becomes its key at 0, and the clip runs 0.90 s:
+BetterModel advances one keyframe segment per tick, so every animated channel carries a linear key on each of the clip's 62 ticks (0 to 3.05 s), constant runs included; a channel with fewer keys plays faster than its authored time. `surge_flame_retime.py` writes the clip from the source: it evaluates each source channel as Blockbench does (step, Blockbench's uniform Catmull-Rom spline, or linear) at every tick, scales position samples by the rank's downscale, and keeps rotation and scale samples as they are. Geometry, textures and bones are the delivery's, whose bones keep their source uuids:
 
-    python mobs-src/props/surge_flame_retime.py C:/Repositories/Assets/pyro-surge-shell/flame-surge
+    python mobs-src/props/surge_flame_retime.py C:/Repositories/Assets/pyro-surge-shell/flame-surge "C:/Repositories/Animation training/samus2002_AWAKENED_PYROMANCER [v1.1]/ModelEngine/blueprints/RPG_Class_Awakened_Pyromancer/Infernal Judgement/infernal_judgement_vfx.bbmodel"
+
+The evaluation reproduces the artist's Blockbench samples of the same source (8,412 values across the four ranks, at their compressed times) to within 1e-9 relative. A run is byte-stable.
 
 ## Hook contract
 
@@ -42,7 +44,8 @@ All at the target's feet, upright, the volcano, the flame and the ring on the sa
 | 1–8 | | | lit frames 2–9, one a tick, then held |
 | 4 | | `surge_flame_<rank>` spawned at its spawn scale, `erupt` held | |
 | 13 | `subside` replaces the erupt clip | | |
-| 22 | removed | removed | |
+| 22 | removed | | |
+| 65 | | removed, its clip played | |
 | life − 20 | | | burns away over ten frames, two ticks each |
 | life | | | removed: 80 ticks with the Level 45 patch, else 42 |
 
