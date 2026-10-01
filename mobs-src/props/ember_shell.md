@@ -20,7 +20,7 @@ The form states follow `reveal_segments` in the tip paths: each state reveals th
 
 ## Texture
 
-Five atlases, one per heat tier, shared by the finished and form models: `textures/item/classes/ember_shell_egg_tier_<t>.png`. The delivery paints them at 512 × 1024, about 100 texels per block; they ship pixelated to 128 × 256, about 25 texels per block, cut to 16 colours each with no dithering (see Shipping). Inner faces carry at most 26% alpha. Heat ramp by tier: deep red, red-orange, orange, gold, white-hot; the glyphs run one tier hotter, and past white-hot they are the kit's cyan.
+Five atlases, one per heat tier, shared by the finished and form models: `textures/item/classes/ember_shell_egg_tier_<t>.png`. The delivery paints them at 512 × 1024, about 100 texels per block; they ship pixelated to 176 × 352, about 35 texels per block, cut to 20 colours each with no dithering (see Shipping). Inner faces carry at most 26% alpha. Heat ramp by tier: deep red, red-orange, orange, gold, white-hot; the glyphs run one tier hotter, and past white-hot they are the kit's cyan.
 
 ## Mapping
 
@@ -36,7 +36,7 @@ Five atlases, one per heat tier, shared by the finished and form models: `textur
 
     python mobs-src/props/ember_shell_ship.py C:/Repositories/Assets/pyro-surge-shell/ember-shell/shipping
 
-It writes 15 finished models `ember_shell_egg_<r>_tier_<t>`, 165 form models `ember_shell_form_<r>_tier_<t>_<nn>` (r 1..3, t 1..5, nn 00..10), their item definitions under `items/classes/`, and the five atlases. Each atlas is drawn at a quarter size: every 4 × 4 cell takes the median alpha of its texels and the mean colour of its drawn ones, then the atlas is cut to 16 colours with no dithering, so the delivered gradients fall into hard steps at block scale.
+It writes 15 finished models `ember_shell_egg_<r>_tier_<t>`, 165 form models `ember_shell_form_<r>_tier_<t>_<nn>` (r 1..3, t 1..5, nn 00..10), their item definitions under `items/classes/`, and the five atlases. Each atlas is drawn at 176 × 352, about a third of its size, with both sides multiples of 16 so it never caps the client's mipmapping: every cell takes the median alpha of the texels it covers and the mean colour of its drawn ones, then the atlas is cut to 20 colours with no dithering, so the delivered gradients fall into hard steps at block scale.
 
 The delivered models are authored with the caster's feet at the origin and reach x −25..+24, y 0.5..39.6 u. The 26.1.2 client refuses an element outside the item model's [−16, 32] box ("specifier exceeds the allowed boundaries"), so the script draws every `from`, `to` and rotation `origin` at half size, moved by +8: `p' = p / 2 + 8`. Rotation angles, UVs and faces are unchanged; a model still outside the box is refused. The largest, `ember_shell_egg_3_tier_5`, lands at [−4.08, 8.47, −2.09]..[19.64, 27.61, 17.40]. The plugin draws the display at twice the egg's size to restore it, with the feet at the display's own origin.
 
