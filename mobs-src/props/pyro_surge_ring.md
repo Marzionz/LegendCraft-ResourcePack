@@ -1,5 +1,7 @@
 # Flame Surge — independently scaled ground rune ring
 
+The plugin plays the ranked flipbooks under [Ranks, stand and burn-away](#ranks-stand-and-burn-away). The three band rows below are their source and are not played themselves.
+
 The ground rune ring extracted from `pyro_surge_burst.bbmodel` as drawn in pack commit `80f5f73`. It plays beside the [pillar](pyro_surge_burst.md) on a separate item display so blast reach and pillar height scale independently. This is a FRAME STACK authoring rig for generated item models, not a BetterModel deployment.
 
 ## Rows and heat bands
@@ -35,6 +37,36 @@ Unyawed identity `root` → `fx` → `low_f1`…`low_f12`, `mid_f1`…`mid_f12`,
 | End | 12 | All hidden; runtime removes both displays |
 
 Each row generates 12 item definitions, 12 geometry models and 12 unchanged texture copies: 36 files per row, 108 total. Ring and pillar together preserve every original per-frame element budget.
+
+## Ranks, stand and burn-away
+
+`surge_ring_ranks.py` (durable, re-runnable) writes the flipbooks the plugin plays from the band rows' generated frames. Re-run it after `tools/gen-flipbook-frames.py` regenerates the band rows:
+
+    python mobs-src/props/surge_ring_ranks.py
+
+| Rank | Stacks | Source band | Burn edge | Cools toward |
+| --- | --- | --- | --- | --- |
+| `red` | 0–1 | low | `#FFD24A` | `#4A100A` |
+| `orange` | 2–3 | mid | `#FFF4E0` | `#7A1F10` |
+| `white` | 4 | high | `#FFFFFF` | `#7A1F10` |
+| `blue` | 5 | high, recoloured | `#E8FFFF` | `#0E2C3A` |
+
+The ranks follow Flame Surge's flame ([`surge_flame`](surge_flame.md)). Blue maps the high band's luma, normalised and raised to the power 1.6, through `#1E596E` `#2E8FB8` `#4CC7FF` `#9FE8FF`; it tops out at pale cyan so it never reads as the white rank.
+
+Per rank, 19 item models: `pyro_surge_ring_<rank>_1..9` are the band's lit frames 1–9, and `pyro_surge_ring_<rank>_burn_1..10` burn frame 9 away. All 19 lie on frame 1's plane (y 8.125 in the item model) with its UVs, so the ring stands still; the band rows climb 0.035 u a frame and drift upward when stepped.
+
+The burn-away is driven by one smooth noise field (a 6 × 6 random grid, seed 7, bicubic to the texture size, normalised), the same for every rank. At burn frame k the front is `k / 10 × 1.16`: a texel whose noise is below `front − 0.16` is gone, one between that and the front burns at the rank's hot edge, and the rest keep their colour, cooled toward the rank's ember by `0.55 × k / 10`. Frame 10 is fully burnt. 76 frames in all, 228 files.
+
+Hook contract, at the target's feet with the volcano and flame, outer edge at the blast reach:
+
+| Tick | Frame |
+| ---: | --- |
+| 0–8 | lit 1–9, one a tick |
+| 9 to life − 21 | lit 9 held |
+| life − 20 to life − 1 | burn 1–10, two ticks each |
+| life | removed |
+
+The life is the Level 45 patch's (80 ticks at base tuning) when the patch follows, else 42 ticks.
 
 ## Verification and renders
 

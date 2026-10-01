@@ -17,7 +17,9 @@ The circle lies flat in its exported vertices. No bone rest rotation supplies it
 
 Bought source: `C:/Repositories/Animation training/samus2002_AWAKENED_PYROMANCER [v1.1]/ModelEngine/blueprints/RPG_Class_Awakened_Pyromancer/Infernal Judgement/infernal_circle.bbmodel`. Source SHA256: `5bad79e0e7d84d7c17ba036a45c1a415a0bf0c9d82c8761f09a8a6bc283e3b79`.
 
-The unchanged 128 x 128 RGBA atlas is embedded and stored as `pyro_conflag_sigil.png` beside this file and under `src/assets/legendcraft/textures/entity/`. Resource location `legendcraft:entity/pyro_conflag_sigil`; atlas SHA1 **`2c6949687283dda1b471f5b8a010e388f989ade4`**. No repaint or emissive companion.
+The 128 x 128 RGBA atlas is embedded and stored as `pyro_conflag_sigil.png` beside this file and under `src/assets/legendcraft/textures/entity/`. Resource location `legendcraft:entity/pyro_conflag_sigil`; atlas SHA1 **`448ce18c5871c41f0bc743387b9467ade1806151`**. No emissive companion.
+
+The atlas is neutral so the plugin's tint supplies all colour, as on [`pyro_conflag_runes`](pyro_conflag_runes.md): the sigil climbs the runes' heat ramp (red, orange, yellow, white, blue) with them. From the source atlas (SHA1 `2c6949687283dda1b471f5b8a010e388f989ade4`), every drawn texel's RGB becomes `round((max(R, G, B) + 0.2126 R + 0.7152 G + 0.0722 B) / 2)` in all three channels; alpha is copied unchanged. Averaging the brightest channel with luma keeps the saturated body bright under a tint (the source's `#FF4A2E` lands at 182) while the dark outlines stay dark.
 
 ## Bones
 
@@ -58,8 +60,8 @@ The saved file was reloaded into an isolated Blockbench project. Native geometry
 - [Full windup then expand GIF](pyro_conflag_sigil_render_swap.gif), 50 ms per frame
 - [Motion contact sheet](pyro_conflag_sigil_render_contact.png)
 
-Verified the exact exported flat element, all four zero bone rotations, up-face UV orientation, native clockwise Y motion, equal clip-swap transforms, tick grid, playback modes, unchanged atlas bytes and source/stage byte equality. The renders were visually inspected.
+Verified the exact exported flat element, all four zero bone rotations, up-face UV orientation, native clockwise Y motion, equal clip-swap transforms, tick grid, playback modes and source/stage byte equality. The renders were visually inspected; they show the source colours, before the atlas was made neutral. The neutral atlas was checked under the five ramp tints by multiplying it per texel. The tinted read on the client is a human's check.
 
-`deploy-rigs.ps1 -Prop` and `-Prop -Preflight`: **DEPLOYABLE**. Staged `dist/props/models/pyro_conflag_sigil.bbmodel` SHA1 **`d3cbc15d4c1ae5a3c73c3dd9c2ef0781e5fbb088`**. `build.ps1` and `check_pack_manifest.py --pack dist/LegendCraft-Pack-0.2.4.zip --source-tree src` passed: 490 item models, 17 sounds, 5 sounds.json. Plugin-contributed assets are unchecked because no plugin source was supplied.
+`deploy-rigs.ps1 -Prop` and `-Prop -Preflight`: **DEPLOYABLE**. The staged model with the source atlas had SHA1 `d3cbc15d4c1ae5a3c73c3dd9c2ef0781e5fbb088`; the neutral-atlas `.bbmodel` is SHA1 `8adb9f17ddbb0aa4fec18aa2118ce843048c4506`. `build.ps1` and `check_pack_manifest.py --pack dist/LegendCraft-Pack-0.2.4.zip --source-tree src` passed: 490 item models, 17 sounds, 5 sounds.json. Plugin-contributed assets are unchecked because no plugin source was supplied.
 
 In-game BetterModel playback, caster attachment, brightness and alpha sorting remain runtime checks. This contract stages an asset; it does not change plugin code or deploy to a server.
