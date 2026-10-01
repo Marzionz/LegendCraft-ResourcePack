@@ -13,3 +13,4 @@
 | `pyro_surge_pool_{red,orange,white}` | Item-model flipbook prop, written by `props/surge_pool_ranks.py` (durable) | 1/frame | 12 cooling frames, 10 burn-away frames | [Flame Surge L45 magma pool](props/pyro_surge_pool.md) |
 | `surge_flame_{red,orange,white}` | BetterModel motion prop | 41 each | `erupt` (3.05 s hold) | [Flame Surge ranked flame out of the volcano's throat](props/surge_flame.md) |
 | `ember_shell_egg_{1,2,3}` | Item-model prop, form flipbook then turned | 24 / 48 / 72 | form-in 11 states (10 ticks), unravel in reverse | [Ember Shell ribbon egg](props/ember_shell.md) |
+| `ember_shell_egg_seat` | BetterModel seat rig, one bone wearing the egg's item models | 1 (transparent) | none; the plugin swaps the bone's item per tick | [Ember Shell ribbon egg](props/ember_shell.md) |
