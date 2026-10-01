@@ -5,7 +5,7 @@ Source model: `ModelEngine\blueprints\RPG_Class_Awakened_Pyromancer\Infernal Jud
 Source clip: `lava_obsidian_infernal_judgement`, 3.05 s, under `lava_obsidian_pieces_eruption_vfx`.
 Retained: the ground-flame tongues (`allef_impactv1`, `allef_impactv2`), the rising streaks (`allef_impact_mini`), the paired flying fragments (`allef_mini_flame2`) and the flying rocks (`allef_stone`), with all their descendants. Excluded: the grounded spike ring `allef_stone_impact` (Conflagration's). No smoke is visible in this state.
 
-`surge_flame_red`, `surge_flame_orange`, `surge_flame_white` and `surge_flame_blue` are BetterModel rigs that erupt out of the throat of the `surge_volcano` pimple when Flame Surge lands. The rank follows the target's Burning stacks. The volcano itself is the shipped rig, unchanged. Together they replace the painted `pyro_surge_burst` flipbook and its rune decal on the plugin side; the Level 30 bloom, the Level 45 `pyro_surge_patch` and the Level 60 snap are unchanged.
+`surge_flame_red`, `surge_flame_orange`, `surge_flame_white` and `surge_flame_blue` are BetterModel rigs that erupt out of the throat of the `surge_volcano` pimple when Flame Surge lands. The rank follows the target's Burning stacks. The volcano itself is the shipped rig, unchanged. Together they replace the painted `pyro_surge_burst` fire pillar on the plugin side. The painted ground rune ring, [`pyro_surge_ring`](pyro_surge_ring.md), still plays under them. The Level 45 patch draws only flame motes; `pyro_surge_patch` is no longer laid. The Level 30 bloom and the Level 60 snap are unchanged.
 
 ## Shape and ranks
 
@@ -34,16 +34,18 @@ The artist's delivery opens the clip with a 0.20 s lead, timed to the volcano in
 
 ## Hook contract
 
-All at the target's feet, upright, the volcano and the flame on the same point:
+All at the target's feet, upright, the volcano, the flame and the ring on the same point:
 
-| Tick | Volcano | Flame |
-| ---: | --- | --- |
-| 0 | spawned, `erupt_low` (0–2 stacks) or `erupt_high` (3–5) held | |
-| 4 | | `surge_flame_<rank>` spawned at scale 1, `erupt` held |
-| 13 | `subside` replaces the erupt clip | |
-| 22 | removed | removed |
+| Tick | Volcano | Flame | Rune ring |
+| ---: | --- | --- | --- |
+| 0 | spawned, `erupt_low` (0–2 stacks) or `erupt_high` (3–5) held | | `pyro_surge_ring_<band>` frame 1 (low 0–2, mid 3–4, high 5), outer edge at the blast radius |
+| 1–11 | | | frames 2–12, one a tick |
+| 4 | | `surge_flame_<rank>` spawned at scale 1, `erupt` held | |
+| 12 | | | removed |
+| 13 | `subside` replaces the erupt clip | | |
+| 22 | removed | removed | |
 
-The flame spawns 0.20 s into the volcano's erupt, which is where the comparison scene starts it. The eruption is the owner's one-shot: the caster's death, logout or class change takes both down.
+The flame spawns 0.20 s into the volcano's erupt, which is where the comparison scene starts it. The eruption is the owner's one-shot: the caster's death, logout or class change takes all three down. The eruption's particle ring burns soul fire at 5 stacks, the blue rank.
 
 ## Verification
 
