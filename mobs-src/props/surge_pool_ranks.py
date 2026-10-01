@@ -3,8 +3,10 @@
 
 Durable and re-runnable. Reads the bright magma disc of the samusdev pack's Magma Dash ground pool
 (`magma_dash_vfx.png`, the 16 x 16 cell at the atlas origin; the pack's licence permits
-modification), doubles it to 32 x 32 with nearest-neighbour so the burn-away has texels to work
-with, and writes under `src/assets/legendcraft/`:
+modification) and stretches its lumpy blob into a solid round disc that fills a 32 x 32 frame:
+each frame texel inside the circle samples the source along the same angle from the blob's
+centroid, at the same fraction of the blob's edge on that angle, nearest-neighbour and fully
+opaque. It writes under `src/assets/legendcraft/`:
 
     pyro_surge_pool_<rank>_<n>         n 1..12, the pool cooling from its rank's heat to a crust
     pyro_surge_pool_<rank>_burn_<k>    k 1..10, the crusted pool burning away from frame 12
@@ -20,13 +22,14 @@ same noise field, front, hot edge and ember per rank, so the pool and the ring b
 
 Every frame is one horizontal 32 x 32 u plane at y 8.1, x/z -8..24, its up face textured with
 the whole frame. At scale 1 the disc's edge sits 1 block from the centre; the plugin scales the
-display to the field's radius.
+display to the rune ring's reach, the blast radius.
 
     python mobs-src/props/surge_pool_ranks.py "<samusdev pack>/ModelEngine/blueprints/RPG_Class_Awakened_Pyromancer/Magma Dash/magma_dash_vfx.png"
 """
 
 from __future__ import annotations
 
+import math
 import os
 import sys
 
@@ -38,6 +41,7 @@ import surge_ring_ranks as ring  # noqa: E402
 STEM = "pyro_surge_pool"
 DISC = (0, 0, 16, 16)
 UPSCALE = 2
+EDGE_STEP = 0.05
 COOL_FRAMES = 12
 COOL_MAX = 0.85
 PLANE_Y = 8.1
@@ -62,9 +66,41 @@ CRUST = {
 
 
 def disc(source_path: str) -> Image.Image:
+    """The source blob stretched to a solid round disc that fills the frame."""
     with Image.open(source_path) as atlas:
         cell = atlas.convert("RGBA").crop(DISC)
-    return cell.resize((cell.width * UPSCALE, cell.height * UPSCALE), Image.NEAREST)
+    w, h = cell.size
+    opaque = [(x + 0.5, y + 0.5) for y in range(h) for x in range(w) if cell.getpixel((x, y))[3]]
+    cx = sum(p[0] for p in opaque) / len(opaque)
+    cy = sum(p[1] for p in opaque) / len(opaque)
+
+    def drawn(x: float, y: float) -> bool:
+        return 0 <= x < w and 0 <= y < h and cell.getpixel((int(x), int(y)))[3] > 0
+
+    def edge(angle: float) -> float:
+        t = 0.0
+        while drawn(cx + math.cos(angle) * (t + EDGE_STEP), cy + math.sin(angle) * (t + EDGE_STEP)):
+            t += EDGE_STEP
+        return t
+
+    size = w * UPSCALE
+    radius = size / 2
+    out = Image.new("RGBA", (size, size))
+    for y in range(size):
+        for x in range(size):
+            dx, dy = x + 0.5 - radius, y + 0.5 - radius
+            d = math.hypot(dx, dy)
+            if d > radius:
+                continue
+            angle = math.atan2(dy, dx)
+            reach = d / radius * edge(angle)
+            sx, sy = cx + math.cos(angle) * reach, cy + math.sin(angle) * reach
+            while not drawn(sx, sy):
+                reach -= EDGE_STEP
+                sx, sy = cx + math.cos(angle) * reach, cy + math.sin(angle) * reach
+            texel = cell.getpixel((int(sx), int(sy)))
+            out.putpixel((x, y), texel[:3] + (255,))
+    return out
 
 
 def lumas(image: Image.Image) -> list[float | None]:
