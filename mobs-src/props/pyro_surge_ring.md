@@ -48,14 +48,13 @@ Each row generates 12 item definitions, 12 geometry models and 12 unchanged text
 | --- | --- | --- | --- | --- |
 | `red` | 0–1 | low | `#FFD24A` | `#4A100A` |
 | `orange` | 2–3 | mid | `#FFF4E0` | `#7A1F10` |
-| `white` | 4 | high | `#FFFFFF` | `#7A1F10` |
-| `blue` | 5 | high, recoloured | `#E8FFFF` | `#0E2C3A` |
+| `white` | 4–5 | high | `#FFFFFF` | `#7A1F10` |
 
-The ranks follow Flame Surge's flame ([`surge_flame`](surge_flame.md)). Blue maps the high band's luma, normalised and raised to the power 1.6, through `#1E596E` `#2E8FB8` `#4CC7FF` `#9FE8FF`; it tops out at pale cyan so it never reads as the white rank.
+The ranks follow Flame Surge's flame ([`surge_flame`](surge_flame.md)).
 
 Per rank, 19 item models: `pyro_surge_ring_<rank>_1..9` are the band's lit frames 1–9, and `pyro_surge_ring_<rank>_burn_1..10` burn frame 9 away. All 19 lie on frame 1's plane (y 8.125 in the item model) with its UVs, so the ring stands still; the band rows climb 0.035 u a frame and drift upward when stepped.
 
-The burn-away is driven by one smooth noise field (a 6 × 6 random grid, seed 7, bicubic to the texture size, normalised), the same for every rank. At burn frame k the front is `k / 10 × 1.16`: a texel whose noise is below `front − 0.16` is gone, one between that and the front burns at the rank's hot edge, and the rest keep their colour, cooled toward the rank's ember by `0.55 × k / 10`. Frame 10 is fully burnt. 76 frames in all, 228 files.
+The burn-away is driven by one smooth noise field (a 6 × 6 random grid, seed 7, bicubic to the texture size, normalised), the same for every rank. At burn frame k the front is `k / 10 × 1.16`: a texel whose noise is below `front − 0.16` is gone, one between that and the front burns at the rank's hot edge, and the rest keep their colour, cooled toward the rank's ember by `0.55 × k / 10`. Frame 10 is fully burnt. 57 frames in all, 171 files.
 
 Hook contract, at the target's feet with the volcano and flame, outer edge at the blast reach:
 
