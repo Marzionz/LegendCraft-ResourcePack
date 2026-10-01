@@ -9,3 +9,5 @@
 | `pyro_conflag_rim` | Item-model flipbook prop | 24 (1/frame) | `fuse` (1.20 s, ends hidden), `hidden` | [Conflagration channel rim using the owner's concept frames](props/pyro_conflag_rim.md) |
 | `pyro_conflag_runes` | BetterModel motion prop | 144 | `spin` (4.00 s loop), `hidden` | [Conflagration rings with crossed rune glyphs](props/pyro_conflag_runes.md) |
 | `pyro_conflag_field` | Item-model flipbook prop | 16 (1/frame) | `blast` (0.80 s, ends hidden), `hidden` | [Conflagration scorched field using the owner's concept frames](props/pyro_conflag_field.md) |
+| `surge_flame_{red,orange,white,blue}` | BetterModel motion prop | 41 each | `erupt` (0.90 s hold) | [Flame Surge ranked flame out of the volcano's throat](props/surge_flame.md) |
+| `ember_shell_egg_{1,2,3}` | Item-model prop, form flipbook then turned | 24 / 48 / 72 | form-in 11 states (10 ticks), unravel in reverse | [Ember Shell ribbon egg](props/ember_shell.md) |
