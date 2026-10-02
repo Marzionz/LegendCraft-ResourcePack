@@ -259,15 +259,15 @@ lc_hud_priest_spirit_burst:
   setting:
     scale: 0.5
 
-lc_hud_thief_ambush:
-  type: single
-  file: legendcraft/skill-icons/thief/ambush.png
-  setting:
-    scale: 0.5
-
 lc_hud_thief_flurry:
   type: single
   file: legendcraft/skill-icons/thief/flurry.png
+  setting:
+    scale: 0.5
+
+lc_hud_thief_ambush:
+  type: single
+  file: legendcraft/skill-icons/thief/ambush.png
   setting:
     scale: 0.5
 
