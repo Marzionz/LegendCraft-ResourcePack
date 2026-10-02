@@ -27,7 +27,7 @@ CLASS_SKILL_ICONS = {
     "mage": ["fireball", "arcane_ward", "frost_bolt"],   # complete base 3
     "warlock": ["raise_thrall", "shadow_bolt", "mark_of_misery"],   # complete base 3
     "priest": ["holy_mend", "concoction", "spirit_burst"],   # complete base 3
-    "thief": ["ambush", "flurry", "roll"],   # complete base 3
+    "thief": ["flurry", "ambush", "roll"],   # complete base 3
 
     # subclasses (4 slots: 3 core skills + ultimate last)
     "hunter": ["ensnaring_trap", "venomous_arrow", "beast_companion", "pack_ambush"],   # complete 3+1
