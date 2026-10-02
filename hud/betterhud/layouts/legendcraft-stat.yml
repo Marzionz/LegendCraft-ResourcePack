@@ -338,7 +338,7 @@ lc_stat:
           second: "'priest'"
           operation: '=='
     38:
-      name: lc_hud_thief_ambush
+      name: lc_hud_thief_flurry
       x: 70
       y: -32
       layer: 3
@@ -828,7 +828,7 @@ lc_stat:
           second: "'priest'"
           operation: '=='
     72:
-      name: lc_hud_thief_flurry
+      name: lc_hud_thief_ambush
       x: 94
       y: -32
       layer: 3
