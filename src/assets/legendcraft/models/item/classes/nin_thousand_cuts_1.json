@@ -1,0 +1,28 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/nin_thousand_cuts_1",
+    "particle": "legendcraft:item/classes/nin_thousand_cuts_1"
+  },
+  "elements": [
+    {
+      "from": [3.5, -12, 8],
+      "to": [12.5, 28, 8],
+      "faces": {
+        "north": {
+          "uv": [6.75, 0, 9.5, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [8, -12, 3.5],
+      "to": [8, 28, 12.5],
+      "faces": {
+        "west": {
+          "uv": [6.75, 0, 9.5, 16],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}
