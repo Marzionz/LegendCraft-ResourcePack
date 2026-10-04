@@ -25,13 +25,10 @@ Columns:
 | frames | rig | clip | shrink | native | tint |
 | --- | --- | --- | --- | --- | --- |
 | `knight_vanguard_flash` | `knight_vanguard_flash` | `flash` | 4 | | |
+| `seraph_ascension_column` | `seraph_ascension_column` | `flash` | 4 | | |
 | `knight_vanguard_burst` | `knight_vanguard_burst` | `burst` | 4 | | |
 | `knight_warcry_ring` | `knight_warcry_ring` | `burst` | 1 | | |
 | `priest_spirit_ripple` | `priest_spirit_ripple` | `burst` | 1 | | |
-| `seraph_smite_mark` | `seraph_smite_mark` | `smite` | 2 | | |
-| `seraph_wrath_bolt` | `seraph_wrath_bolt` | `bolt` | 4 | | |
-| `seraph_wrath_detonation` | `seraph_wrath_detonation` | `detonate` | 2 | | |
-| `seraph_ascension_finale` | `seraph_ascension_finale` | `finale` | 4 | | |
 | `thf_blink_flash` | `thf_blink_flash` | `flash` | 2 | `flash` | yes |
 | `pyro_shell_detonation` | `pyro_shell_detonation` | `detonate` | 4 | | |
 | `pyro_surge_pillar_low` | `pyro_surge_burst` | `pillar_low` | 4 | | |
