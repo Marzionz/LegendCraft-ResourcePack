@@ -152,6 +152,65 @@ lc_cd_shroud_ult:
       value: "(number)papi:legendcraft_ult_cd_percent"
       max: 100
 
+lc_window_sweep_slot1:
+  type: listener
+  file: legendcraft/indicators/window_sweep.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_slot1_window"
+      max: 1
+
+lc_window_sweep_slot2:
+  type: listener
+  file: legendcraft/indicators/window_sweep.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_slot2_window"
+      max: 1
+
+lc_window_sweep_slot3:
+  type: listener
+  file: legendcraft/indicators/window_sweep.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_slot3_window"
+      max: 1
+
+lc_window_sweep_ult:
+  type: listener
+  file: legendcraft/indicators/window_sweep.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_ult_window"
+      max: 1
+
+lc_recast_shine:
+  type: sequence
+  files:
+    - "legendcraft/indicators/recast_shine_0.png:1"
+    - "legendcraft/indicators/recast_shine_1.png:1"
+    - "legendcraft/indicators/recast_shine_2.png:1"
+    - "legendcraft/indicators/recast_shine_3.png:1"
+    - "legendcraft/indicators/recast_shine_4.png:1"
+    - "legendcraft/indicators/recast_shine_5.png:1"
+    - "legendcraft/indicators/recast_shine_6.png:1"
+    - "legendcraft/indicators/recast_shine_7.png:1"
+  setting:
+    scale: 0.5
+    animation-type: loop
+
 lc_deny_flash:
   type: sequence
   files:

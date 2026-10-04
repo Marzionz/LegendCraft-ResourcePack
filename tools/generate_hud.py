@@ -601,6 +601,37 @@ def cd_shroud():
             px[xx, yy] = CD_SHROUD
     return im
 
+# The recast window's two parts. Both are placeholder frames: the owner animates the final art at
+# the screen, and only these functions change when it lands.
+WINDOW_SWEEP = (0xFF, 0xFF, 0xFF, 60)   # light radial over the art, never the grey shroud
+RECAST_SHINE = (0xFF, 0xFF, 0xFF, 200)  # the travelling white line
+RECAST_SHINE_FRAMES = 8                 # frames for one top-to-bottom pass, looped
+RECAST_SHINE_WIDTH = 2                  # half-thickness of the line, in ICON_ART pixels
+
+def window_sweep():
+    """The duration sweep: a light wash over the whole 16x16 field. BetterHud reveals it radially
+    via a `split-type: circle` listener on the slot's `_window` fraction (1 when the window opens,
+    draining to 0 at its deadline), so a slot with no running deadline draws none of it."""
+    im = img(ART, ART)
+    px = im.load()
+    for yy in range(ART):
+        for xx in range(ART):
+            px[xx, yy] = WINDOW_SWEEP
+    return im
+
+def recast_shine_frame(i):
+    """Frame i of the recast shine: a white diagonal line crossing the 32px icon, its position
+    stepping from the top-left corner to the bottom-right one across RECAST_SHINE_FRAMES."""
+    n = ICON_ART
+    im = img(n, n)
+    px = im.load()
+    centre = round((2 * n - 2) * (i + 0.5) / RECAST_SHINE_FRAMES)
+    for y in range(n):
+        for x in range(n):
+            if abs((x + y) - centre) < RECAST_SHINE_WIDTH:
+                px[x, y] = RECAST_SHINE
+    return im
+
 def oom_overlay():
     """Out-of-mana overlay: a flat soft light-red wash over the whole field."""
     im = img(ART, ART)
@@ -757,6 +788,9 @@ def export_true_res():
     # live state overlays (shared across all classes — composited over any icon art)
     save(cd_shroud(), os.path.join(DIRS["ind"], "cd_shroud.png"))
     save(oom_overlay(), os.path.join(DIRS["ind"], "oom_soft.png"))
+    save(window_sweep(), os.path.join(DIRS["ind"], "window_sweep.png"))
+    for i in range(RECAST_SHINE_FRAMES):
+        save(recast_shine_frame(i), os.path.join(DIRS["ind"], f"recast_shine_{i}.png"))
     for i in range(DENY_FADE_FRAMES):
         save(deny_flash_frame(i), os.path.join(DIRS["ind"], f"deny_fade_{i}.png"))
     save(skill_field(), os.path.join(DIRS["ind"], "field.png"))
@@ -836,6 +870,26 @@ def _bh_images_yml():
             "      max: 100",
             "",
         ]
+    # Recast window duration sweep: ONE circle-split listener per slot over the art field, drained
+    # by the slot's _window fraction (0-1) the plugin answers while a window's deadline runs.
+    for slot in SLOT_IDS:
+        lines += [
+            f"lc_window_sweep_{slot}:",
+            "  type: listener",
+            "  file: legendcraft/indicators/window_sweep.png",
+            f"  split: {CD_SPLIT}",
+            "  split-type: circle",
+            "  setting:",
+            "    listener:",
+            "      class: placeholder",
+            f'      value: "(number)papi:legendcraft_{slot}_window"',
+            "      max: 1",
+            "",
+        ]
+    # Recast shine: a looping `type: sequence` over the icon while a slot's `<slot>_recast` is 1.
+    lines += ["lc_recast_shine:", "  type: sequence", "  files:"]
+    lines += [f'    - "legendcraft/indicators/recast_shine_{i}.png:1"' for i in range(RECAST_SHINE_FRAMES)]
+    lines += ["  setting:", "    scale: 0.5", "    animation-type: loop", ""]
     # Cast-deny fade-in (UX-1a): a `type: sequence` play_once animation — the translucent-white wash
     # fades IN across DENY_FADE_FRAMES, played once each time a slot's `<slot>_flash` flips to `deny`.
     # scale 0.5 (32px art shown at 16px) matches the icon exactly; `path:N` sets each frame's tick hold.
@@ -897,9 +951,11 @@ TILE_L_FRAME  = 1   # weathered-iron frame
 TILE_L_FIELD  = 2   # near-black icon backing (and the placeholder art for undrawn skills)
 TILE_L_ART    = 3   # the real per-class ability art
 TILE_L_SHROUD = 4   # circle-split cooldown sweep — darkens the art beneath it
-TILE_L_OOM    = 5   # out-of-mana tint — ABOVE the sweep, so both problems read at once
-TILE_L_BADGE  = 6   # locked-ult art + charge pips: information, must survive both washes
-TILE_L_DENY   = 7   # cast-deny flash: always the top of the tile
+TILE_L_SWEEP  = 5   # recast window's duration sweep — a light radial, no grey wash
+TILE_L_OOM    = 6   # out-of-mana tint — ABOVE the sweep, so both problems read at once
+TILE_L_SHINE  = 7   # recast shine travelling across an open window's tile, over both washes
+TILE_L_BADGE  = 8   # locked-ult art + charge pips: information, must survive both washes
+TILE_L_DENY   = 9   # cast-deny flash: always the top of the tile
 # Every `texts:` entry in this layout — the cooldown numeral, the ult's parchment "20", and
 # the stat block's numerals. `layer` is a BetterHud COMMON option (it applies to all layout
 # element types, not just images), and its default is 0 — which would nominally put the
@@ -907,33 +963,33 @@ TILE_L_DENY   = 7   # cast-deny flash: always the top of the tile
 # BetterHud happens to draw texts in a pass above images. That is exactly the undefined
 # ordering these constants exist to remove, on the one element that has to stay readable
 # through BOTH washes, so the numeral states its position instead of inheriting it.
-TILE_L_TEXT   = 8   # above everything, including the deny flash — matches the observed order
+TILE_L_TEXT   = 10  # above everything, including the deny flash — matches the observed order
 
 # --- Health-bar affliction stack (Volya MMORPG HUD art, staged by stage_volya_hud.py) -------
-# Layers 1..9 are spoken for by the stat block (1 channels / 2 fills / 3 icons) and the skill
-# row (TILE_L_* above, 9 = input glyphs), so the affliction overlays start at 10. Each state
+# Layers 1..11 are spoken for by the stat block (1 channels / 2 fills / 3 icons) and the skill
+# row (TILE_L_* above, 11 = input glyphs), so the affliction overlays start at 12. Each state
 # gets its OWN number because several can be live at once and a tie is undefined: a burning,
 # poisoned player must get one deterministic composite, not a random one. Bottom to top, the
 # order is severity: a venom film, then flame, then frost, and wither over all of them because
 # wither is the one that reads as "you are dying". Regeneration sits above the afflictions —
 # it is the counter-signal and must be visible through them.
-VIT_L_POISON  = 10
-VIT_L_BURNING = 11
-VIT_L_FREEZE  = 12
-VIT_L_WITHER  = 13
-VIT_L_REGEN   = 14
+VIT_L_POISON  = 12
+VIT_L_BURNING = 13
+VIT_L_FREEZE  = 14
+VIT_L_WITHER  = 15
+VIT_L_REGEN   = 16
 # Heart-icon states repeat that order in the icon column (they are opaque, so the top one wins).
-VIT_L_ICON_POISON  = 15
-VIT_L_ICON_BURNING = 16
-VIT_L_ICON_FREEZE  = 17
-VIT_L_ICON_WITHER  = 18
+VIT_L_ICON_POISON  = 17
+VIT_L_ICON_BURNING = 18
+VIT_L_ICON_FREEZE  = 19
+VIT_L_ICON_WITHER  = 20
 # UX-2 cast-hint keycaps. These straddle the tile's BOTTOM border, outside the 16px art field, so
 # the frame is the only thing they overlap: the shroud, tint, locked badge and deny flash all draw
 # inside the field, and the charge pips deliberately own the top edge. This carried a bare literal
 # 6 when it was authored, which the layer pass has since given to TILE_L_BADGE — and a tie leaves
-# BetterHud's draw order undefined, which is the whole failure that pass existed to remove. 9 keeps
-# it above the keyline it outlines against without renumbering a single relation that pass fixed.
-INPUT_L_GLYPH = 9
+# BetterHud's draw order undefined, which is the whole failure that pass existed to remove. It sits
+# above every tile layer, so it stays above the keyline it outlines against.
+INPUT_L_GLYPH = 11
 
 def export_betterhud():
     # Emits ONLY the shared image registry (legendcraft-hunter.yml) that the lc_stat skill
@@ -2037,6 +2093,10 @@ def _bh_stat_layout_yml():
                     add(f"lc_hud_{classid}_{icons[i]}", ax, ay, TILE_L_ART,
                         [cnt, ("legendcraft_subclass", classid)])
             add(f"lc_cd_shroud_{sid}", ax, ay, TILE_L_SHROUD, cnt)
+            # A recast window: the duration sweep (a listener that self-hides at 0, so a window
+            # with no deadline draws none of it) and the shine, gated on the window being open.
+            add(f"lc_window_sweep_{sid}", ax, ay, TILE_L_SWEEP, cnt)
+            add("lc_recast_shine", ax, ay, TILE_L_SHINE, [cnt, (f"legendcraft_{sid}_recast", "1")])
             # The out-of-mana tint sits STRICTLY ABOVE the sweep (§3 "Both"): a slot that is both
             # cooling down and unaffordable shows the radial ticking down AND the red wash over it,
             # so neither problem hides the other. The plugin reports `starved` on affordability
