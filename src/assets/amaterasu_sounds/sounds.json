@@ -1,0 +1,8 @@
+{
+  "amaterasu.swordprojectile_tail": {
+    "category": "master",
+    "sounds": [
+      "amaterasu_sounds:amaterasu/swordprojectile_tail"
+    ]
+  }
+}
