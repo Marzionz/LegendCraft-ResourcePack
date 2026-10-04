@@ -1,0 +1,24 @@
+{
+  "samus.awakened_cleric.holy_explosion": {
+    "category": "master",
+    "sounds": [
+      "samus_awakened_cleric_sounds:samus/awakened_cleric/holy_explosion"
+    ]
+  },
+  "samus.awakened_cleric.holy_impact": {
+    "category": "master",
+    "sounds": [
+      "samus_awakened_cleric_sounds:samus/awakened_cleric/holy_impact"
+    ]
+  },
+  "samus.awakened_cleric.stream": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "samus_awakened_cleric_sounds:samus/awakened_cleric/stream",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  }
+}

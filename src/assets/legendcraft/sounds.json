@@ -22,5 +22,71 @@
     "sounds": [
       "legendcraft:brawler/unending_blows_finisher"
     ]
+  },
+  "seraph.wrath_thunder": {
+    "category": "master",
+    "subtitle": "subtitles.item.trident.thunder",
+    "sounds": [
+      {
+        "name": "minecraft:item/trident/thunder1",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/thunder2",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "seraph.ascension_unfurl": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_unfurl",
+        "volume": 0.325,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_note": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_note",
+        "volume": 0.2,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_full_heal": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_full_heal",
+        "volume": 0.5,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_finale": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_finale",
+        "volume": 0.225,
+        "attenuation_distance": 32
+      }
+    ]
   }
 }
