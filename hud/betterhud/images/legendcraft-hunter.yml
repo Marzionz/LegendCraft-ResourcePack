@@ -152,6 +152,50 @@ lc_cd_shroud_ult:
       value: "(number)papi:legendcraft_ult_cd_percent"
       max: 100
 
+lc_window_ring_slot1:
+  type: listener
+  file: legendcraft/indicators/window_ring.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_slot1_window"
+      max: 1
+
+lc_window_ring_slot2:
+  type: listener
+  file: legendcraft/indicators/window_ring.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_slot2_window"
+      max: 1
+
+lc_window_ring_slot3:
+  type: listener
+  file: legendcraft/indicators/window_ring.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_slot3_window"
+      max: 1
+
+lc_window_ring_ult:
+  type: listener
+  file: legendcraft/indicators/window_ring.png
+  split: 36
+  split-type: circle
+  setting:
+    listener:
+      class: placeholder
+      value: "(number)papi:legendcraft_ult_window"
+      max: 1
+
 lc_deny_flash:
   type: sequence
   files:

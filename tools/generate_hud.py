@@ -601,6 +601,18 @@ def cd_shroud():
             px[xx, yy] = CD_SHROUD
     return im
 
+WINDOW_RING = (0xFF, 0xDC, 0x5A, 255)   # the lit-gold highlight of a full charge pip
+
+def window_ring():
+    """The window ring: the skill tile's 1px keyline, lit gold, and nothing else. BetterHud drains
+    it radially via a `split-type: circle` listener on the slot's `_window` fraction (1 when the
+    window opens, 0 when it closes), so a slot with no window draws none of it. It sits on the
+    keyline, outside the art field, so it never covers the icon, the numeral or the pips."""
+    t = SKILL_TILE
+    im = img(t, t)
+    _rect(ImageDraw.Draw(im), 2, 2, t - 3, t - 3, WINDOW_RING)
+    return im
+
 def oom_overlay():
     """Out-of-mana overlay: a flat soft light-red wash over the whole field."""
     im = img(ART, ART)
@@ -757,6 +769,7 @@ def export_true_res():
     # live state overlays (shared across all classes — composited over any icon art)
     save(cd_shroud(), os.path.join(DIRS["ind"], "cd_shroud.png"))
     save(oom_overlay(), os.path.join(DIRS["ind"], "oom_soft.png"))
+    save(window_ring(), os.path.join(DIRS["ind"], "window_ring.png"))
     for i in range(DENY_FADE_FRAMES):
         save(deny_flash_frame(i), os.path.join(DIRS["ind"], f"deny_fade_{i}.png"))
     save(skill_field(), os.path.join(DIRS["ind"], "field.png"))
@@ -836,6 +849,22 @@ def _bh_images_yml():
             "      max: 100",
             "",
         ]
+    # Window ring: ONE circle-split listener per slot over the tile's keyline, drained by the
+    # slot's _window fraction (0-1) the plugin answers while a timed window on that skill is open.
+    for slot in SLOT_IDS:
+        lines += [
+            f"lc_window_ring_{slot}:",
+            "  type: listener",
+            "  file: legendcraft/indicators/window_ring.png",
+            f"  split: {CD_SPLIT}",
+            "  split-type: circle",
+            "  setting:",
+            "    listener:",
+            "      class: placeholder",
+            f'      value: "(number)papi:legendcraft_{slot}_window"',
+            "      max: 1",
+            "",
+        ]
     # Cast-deny fade-in (UX-1a): a `type: sequence` play_once animation — the translucent-white wash
     # fades IN across DENY_FADE_FRAMES, played once each time a slot's `<slot>_flash` flips to `deny`.
     # scale 0.5 (32px art shown at 16px) matches the icon exactly; `path:N` sets each frame's tick hold.
@@ -895,6 +924,10 @@ FEEDBACK_LINE_Y_PX = SKILL_ROW_Y_PX - FEEDBACK_TEXT_HEIGHT_PX - FEEDBACK_LINE_GA
 # whatever order BetterHud happened to iterate in. §3's "Both" row requires the tint on top.
 TILE_L_FRAME  = 1   # weathered-iron frame
 TILE_L_FIELD  = 2   # near-black icon backing (and the placeholder art for undrawn skills)
+# The window ring lies on the keyline, outside the art field: the only elements its pixels touch
+# are the frame below it and the keycap glyphs above it, so it shares the field's number with
+# nothing it overlaps.
+TILE_L_WINDOW = TILE_L_FIELD
 TILE_L_ART    = 3   # the real per-class ability art
 TILE_L_SHROUD = 4   # circle-split cooldown sweep — darkens the art beneath it
 TILE_L_OOM    = 5   # out-of-mana tint — ABOVE the sweep, so both problems read at once
@@ -2023,6 +2056,7 @@ def _bh_stat_layout_yml():
             fx = x0 + i * (SKILL_TILE + SKILL_FRAME_GAP)
             ax, ay = fx + SKILL_ART_OFF, fy + SKILL_ART_OFF
             add("lc_skill_frame", fx, fy, TILE_L_FRAME, cnt)
+            add(f"lc_window_ring_{sid}", fx, fy, TILE_L_WINDOW, cnt)
             add("lc_icon_placeholder", ax, ay, TILE_L_FIELD, cnt)
             # Real per-class art (from hud_icon_map) drawn OVER the placeholder field (TILE_L_ART),
             # gated on this row AND the player's class. A slot without a finished icon keeps the placeholder.

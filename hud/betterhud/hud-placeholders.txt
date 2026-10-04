@@ -22,16 +22,19 @@ legendcraft_slot1_cd_secs
 legendcraft_slot1_charges
 legendcraft_slot1_flash
 legendcraft_slot1_state
+legendcraft_slot1_window
 legendcraft_slot2_cd_percent
 legendcraft_slot2_cd_secs
 legendcraft_slot2_charges
 legendcraft_slot2_flash
 legendcraft_slot2_state
+legendcraft_slot2_window
 legendcraft_slot3_cd_percent
 legendcraft_slot3_cd_secs
 legendcraft_slot3_charges
 legendcraft_slot3_flash
 legendcraft_slot3_state
+legendcraft_slot3_window
 legendcraft_slot_count
 legendcraft_subclass
 legendcraft_ult_cd_percent
@@ -39,6 +42,7 @@ legendcraft_ult_cd_secs
 legendcraft_ult_charges
 legendcraft_ult_flash
 legendcraft_ult_state
+legendcraft_ult_window
 legendcraft_xp_current
 legendcraft_xp_needed
 legendcraft_xp_percent
