@@ -33,6 +33,16 @@ the vanilla armor lane on top of the stat block, and left drowning with no read 
 7. The fill is BetterHud's native `air` listener and the gate is BetterHud's own `air` /
    `max_air` built-ins, so no part of this element reaches LegendCraft-Classes -- it cannot go
    dark the way a papi:legendcraft_* element does when the jar and this config disagree.
+
+RECAST-HUD criteria (a timed window the caster races on their own kit drains a ring on the tile
+of the skill it belongs to):
+8. Every tile of both rows carries its slot's window ring at the tile's own origin, gated on that
+   row's slot_count exactly as the frame is.
+9. The ring is a circle-split listener on the plugin's `<slot>_window` fraction with max 1, so a
+   slot with no window (0) draws nothing and an open window drains with the fraction.
+10. The ring draws above the frame and below the keycap glyphs that straddle the tile's bottom.
+11. The ring art lights the tile's keyline and nothing inside the art field, so it never covers
+    the icon, the cooldown numeral or the charge pips.
 """
 
 from pathlib import Path
@@ -214,6 +224,63 @@ class AirArtTest(unittest.TestCase):
             self.assertTrue(path.is_file(), "%s was never written" % name)
             with Image.open(path) as art:
                 self.assertEqual(size, art.size, name)
+
+
+
+class WindowRingTest(unittest.TestCase):
+    """RECAST-HUD: the window ring on each skill tile."""
+
+    def setUp(self):
+        self.layout = hud._bh_stat_layout_yml()
+        self.images = hud._bh_images_yml()
+
+    @staticmethod
+    def placements(blocks):
+        return {(re.search(r"^      x: (-?\d+)$", block, re.MULTILINE).group(1),
+                 re.search(r"^      y: (-?\d+)$", block, re.MULTILINE).group(1),
+                 re.search(r'^          second: "\'(3|4)\'"$', block, re.MULTILINE).group(1))
+                for block in blocks}
+
+    def test_every_tile_of_both_rows_carries_its_slots_ring_at_the_frame_origin(self):
+        frames = self.placements(layout_blocks(self.layout, "lc_skill_frame"))
+        rings = set()
+        for slot in hud.SLOT_IDS:
+            blocks = layout_blocks(self.layout, "lc_window_ring_%s" % slot)
+            self.assertTrue(blocks, "no window ring for %s" % slot)
+            rings |= self.placements(blocks)
+        self.assertEqual(frames, rings, "one ring per tile, on the tile's own origin and row gate")
+
+    def test_the_ring_is_a_circle_split_listener_on_the_slots_window_fraction(self):
+        for slot in hud.SLOT_IDS:
+            entry = re.search(r"(?m)^lc_window_ring_%s:\n(?:[ \t].*\n)*" % slot, self.images)
+            self.assertIsNotNone(entry, "lc_window_ring_%s is not registered" % slot)
+            body = entry.group(0)
+            self.assertIn("  type: listener\n", body)
+            self.assertIn("  split-type: circle\n", body)
+            self.assertIn("      class: placeholder\n", body)
+            self.assertIn('      value: "(number)papi:legendcraft_%s_window"\n' % slot, body)
+            self.assertIn("      max: 1\n", body)
+
+    def test_the_ring_draws_above_the_frame_and_below_the_keycaps(self):
+        self.assertLess(hud.TILE_L_FRAME, hud.TILE_L_WINDOW)
+        self.assertLess(hud.TILE_L_WINDOW, hud.INPUT_L_GLYPH)
+        for slot in hud.SLOT_IDS:
+            for block in layout_blocks(self.layout, "lc_window_ring_%s" % slot):
+                self.assertIn("      layer: %d\n" % hud.TILE_L_WINDOW, block)
+
+    def test_the_ring_art_lights_the_keyline_and_nothing_inside_the_art_field(self):
+        from PIL import Image
+        path = REPO_ROOT / "hud/indicators/window_ring.png"
+        self.assertTrue(path.is_file(), "window_ring.png was never written")
+        with Image.open(path) as art:
+            ring = art.convert("RGBA")
+        self.assertEqual((hud.SKILL_TILE, hud.SKILL_TILE), ring.size)
+        field = range(hud.SKILL_ART_OFF, hud.SKILL_ART_OFF + hud.ART)
+        lit = [(x, y) for y in range(ring.height) for x in range(ring.width)
+               if ring.getpixel((x, y))[3] > 0]
+        self.assertTrue(lit, "the ring art is empty")
+        inside = [(x, y) for x, y in lit if x in field and y in field]
+        self.assertEqual([], inside, "ring pixels inside the art field")
 
 
 if __name__ == "__main__":
