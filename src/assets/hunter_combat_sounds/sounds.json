@@ -1,0 +1,8 @@
+{
+  "hunter_combat.jump_long": {
+    "category": "master",
+    "sounds": [
+      "hunter_combat_sounds:hunter_combat/jump_long"
+    ]
+  }
+}
