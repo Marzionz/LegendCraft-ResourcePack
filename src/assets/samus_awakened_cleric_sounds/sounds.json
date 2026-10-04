@@ -1,0 +1,12 @@
+{
+  "samus.awakened_cleric.stream": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "samus_awakened_cleric_sounds:samus/awakened_cleric/stream",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  }
+}
