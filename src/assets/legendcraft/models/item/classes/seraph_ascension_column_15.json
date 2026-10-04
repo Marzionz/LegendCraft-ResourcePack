@@ -1,0 +1,88 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/seraph_ascension_column_15_1",
+    "1": "legendcraft:item/classes/seraph_ascension_column_15_2",
+    "particle": "legendcraft:item/classes/seraph_ascension_column_15_1"
+  },
+  "elements": [
+    {
+      "from": [11.12125, 16.6125, 7.83125],
+      "to": [11.45875, 16.95, 8.16875],
+      "rotation": {
+        "origin": [11.29, 16.78125, 8],
+        "z": 15
+      },
+      "faces": {
+        "north": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [5.154425, 17.9125, 10.403198],
+      "to": [5.366925, 18.125, 10.615697],
+      "rotation": {
+        "origin": [5.260675, 18.01875, 10.509448],
+        "y": 17,
+        "z": 15
+      },
+      "faces": {
+        "north": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [7.65, 8.185, 7.65],
+      "to": [8.35, 8.185, 8.35],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#1"
+        }
+      }
+    }
+  ]
+}

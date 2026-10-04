@@ -241,16 +241,21 @@ def load_rig(name):
 
 
 def bones_of(rig):
-    """Every bone by uuid: its name, pivot, rest rotation, parent uuid and element uuids."""
+    """Every bone by uuid: its name, pivot, rest rotation, parent uuid and element uuids.
+
+    A Blockbench 5 save keeps each bone's properties in a top-level ``groups`` list and only its
+    uuid and children in the outliner; an older save keeps both in the outliner."""
     bones = {}
+    groups = {group["uuid"]: group for group in rig.get("groups", [])}
 
     def walk(children, parent):
         for child in children:
             if isinstance(child, dict):
+                props = dict(groups.get(child["uuid"], {}), **child)
                 bones[child["uuid"]] = {
-                    "name": child["name"],
-                    "origin": [float(v) for v in child.get("origin", [0, 0, 0])],
-                    "rotation": [float(v) for v in child.get("rotation", [0, 0, 0])],
+                    "name": props["name"],
+                    "origin": [float(v) for v in props.get("origin", [0, 0, 0])],
+                    "rotation": [float(v) for v in props.get("rotation", [0, 0, 0])],
                     "parent": parent,
                     "elements": [c for c in child.get("children", []) if isinstance(c, str)],
                 }
