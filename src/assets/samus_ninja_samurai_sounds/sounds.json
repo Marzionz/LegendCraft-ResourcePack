@@ -1,0 +1,8 @@
+{
+  "samus.ninja_samurai.blood_slash_1": {
+    "category": "master",
+    "sounds": [
+      "samus_ninja_samurai_sounds:samus/ninja_samurai/blood_slash_1"
+    ]
+  }
+}
