@@ -45,6 +45,8 @@ import os
 import re
 import sys
 
+from void_marker import void_item
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
 PROPS_DIR = os.path.join(REPO_ROOT, "mobs-src", "props")
@@ -75,7 +77,8 @@ UNIFORM_TOLERANCE = 1.0e-6
 ALLOWED_SHRINKS = (1, 2, 4)
 
 # A tinted flipbook multiplies every face by the first colour of the worn item's
-# custom_model_data component; an item with no colour draws the frame as painted.
+# custom_model_data component; an item with no colour draws the frame as painted. A void
+# flipbook's faces carry the void-window mark instead (see void_marker.py).
 TINT_INDEX = 0
 UNTINTED = -1
 
@@ -130,15 +133,16 @@ def read_table(path=TABLE_PATH):
         native = [strip_code(bone) for bone in row.get("native", "").split(",")
                   if strip_code(bone)]
         tint = strip_code(row.get("tint", ""))
-        if tint not in ("", "yes"):
-            raise GeneratorError("row %s: tint is `yes` or empty, not %r" % (frames, tint))
+        if tint not in ("", "yes", "void"):
+            raise GeneratorError("row %s: tint is `yes`, `void` or empty, not %r"
+                                 % (frames, tint))
         if not re.fullmatch(r"[a-z0-9_]+", frames or "!"):
             raise GeneratorError("row %r: frames must be a lower-case item name" % frames)
         if frames in seen:
             raise GeneratorError("row %s appears twice" % frames)
         seen.add(frames)
         parsed.append({"frames": frames, "rig": rig, "clip": clip, "shrink": shrink,
-                       "native": native, "tint": tint == "yes"})
+                       "native": native, "tint": tint or None})
     if not parsed:
         raise GeneratorError("%s names no flipbook" % path)
     return parsed
@@ -542,7 +546,9 @@ def build(row):
         }
         item = {"model": {"type": "minecraft:model",
                           "model": "%s:item/classes/%s" % (NAMESPACE, name)}}
-        if row["tint"]:
+        if row["tint"] == "void":
+            item = void_item("%s:item/classes/%s" % (NAMESPACE, name))
+        elif row["tint"]:
             item["model"]["tints"] = [{"type": "minecraft:custom_model_data",
                                        "index": TINT_INDEX, "default": UNTINTED}]
         files[os.path.join("models", "item", "classes", name + ".json")] = encode(model)

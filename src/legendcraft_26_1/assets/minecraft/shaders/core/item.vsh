@@ -22,14 +22,24 @@ out vec2 texCoord0;
 out vec3 voidViewRel;
 out vec3 voidNormal;
 out float voidFade;
+out float voidMarked;
+
+// An item tinted green 1, blue 254 is a void window (tools/void_marker.py). Its red is the window's
+// fade, and its ordinary texels are tinted grey by that red alone, so the mark never colours them.
+bool is_void_mark(vec4 tint) {
+    return abs(tint.g * 255.0 - 1.0) < 0.5 && abs(tint.b * 255.0 - 254.0) < 0.5;
+}
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 
+    voidMarked = is_void_mark(Color) ? 1.0 : 0.0;
+    vec4 tint = voidMarked > 0.5 ? vec4(Color.rrr, Color.a) : Color;
+
     sphericalVertexDistance = fog_spherical_distance(Position);
     cylindricalVertexDistance = fog_cylindrical_distance(Position);
 
-    vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color) * sample_lightmap(Sampler2, UV2);
+    vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, tint) * sample_lightmap(Sampler2, UV2);
 
     texCoord0 = UV0;
     voidViewRel = Position;

@@ -38,8 +38,9 @@ const float VOID_MOTE_CYCLES_PER_DAY = 60.0;
 const float VOID_MOTE_DEEPEST = 5.0;
 const float VOID_MOTE_SHALLOWEST = 0.25;
 
-// The marker is an alpha band: the hole's texels carry painted void art at that alpha, which is
-// what a client drawing its own shaders (an Iris shaderpack) shows instead. 250 to 254 draws the
+// The marker is an alpha band, read only on an item carrying the void tint mark (item.vsh): soft
+// glow art elsewhere is painted at these alphas too. The hole's texels carry painted void art at
+// that alpha, which is what a client drawing its own shaders (an Iris shaderpack) shows instead. 250 to 254 draws the
 // void at full opacity; 240 to 244 draws it faint, at VOID_FAINT_OPACITY. Within a band the alpha
 // also says how far the texel is from the rim: the band's lowest on the rim, its highest four
 // texels in or more.
