@@ -238,5 +238,107 @@
         "attenuation_distance": 32
       }
     ]
+  },
+  "shadowmancer.maw_bite": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/maw_bite"
+    ]
+  },
+  "shadowmancer.maw_release": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/maw_release"
+    ]
+  },
+  "shadowmancer.maw_seal": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/maw_seal"
+    ]
+  },
+  "shadowmancer.nightfall_cast": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_cast"
+    ]
+  },
+  "shadowmancer.nightfall_fall": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_fall"
+    ]
+  },
+  "shadowmancer.nightfall_heartbeat": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_heartbeat"
+    ]
+  },
+  "shadowmancer.nightfall_laugh": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_laugh"
+    ]
+  },
+  "shadowmancer.nightfall_reveal_hot": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_reveal_hot"
+    ]
+  },
+  "shadowmancer.nightfall_runes": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_runes"
+    ]
+  },
+  "shadowmancer.shadowstep_patch": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/shadowstep_patch"
+    ]
+  },
+  "shadowmancer.shadowstep_phase": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/shadowstep_phase"
+    ]
+  },
+  "shadowmancer.shadowstep_swallow": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/shadowstep_swallow"
+    ]
+  },
+  "shadowmancer.void_bolt_cast": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/void_bolt_cast"
+    ]
+  },
+  "shadowmancer.void_bolt_detonate": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/void_bolt_detonate"
+    ]
+  },
+  "shadowmancer.void_bolt_execute": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/void_bolt_execute"
+    ]
+  },
+  "shadowmancer.void_bolt_impact": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/void_bolt_impact"
+    ]
+  },
+  "shadowmancer.void_bolt_release": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/void_bolt_release"
+    ]
   }
 }
