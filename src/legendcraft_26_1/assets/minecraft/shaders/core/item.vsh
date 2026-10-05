@@ -20,6 +20,7 @@ out float cylindricalVertexDistance;
 out vec4 vertexColor;
 out vec2 texCoord0;
 out vec3 voidViewRel;
+out vec3 voidNormal;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
@@ -31,4 +32,5 @@ void main() {
 
     texCoord0 = UV0;
     voidViewRel = Position;
+    voidNormal = Normal;
 }
