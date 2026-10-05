@@ -14,12 +14,13 @@ in vec2 texCoord0;
 in vec3 voidViewRel;
 in vec3 voidNormal;
 in float voidFade;
+in float voidMarked;
 
 out vec4 fragColor;
 
 void main() {
     vec4 color = texture(Sampler0, texCoord0);
-    if (is_void_window(color)) {
+    if (voidMarked > 0.5 && is_void_window(color)) {
         fragColor = apply_fog(vec4(void_window(voidViewRel, voidNormal, void_window_rim(Sampler0, texCoord0)), voidFade * void_window_opacity(color)), sphericalVertexDistance, cylindricalVertexDistance, FogEnvironmentalStart, FogEnvironmentalEnd, FogRenderDistanceStart, FogRenderDistanceEnd, FogColor);
         return;
     }
