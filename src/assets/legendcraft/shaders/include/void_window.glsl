@@ -13,11 +13,14 @@
 const float VOID_WINDOW_ALPHA_LOW = 249.5 / 255.0;
 const float VOID_WINDOW_ALPHA_HIGH = 254.5 / 255.0;
 
-const vec3 VOID_ABYSS = vec3(10.0, 4.0, 16.0) / 255.0;
+const vec3 VOID_BLACK = vec3(0.0);
 const vec3 VOID_RAW = vec3(30.0, 2.0, 51.0) / 255.0;
 const vec3 VOID_DEEP_VIOLET = vec3(58.0, 14.0, 85.0) / 255.0;
 const vec3 VOID_VIOLET = vec3(123.0, 31.0, 162.0) / 255.0;
 const vec3 VOID_LIGHT = vec3(193.0, 88.0, 220.0) / 255.0;
+
+// How strongly the smoke shows over the black.
+const float VOID_SMOKE_STRENGTH = 0.45;
 
 const float VOID_TAU = 6.2831853;
 // GameTime runs 0 to 1 over a 24000-tick day and then wraps. Every motion below turns a whole
@@ -182,22 +185,22 @@ vec3 void_window(vec3 worldRel, vec3 normal, float rim) {
     // The camera's world position, kept small: the pattern repeats every 1024 blocks.
     vec3 camera = surface * (vec3(CameraBlockPos & ivec3(1023)) - CameraOffset);
 
-    vec3 color = VOID_ABYSS;
+    // Black, as the End portal is: the galaxy is drawn on nothing.
+    vec3 color = VOID_BLACK;
 
-    // The nebula: warped clouds that swirl in place, with bright filaments where the folds meet.
+    // The smoke: warped clouds that swirl in place, kept dark so the black reads through them.
     vec2 nebulaAt = void_layer(rel, dir, camera, 0.6);
     vec2 warp = vec2(void_fbm(nebulaAt * 0.7 + void_orbit(10.0, 0.6, 0.0)),
                      void_fbm(nebulaAt * 0.7 + void_orbit(10.0, 0.6, 0.37) + 5.2));
     float cloud = void_fbm(nebulaAt * 0.9 + warp * 1.8);
-    color = mix(color, VOID_RAW, smoothstep(0.3, 0.7, cloud));
-    color = mix(color, VOID_DEEP_VIOLET, smoothstep(0.55, 0.85, cloud) * 0.7);
+    color += VOID_RAW * smoothstep(0.45, 0.85, cloud) * VOID_SMOKE_STRENGTH;
     float filament = 1.0 - abs(2.0 * void_fbm(nebulaAt * 1.3 + warp * 2.4 + 11.0) - 1.0);
-    color += VOID_VIOLET * pow(filament, 8.0) * 0.55;
+    color += VOID_DEEP_VIOLET * pow(filament, 10.0) * VOID_SMOKE_STRENGTH;
 
-    // A second, deeper cloud, darker and drifting the other way.
+    // A second, deeper cloud, fainter and drifting the other way.
     vec2 deepAt = void_layer(rel, dir, camera, 3.0);
     float deep = void_fbm(deepAt * 0.45 + void_orbit(6.0, 0.9, 0.5));
-    color += VOID_RAW * smoothstep(0.45, 0.8, deep) * 0.8;
+    color += VOID_RAW * smoothstep(0.55, 0.85, deep) * VOID_SMOKE_STRENGTH * 0.5;
 
     // Far stars by direction alone: at infinity they shift with turning, never with walking.
     vec2 farAt = dir.xz / (abs(dir.y) + 0.35) * 18.0;
@@ -207,13 +210,8 @@ vec3 void_window(vec3 worldRel, vec3 normal, float rim) {
     color += void_shooting_stars(rel, dir, camera);
     color += void_motes(rel, dir, camera);
 
-    // The pit's walls: the deep fades to black toward the rim, and the rim's broken edge glows.
-    float inside = smoothstep(0.0, 0.85, rim);
-    color = mix(VOID_ABYSS * 0.5, color, inside);
-    float pulse = 0.8 + 0.2 * sin(VOID_TAU * GameTime * 150.0);
-    float edge = 1.0 - rim;
-    color += VOID_VIOLET * pow(edge, 3.0) * 0.9 * pulse;
-    color += VOID_LIGHT * pow(edge, 8.0) * 0.6 * pulse;
+    // The pit's walls: the galaxy fades to black toward the rim; the painted rim is the outline.
+    color *= smoothstep(0.0, 0.85, rim);
 
     return min(color, vec3(1.0));
 }
