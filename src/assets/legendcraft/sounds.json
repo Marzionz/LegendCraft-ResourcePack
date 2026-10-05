@@ -242,19 +242,88 @@
   "shadowmancer.maw_bite": {
     "category": "master",
     "sounds": [
-      "legendcraft:shadowmancer/maw_bite"
+      {
+        "name": "legendcraft:shadowmancer/maw_bite",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.maw_cast": {
+    "category": "master",
+    "subtitle": "subtitles.block.respawn_anchor.charge",
+    "sounds": [
+      {
+        "name": "minecraft:block/respawn_anchor/charge1",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/respawn_anchor/charge2",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/respawn_anchor/charge3",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      }
     ]
   },
   "shadowmancer.maw_release": {
     "category": "master",
     "sounds": [
-      "legendcraft:shadowmancer/maw_release"
+      {
+        "name": "legendcraft:shadowmancer/maw_release",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
     ]
   },
   "shadowmancer.maw_seal": {
     "category": "master",
     "sounds": [
-      "legendcraft:shadowmancer/maw_seal"
+      {
+        "name": "legendcraft:shadowmancer/maw_seal",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.maw_silence_pulse": {
+    "category": "master",
+    "subtitle": "subtitles.block.sculk_sensor.clicking",
+    "sounds": [
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking1",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking2",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking3",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking4",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking5",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking6",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      }
     ]
   },
   "shadowmancer.nightfall_cast": {
@@ -314,31 +383,51 @@
   "shadowmancer.void_bolt_cast": {
     "category": "master",
     "sounds": [
-      "legendcraft:shadowmancer/void_bolt_cast"
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_cast",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   },
   "shadowmancer.void_bolt_detonate": {
     "category": "master",
     "sounds": [
-      "legendcraft:shadowmancer/void_bolt_detonate"
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_detonate",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   },
   "shadowmancer.void_bolt_execute": {
     "category": "master",
     "sounds": [
-      "legendcraft:shadowmancer/void_bolt_execute"
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_execute",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   },
   "shadowmancer.void_bolt_impact": {
     "category": "master",
     "sounds": [
-      "legendcraft:shadowmancer/void_bolt_impact"
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_impact",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   },
   "shadowmancer.void_bolt_release": {
     "category": "master",
     "sounds": [
-      "legendcraft:shadowmancer/void_bolt_release"
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_release",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   }
 }
