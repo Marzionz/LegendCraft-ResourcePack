@@ -4,7 +4,8 @@
 // Through them the viewer sees a space below the surface, pinned to the world and shifting as the
 // viewer moves, the way a scene does through a window. Inside it a nebula swirls, pixel shooting
 // stars fly as in the End portal, and motes rise from the deep and fade before the surface.
-// Needs the Globals block (camera position, game time) and the fragment's camera-relative position.
+// Needs the Globals block (camera position, game time), and the fragment's camera-relative position
+// and the face's normal, both in world axes.
 
 // The marker is an alpha of 250 to 254: the hole's texels carry painted void art at that alpha,
 // which is what a client drawing its own shaders (an Iris shaderpack) shows instead. The alpha also
@@ -107,8 +108,8 @@ float void_stars(vec2 p, float density, float radius) {
     return smoothstep(radius, 0.0, length(fract(p) - centre)) * (0.4 + 0.6 * void_hash(cell + 1.9));
 }
 
-// Where the view ray through `rel` meets the plane `depth` blocks below the surface, in world xz.
-// The surface is the flat decal the fragment lies on; looking up from below sees nothing deep.
+// Where the view ray through `rel` meets the plane `depth` blocks behind the surface, in the
+// surface's own axes; looking at the face from behind sees nothing deep.
 vec2 void_layer(vec3 rel, vec3 dir, vec3 camera, float depth) {
     float t = depth / max(-dir.y, 0.05);
     vec3 hit = rel + dir * t + camera;
@@ -165,10 +166,21 @@ vec3 void_motes(vec3 rel, vec3 dir, vec3 camera) {
     return sum;
 }
 
-vec3 void_window(vec3 rel, float rim) {
+// The face's own axes as rows: across it, out of it, and across it again. Everything below works
+// as if the face lay flat with "out of it" up, so a standing face sinks its void behind it.
+mat3 void_surface(vec3 normal) {
+    vec3 outward = normalize(normal);
+    vec3 across = abs(outward.y) > 0.9 ? vec3(1.0, 0.0, 0.0)
+                                     : normalize(cross(vec3(0.0, 1.0, 0.0), outward));
+    return transpose(mat3(across, outward, cross(across, outward)));
+}
+
+vec3 void_window(vec3 worldRel, vec3 normal, float rim) {
+    mat3 surface = void_surface(normal);
+    vec3 rel = surface * worldRel;
     vec3 dir = normalize(rel);
     // The camera's world position, kept small: the pattern repeats every 1024 blocks.
-    vec3 camera = vec3(CameraBlockPos & ivec3(1023)) - CameraOffset;
+    vec3 camera = surface * (vec3(CameraBlockPos & ivec3(1023)) - CameraOffset);
 
     vec3 color = VOID_ABYSS;
 
