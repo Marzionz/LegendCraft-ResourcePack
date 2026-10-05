@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "legendcraft:item/classes/fx_ground_crack_void_3",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 10066329
+      }
+    ]
+  }
+}
