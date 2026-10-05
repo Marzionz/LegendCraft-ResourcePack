@@ -52,5 +52,6 @@ Columns:
 | `smc_nightfall_circle` | `smc_nightfall_break` | `appear` | 1 | | |
 | `smc_void_bolt_cloud_implode` | `smc_void_bolt_cloud` | `implode` | 1 | `cloud` | |
 | `smc_void_bolt_cloud_burst` | `smc_void_bolt_cloud` | `burst` | 1 | `cloud` | |
+| `smc_void_bolt_implode` | `smc_void_bolt_implode` | `implode` | 1 | | |
 
 The three `pyro_surge_ring` band rows are the source for the ranked ring flipbooks `surge_ring_ranks.py` writes; re-run it after regenerating them ([`pyro_surge_ring.md`](pyro_surge_ring.md#ranks-stand-and-burn-away)).
