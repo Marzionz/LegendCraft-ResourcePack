@@ -1,9 +1,34 @@
 {
   "pack": {
     "pack_format": 88,
-    "supported_formats": [9, 88],
+    "supported_formats": [
+      9,
+      88
+    ],
     "min_format": 9,
     "max_format": 88,
     "description": "§6LegendCraft§r — server resource pack"
+  },
+  "overlays": {
+    "entries": [
+      {
+        "formats": [
+          84,
+          87
+        ],
+        "min_format": 84,
+        "max_format": 87,
+        "directory": "legendcraft_26_1"
+      },
+      {
+        "formats": [
+          88,
+          88
+        ],
+        "min_format": 88,
+        "max_format": 88,
+        "directory": "legendcraft_26_2"
+      }
+    ]
   }
 }
