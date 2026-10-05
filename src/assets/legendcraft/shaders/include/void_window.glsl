@@ -7,6 +7,37 @@
 // Needs the Globals block (camera position, game time), and the fragment's camera-relative position
 // and the face's normal, both in world axes.
 
+const vec3 VOID_BLACK = vec3(0.0);
+const vec3 VOID_RAW = vec3(30.0, 2.0, 51.0) / 255.0;
+const vec3 VOID_DEEP_VIOLET = vec3(58.0, 14.0, 85.0) / 255.0;
+const vec3 VOID_VIOLET = vec3(123.0, 31.0, 162.0) / 255.0;
+const vec3 VOID_LIGHT = vec3(193.0, 88.0, 220.0) / 255.0;
+
+// How strongly the smoke shows over the black.
+const float VOID_SMOKE_STRENGTH = 0.45;
+
+const float VOID_TAU = 6.2831853;
+// GameTime runs 0 to 1 over a 24000-tick day and then wraps. Every motion below turns a whole
+// number of times per day, so the wrap is seamless.
+const float VOID_DAY_SECONDS = 1200.0;
+
+const int VOID_STAR_LAYERS = 6;
+const float VOID_STAR_CELLS_PER_BLOCK = 2.0;
+const float VOID_STAR_WRAP_CELLS = 64.0;
+const float VOID_STAR_DENSITY = 0.12;
+const float VOID_STAR_PIXEL = 1.0 / 16.0;
+const vec3[] VOID_STAR_COLOURS = vec3[](
+    VOID_LIGHT,
+    VOID_VIOLET,
+    vec3(224.0, 90.0, 232.0) / 255.0,
+    vec3(138.0, 123.0, 255.0) / 255.0
+);
+const int VOID_MOTE_PLANES = 5;
+// Rising motes complete 60 cycles a day: one every 20 seconds.
+const float VOID_MOTE_CYCLES_PER_DAY = 60.0;
+const float VOID_MOTE_DEEPEST = 5.0;
+const float VOID_MOTE_SHALLOWEST = 0.25;
+
 // The marker is an alpha band: the hole's texels carry painted void art at that alpha, which is
 // what a client drawing its own shaders (an Iris shaderpack) shows instead. 250 to 254 draws the
 // void at full opacity; 240 to 244 draws it faint, at VOID_FAINT_OPACITY. Within a band the alpha
