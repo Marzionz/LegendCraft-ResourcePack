@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "legendcraft:item/classes/status_silence_marker_rune"
+  }
+}

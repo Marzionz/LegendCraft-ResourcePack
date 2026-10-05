@@ -45,5 +45,12 @@ Columns:
 | `pyro_scorch_explosion` | `pyro_scorch_explosion` | `burst` | 2 | | |
 | `knight_ghost_shield` | `knight_ghost_shield` | `flare` | 1 | | |
 | `knight_horn_blast` | `knight_horn_blast` | `war_cry` | 1 | | |
+| `smc_shadowstep_portal_open` | `smc_shadowstep_portal` | `open` | 2 | | |
+| `smc_shadowstep_portal_hold` | `smc_shadowstep_portal` | `hold` | 2 | | |
+| `smc_shadowstep_portal_swallow` | `smc_shadowstep_portal` | `swallow` | 2 | | |
+| `smc_shadowstep_portal_close` | `smc_shadowstep_portal` | `close` | 2 | | |
+| `smc_nightfall_circle` | `smc_nightfall_break` | `appear` | 1 | | |
+| `smc_void_bolt_cloud_implode` | `smc_void_bolt_cloud` | `implode` | 1 | `cloud` | |
+| `smc_void_bolt_cloud_burst` | `smc_void_bolt_cloud` | `burst` | 1 | `cloud` | |
 
 The three `pyro_surge_ring` band rows are the source for the ranked ring flipbooks `surge_ring_ranks.py` writes; re-run it after regenerating them ([`pyro_surge_ring.md`](pyro_surge_ring.md#ranks-stand-and-burn-away)).
