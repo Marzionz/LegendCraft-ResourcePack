@@ -7,49 +7,38 @@
 // Needs the Globals block (camera position, game time), and the fragment's camera-relative position
 // and the face's normal, both in world axes.
 
-// The marker is an alpha of 250 to 254: the hole's texels carry painted void art at that alpha,
-// which is what a client drawing its own shaders (an Iris shaderpack) shows instead. The alpha also
-// says how far the texel is from the rim: 250 on the rim, 254 four texels in or more.
-const float VOID_WINDOW_ALPHA_LOW = 249.5 / 255.0;
-const float VOID_WINDOW_ALPHA_HIGH = 254.5 / 255.0;
+// The marker is an alpha band: the hole's texels carry painted void art at that alpha, which is
+// what a client drawing its own shaders (an Iris shaderpack) shows instead. 250 to 254 draws the
+// void at full opacity; 240 to 244 draws it faint, at VOID_FAINT_OPACITY. Within a band the alpha
+// also says how far the texel is from the rim: the band's lowest on the rim, its highest four
+// texels in or more.
+const float VOID_FULL_BAND = 250.0;
+const float VOID_FAINT_BAND = 240.0;
+const float VOID_FAINT_OPACITY = 0.2;
 
-const vec3 VOID_BLACK = vec3(0.0);
-const vec3 VOID_RAW = vec3(30.0, 2.0, 51.0) / 255.0;
-const vec3 VOID_DEEP_VIOLET = vec3(58.0, 14.0, 85.0) / 255.0;
-const vec3 VOID_VIOLET = vec3(123.0, 31.0, 162.0) / 255.0;
-const vec3 VOID_LIGHT = vec3(193.0, 88.0, 220.0) / 255.0;
-
-// How strongly the smoke shows over the black.
-const float VOID_SMOKE_STRENGTH = 0.45;
-
-const float VOID_TAU = 6.2831853;
-// GameTime runs 0 to 1 over a 24000-tick day and then wraps. Every motion below turns a whole
-// number of times per day, so the wrap is seamless.
-const float VOID_DAY_SECONDS = 1200.0;
-
-const int VOID_STAR_LAYERS = 6;
-const float VOID_STAR_CELLS_PER_BLOCK = 2.0;
-const float VOID_STAR_WRAP_CELLS = 64.0;
-const float VOID_STAR_DENSITY = 0.12;
-const float VOID_STAR_PIXEL = 1.0 / 16.0;
-const vec3[] VOID_STAR_COLOURS = vec3[](
-    VOID_LIGHT,
-    VOID_VIOLET,
-    vec3(224.0, 90.0, 232.0) / 255.0,
-    vec3(138.0, 123.0, 255.0) / 255.0
-);
-const int VOID_MOTE_PLANES = 5;
-// Rising motes complete 60 cycles a day: one every 20 seconds.
-const float VOID_MOTE_CYCLES_PER_DAY = 60.0;
-const float VOID_MOTE_DEEPEST = 5.0;
-const float VOID_MOTE_SHALLOWEST = 0.25;
+float void_band(vec4 texel) {
+    float a = texel.a * 255.0;
+    if (a > VOID_FULL_BAND - 0.5 && a < VOID_FULL_BAND + 4.5) {
+        return VOID_FULL_BAND;
+    }
+    if (a > VOID_FAINT_BAND - 0.5 && a < VOID_FAINT_BAND + 4.5) {
+        return VOID_FAINT_BAND;
+    }
+    return -1.0;
+}
 
 bool is_void_window(vec4 texel) {
-    return texel.a > VOID_WINDOW_ALPHA_LOW && texel.a < VOID_WINDOW_ALPHA_HIGH;
+    return void_band(texel) > 0.0;
+}
+
+// How much of the void a marked texel lets through: its band's opacity.
+float void_window_opacity(vec4 texel) {
+    return void_band(texel) == VOID_FAINT_BAND ? VOID_FAINT_OPACITY : 1.0;
 }
 
 float void_rim_at(vec4 texel) {
-    return is_void_window(texel) ? (texel.a * 255.0 - 249.0) / 5.0 : 0.0;
+    float band = void_band(texel);
+    return band > 0.0 ? (texel.a * 255.0 - band + 1.0) / 5.0 : 0.0;
 }
 
 // How deep inside the hole this point lies, 0 at the rim to 1 well inside, smoothed between texels.
