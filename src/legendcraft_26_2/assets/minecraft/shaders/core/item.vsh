@@ -25,6 +25,7 @@ out vec4 overlayColor;
 out vec2 texCoord0;
 out vec3 voidViewRel;
 out vec3 voidNormal;
+out float voidFade;
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
@@ -39,4 +40,5 @@ void main() {
     texCoord0 = UV0;
     voidViewRel = Position;
     voidNormal = Normal;
+    voidFade = Color.r;
 }
