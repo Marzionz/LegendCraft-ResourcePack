@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "legendcraft:item/classes/smc_shadowstep_portal_hold_3",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 16712190
+      }
+    ]
+  }
+}

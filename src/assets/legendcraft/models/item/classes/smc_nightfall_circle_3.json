@@ -1,0 +1,18 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/smc_nightfall_circle_3",
+    "particle": "legendcraft:item/classes/smc_nightfall_circle_3"
+  },
+  "elements": [
+    {
+      "from": [-9, 8.07, -9],
+      "to": [25, 8.07, 25],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

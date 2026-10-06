@@ -20,7 +20,9 @@ Columns:
 - **native** — bones whose own animation the display plays as its transform rather than the
   frames drawing it.
 - **tint** — `yes` when the plugin colours the frames at spawn: every face multiplies the first
-  colour of the worn item's `custom_model_data`, and draws as painted without one.
+  colour of the worn item's `custom_model_data`, and draws as painted without one. `void` when the
+  frames carry a void window: the item is tinted with the void mark (`tools/void_marker.py`), the
+  one tint under which the item shader draws the void on the texels painted at a void-band alpha.
 
 | frames | rig | clip | shrink | native | tint |
 | --- | --- | --- | --- | --- | --- |
@@ -45,6 +47,14 @@ Columns:
 | `pyro_scorch_explosion` | `pyro_scorch_explosion` | `burst` | 2 | | |
 | `knight_ghost_shield` | `knight_ghost_shield` | `flare` | 1 | | |
 | `knight_horn_blast` | `knight_horn_blast` | `war_cry` | 1 | | |
+| `smc_shadowstep_portal_open` | `smc_shadowstep_portal` | `open` | 2 | | `void` |
+| `smc_shadowstep_portal_hold` | `smc_shadowstep_portal` | `hold` | 2 | | `void` |
+| `smc_shadowstep_portal_swallow` | `smc_shadowstep_portal` | `swallow` | 2 | | `void` |
+| `smc_shadowstep_portal_close` | `smc_shadowstep_portal` | `close` | 2 | | `void` |
+| `smc_nightfall_circle` | `smc_nightfall_break` | `appear` | 1 | | |
+| `smc_void_bolt_cloud_implode` | `smc_void_bolt_cloud` | `implode` | 1 | `cloud` | |
+| `smc_void_bolt_cloud_burst` | `smc_void_bolt_cloud` | `burst` | 1 | `cloud` | |
+| `smc_void_bolt_implode` | `smc_void_bolt_implode` | `implode` | 1 | | |
 | `nin_thousand_cuts` | `nin_thousand_cuts` | `cut` | 1 | | |
 
 The three `pyro_surge_ring` band rows are the source for the ranked ring flipbooks `surge_ring_ranks.py` writes; re-run it after regenerating them ([`pyro_surge_ring.md`](pyro_surge_ring.md#ranks-stand-and-burn-away)).

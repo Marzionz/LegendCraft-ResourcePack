@@ -1,0 +1,39 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/smc_void_bolt_cloud_implode_7",
+    "particle": "legendcraft:item/classes/smc_void_bolt_cloud_implode_7"
+  },
+  "elements": [
+    {
+      "from": [8, -8.769, -8.769],
+      "to": [8, 24.769, 24.769],
+      "faces": {
+        "west": {
+          "uv": [16, 0, 0, 16],
+          "texture": "#0"
+        }
+      }
+    },
+    {
+      "from": [-8.769, 8, -8.769],
+      "to": [24.769, 8, 24.769],
+      "faces": {
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0",
+          "rotation": 270
+        }
+      }
+    },
+    {
+      "from": [-8.769, -8.769, 8],
+      "to": [24.769, 24.769, 8],
+      "faces": {
+        "north": {
+          "uv": [16, 0, 0, 16],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}
