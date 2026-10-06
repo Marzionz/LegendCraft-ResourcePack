@@ -1,0 +1,8 @@
+{
+  "samus.boss_summoner.minion_knight_spin": {
+    "category": "master",
+    "sounds": [
+      "samus_boss_summoner_sounds:samus/boss_summoner/minion_knight_spin"
+    ]
+  }
+}
