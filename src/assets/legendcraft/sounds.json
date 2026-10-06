@@ -343,7 +343,7 @@
     "sounds": [
       {
         "name": "legendcraft:shadowmancer/nightfall_heartbeat",
-        "attenuation_distance": 24
+        "attenuation_distance": 128
       }
     ]
   },
