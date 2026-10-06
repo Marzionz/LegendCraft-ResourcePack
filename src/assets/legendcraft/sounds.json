@@ -341,7 +341,10 @@
   "shadowmancer.nightfall_heartbeat": {
     "category": "master",
     "sounds": [
-      "legendcraft:shadowmancer/nightfall_heartbeat"
+      {
+        "name": "legendcraft:shadowmancer/nightfall_heartbeat",
+        "attenuation_distance": 24
+      }
     ]
   },
   "shadowmancer.nightfall_laugh": {
