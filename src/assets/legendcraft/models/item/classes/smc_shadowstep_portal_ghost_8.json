@@ -1,0 +1,32 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/smc_shadowstep_portal_ghost_8",
+    "particle": "legendcraft:item/classes/smc_shadowstep_portal_ghost_8"
+  },
+  "elements": [
+    {
+      "from": [
+        -2,
+        6.75,
+        8
+      ],
+      "to": [
+        18,
+        29.25,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#0",
+          "tintindex": 0
+        }
+      }
+    }
+  ]
+}
