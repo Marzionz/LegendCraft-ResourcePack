@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "snp_blitz_notch",
+  "model_identifier": "snp_blitz_notch",
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "gold_tally",
+      "uuid": "9c84f50d-735f-4843-a3f7-57a7d69c287a",
+      "type": "cube",
+      "box_uv": false,
+      "to": [
+        1,
+        4,
+        1
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "autouv": 0,
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            4,
+            8
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            4,
+            0,
+            8,
+            8
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            4,
+            8
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            8,
+            0,
+            12,
+            8
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            12,
+            0,
+            16,
+            4
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            4,
+            0,
+            8,
+            4
+          ],
+          "texture": 0
+        }
+      },
+      "from": [
+        -1,
+        0,
+        -1
+      ]
+    }
+  ],
+  "outliner": [
+    {
+      "name": "root",
+      "uuid": "1fc74075-0299-432f-a52d-f7559af53bdf",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "children": [
+        {
+          "name": "notch",
+          "uuid": "cb4852a4-92d2-4e6a-b0ec-4ddaceac3d95",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "children": [
+            "9c84f50d-735f-4843-a3f7-57a7d69c287a"
+          ],
+          "export": true,
+          "visibility": true
+        }
+      ],
+      "export": true,
+      "visibility": true
+    }
+  ],
+  "textures": [
+    {
+      "name": "snp_blitz_notch.png",
+      "id": "0",
+      "uuid": "644b7007-ac93-4882-8c53-4520f648cbb9",
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "render_sides": "double",
+      "mode": "bitmap",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAUUlEQVR4nGP8////fwZkcJSRYfN6BNc3vwJFmkG2HYXLwvC4koESwAImH3WQbQATRdYPCgNYNk9E9b9vIJ1dwPj/CANqOhhygcg0agADxWEAABjyEBM2aVK8AAAAAElFTkSuQmCC",
+      "relative_path": "snp_blitz_notch.png"
+    }
+  ],
+  "animations": [
+    {
+      "name": "slam",
+      "uuid": "c8e2d05a-139d-4875-8f1a-d6bf2e9933bc",
+      "loop": "hold",
+      "length": 0.05,
+      "snapping": 20,
+      "animators": {
+        "cb4852a4-92d2-4e6a-b0ec-4ddaceac3d95": {
+          "name": "notch",
+          "type": "bone",
+          "keyframes": [
+            {
+              "channel": "scale",
+              "time": 0.0,
+              "interpolation": "step",
+              "uuid": "02350c58-fd06-49f2-8d10-c7d872a0f45d",
+              "data_points": [
+                {
+                  "x": "1",
+                  "y": "1",
+                  "z": "1"
+                }
+              ]
+            },
+            {
+              "channel": "scale",
+              "time": 0.05,
+              "interpolation": "step",
+              "uuid": "3bea5aa6-ba83-46dc-a31b-c0f1fc35ddb0",
+              "data_points": [
+                {
+                  "x": "1",
+                  "y": "1",
+                  "z": "1"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
