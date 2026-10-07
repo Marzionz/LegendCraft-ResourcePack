@@ -56,5 +56,13 @@ Columns:
 | `smc_void_bolt_cloud_burst` | `smc_void_bolt_cloud` | `burst` | 1 | `cloud` | |
 | `smc_void_bolt_implode` | `smc_void_bolt_implode` | `implode` | 1 | | |
 | `nin_thousand_cuts` | `nin_thousand_cuts` | `cut` | 1 | | |
+| `snp_heartseeker_mark` | `snp_heartseeker_mark` | `states` | 1 | | |
+| `snp_heartseeker_mark_flicker` | `snp_heartseeker_mark` | `flicker` | 1 | | |
+| `snp_cloud_burst` | `snp_cloud` | `burst` | 1 | `cloud` | |
+| `snp_blitz_bow` | `snp_blitz_bow` | `draw` | 2 | | |
+| `snp_blitz_notch` | `snp_blitz_notch` | `slam` | 1 | | |
+| `snp_match_arrow` | `snp_match_arrow` | `fly` | 1 | | |
+| `fx_accent_arrow` | `fx_accent_arrow` | `fly` | 1 | | yes |
+| `snp_sonic_ring` | `snp_sonic_ring` | `boom` | 1 | | |
 
 The three `pyro_surge_ring` band rows are the source for the ranked ring flipbooks `surge_ring_ranks.py` writes; re-run it after regenerating them ([`pyro_surge_ring.md`](pyro_surge_ring.md#ranks-stand-and-burn-away)).

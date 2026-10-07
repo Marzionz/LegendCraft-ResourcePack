@@ -1,0 +1,13 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "legendcraft:item/classes/fx_accent_arrow_1",
+    "tints": [
+      {
+        "type": "minecraft:custom_model_data",
+        "index": 0,
+        "default": -1
+      }
+    ]
+  }
+}

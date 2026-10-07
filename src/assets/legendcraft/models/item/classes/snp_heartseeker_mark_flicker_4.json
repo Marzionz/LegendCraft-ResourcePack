@@ -1,0 +1,18 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/snp_heartseeker_mark_flicker_4",
+    "particle": "legendcraft:item/classes/snp_heartseeker_mark_flicker_4"
+  },
+  "elements": [
+    {
+      "from": [-4.558491, -4.558491, 8],
+      "to": [20.558491, 20.558491, 8],
+      "faces": {
+        "north": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}
