@@ -37,6 +37,7 @@ tools/*
 !/tools/check-pack-pin.ps1
 !/tools/stage_volya_hud.py
 !/tools/merge_dev_pack.py
+!/tools/cap_overlays.py
 !/tools/deploy-hud.ps1
 !/tools/publish-pack.ps1
 
