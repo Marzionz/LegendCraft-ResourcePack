@@ -80,7 +80,7 @@ def bound_formats(meta, ceiling):
     kept = []
     for entry in overlays:
         ranges = declared_ranges(entry, OVERLAY_RANGE_KEY)
-        if pack.get("pack_format", 0) > ceiling:
+        if any(low[0] > ceiling for low, _ in ranges):
             report.append("dropped overlay %s: range %s starts above %d"
                           % (entry.get("directory"), describe(ranges), ceiling))
             continue
