@@ -36,6 +36,19 @@ applied at all went unread.
 10. This repo's real `src/pack.mcmeta` passes. (The two-sided control: without it, 6-9 pass
     against a gate that refuses every manifest.)
 
+The range half. A client applies an overlay on the range it declares, so a range reaching past
+TESTED_MAX_FORMAT hands a newer client shaders nobody ran on it, and one it cannot compile
+rejects the whole pack.
+
+11. A manifest whose overlay range, in either form, ends above TESTED_MAX_FORMAT is refused,
+    naming the overlay.
+12. A manifest whose base range ends above TESTED_MAX_FORMAT is refused.
+13. A manifest whose overlay range starts above its own end is refused, naming the overlay.
+14. A merge over plugin packs declaring overlays to format 65535 passes: the merge bounds them.
+15. A built pack whose manifest still carries such an overlay is refused under --pack.
+16. A [major, minor] range is ordered by minor within a major: `TESTED.2..TESTED.1` is refused,
+    `TESTED.1..TESTED.2` passes.
+
     python tools/test_pack_manifest.py
 """
 
@@ -54,6 +67,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
 AUDITOR = os.path.join(HERE, "check_pack_manifest.py")
 MERGER = os.path.join(HERE, "merge_dev_pack.py")
+sys.path.insert(0, HERE)
+
+from pack_formats import TESTED_MAX_FORMAT  # noqa: E402
 
 # The audit's subjects, one file of each kind the gate counts.
 ITEM_MODELS = ("assets/legendcraft/items/classes/alpha.json",
@@ -73,6 +89,28 @@ DISAGREEING_MCMETA = {"pack": {"pack_format": 84, "min_format": 85, "max_format"
                                "description": "fixture"}}
 BELOW_FLOOR_MCMETA = {"pack": {"pack_format": 34, "description": "fixture"}}
 REAL_SOURCE_TREE = os.path.join(REPO_ROOT, "src")
+UNBOUNDED = 65535
+BEYOND_TESTED = TESTED_MAX_FORMAT + 1
+UNBOUNDED_OVERLAY = {"min_format": 84, "max_format": UNBOUNDED,
+                     "formats": {"min_inclusive": 84, "max_inclusive": UNBOUNDED},
+                     "directory": "mythicarmors_26_1"}
+FORMATS_ONLY_BEYOND_OVERLAY = {"formats": [84, BEYOND_TESTED], "min_format": 84,
+                               "max_format": TESTED_MAX_FORMAT, "directory": "betterhud_26_1"}
+MINOR_INVERTED_OVERLAY = {"min_format": [TESTED_MAX_FORMAT, 2],
+                          "max_format": [TESTED_MAX_FORMAT, 1], "directory": "minor_inverted"}
+MINOR_ORDERED_OVERLAY = {"min_format": [TESTED_MAX_FORMAT, 1],
+                         "max_format": [TESTED_MAX_FORMAT, 2], "directory": "minor_ordered"}
+INVERTED_OVERLAY = {"formats": [TESTED_MAX_FORMAT, 84], "min_format": TESTED_MAX_FORMAT,
+                    "max_format": 84, "directory": "inverted"}
+UNBOUNDED_BASE_MCMETA = {"pack": {"pack_format": 84, "min_format": 9, "max_format": 84,
+                                  "supported_formats": [9, UNBOUNDED], "description": "fixture"}}
+UNBOUNDED_PLUGIN_MCMETA = {"pack": {"pack_format": 63, "min_format": 63, "max_format": UNBOUNDED,
+                                    "description": "armour"},
+                           "overlays": {"entries": [UNBOUNDED_OVERLAY]}}
+
+
+def with_overlays(*entries):
+    return dict(BASE_MCMETA, overlays={"entries": list(entries)})
 PLUGIN_MCMETA = {"pack": {"pack_format": 84, "description": "plugin"},
                  "overlays": {"entries": [{"directory": "betterhud_26_1",
                                            "formats": {"min_inclusive": 84,
@@ -102,9 +140,9 @@ def zip_tree(root, out_path, mcmeta):
                 archive.write(full, os.path.relpath(full, root).replace(os.sep, "/"))
 
 
-def plugin_zip(out_path, entries):
+def plugin_zip(out_path, entries, mcmeta=PLUGIN_MCMETA):
     with zipfile.ZipFile(out_path, "w", zipfile.ZIP_DEFLATED) as archive:
-        archive.writestr("pack.mcmeta", json.dumps(PLUGIN_MCMETA))
+        archive.writestr("pack.mcmeta", json.dumps(mcmeta))
         archive.writestr("pack.png", "")
         for entry in entries:
             archive.writestr(entry, "{}")
@@ -233,6 +271,46 @@ class PackManifestTest(unittest.TestCase):
     def test_manifest_only_passes_a_source_tree_that_carries_it(self):
         result = audit_manifest(self.with_mcmeta(BASE_MCMETA))
         self.assertEqual(0, result.returncode, result.stdout)
+
+    def test_an_overlay_range_ending_above_the_tested_format_is_refused(self):
+        for overlay in (UNBOUNDED_OVERLAY, FORMATS_ONLY_BEYOND_OVERLAY):
+            result = audit_manifest(self.with_mcmeta(with_overlays(overlay)))
+            self.assertEqual(1, result.returncode, result.stdout)
+            self.assertIn(overlay["directory"], result.stdout)
+
+    def test_a_base_range_ending_above_the_tested_format_is_refused(self):
+        result = audit_manifest(self.with_mcmeta(UNBOUNDED_BASE_MCMETA))
+        self.assertEqual(1, result.returncode, result.stdout)
+        self.assertIn(str(UNBOUNDED), result.stdout)
+
+    def test_an_overlay_range_starting_above_its_end_is_refused(self):
+        result = audit_manifest(self.with_mcmeta(with_overlays(INVERTED_OVERLAY)))
+        self.assertEqual(1, result.returncode, result.stdout)
+        self.assertIn("inverted", result.stdout)
+
+    def test_a_minor_version_range_starting_above_its_end_is_refused(self):
+        result = audit_manifest(self.with_mcmeta(with_overlays(MINOR_INVERTED_OVERLAY)))
+        self.assertEqual(1, result.returncode, result.stdout)
+        self.assertIn("minor_inverted", result.stdout)
+
+    def test_a_minor_version_range_in_order_passes(self):
+        result = audit_manifest(self.with_mcmeta(with_overlays(MINOR_ORDERED_OVERLAY)))
+        self.assertEqual(0, result.returncode, result.stdout)
+
+    def test_a_merge_over_unbounded_plugin_overlays_passes(self):
+        unbounded = os.path.join(self.workspace, "mythicarmors-pack.zip")
+        plugin_zip(unbounded, ("assets/mythicarmors/models/armour.json",), UNBOUNDED_PLUGIN_MCMETA)
+        self.plugin_paths.append(unbounded)
+        merged = self.merge()
+        result = audit(merged, self.source_tree, self.plugin_paths)
+        self.assertEqual(0, result.returncode, result.stdout)
+
+    def test_a_built_pack_still_carrying_an_unbounded_overlay_is_refused(self):
+        pack = os.path.join(self.dist, "LegendCraft-Pack-dev.zip")
+        zip_tree(self.source_tree, pack, with_overlays(UNBOUNDED_OVERLAY))
+        result = audit(pack, self.source_tree)
+        self.assertEqual(1, result.returncode, result.stdout)
+        self.assertIn(UNBOUNDED_OVERLAY["directory"], result.stdout)
 
 
 class TheRealSourceTreeStillPassesTest(unittest.TestCase):

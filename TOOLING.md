@@ -12,14 +12,16 @@ tree, alongside `mobs-src/` and `tools/`).
 | `tools/generate_hud.py` | writes the HUD art and the BetterHud YAML under `hud/` | `tools/test_generate_hud.py`, plus the CI drift gate |
 | `tools/deploy-hud.ps1` | the whole HUD loop against mc-dev: regenerate, copy, clear the stale text shader templates, restart, merge, publish, repoint, restart | none — it drives a live server; the shader-clear step it calls is covered |
 | `tools/clear-hud-shaders.ps1` | removes BetterHud's `shaders/text.{vsh,fsh}` so the next boot regenerates them | `tests/run-hud-shader-clear-tests.ps1` |
-| `tools/merge_dev_pack.py` | merges the plugin build zips with the newest built base pack into `dist/LegendCraft-Pack-dev.zip` | `tools/test_pack_manifest.py` |
+| `tools/merge_dev_pack.py` | merges the plugin build zips with the newest built base pack into `dist/LegendCraft-Pack-dev.zip`, bounding every format range in its `pack.mcmeta` at `TESTED_MAX_FORMAT` | `tools/test_pack_manifest.py`, `tools/test_merge_dev_pack.py` |
+| `tools/pack_formats.py` | `TESTED_MAX_FORMAT`, `MOJ_IMPORT_REJECTED_FORMAT`, and how a `pack.mcmeta` section declares a format range; read by the merge and both format gates | through their suites |
 | `tools/publish-pack.ps1` | uploads a pack to the rolling `dev` pre-release, or promotes a tested dev pack to an immutable `v<version>` | `tests/run-pack-pin-tests.ps1` |
 | `tools/check-pack-pin.ps1` | the production pre-start guard: refuses a dev pin, an absent pin, or a sha1 that is not the bytes at the pinned URL | `tests/run-pack-pin-tests.ps1` |
 | `tools/gen-flipbook-frames.py` | writes one item model, and the textures it wears, per frame of every flat flipbook named in `mobs-src/props/FLIPBOOKS.md`, under `src/assets/legendcraft/{items,models/item,textures/item}/classes/` | the CI drift gate |
 | `tools/check_generator_drift.py` | the committed `hud/` tree and flipbook frames equal generator output; images compared by decoded pixels, everything else byte for byte | CI gate |
 | `tools/check_hud_placeholders.py` | every `papi:legendcraft_*` the HUD reads names a case in `LegendCraft-Classes`' expansion source | `tools/test_hud_placeholders.py` |
 | `tools/check_hud_yaml.py` | the BetterHud files parse and hold the generator's invariants, and every `pattern:` in the tree obeys the text parser's slash rule | `tools/test_hud_yaml.py` |
-| `tools/check_pack_manifest.py` | a merged pack still carries what its inputs put in, and its `pack.mcmeta` declares the format range the client needs before it applies any of it (`--manifest-only` audits `src/pack.mcmeta` alone, which is what CI can reach) | `tools/test_pack_manifest.py` |
+| `tools/check_pack_manifest.py` | a merged pack still carries what its inputs put in, and its `pack.mcmeta` declares the format range the client needs before it applies any of it (`--manifest-only` audits `src/pack.mcmeta` alone, which is what CI can reach), with no range starting above its own end or ending above `TESTED_MAX_FORMAT` | `tools/test_pack_manifest.py` |
+| `tools/check_overlay_shaders.py` | no core shader in an overlay reaching `MOJ_IMPORT_REJECTED_FORMAT` still uses `#moj_import`, in `src/` or a built pack (`--pack`) | `tools/test_check_overlay_shaders.py` |
 
 ## `deploy-rigs.ps1`
 

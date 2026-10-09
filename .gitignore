@@ -38,6 +38,10 @@ tools/*
 !/tools/check-pack-pin.ps1
 !/tools/stage_volya_hud.py
 !/tools/merge_dev_pack.py
+!/tools/pack_formats.py
+!/tools/test_merge_dev_pack.py
+!/tools/check_overlay_shaders.py
+!/tools/test_check_overlay_shaders.py
 !/tools/deploy-hud.ps1
 !/tools/clear-hud-shaders.ps1
 !/tools/publish-pack.ps1
