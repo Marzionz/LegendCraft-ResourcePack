@@ -88,6 +88,12 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python tools/test_pack_manifest.py
 
+      # The served pack claims no client format it was not tested on: the merge bounds every
+      # range the plugin packs declare.
+      - name: Gate - merge format bound
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/test_merge_dev_pack.py
+
       # The pack-channel rules: a versioned release is immutable, and promotion is the only
       # path from the dev loop to one.
       - name: Gate - pack pin and promotion
