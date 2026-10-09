@@ -2,19 +2,31 @@
   "pyromancer.conflagration_charge": {
     "category": "master",
     "sounds": [
-      "legendcraft:pyromancer/conflagration_charge"
+      {
+        "name": "legendcraft:pyromancer/conflagration_charge",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   },
   "pyromancer.conflagration_blast": {
     "category": "master",
     "sounds": [
-      "legendcraft:pyromancer/conflagration_blast"
+      {
+        "name": "legendcraft:pyromancer/conflagration_blast",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   },
   "pyromancer.conflagration_blast_low": {
     "category": "master",
     "sounds": [
-      "legendcraft:pyromancer/conflagration_blast_low"
+      {
+        "name": "legendcraft:pyromancer/conflagration_blast_low",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   },
   "brawler.unending_blows_finisher": {
@@ -675,7 +687,9 @@
     "category": "master",
     "sounds": [
       {
-        "name": "legendcraft:sniper/crossbow_loading_end"
+        "name": "legendcraft:sniper/crossbow_loading_end",
+        "volume": 0.3333,
+        "attenuation_distance": 48
       }
     ]
   },
@@ -764,6 +778,1484 @@
     "sounds": [
       {
         "name": "legendcraft:sniper/bolt_echo",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archer.hit_tell": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.hit_player",
+    "sounds": [
+      {
+        "name": "minecraft:random/successful_hit",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archer.grapple_release_latch": {
+    "category": "master",
+    "subtitle": "subtitles.item.crossbow.load",
+    "sounds": [
+      {
+        "name": "minecraft:item/crossbow/loading_end",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archer.grapple_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archer.grapple_impact": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "minecraft:step/wood1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood4",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood5",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood6",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archer.pin_shot_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "archer.rapid_fire_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "hunter.venomous_arrow_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "hunter.venomous_arrow_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.hit_player",
+    "sounds": [
+      {
+        "name": "minecraft:random/successful_hit",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "hunter.venomous_arrow_impact_hiss": {
+    "category": "master",
+    "subtitle": "subtitles.entity.spider.ambient",
+    "sounds": [
+      {
+        "name": "minecraft:mob/spider/say1",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:mob/spider/say2",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:mob/spider/say3",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:mob/spider/say4",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.hamstring_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.hamstring_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.hit_player",
+    "sounds": [
+      {
+        "name": "minecraft:random/successful_hit",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.hamstring_impact_wound": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "minecraft:step/wood1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood4",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood5",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:step/wood6",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.point_blank_shot_release_latch": {
+    "category": "master",
+    "subtitle": "subtitles.item.crossbow.load",
+    "sounds": [
+      {
+        "name": "minecraft:item/crossbow/loading_end",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.point_blank_shot_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.point_blank_shot_release_boom": {
+    "category": "master",
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": [
+      {
+        "name": "minecraft:random/explode1",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/explode2",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/explode3",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/explode4",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.point_blank_shot_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.hit_player",
+    "sounds": [
+      {
+        "name": "minecraft:random/successful_hit",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.point_blank_shot_impact_blast": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.hit_player",
+    "sounds": [
+      {
+        "name": "minecraft:random/successful_hit",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.quickstep_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.quickstep_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.hit_player",
+    "sounds": [
+      {
+        "name": "minecraft:random/successful_hit",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ranger.kiting_dance_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "mage.fireball_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.blaze.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:mob/ghast/fireball4",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "mage.fireball_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": [
+      {
+        "name": "minecraft:random/explode1",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/explode2",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/explode3",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/explode4",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "mage.frost_bolt_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.snowball.throw",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "mage.frost_bolt_release_chime": {
+    "category": "master",
+    "subtitle": "subtitles.block.amethyst_block.chime",
+    "sounds": [
+      {
+        "name": "minecraft:block/amethyst/shimmer",
+        "volume": 0.0467,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "mage.frost_bolt_impact": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "mage.frost_bolt_impact_chime": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "minecraft:block/amethyst/step1",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step2",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step3",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step4",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step5",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step6",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step7",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step8",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step9",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step10",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step11",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step12",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "mage.frost_bolt_miss": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "bloodweaver.crimson_bolt_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.player.attack.sweep",
+    "sounds": [
+      {
+        "name": "minecraft:entity/player/attack/sweep1",
+        "volume": 0.1867,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/sweep2",
+        "volume": 0.1867,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/sweep3",
+        "volume": 0.1867,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/sweep4",
+        "volume": 0.1867,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/sweep5",
+        "volume": 0.1867,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/sweep6",
+        "volume": 0.1867,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/sweep7",
+        "volume": 0.1867,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "bloodweaver.crimson_bolt_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.player.attack.strong",
+    "sounds": [
+      {
+        "name": "minecraft:entity/player/attack/strong1",
+        "volume": 0.18,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/strong2",
+        "volume": 0.18,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/strong3",
+        "volume": 0.18,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/strong4",
+        "volume": 0.18,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/strong5",
+        "volume": 0.21,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/player/attack/strong6",
+        "volume": 0.21,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "cryomancer.cast_glyph": {
+    "category": "master",
+    "subtitle": "subtitles.block.amethyst_block.chime",
+    "sounds": [
+      {
+        "name": "minecraft:block/amethyst/shimmer",
+        "volume": 0.0667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "cryomancer.ice_lance_impact_empowered": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "cryomancer.ice_lance_impact_shatter": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "cryomancer.permafrost_release": {
+    "category": "master",
+    "subtitle": "subtitles.block.amethyst_block.chime",
+    "sounds": [
+      {
+        "name": "minecraft:block/amethyst/shimmer",
+        "volume": 0.0667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "cryomancer.permafrost_release_settle": {
+    "category": "master",
+    "subtitle": "subtitles.block.conduit.deactivate",
+    "sounds": [
+      {
+        "name": "minecraft:block/conduit/deactivate",
+        "volume": 0.14,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "priest.concoction_cast": {
+    "category": "master",
+    "subtitle": "subtitles.block.amethyst_block.chime",
+    "sounds": [
+      {
+        "name": "minecraft:block/amethyst/shimmer",
+        "volume": 0.04,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "priest.concoction_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.potion.throw",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "priest.concoction_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.potion.splash",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "priest.concoction_miss": {
+    "category": "master",
+    "subtitle": "subtitles.entity.potion.splash",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "alchemist.caustic_flask_cast": {
+    "category": "master",
+    "subtitle": "subtitles.block.brewing_stand.brew",
+    "sounds": [
+      {
+        "name": "minecraft:block/brewing_stand/brew1",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/brewing_stand/brew2",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "alchemist.caustic_flask_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.potion.throw",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "alchemist.caustic_flask_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.potion.splash",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "alchemist.caustic_flask_impact_hiss": {
+    "category": "master",
+    "subtitle": "subtitles.block.fire.extinguish",
+    "sounds": [
+      {
+        "name": "minecraft:random/fizz",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "alchemist.volatile_concoction_cast": {
+    "category": "master",
+    "subtitle": "subtitles.block.brewing_stand.brew",
+    "sounds": [
+      {
+        "name": "minecraft:block/brewing_stand/brew1",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/brewing_stand/brew2",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "alchemist.volatile_concoction_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.potion.throw",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "alchemist.volatile_concoction_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.potion.splash",
+    "sounds": [
+      {
+        "name": "minecraft:random/glass1",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass2",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/glass3",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shaman.ancestral_wrath_release": {
+    "category": "master",
+    "subtitle": "subtitles.item.trident.throw",
+    "sounds": [
+      {
+        "name": "minecraft:item/trident/throw1",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/throw2",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shaman.ancestral_wrath_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.generic.explode",
+    "sounds": [
+      {
+        "name": "minecraft:random/explode1",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/explode2",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/explode3",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/explode4",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shaman.ancestral_wrath_impact_soul": {
+    "category": "master",
+    "subtitle": "subtitles.particle.soul_escape",
+    "sounds": [
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed1",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed2",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed3",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed4",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed5",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed6",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed7",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed8",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed9",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed10",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed11",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed12",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed13",
+        "volume": 0.0833,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shaman.ancestral_wrath_impact_hum": {
+    "category": "master",
+    "subtitle": "subtitles.block.beacon.deactivate",
+    "sounds": [
+      {
+        "name": "minecraft:block/beacon/deactivate",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shaman.ancestral_wrath_fizzle": {
+    "category": "master",
+    "subtitle": "subtitles.particle.soul_escape",
+    "sounds": [
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed1",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed2",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed3",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed4",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed5",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed6",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed7",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed8",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed9",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed10",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed11",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed12",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:enchant/soulspeed/soulspeed13",
+        "volume": 0.0417,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shaman.earthen_strike_eruption": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      {
+        "name": "minecraft:block/deepslate/break1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/deepslate/break2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/deepslate/break3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/deepslate/break4",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ninja.shuriken_volley_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:random/bow",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ninja.shuriken_volley_release_whirr": {
+    "category": "master",
+    "subtitle": "subtitles.item.trident.throw",
+    "sounds": [
+      {
+        "name": "minecraft:item/trident/throw1",
+        "volume": 0.1667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/throw2",
+        "volume": 0.1667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ninja.shuriken_volley_impact": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      {
+        "name": "minecraft:block/amethyst/step1",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step2",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step3",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step4",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step5",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step6",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step7",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step8",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step9",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step10",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step11",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/amethyst/step12",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ninja.shuriken_volley_impact_thunk": {
+    "category": "master",
+    "subtitle": "subtitles.entity.arrow.hit",
+    "sounds": [
+      {
+        "name": "minecraft:random/bowhit1",
+        "volume": 0.1333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/bowhit2",
+        "volume": 0.1333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/bowhit3",
+        "volume": 0.1333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:random/bowhit4",
+        "volume": 0.1333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ninja.smoke_bomb_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.witch.throw",
+    "sounds": [
+      {
+        "name": "minecraft:entity/witch/throw1",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/witch/throw2",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/witch/throw3",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ninja.smoke_bomb_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.wind_charge.wind_burst",
+    "sounds": [
+      {
+        "name": "minecraft:entity/wind_charge/wind_burst1",
+        "volume": 0.2667,
+        "pitch": 1.25,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/wind_charge/wind_burst2",
+        "volume": 0.2667,
+        "pitch": 1.25,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:entity/wind_charge/wind_burst3",
+        "volume": 0.2667,
+        "pitch": 1.25,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ninja.smoke_bomb_impact_hiss": {
+    "category": "master",
+    "subtitle": "subtitles.block.fire.extinguish",
+    "sounds": [
+      {
+        "name": "minecraft:random/fizz",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "ninja.substitution_log_drop": {
+    "category": "master",
+    "subtitle": "subtitles.entity.armor_stand.fall",
+    "sounds": [
+      {
+        "name": "minecraft:dig/wood1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:dig/wood2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:dig/wood3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:dig/wood4",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "warlock.shadow_bolt_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.wither.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:mob/wither/shoot",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "warlock.shadow_bolt_impact_crack": {
+    "category": "master",
+    "subtitle": "subtitles.entity.wither.shoot",
+    "sounds": [
+      {
+        "name": "minecraft:mob/zombie/woodbreak",
+        "volume": 0.1667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "warlock.mark_of_misery_cast": {
+    "category": "master",
+    "subtitle": "subtitles.entity.elder_guardian.curse",
+    "sounds": [
+      {
+        "name": "minecraft:mob/guardian/curse",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "doomsayer.curse_of_ruin_release": {
+    "category": "master",
+    "subtitle": "subtitles.entity.elder_guardian.curse",
+    "sounds": [
+      {
+        "name": "minecraft:mob/guardian/curse",
+        "volume": 0.1667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "doomsayer.curse_of_ruin_impact": {
+    "category": "master",
+    "subtitle": "subtitles.entity.elder_guardian.curse",
+    "sounds": [
+      {
+        "name": "minecraft:mob/guardian/curse",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "berserker.reavers_throw_release": {
+    "category": "master",
+    "subtitle": "subtitles.item.trident.throw",
+    "sounds": [
+      {
+        "name": "minecraft:item/trident/throw1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/throw2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "berserker.reavers_throw_release_empowered": {
+    "category": "master",
+    "subtitle": "subtitles.block.lava.extinguish",
+    "sounds": [
+      {
+        "name": "minecraft:random/fizz",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "berserker.reavers_throw_impact": {
+    "category": "master",
+    "subtitle": "subtitles.block.anvil.land",
+    "sounds": [
+      {
+        "name": "minecraft:random/anvil_land",
+        "volume": 0.1333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "berserker.reavers_throw_lodge": {
+    "category": "master",
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      {
+        "name": "minecraft:random/anvil_land",
+        "volume": 0.1167,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "berserker.reavers_throw_return": {
+    "category": "master",
+    "subtitle": "subtitles.item.trident.return",
+    "sounds": [
+      {
+        "name": "minecraft:item/trident/return1",
+        "volume": 0.24,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return2",
+        "volume": 0.24,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return2",
+        "volume": 0.24,
+        "pitch": 0.8,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return2",
+        "volume": 0.24,
+        "pitch": 1.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return2",
+        "volume": 0.24,
+        "pitch": 1.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return3",
+        "volume": 0.24,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return3",
+        "volume": 0.24,
+        "pitch": 0.8,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return3",
+        "volume": 0.24,
+        "pitch": 0.8,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return3",
+        "volume": 0.24,
+        "pitch": 1.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "berserker.reavers_throw_catch": {
+    "category": "master",
+    "subtitle": "subtitles.item.trident.return",
+    "sounds": [
+      {
+        "name": "minecraft:item/trident/return1",
+        "volume": 0.2133,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return2",
+        "volume": 0.2133,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return2",
+        "volume": 0.2133,
+        "pitch": 0.8,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return2",
+        "volume": 0.2133,
+        "pitch": 1.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return2",
+        "volume": 0.2133,
+        "pitch": 1.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return3",
+        "volume": 0.2133,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return3",
+        "volume": 0.2133,
+        "pitch": 0.8,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return3",
+        "volume": 0.2133,
+        "pitch": 0.8,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/return3",
+        "volume": 0.2133,
+        "pitch": 1.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "berserker.reavers_throw_catch_ring": {
+    "category": "master",
+    "subtitle": "subtitles.block.anvil.land",
+    "sounds": [
+      {
+        "name": "minecraft:random/anvil_land",
+        "volume": 0.1,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "berserker.undying_rage_cast": {
+    "category": "master",
+    "subtitle": "subtitles.entity.ravager.roar",
+    "sounds": [
+      {
+        "name": "minecraft:mob/ravager/roar1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:mob/ravager/roar2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:mob/ravager/roar3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:mob/ravager/roar4",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "knight.war_cry_cast": {
+    "category": "master",
+    "subtitle": "subtitles.item.goat_horn.play",
+    "sounds": [
+      {
+        "name": "minecraft:item/goat_horn/call0",
         "volume": 0.3333,
         "attenuation_distance": 48
       }

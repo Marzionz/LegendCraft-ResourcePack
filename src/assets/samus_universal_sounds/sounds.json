@@ -14,7 +14,11 @@
   "samus.universal.explosion_small": {
     "category": "master",
     "sounds": [
-      "samus_universal_sounds:samus/universal/explosion_small"
+      {
+        "name": "samus_universal_sounds:samus/universal/explosion_small",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   },
   "samus.universal.move2_clip": {
