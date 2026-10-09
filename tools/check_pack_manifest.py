@@ -41,6 +41,8 @@ import os
 import sys
 import zipfile
 
+from pack_formats import OVERLAY_RANGE_KEY, PACK_RANGE_KEY, TESTED_MAX_FORMAT, declared_ranges
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
 DEFAULT_SOURCE_TREE = os.path.join(REPO_ROOT, "src")
@@ -86,8 +88,28 @@ def sound_indexes(entries):
     return {e for e in entries if e.rsplit("/", 1)[-1] == SOUND_INDEX_NAME}
 
 
+def check_ranges(meta, where, failures):
+    """Every range the base and each overlay declare, in either form, runs low to high and ends
+    at or below TESTED_MAX_FORMAT: a client applies an overlay on its declared range alone."""
+    sections = [("the base", meta["pack"], PACK_RANGE_KEY)]
+    sections += [("overlay %s" % entry.get("directory"), entry, OVERLAY_RANGE_KEY)
+                 for entry in meta.get("overlays", {}).get("entries", [])]
+    for name, section, range_key in sections:
+        for low, high in declared_ranges(section, range_key):
+            if not (isinstance(low, int) and isinstance(high, int)):
+                failures.append("%s: %s declares a range bound that is not a format: %r..%r"
+                                % (where, name, low, high))
+            elif low > high:
+                failures.append("%s: %s declares %d..%d, starting above its own end"
+                                % (where, name, low, high))
+            elif high > TESTED_MAX_FORMAT:
+                failures.append("%s: %s declares %d..%d, ending above format %d, the newest the "
+                                "pack is tested on" % (where, name, low, high, TESTED_MAX_FORMAT))
+
+
 def check_manifest(raw, where, failures):
-    """The format keys the client needs before it will apply anything else in the pack."""
+    """The format keys the client needs before it will apply anything else in the pack, and the
+    ranges it applies the pack and its overlays on."""
     try:
         meta = json.loads(raw)
     except ValueError as error:
@@ -97,6 +119,7 @@ def check_manifest(raw, where, failures):
     if not isinstance(pack, dict):
         failures.append("%s declares no `pack` block" % where)
         return
+    check_ranges(meta, where, failures)
     pack_format = pack.get(FORMAT_KEY)
     if not isinstance(pack_format, int):
         failures.append("%s declares no integer %s" % (where, FORMAT_KEY))
