@@ -2,7 +2,11 @@
   "samus.awakened_pyromancer.firestorm_form": {
     "category": "master",
     "sounds": [
-      "samus_awakened_pyromancer_sounds:samus/awakened_pyromancer/firestorm_form"
+      {
+        "name": "samus_awakened_pyromancer_sounds:samus/awakened_pyromancer/firestorm_form",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
     ]
   }
 }
