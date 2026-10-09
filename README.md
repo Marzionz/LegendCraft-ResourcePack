@@ -117,8 +117,10 @@ pwsh -File deploy-rigs.ps1 -Rig wept,glassjackal,sorrowmoth,eyeless_warden,grief
 
 `tools/merge_dev_pack.py` (durable, re-runnable) builds `dist/LegendCraft-Pack-dev.zip` —
 the pack mc-dev points at — by merging the BetterModel, BetterHud and MythicArmors generated
-packs with our built pack, preserving every source's `pack.mcmeta` OVERLAYS (dropping BetterHud's is
-exactly how the HUD broke on 2026-08-03). Run `build.ps1` first, run this after the server
+packs with our built pack, preserving every source's `pack.mcmeta` OVERLAYS (BetterHud's text
+shaders live only in its overlays). Every format range in the merged `pack.mcmeta` is bounded at
+`TESTED_MAX_FORMAT` in `tools/pack_formats.py`: a range reaching past it is cut to it, an overlay
+starting above it leaves the manifest, and the merge prints each one. Run `build.ps1` first, run this after the server
 has booted with the current models, upload with `gh release upload dev ... --clobber`, pin
 the printed sha1 in mc-dev `server.properties`, restart.
 
@@ -151,7 +153,9 @@ end is `tools/deploy-hud.ps1`, and `hud/betterhud/README.md` is the detail.
 | pattern slashes | a `pattern:` anywhere in `hud/betterhud/` carrying a slash run that is not `//` with a colour tag on each side — BetterHud's text parser eats one slash and fuses the literal in front of it onto the next placeholder token, refusing the whole hud |
 | YAML shape | an element with no name or layer, a condition missing `first`/`second`/`operation`, a layer outside the generator's band, an image reference resolving to no file, a layout drawing an unregistered image, a hud composing an undefined layout |
 | pack manifest | a merge that drops item models, sounds, `sounds.json`, or plugin-contributed assets its inputs carried |
-| pack.mcmeta formats | a `pack_format` of 80 or more with no `min_format`/`max_format`, or a triple that does not contain its own `pack_format` — the client answers that by discarding every overlay in the pack, and BetterHud ships its shader cores only in overlays |
+| pack.mcmeta formats | a `pack_format` of 80 or more with no `min_format`/`max_format`, or a triple that does not contain its own `pack_format` — the client answers that by discarding every overlay in the pack, and BetterHud ships its shader cores only in overlays; and any base or overlay range, in either form, starting above its own end or ending above `TESTED_MAX_FORMAT` |
+| merge format bound | a dev pack merge that carries a plugin pack's overlay range past `TESTED_MAX_FORMAT`, or keeps an overlay starting above it |
+| overlay shaders | a core shader still using `#moj_import` in an overlay whose range reaches `MOJ_IMPORT_REJECTED_FORMAT` — a client there cannot compile it and rejects the whole pack |
 | shader-template clear | a HUD deploy that would restart onto BetterHud's stale `shaders/text.{vsh,fsh}`, which override the vanilla global text shaders and dim all game text |
 
 The placeholder gate reads `HudPlaceholders.java` out of a sibling `LegendCraft-Classes`

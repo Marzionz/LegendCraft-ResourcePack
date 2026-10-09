@@ -95,7 +95,7 @@ def check_ranges(meta, where, failures):
     sections += [("overlay %s" % entry.get("directory"), entry, OVERLAY_RANGE_KEY)
                  for entry in meta.get("overlays", {}).get("entries", [])]
     for name, section, range_key in sections:
-        for low, high in declared_ranges(section, range_key):
+        for low, high in dict.fromkeys(declared_ranges(section, range_key)):
             if not (isinstance(low, int) and isinstance(high, int)):
                 failures.append("%s: %s declares a range bound that is not a format: %r..%r"
                                 % (where, name, low, high))
