@@ -1,5 +1,5 @@
 {
-  "credit": "LegendCraft — Permafrost sigil, Cryomancer overhead curse mark (crossed-plane snowflake ring, currency-ring trick). STATIC asset: the plugin hovers it ~2.5 blocks over the target and drives the slow spin as per-tick yaw on the ItemDisplay.",
+  "credit": "LegendCraft — Permafrost sigil, Cryomancer curse mark (crossed-plane snowflake ring, currency-ring trick). STATIC asset: the plugin stands it upright at the target's chest, off the body toward each viewer, and drives the slow clock-face spin about the flake's own axis on the ItemDisplay.",
   "texture_size": [32, 32],
   "textures": {
     "0": "legendcraft:item/classes/permafrost_sigil",
