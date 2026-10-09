@@ -97,6 +97,14 @@ $shaPath = "$zipPath.sha1"
 if (-not (Test-Path $shaPath)) { throw "SHA1 sidecar missing: $shaPath (merge_dev_pack.py writes it alongside the zip)." }
 $sha    = (Get-Content $shaPath -Raw).Trim()
 
+# One core shader a client cannot compile makes it reject the whole pack. The gate reads only the
+# pack itself, so unlike the manifest audit below it applies to every pack published, wherever
+# it was built.
+& python (Join-Path $PSScriptRoot "check_overlay_shaders.py") --pack $zipPath
+if ($LASTEXITCODE -ne 0) {
+    throw "Refusing to publish $($zipPath): an overlay carries a core shader a client it applies to cannot compile (see above)."
+}
+
 # Nothing goes out that has quietly lost content. A merge over a stale input produces a valid
 # zip that is simply missing things, so the failure is invisible until a player joins and the
 # art is not there. The audit compares against THIS repo's src/, so it applies to a pack built
