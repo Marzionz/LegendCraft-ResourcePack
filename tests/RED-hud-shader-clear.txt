@@ -1,0 +1,12 @@
+﻿
+SHD  the shader-template clear
+  FAIL SHD-01  both templates removed, each named in the output
+  FAIL SHD-02  a second run succeeds and reports both already absent
+  FAIL SHD-03  a shader that is not one of the two templates is left alone
+  FAIL SHD-04  a directory standing in for a template is refused by name, and survives
+  FAIL SHD-05  a BetterHud root with no shaders/ succeeds
+
+WIRE the deploy's use of it
+  FAIL WIRE-01  deploy-hud.ps1 clears the templates before it restarts the server
+
+0 passed, 6 failed
