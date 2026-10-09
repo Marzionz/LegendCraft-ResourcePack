@@ -13,20 +13,20 @@
     "entries": [
       {
         "formats": [
-          84,
-          87
+          87,
+          84
         ],
-        "min_format": 84,
-        "max_format": 87,
+        "min_format": 87,
+        "max_format": 84,
         "directory": "legendcraft_26_1"
       },
       {
         "formats": [
           88,
-          89
+          88
         ],
         "min_format": 88,
-        "max_format": 89,
+        "max_format": 88,
         "directory": "legendcraft_26_2"
       }
     ]
