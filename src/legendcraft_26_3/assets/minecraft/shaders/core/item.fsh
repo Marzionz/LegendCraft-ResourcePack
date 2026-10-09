@@ -2,7 +2,7 @@
 #extension GL_ARB_separate_shader_objects : require
 
 #include <minecraft:globals.glsl>
-#moj_import <minecraft:fog.glsl>
+#include <minecraft:fog.glsl>
 #include <minecraft:dynamictransforms.glsl>
 #include <minecraft:oit.glsl>
 #include <legendcraft:void_window.glsl>
