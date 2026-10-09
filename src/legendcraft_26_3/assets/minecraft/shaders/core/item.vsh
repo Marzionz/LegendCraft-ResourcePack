@@ -39,8 +39,8 @@ layout(location = 8) out vec3 voidNormal;
 layout(location = 9) out float voidFade;
 layout(location = 10) out float voidMarked;
 
-// An item tinted green 1, blue 254 is a void window (tools/void_marker.py). Its red is the window's
-// fade, and its ordinary texels are tinted grey by that red alone, so the mark never colours them.
+// An item tinted green 1, blue 254 is a void window. Its red is the window's fade, and its ordinary
+// texels are tinted grey by that red alone, so the mark never colours them.
 bool is_void_mark(vec4 tint) {
     return abs(tint.g * 255.0 - 1.0) < 0.5 && abs(tint.b * 255.0 - 254.0) < 0.5;
 }
