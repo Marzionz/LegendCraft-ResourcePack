@@ -94,6 +94,16 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python tools/test_merge_dev_pack.py
 
+      # No overlay a client from MOJ_IMPORT_REJECTED_FORMAT up applies carries a core shader it
+      # cannot compile: one such shader makes the client reject the whole pack.
+      - name: Gate - overlay shaders
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/check_overlay_shaders.py
+
+      - name: Gate - overlay shaders acceptance suite
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/test_check_overlay_shaders.py
+
       # The pack-channel rules: a versioned release is immutable, and promotion is the only
       # path from the dev loop to one.
       - name: Gate - pack pin and promotion

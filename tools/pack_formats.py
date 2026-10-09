@@ -42,3 +42,7 @@ def declared_ranges(section, range_key):
 
 def describe(ranges):
     return ", ".join("%s-%s" % (low, high) for low, high in ranges)
+
+# The first client pack format whose shader compiler rejects `#moj_import`. A core shader still
+# importing that way fails to compile there, and the client rejects the whole pack.
+MOJ_IMPORT_REJECTED_FORMAT = 97
