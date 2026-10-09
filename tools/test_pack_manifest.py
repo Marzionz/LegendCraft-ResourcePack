@@ -46,6 +46,8 @@ rejects the whole pack.
 13. A manifest whose overlay range starts above its own end is refused, naming the overlay.
 14. A merge over plugin packs declaring overlays to format 65535 passes: the merge bounds them.
 15. A built pack whose manifest still carries such an overlay is refused under --pack.
+16. A [major, minor] range is ordered by minor within a major: `TESTED.2..TESTED.1` is refused,
+    `TESTED.1..TESTED.2` passes.
 
     python tools/test_pack_manifest.py
 """
@@ -94,6 +96,10 @@ UNBOUNDED_OVERLAY = {"min_format": 84, "max_format": UNBOUNDED,
                      "directory": "mythicarmors_26_1"}
 FORMATS_ONLY_BEYOND_OVERLAY = {"formats": [84, BEYOND_TESTED], "min_format": 84,
                                "max_format": TESTED_MAX_FORMAT, "directory": "betterhud_26_1"}
+MINOR_INVERTED_OVERLAY = {"min_format": [TESTED_MAX_FORMAT, 2],
+                          "max_format": [TESTED_MAX_FORMAT, 1], "directory": "minor_inverted"}
+MINOR_ORDERED_OVERLAY = {"min_format": [TESTED_MAX_FORMAT, 1],
+                         "max_format": [TESTED_MAX_FORMAT, 2], "directory": "minor_ordered"}
 INVERTED_OVERLAY = {"formats": [TESTED_MAX_FORMAT, 84], "min_format": TESTED_MAX_FORMAT,
                     "max_format": 84, "directory": "inverted"}
 UNBOUNDED_BASE_MCMETA = {"pack": {"pack_format": 84, "min_format": 9, "max_format": 84,
@@ -281,6 +287,15 @@ class PackManifestTest(unittest.TestCase):
         result = audit_manifest(self.with_mcmeta(with_overlays(INVERTED_OVERLAY)))
         self.assertEqual(1, result.returncode, result.stdout)
         self.assertIn("inverted", result.stdout)
+
+    def test_a_minor_version_range_starting_above_its_end_is_refused(self):
+        result = audit_manifest(self.with_mcmeta(with_overlays(MINOR_INVERTED_OVERLAY)))
+        self.assertEqual(1, result.returncode, result.stdout)
+        self.assertIn("minor_inverted", result.stdout)
+
+    def test_a_minor_version_range_in_order_passes(self):
+        result = audit_manifest(self.with_mcmeta(with_overlays(MINOR_ORDERED_OVERLAY)))
+        self.assertEqual(0, result.returncode, result.stdout)
 
     def test_a_merge_over_unbounded_plugin_overlays_passes(self):
         unbounded = os.path.join(self.workspace, "mythicarmors-pack.zip")

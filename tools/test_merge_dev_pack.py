@@ -13,6 +13,8 @@ Acceptance criteria:
 3. An overlay already inside the tested range comes through unchanged.
 4. The merge reports every clamp and every drop, naming the overlay directory, and main()
    prints the report.
+5. A base pack declaring a pack_format above TESTED_MAX_FORMAT stops the merge, and so does one
+   whose range starts above it; a base declaring exactly TESTED_MAX_FORMAT merges unchanged.
 
     python tools/test_merge_dev_pack.py
 """
@@ -69,6 +71,21 @@ FUTURE_ONLY_MCMETA = {
 BASE_MCMETA = {
     "pack": {"pack_format": TESTED_MAX_FORMAT, "description": "base",
              "supported_formats": [9, UNBOUNDED], "min_format": 9, "max_format": UNBOUNDED},
+}
+
+
+BASE_FORMAT_BEYOND_MCMETA = {
+    "pack": {"pack_format": FUTURE, "description": "base", "min_format": 9,
+             "max_format": TESTED_MAX_FORMAT},
+}
+BASE_RANGE_BEYOND_MCMETA = {
+    "pack": {"pack_format": TESTED_MAX_FORMAT, "description": "base", "min_format": FUTURE,
+             "max_format": FUTURE + 1},
+}
+BASE_AT_CEILING_MCMETA = {
+    "pack": {"pack_format": TESTED_MAX_FORMAT, "description": "base",
+             "supported_formats": [TESTED_MAX_FORMAT, TESTED_MAX_FORMAT],
+             "min_format": TESTED_MAX_FORMAT, "max_format": TESTED_MAX_FORMAT},
 }
 
 
@@ -143,6 +160,25 @@ class MergeFormatBoundTest(unittest.TestCase):
         self.assertNotIn("betterhud_1_21_6", report)
         self.assertIn("dropped", report)
         self.assertIn("clamped", report)
+
+    def merge_over_base(self, mcmeta):
+        write_zip(self.sources[-1], mcmeta, "assets/base/marker.json")
+        return merge_dev_pack.merge(self.sources)
+
+    def test_a_base_declaring_a_format_above_the_ceiling_stops_the_merge(self):
+        with self.assertRaises(SystemExit) as stopped:
+            self.merge_over_base(BASE_FORMAT_BEYOND_MCMETA)
+        self.assertIn("declares format %d" % FUTURE, str(stopped.exception))
+
+    def test_a_base_range_starting_above_the_ceiling_stops_the_merge(self):
+        with self.assertRaises(SystemExit) as stopped:
+            self.merge_over_base(BASE_RANGE_BEYOND_MCMETA)
+        self.assertIn("%d-%d" % (FUTURE, FUTURE + 1), str(stopped.exception))
+
+    def test_a_base_at_the_ceiling_merges_unchanged(self):
+        entries, report = self.merge_over_base(BASE_AT_CEILING_MCMETA)
+        self.assertEqual(BASE_AT_CEILING_MCMETA["pack"], json.loads(entries["pack.mcmeta"])["pack"])
+        self.assertNotIn("the base", "\n".join(report))
 
     def test_main_prints_the_report(self):
         dist = os.path.join(self.workspace, "dist")
