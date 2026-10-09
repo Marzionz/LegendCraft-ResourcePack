@@ -29,7 +29,8 @@ MOJ_IMPORT = b"#moj_import"
 
 def overlays_reaching(meta, fmt):
     return [entry["directory"] for entry in meta.get("overlays", {}).get("entries", [])
-            if any(high >= fmt for _, high in declared_ranges(entry, OVERLAY_RANGE_KEY))]
+            if any(high is not None and high[0] >= fmt
+                   for _, high in declared_ranges(entry, OVERLAY_RANGE_KEY))]
 
 
 def core_shaders(directories, names):

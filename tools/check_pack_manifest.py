@@ -41,7 +41,8 @@ import os
 import sys
 import zipfile
 
-from pack_formats import OVERLAY_RANGE_KEY, PACK_RANGE_KEY, TESTED_MAX_FORMAT, declared_ranges
+from pack_formats import (OVERLAY_RANGE_KEY, PACK_RANGE_KEY, TESTED_MAX_FORMAT, declared_ranges,
+                          describe)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
@@ -96,15 +97,16 @@ def check_ranges(meta, where, failures):
                  for entry in meta.get("overlays", {}).get("entries", [])]
     for name, section, range_key in sections:
         for low, high in dict.fromkeys(declared_ranges(section, range_key)):
-            if not (isinstance(low, int) and isinstance(high, int)):
-                failures.append("%s: %s declares a range bound that is not a format: %r..%r"
-                                % (where, name, low, high))
+            shown = describe([(low, high)])
+            if low is None or high is None:
+                failures.append("%s: %s declares %s, a bound that is not a format"
+                                % (where, name, shown))
             elif low > high:
-                failures.append("%s: %s declares %d..%d, starting above its own end"
-                                % (where, name, low, high))
-            elif high > TESTED_MAX_FORMAT:
-                failures.append("%s: %s declares %d..%d, ending above format %d, the newest the "
-                                "pack is tested on" % (where, name, low, high, TESTED_MAX_FORMAT))
+                failures.append("%s: %s declares %s, starting above its own end"
+                                % (where, name, shown))
+            elif high[0] > TESTED_MAX_FORMAT:
+                failures.append("%s: %s declares %s, ending above format %d, the newest the "
+                                "pack is tested on" % (where, name, shown, TESTED_MAX_FORMAT))
 
 
 def check_manifest(raw, where, failures):

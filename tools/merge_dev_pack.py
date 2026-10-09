@@ -69,10 +69,10 @@ def bound_formats(meta, ceiling):
     report = []
     pack = meta["pack"]
     ranges = declared_ranges(pack, PACK_RANGE_KEY)
-    if pack.get("pack_format", 0) > ceiling or any(low > ceiling for low, _ in ranges):
+    if pack.get("pack_format", 0) > ceiling or any(low[0] > ceiling for low, _ in ranges):
         raise SystemExit("the base pack.mcmeta declares format %s, range %s, above format %d"
                          % (pack.get("pack_format"), describe(ranges), ceiling))
-    if any(high > ceiling for _, high in ranges):
+    if any(high[0] > ceiling for _, high in ranges):
         clamp_upper(pack, PACK_RANGE_KEY, ceiling)
         report.append("clamped the base range %s to end at %d" % (describe(ranges), ceiling))
 
@@ -80,11 +80,11 @@ def bound_formats(meta, ceiling):
     kept = []
     for entry in overlays:
         ranges = declared_ranges(entry, OVERLAY_RANGE_KEY)
-        if any(low > ceiling for low, _ in ranges):
+        if any(low[0] > ceiling for low, _ in ranges):
             report.append("dropped overlay %s: range %s starts above %d"
                           % (entry.get("directory"), describe(ranges), ceiling))
             continue
-        if any(high > ceiling for _, high in ranges):
+        if any(high[0] > ceiling for _, high in ranges):
             clamp_upper(entry, OVERLAY_RANGE_KEY, ceiling)
             report.append("clamped overlay %s: range %s to end at %d"
                           % (entry.get("directory"), describe(ranges), ceiling))

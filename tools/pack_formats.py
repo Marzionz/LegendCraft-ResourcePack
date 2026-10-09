@@ -19,30 +19,59 @@ def major(bound):
     return bound[0] if isinstance(bound, list) else bound
 
 
-def declared_ranges(section, range_key):
-    """Every (low, high) range a pack section or overlay entry declares, one per form present.
+# A bare major as an upper bound admits every minor of that major; as a lower bound, from its
+# first.
+ANY_MINOR = float("inf")
 
-    The older form is an int, a [low, high] list or a {min_inclusive, max_inclusive} object; a
-    client reads whichever form it understands, so each is a claim of its own.
+
+def version(bound, bare_minor):
+    """A bound as a (major, minor) pair, ordered as the client orders formats; None if the bound
+    is not a format."""
+    if isinstance(bound, bool):
+        return None
+    if isinstance(bound, int):
+        return (bound, bare_minor)
+    if (isinstance(bound, list) and 1 <= len(bound) <= 2
+            and all(isinstance(part, int) and not isinstance(part, bool) for part in bound)):
+        return (bound[0], bound[1] if len(bound) == 2 else bare_minor)
+    return None
+
+
+def declared_ranges(section, range_key):
+    """Every (low, high) range a pack section or overlay entry declares, one per form present,
+    each bound a (major, minor) pair from `version`.
+
+    The older form is an int, a [low, high] list or a {min_inclusive, max_inclusive} object of
+    majors; a client reads whichever form it understands, so each is a claim of its own.
     """
     ranges = []
     if "min_format" in section or "max_format" in section:
         low = section.get("min_format", section.get("max_format"))
         high = section.get("max_format", low)
-        ranges.append((major(low), major(high)))
+        ranges.append((version(low, 0), version(high, ANY_MINOR)))
     value = section.get(range_key)
-    if isinstance(value, int):
-        ranges.append((value, value))
-    elif isinstance(value, list) and value:
-        ranges.append((major(value[0]), major(value[-1])))
-    elif isinstance(value, dict):
-        ranges.append((value.get("min_inclusive"), value.get("max_inclusive")))
+    if isinstance(value, list) and value:
+        value = {"min_inclusive": value[0], "max_inclusive": value[-1]}
+    elif not isinstance(value, dict) and value is not None:
+        value = {"min_inclusive": value, "max_inclusive": value}
+    if isinstance(value, dict):
+        ranges.append((version(value.get("min_inclusive"), 0),
+                       version(value.get("max_inclusive"), ANY_MINOR)))
     return ranges
+
+
+def version_text(bound):
+    if bound is None:
+        return "?"
+    if bound[1] in (0, ANY_MINOR):
+        return str(bound[0])
+    return "%d.%d" % bound
 
 
 def describe(ranges):
     """The ranges as `low-high`, each written once however many forms declare it."""
-    return ", ".join("%s-%s" % (low, high) for low, high in dict.fromkeys(ranges))
+    return ", ".join("%s-%s" % (version_text(low), version_text(high))
+                     for low, high in dict.fromkeys(ranges))
 
 # The first client pack format whose shader compiler rejects `#moj_import`. A core shader still
 # importing that way fails to compile there, and the client rejects the whole pack.
