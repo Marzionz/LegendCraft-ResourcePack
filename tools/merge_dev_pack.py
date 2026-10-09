@@ -18,7 +18,9 @@ Every range in the merged pack.mcmeta is bounded at TESTED_MAX_FORMAT. The plugi
 overlays reaching formats no one has run them on (MythicArmors' reach 65535), and a client that
 applies an overlay whose core shaders it cannot compile rejects the whole pack. A range ending
 above the bound is cut to it in both forms; an overlay starting above it is dropped from the
-manifest, its files left in place and unread. Each clamp and drop is printed.
+manifest, its files left in place and unread. An overlay whose core shaders still use
+`#moj_import` is bounded below MOJ_IMPORT_REJECTED_FORMAT the same way, since a client from that
+format up cannot compile them. Each clamp and drop is printed.
 
 Prints the sha1 to pin in mc-dev server.properties; upload with
   gh release upload dev dist/LegendCraft-Pack-dev.zip --clobber
@@ -30,8 +32,9 @@ import os
 import re
 import zipfile
 
-from pack_formats import (OVERLAY_RANGE_KEY, PACK_RANGE_KEY, TESTED_MAX_FORMAT,
-                          declared_ranges, describe, major)
+from check_overlay_shaders import MOJ_IMPORT, core_shaders
+from pack_formats import (MOJ_IMPORT_REJECTED_FORMAT, OVERLAY_RANGE_KEY, PACK_RANGE_KEY,
+                          TESTED_MAX_FORMAT, declared_ranges, describe, major)
 
 RP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCES = [
@@ -64,8 +67,9 @@ def clamp_upper(section, range_key, ceiling):
         value["max_inclusive"] = ceiling
 
 
-def bound_formats(meta, ceiling):
-    """Bound `meta`'s base range and overlay ranges at `ceiling`, returning one line per change."""
+def bound_formats(meta, ceiling, importing=frozenset()):
+    """Bound `meta`'s base range and overlay ranges at `ceiling`, and the overlays named in
+    `importing` below MOJ_IMPORT_REJECTED_FORMAT, returning one line per change."""
     report = []
     pack = meta["pack"]
     ranges = declared_ranges(pack, PACK_RANGE_KEY)
@@ -79,15 +83,20 @@ def bound_formats(meta, ceiling):
     overlays = meta.get("overlays", {}).get("entries", [])
     kept = []
     for entry in overlays:
+        directory = entry.get("directory")
+        limit, reason = ceiling, ""
+        if directory in importing and ceiling >= MOJ_IMPORT_REJECTED_FORMAT:
+            limit = MOJ_IMPORT_REJECTED_FORMAT - 1
+            reason = " (its core shaders use #moj_import)"
         ranges = declared_ranges(entry, OVERLAY_RANGE_KEY)
-        if any(low[0] > ceiling for low, _ in ranges):
-            report.append("dropped overlay %s: range %s starts above %d"
-                          % (entry.get("directory"), describe(ranges), ceiling))
+        if any(low[0] > limit for low, _ in ranges):
+            report.append("dropped overlay %s: range %s starts above %d%s"
+                          % (directory, describe(ranges), limit, reason))
             continue
-        if any(high[0] > ceiling for _, high in ranges):
-            clamp_upper(entry, OVERLAY_RANGE_KEY, ceiling)
-            report.append("clamped overlay %s: range %s to end at %d"
-                          % (entry.get("directory"), describe(ranges), ceiling))
+        if any(high[0] > limit for _, high in ranges):
+            clamp_upper(entry, OVERLAY_RANGE_KEY, limit)
+            report.append("clamped overlay %s: range %s to end at %d%s"
+                          % (directory, describe(ranges), limit, reason))
         kept.append(entry)
     if overlays:
         meta["overlays"]["entries"] = kept
@@ -111,7 +120,10 @@ def merge(source_paths):
     meta = json.loads(entries["pack.mcmeta"])  # the last source's: it won the conflict
     if overlay_entries:
         meta["overlays"] = {"entries": overlay_entries}
-    report = bound_formats(meta, TESTED_MAX_FORMAT)
+    importing = {entry.get("directory") for entry in overlay_entries
+                 if any(MOJ_IMPORT in entries[name]
+                        for name in core_shaders([entry.get("directory")], entries))}
+    report = bound_formats(meta, TESTED_MAX_FORMAT, importing)
     entries["pack.mcmeta"] = json.dumps(meta).encode()
     return entries, report
 
