@@ -69,7 +69,7 @@ def bound_formats(meta, ceiling):
     report = []
     pack = meta["pack"]
     ranges = declared_ranges(pack, PACK_RANGE_KEY)
-    if pack.get("pack_format", 0) > ceiling or any(low[0] > ceiling for low, _ in ranges):
+    if any(low[0] > ceiling for low, _ in ranges):
         raise SystemExit("the base pack.mcmeta declares format %s, range %s, above format %d"
                          % (pack.get("pack_format"), describe(ranges), ceiling))
     if any(high[0] > ceiling for _, high in ranges):
