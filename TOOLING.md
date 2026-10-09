@@ -8,13 +8,15 @@ tree, alongside `mobs-src/` and `tools/`).
 |---|---|---|
 | `build.ps1` | zips `src/` into `dist/LegendCraft-Pack-<version>.zip` and prints the SHA1 Paper needs for `setResourcePack` | none |
 | `deploy-rigs.ps1` | stages named `.bbmodel` rigs — mobs, or props under `-Prop` — from the authoring tree into a BetterModel-shaped folder, and writes the verification list the owner works through at the box | `tests/run-deploy-rigs-tests.ps1` |
+| `tools/generate_skill_cards.py` | writes the codex skill-card tooltip styles (nine-slice background and frame sprites, the Bloodweaver ultimate corner ornaments and their pulse) and the stat-marks font under `src/`, from the approved ornament art in `tools/skill_card_art/` | `tools/test_generate_skill_cards.py`, which also holds the committed assets equal to generator output |
 | `tools/generate_hud.py` | writes the HUD art and the BetterHud YAML under `hud/` | `tools/test_generate_hud.py`, plus the CI drift gate |
 | `tools/deploy-hud.ps1` | the whole HUD loop against mc-dev: regenerate, copy, clear the stale text shader templates, restart, merge, publish, repoint, restart | none — it drives a live server; the shader-clear step it calls is covered |
 | `tools/clear-hud-shaders.ps1` | removes BetterHud's `shaders/text.{vsh,fsh}` so the next boot regenerates them | `tests/run-hud-shader-clear-tests.ps1` |
 | `tools/merge_dev_pack.py` | merges the plugin build zips with the newest built base pack into `dist/LegendCraft-Pack-dev.zip` | `tools/test_pack_manifest.py` |
 | `tools/publish-pack.ps1` | uploads a pack to the rolling `dev` pre-release, or promotes a tested dev pack to an immutable `v<version>` | `tests/run-pack-pin-tests.ps1` |
 | `tools/check-pack-pin.ps1` | the production pre-start guard: refuses a dev pin, an absent pin, or a sha1 that is not the bytes at the pinned URL | `tests/run-pack-pin-tests.ps1` |
-| `tools/check_generator_drift.py` | the committed `hud/` tree equals generator output; images compared by decoded pixels, everything else byte for byte | CI gate |
+| `tools/gen-flipbook-frames.py` | writes one item model, and the textures it wears, per frame of every flat flipbook named in `mobs-src/props/FLIPBOOKS.md`, under `src/assets/legendcraft/{items,models/item,textures/item}/classes/` | the CI drift gate |
+| `tools/check_generator_drift.py` | the committed `hud/` tree and flipbook frames equal generator output; images compared by decoded pixels, everything else byte for byte | CI gate |
 | `tools/check_hud_placeholders.py` | every `papi:legendcraft_*` the HUD reads names a case in `LegendCraft-Classes`' expansion source | `tools/test_hud_placeholders.py` |
 | `tools/check_hud_yaml.py` | the BetterHud files parse and hold the generator's invariants, and every `pattern:` in the tree obeys the text parser's slash rule | `tools/test_hud_yaml.py` |
 | `tools/check_pack_manifest.py` | a merged pack still carries what its inputs put in, and its `pack.mcmeta` declares the format range the client needs before it applies any of it (`--manifest-only` audits `src/pack.mcmeta` alone, which is what CI can reach) | `tools/test_pack_manifest.py` |

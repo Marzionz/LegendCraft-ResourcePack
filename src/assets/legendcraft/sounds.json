@@ -1,0 +1,772 @@
+{
+  "pyromancer.conflagration_charge": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/conflagration_charge"
+    ]
+  },
+  "pyromancer.conflagration_blast": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/conflagration_blast"
+    ]
+  },
+  "pyromancer.conflagration_blast_low": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:pyromancer/conflagration_blast_low"
+    ]
+  },
+  "brawler.unending_blows_finisher": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:brawler/unending_blows_finisher"
+    ]
+  },
+  "seraph.wrath_thunder": {
+    "category": "master",
+    "subtitle": "subtitles.item.trident.thunder",
+    "sounds": [
+      {
+        "name": "minecraft:item/trident/thunder1",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:item/trident/thunder2",
+        "volume": 0.2,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "seraph.ascension_unfurl": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_unfurl",
+        "volume": 0.325,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_note": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_note",
+        "volume": 0.2,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_0": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_1": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_2": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_3": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_4": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_5": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_6": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_7": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_8": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_9": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_10": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_11": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_12": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_13": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_14": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_bed_15": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_bed",
+        "volume": 0.15,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_full_heal": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_full_heal",
+        "volume": 0.5,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "seraph.ascension_finale": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:seraph/ascension_finale",
+        "volume": 0.225,
+        "attenuation_distance": 32
+      }
+    ]
+  },
+  "shadowmancer.maw_bite": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:shadowmancer/maw_bite",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.maw_cast": {
+    "category": "master",
+    "subtitle": "subtitles.block.respawn_anchor.charge",
+    "sounds": [
+      {
+        "name": "minecraft:block/respawn_anchor/charge1",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/respawn_anchor/charge2",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/respawn_anchor/charge3",
+        "volume": 0.2333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.maw_release": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:shadowmancer/maw_release",
+        "volume": 0.2667,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.maw_seal": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:shadowmancer/maw_seal",
+        "volume": 0.3,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.maw_silence_pulse": {
+    "category": "master",
+    "subtitle": "subtitles.block.sculk_sensor.clicking",
+    "sounds": [
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking1",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking2",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking3",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking4",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking5",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "minecraft:block/sculk_sensor/sculk_clicking6",
+        "volume": 0.1217,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.nightfall_cast": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_cast"
+    ]
+  },
+  "shadowmancer.nightfall_fall": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_fall"
+    ]
+  },
+  "shadowmancer.nightfall_heartbeat": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:shadowmancer/nightfall_heartbeat",
+        "attenuation_distance": 128
+      }
+    ]
+  },
+  "shadowmancer.nightfall_laugh": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_laugh"
+    ]
+  },
+  "shadowmancer.nightfall_reveal_hot": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_reveal_hot"
+    ]
+  },
+  "shadowmancer.nightfall_runes": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/nightfall_runes"
+    ]
+  },
+  "shadowmancer.shadowstep_patch": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/shadowstep_patch"
+    ]
+  },
+  "shadowmancer.shadowstep_phase": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/shadowstep_phase"
+    ]
+  },
+  "shadowmancer.shadowstep_swallow": {
+    "category": "master",
+    "sounds": [
+      "legendcraft:shadowmancer/shadowstep_swallow"
+    ]
+  },
+  "shadowmancer.void_bolt_cast": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_cast",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.void_bolt_detonate": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_detonate",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.void_bolt_execute": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_execute",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.void_bolt_impact": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_impact",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "shadowmancer.void_bolt_release": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:shadowmancer/void_bolt_release",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.loose": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/quickshot",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.hit": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/bowhit1"
+      },
+      {
+        "name": "legendcraft:sniper/bowhit2"
+      },
+      {
+        "name": "legendcraft:sniper/bowhit3"
+      },
+      {
+        "name": "legendcraft:sniper/bowhit4"
+      }
+    ]
+  },
+  "sniper.charge_step": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/quickshot_stack"
+      }
+    ]
+  },
+  "sniper.hit_special": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/hit_confirm_special"
+      }
+    ]
+  },
+  "sniper.detonate": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/rupture_quick",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.detonate_ping": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/successful_hit",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.bolt_loose": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/shockwave_shot",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.bolt_impact": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/trident_pierce1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "legendcraft:sniper/trident_pierce2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "legendcraft:sniper/trident_pierce3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.bolt_pierce": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/trident_pierce1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "legendcraft:sniper/trident_pierce2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "legendcraft:sniper/trident_pierce3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.blitz_plant": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/mace_smash_ground_heavy",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.blitz_plant_latch": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/crossbow_loading_end",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.blitz_shot": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/crossbow_shoot1",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "legendcraft:sniper/crossbow_shoot2",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      },
+      {
+        "name": "legendcraft:sniper/crossbow_shoot3",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.blitz_kick": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/blitz_kick",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.blitz_blast": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/blitz_blast",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.blitz_crack": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/fireworks_blast",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  },
+  "sniper.marked_crit": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/crit1"
+      },
+      {
+        "name": "legendcraft:sniper/crit2"
+      },
+      {
+        "name": "legendcraft:sniper/crit3"
+      }
+    ]
+  },
+  "sniper.apply_latch": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/crossbow_loading_end"
+      }
+    ]
+  },
+  "sniper.apply_ding": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/successful_hit"
+      }
+    ]
+  },
+  "sniper.full_ring": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/amethyst_resonate1"
+      },
+      {
+        "name": "legendcraft:sniper/amethyst_resonate2"
+      },
+      {
+        "name": "legendcraft:sniper/amethyst_resonate3"
+      },
+      {
+        "name": "legendcraft:sniper/amethyst_resonate4"
+      }
+    ]
+  },
+  "sniper.expire": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/spyglass_stop"
+      }
+    ]
+  },
+  "sniper.bolt_charge": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/crossbow_loading_end"
+      }
+    ]
+  },
+  "sniper.evasive_kick": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/wind_burst1"
+      },
+      {
+        "name": "legendcraft:sniper/wind_burst2"
+      },
+      {
+        "name": "legendcraft:sniper/wind_burst3"
+      }
+    ]
+  },
+  "sniper.reset_bell": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/bell"
+      }
+    ]
+  },
+  "sniper.reset_pling": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/pling"
+      }
+    ]
+  },
+  "sniper.blitz_stakes": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/mace_smash_ground1"
+      },
+      {
+        "name": "legendcraft:sniper/mace_smash_ground2"
+      },
+      {
+        "name": "legendcraft:sniper/mace_smash_ground3"
+      },
+      {
+        "name": "legendcraft:sniper/mace_smash_ground4"
+      }
+    ]
+  },
+  "sniper.release_load": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/crossbow_loading_start"
+      }
+    ]
+  },
+  "sniper.release_chain": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/chain_break1"
+      },
+      {
+        "name": "legendcraft:sniper/chain_break2"
+      },
+      {
+        "name": "legendcraft:sniper/chain_break3"
+      },
+      {
+        "name": "legendcraft:sniper/chain_break4"
+      }
+    ]
+  },
+  "sniper.hit_ding": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/successful_hit"
+      }
+    ]
+  },
+  "sniper.bolt_echo": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "legendcraft:sniper/bolt_echo",
+        "volume": 0.3333,
+        "attenuation_distance": 48
+      }
+    ]
+  }
+}

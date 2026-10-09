@@ -1,0 +1,38 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/pyro_conflag_stream_2",
+    "particle": "legendcraft:item/classes/pyro_conflag_stream_2"
+  },
+  "elements": [
+    {
+      "from": [-12, 8, 7.955],
+      "to": [28, 18, 7.955],
+      "faces": {
+        "north": {
+          "uv": [16, 0, 0, 16],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [0, 0, 0, 0],
+          "texture": "#0"
+        }
+      }
+    }
+  ]
+}

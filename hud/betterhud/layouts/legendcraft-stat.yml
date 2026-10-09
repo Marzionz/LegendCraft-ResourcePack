@@ -123,119 +123,149 @@ lc_stat:
       y: 11
       layer: 3
     19:
-      name: lc_state_poison
-      x: 12
-      y: 1
-      layer: 10
+      name: lc_air_empty
+      x: 11
+      y: -9
+      layer: 1
       conditions:
         1:
-          first: potion_effect_duration:poison
-          second: 0
-          operation: '!='
+          first: air
+          second: max_air
+          operation: '<'
     20:
-      name: lc_heart_poison
-      x: 0
-      y: 0
-      layer: 15
-      conditions:
-        1:
-          first: potion_effect_duration:poison
-          second: 0
-          operation: '!='
-    21:
-      name: lc_state_burning
+      name: lc_fill_air
       x: 12
-      y: 1
-      layer: 11
+      y: -8
+      layer: 2
       conditions:
         1:
-          first: burning
-          second: true
-          operation: '=='
+          first: air
+          second: max_air
+          operation: '<'
+    21:
+      name: lc_icon_air
+      x: 1
+      y: -10
+      layer: 3
+      conditions:
+        1:
+          first: air
+          second: max_air
+          operation: '<'
     22:
-      name: lc_heart_burning
-      x: 0
-      y: 0
-      layer: 16
-      conditions:
-        1:
-          first: burning
-          second: true
-          operation: '=='
-    23:
-      name: lc_state_freezing
+      name: lc_state_poison
       x: 12
       y: 1
       layer: 12
       conditions:
         1:
-          first: frozen
-          second: true
-          operation: '=='
-    24:
-      name: lc_heart_freezing
+          first: potion_effect_duration:poison
+          second: 0
+          operation: '!='
+    23:
+      name: lc_heart_poison
       x: 0
       y: 0
       layer: 17
       conditions:
         1:
-          first: frozen
-          second: true
-          operation: '=='
-    25:
-      name: lc_state_wither
+          first: potion_effect_duration:poison
+          second: 0
+          operation: '!='
+    24:
+      name: lc_state_burning
       x: 12
       y: 1
       layer: 13
       conditions:
         1:
-          first: potion_effect_duration:wither
-          second: 0
-          operation: '!='
-    26:
-      name: lc_heart_wither
+          first: burning
+          second: true
+          operation: '=='
+    25:
+      name: lc_heart_burning
       x: 0
       y: 0
       layer: 18
       conditions:
         1:
-          first: potion_effect_duration:wither
-          second: 0
-          operation: '!='
-    27:
-      name: lc_state_regeneration
+          first: burning
+          second: true
+          operation: '=='
+    26:
+      name: lc_state_freezing
       x: 12
       y: 1
       layer: 14
       conditions:
         1:
+          first: frozen
+          second: true
+          operation: '=='
+    27:
+      name: lc_heart_freezing
+      x: 0
+      y: 0
+      layer: 19
+      conditions:
+        1:
+          first: frozen
+          second: true
+          operation: '=='
+    28:
+      name: lc_state_wither
+      x: 12
+      y: 1
+      layer: 15
+      conditions:
+        1:
+          first: potion_effect_duration:wither
+          second: 0
+          operation: '!='
+    29:
+      name: lc_heart_wither
+      x: 0
+      y: 0
+      layer: 20
+      conditions:
+        1:
+          first: potion_effect_duration:wither
+          second: 0
+          operation: '!='
+    30:
+      name: lc_state_regeneration
+      x: 12
+      y: 1
+      layer: 16
+      conditions:
+        1:
           first: potion_effect_duration:regeneration
           second: 0
           operation: '!='
-    28:
+    31:
       name: lc_skill_frame
       x: 67
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    29:
+    32:
       name: lc_icon_placeholder
       x: 70
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    30:
+    33:
       name: lc_hud_archer_pin_shot
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -247,10 +277,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'archer'"
           operation: '=='
-    31:
+    34:
       name: lc_hud_warrior_power_strike
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -262,10 +292,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'warrior'"
           operation: '=='
-    32:
+    35:
       name: lc_hud_mage_fireball
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -277,10 +307,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'mage'"
           operation: '=='
-    33:
+    36:
       name: lc_hud_warlock_raise_thrall
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -292,10 +322,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'warlock'"
           operation: '=='
-    34:
+    37:
       name: lc_hud_priest_holy_mend
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -307,10 +337,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'priest'"
           operation: '=='
-    35:
-      name: lc_hud_thief_ambush
+    38:
+      name: lc_hud_thief_flurry
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -322,10 +352,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'thief'"
           operation: '=='
-    36:
+    39:
       name: lc_hud_hunter_ensnaring_trap
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -337,10 +367,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'hunter'"
           operation: '=='
-    37:
+    40:
       name: lc_hud_sniper_heartseeker
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -352,10 +382,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'sniper'"
           operation: '=='
-    38:
+    41:
       name: lc_hud_pyromancer_scorch
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -367,10 +397,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'pyromancer'"
           operation: '=='
-    39:
+    42:
       name: lc_hud_knight_bulwark
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -382,10 +412,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'knight'"
           operation: '=='
-    40:
+    43:
       name: lc_hud_ranger_hamstring
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -397,10 +427,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ranger'"
           operation: '=='
-    41:
+    44:
       name: lc_hud_cryomancer_ice_lance
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -412,10 +442,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'cryomancer'"
           operation: '=='
-    42:
+    45:
       name: lc_hud_berserker_savage_cleave
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -427,10 +457,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'berserker'"
           operation: '=='
-    43:
+    46:
       name: lc_hud_necromancer_raise_ghoul
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -442,10 +472,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'necromancer'"
           operation: '=='
-    44:
+    47:
       name: lc_hud_shadowmancer_shadowstep
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -457,10 +487,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shadowmancer'"
           operation: '=='
-    45:
+    48:
       name: lc_hud_doomsayer_curse_of_ruin
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -472,10 +502,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'doomsayer'"
           operation: '=='
-    46:
+    49:
       name: lc_hud_bloodweaver_crimson_bolt
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -487,10 +517,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'bloodweaver'"
           operation: '=='
-    47:
+    50:
       name: lc_hud_brawler_haymaker
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -502,10 +532,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'brawler'"
           operation: '=='
-    48:
+    51:
       name: lc_hud_seraph_radiant_touch
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -517,10 +547,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'seraph'"
           operation: '=='
-    49:
+    52:
       name: lc_hud_assassin_cloak
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -532,10 +562,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'assassin'"
           operation: '=='
-    50:
+    53:
       name: lc_hud_alchemist_caustic_flask
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -547,10 +577,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'alchemist'"
           operation: '=='
-    51:
+    54:
       name: lc_hud_rogue_grit
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -562,10 +592,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'rogue'"
           operation: '=='
-    52:
+    55:
       name: lc_hud_shaman_earthen_strike
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -577,10 +607,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shaman'"
           operation: '=='
-    53:
+    56:
       name: lc_hud_ninja_blur
       x: 70
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -592,21 +622,46 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ninja'"
           operation: '=='
-    54:
+    57:
       name: lc_cd_shroud_slot1
       x: 70
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    55:
+    58:
+      name: lc_window_sweep_slot1
+      x: 70
+      y: -32
+      layer: 5
+      conditions:
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+    59:
+      name: lc_recast_shine
+      x: 70
+      y: -32
+      layer: 7
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot1_recast"
+          second: "'1'"
+          operation: '=='
+    60:
       name: lc_oom_soft
       x: 70
-      y: -42
-      layer: 5
+      y: -32
+      layer: 6
       conditions:
         gate: and
         1:
@@ -617,11 +672,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_state"
           second: "'starved'"
           operation: '=='
-    56:
+    61:
       name: lc_deny_flash
       x: 70
-      y: -42
-      layer: 7
+      y: -32
+      layer: 9
       conditions:
         gate: and
         1:
@@ -632,11 +687,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_flash"
           second: "'deny'"
           operation: '=='
-    57:
+    62:
       name: lc_charge_row_0
       x: 74
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -647,11 +702,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_charges"
           second: "'0'"
           operation: '=='
-    58:
+    63:
       name: lc_charge_row_1
       x: 74
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -662,11 +717,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_charges"
           second: "'1'"
           operation: '=='
-    59:
+    64:
       name: lc_charge_row_2
       x: 74
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -677,11 +732,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_charges"
           second: "'2'"
           operation: '=='
-    60:
+    65:
       name: lc_charge_row_3
       x: 74
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -692,40 +747,40 @@ lc_stat:
           first: "papi:legendcraft_slot1_charges"
           second: "'3'"
           operation: '=='
-    61:
+    66:
       name: lc_input_slot1
       x: 73
-      y: -27
-      layer: 9
+      y: -17
+      layer: 11
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    62:
+    67:
       name: lc_skill_frame
       x: 91
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    63:
+    68:
       name: lc_icon_placeholder
       x: 94
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    64:
+    69:
       name: lc_hud_archer_rapid_fire
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -737,10 +792,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'archer'"
           operation: '=='
-    65:
+    70:
       name: lc_hud_warrior_charge
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -752,10 +807,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'warrior'"
           operation: '=='
-    66:
+    71:
       name: lc_hud_mage_arcane_ward
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -767,10 +822,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'mage'"
           operation: '=='
-    67:
+    72:
       name: lc_hud_warlock_shadow_bolt
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -782,10 +837,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'warlock'"
           operation: '=='
-    68:
+    73:
       name: lc_hud_priest_concoction
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -797,10 +852,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'priest'"
           operation: '=='
-    69:
-      name: lc_hud_thief_flurry
+    74:
+      name: lc_hud_thief_ambush
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -812,10 +867,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'thief'"
           operation: '=='
-    70:
+    75:
       name: lc_hud_hunter_venomous_arrow
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -827,10 +882,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'hunter'"
           operation: '=='
-    71:
+    76:
       name: lc_hud_sniper_bolt
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -842,10 +897,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'sniper'"
           operation: '=='
-    72:
+    77:
       name: lc_hud_pyromancer_flame_surge
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -857,10 +912,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'pyromancer'"
           operation: '=='
-    73:
+    78:
       name: lc_hud_knight_shield_bash
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -872,10 +927,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'knight'"
           operation: '=='
-    74:
+    79:
       name: lc_hud_ranger_quickstep
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -887,10 +942,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ranger'"
           operation: '=='
-    75:
+    80:
       name: lc_hud_cryomancer_permafrost
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -902,10 +957,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'cryomancer'"
           operation: '=='
-    76:
+    81:
       name: lc_hud_berserker_blood_rush
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -917,10 +972,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'berserker'"
           operation: '=='
-    77:
+    82:
       name: lc_hud_necromancer_soul_harvest
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -932,10 +987,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'necromancer'"
           operation: '=='
-    78:
+    83:
       name: lc_hud_shadowmancer_maw_of_shadow
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -947,10 +1002,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shadowmancer'"
           operation: '=='
-    79:
+    84:
       name: lc_hud_doomsayer_word_of_dread
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -962,10 +1017,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'doomsayer'"
           operation: '=='
-    80:
+    85:
       name: lc_hud_bloodweaver_hemorrhage
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -977,10 +1032,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'bloodweaver'"
           operation: '=='
-    81:
+    86:
       name: lc_hud_brawler_relentless_pursuit
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -992,10 +1047,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'brawler'"
           operation: '=='
-    82:
+    87:
       name: lc_hud_seraph_divine_wrath
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1007,10 +1062,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'seraph'"
           operation: '=='
-    83:
+    88:
       name: lc_hud_assassin_killing_blow
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1022,10 +1077,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'assassin'"
           operation: '=='
-    84:
+    89:
       name: lc_hud_alchemist_stimulant
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1037,10 +1092,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'alchemist'"
           operation: '=='
-    85:
+    90:
       name: lc_hud_rogue_sidestep
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1052,10 +1107,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'rogue'"
           operation: '=='
-    86:
+    91:
       name: lc_hud_shaman_soul_infusion
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1067,10 +1122,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shaman'"
           operation: '=='
-    87:
+    92:
       name: lc_hud_ninja_smoke_bomb
       x: 94
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1082,21 +1137,46 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ninja'"
           operation: '=='
-    88:
+    93:
       name: lc_cd_shroud_slot2
       x: 94
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    89:
+    94:
+      name: lc_window_sweep_slot2
+      x: 94
+      y: -32
+      layer: 5
+      conditions:
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+    95:
+      name: lc_recast_shine
+      x: 94
+      y: -32
+      layer: 7
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot2_recast"
+          second: "'1'"
+          operation: '=='
+    96:
       name: lc_oom_soft
       x: 94
-      y: -42
-      layer: 5
+      y: -32
+      layer: 6
       conditions:
         gate: and
         1:
@@ -1107,11 +1187,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_state"
           second: "'starved'"
           operation: '=='
-    90:
+    97:
       name: lc_deny_flash
       x: 94
-      y: -42
-      layer: 7
+      y: -32
+      layer: 9
       conditions:
         gate: and
         1:
@@ -1122,11 +1202,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_flash"
           second: "'deny'"
           operation: '=='
-    91:
+    98:
       name: lc_charge_row_0
       x: 98
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -1137,11 +1217,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_charges"
           second: "'0'"
           operation: '=='
-    92:
+    99:
       name: lc_charge_row_1
       x: 98
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -1152,11 +1232,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_charges"
           second: "'1'"
           operation: '=='
-    93:
+    100:
       name: lc_charge_row_2
       x: 98
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -1167,11 +1247,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_charges"
           second: "'2'"
           operation: '=='
-    94:
+    101:
       name: lc_charge_row_3
       x: 98
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -1182,40 +1262,40 @@ lc_stat:
           first: "papi:legendcraft_slot2_charges"
           second: "'3'"
           operation: '=='
-    95:
+    102:
       name: lc_input_slot2
       x: 97
-      y: -27
-      layer: 9
+      y: -17
+      layer: 11
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    96:
+    103:
       name: lc_skill_frame
       x: 115
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    97:
+    104:
       name: lc_icon_placeholder
       x: 118
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
-    98:
+    105:
       name: lc_hud_archer_grapple
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1227,10 +1307,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'archer'"
           operation: '=='
-    99:
+    106:
       name: lc_hud_warrior_grab
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1242,10 +1322,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'warrior'"
           operation: '=='
-    100:
+    107:
       name: lc_hud_mage_frost_bolt
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1257,10 +1337,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'mage'"
           operation: '=='
-    101:
+    108:
       name: lc_hud_warlock_mark_of_misery
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1272,10 +1352,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'warlock'"
           operation: '=='
-    102:
+    109:
       name: lc_hud_priest_spirit_burst
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1287,10 +1367,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'priest'"
           operation: '=='
-    103:
+    110:
       name: lc_hud_thief_roll
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1302,10 +1382,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'thief'"
           operation: '=='
-    104:
+    111:
       name: lc_hud_hunter_beast_companion
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1317,10 +1397,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'hunter'"
           operation: '=='
-    105:
+    112:
       name: lc_hud_sniper_evasive_shot
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1332,10 +1412,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'sniper'"
           operation: '=='
-    106:
+    113:
       name: lc_hud_pyromancer_ember_shell
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1347,10 +1427,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'pyromancer'"
           operation: '=='
-    107:
+    114:
       name: lc_hud_knight_war_cry
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1362,10 +1442,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'knight'"
           operation: '=='
-    108:
+    115:
       name: lc_hud_ranger_point_blank_shot
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1377,10 +1457,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ranger'"
           operation: '=='
-    109:
+    116:
       name: lc_hud_cryomancer_frost_nova
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1392,10 +1472,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'cryomancer'"
           operation: '=='
-    110:
+    117:
       name: lc_hud_berserker_reavers_throw
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1407,10 +1487,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'berserker'"
           operation: '=='
-    111:
+    118:
       name: lc_hud_necromancer_defile
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1422,10 +1502,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'necromancer'"
           operation: '=='
-    112:
+    119:
       name: lc_hud_shadowmancer_void_bolt
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1437,10 +1517,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shadowmancer'"
           operation: '=='
-    113:
+    120:
       name: lc_hud_doomsayer_contagion
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1452,10 +1532,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'doomsayer'"
           operation: '=='
-    114:
+    121:
       name: lc_hud_bloodweaver_sanguine_barrier
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1467,10 +1547,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'bloodweaver'"
           operation: '=='
-    115:
+    122:
       name: lc_hud_brawler_iron_grip
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1482,10 +1562,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'brawler'"
           operation: '=='
-    116:
+    123:
       name: lc_hud_seraph_luminous_bond
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1497,10 +1577,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'seraph'"
           operation: '=='
-    117:
+    124:
       name: lc_hud_assassin_stalk
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1512,10 +1592,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'assassin'"
           operation: '=='
-    118:
+    125:
       name: lc_hud_alchemist_volatile_concoction
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1527,10 +1607,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'alchemist'"
           operation: '=='
-    119:
+    126:
       name: lc_hud_rogue_riposte
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1542,10 +1622,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'rogue'"
           operation: '=='
-    120:
+    127:
       name: lc_hud_shaman_voltaic_lash
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1557,10 +1637,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shaman'"
           operation: '=='
-    121:
+    128:
       name: lc_hud_ninja_shuriken_volley
       x: 118
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1572,140 +1652,165 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ninja'"
           operation: '=='
-    122:
+    129:
       name: lc_cd_shroud_slot3
       x: 118
-      y: -42
+      y: -32
       layer: 4
-      conditions:
-        1:
-          first: "papi:legendcraft_slot_count"
-          second: "'3'"
-          operation: '=='
-    123:
-      name: lc_oom_soft
-      x: 118
-      y: -42
-      layer: 5
-      conditions:
-        gate: and
-        1:
-          first: "papi:legendcraft_slot_count"
-          second: "'3'"
-          operation: '=='
-        2:
-          first: "papi:legendcraft_slot3_state"
-          second: "'starved'"
-          operation: '=='
-    124:
-      name: lc_deny_flash
-      x: 118
-      y: -42
-      layer: 7
-      conditions:
-        gate: and
-        1:
-          first: "papi:legendcraft_slot_count"
-          second: "'3'"
-          operation: '=='
-        2:
-          first: "papi:legendcraft_slot3_flash"
-          second: "'deny'"
-          operation: '=='
-    125:
-      name: lc_charge_row_0
-      x: 122
-      y: -41
-      layer: 6
-      conditions:
-        gate: and
-        1:
-          first: "papi:legendcraft_slot_count"
-          second: "'3'"
-          operation: '=='
-        2:
-          first: "papi:legendcraft_slot3_charges"
-          second: "'0'"
-          operation: '=='
-    126:
-      name: lc_charge_row_1
-      x: 122
-      y: -41
-      layer: 6
-      conditions:
-        gate: and
-        1:
-          first: "papi:legendcraft_slot_count"
-          second: "'3'"
-          operation: '=='
-        2:
-          first: "papi:legendcraft_slot3_charges"
-          second: "'1'"
-          operation: '=='
-    127:
-      name: lc_charge_row_2
-      x: 122
-      y: -41
-      layer: 6
-      conditions:
-        gate: and
-        1:
-          first: "papi:legendcraft_slot_count"
-          second: "'3'"
-          operation: '=='
-        2:
-          first: "papi:legendcraft_slot3_charges"
-          second: "'2'"
-          operation: '=='
-    128:
-      name: lc_charge_row_3
-      x: 122
-      y: -41
-      layer: 6
-      conditions:
-        gate: and
-        1:
-          first: "papi:legendcraft_slot_count"
-          second: "'3'"
-          operation: '=='
-        2:
-          first: "papi:legendcraft_slot3_charges"
-          second: "'3'"
-          operation: '=='
-    129:
-      name: lc_input_slot3
-      x: 121
-      y: -27
-      layer: 9
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'3'"
           operation: '=='
     130:
+      name: lc_window_sweep_slot3
+      x: 118
+      y: -32
+      layer: 5
+      conditions:
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+    131:
+      name: lc_recast_shine
+      x: 118
+      y: -32
+      layer: 7
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot3_recast"
+          second: "'1'"
+          operation: '=='
+    132:
+      name: lc_oom_soft
+      x: 118
+      y: -32
+      layer: 6
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot3_state"
+          second: "'starved'"
+          operation: '=='
+    133:
+      name: lc_deny_flash
+      x: 118
+      y: -32
+      layer: 9
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot3_flash"
+          second: "'deny'"
+          operation: '=='
+    134:
+      name: lc_charge_row_0
+      x: 122
+      y: -31
+      layer: 8
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot3_charges"
+          second: "'0'"
+          operation: '=='
+    135:
+      name: lc_charge_row_1
+      x: 122
+      y: -31
+      layer: 8
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot3_charges"
+          second: "'1'"
+          operation: '=='
+    136:
+      name: lc_charge_row_2
+      x: 122
+      y: -31
+      layer: 8
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot3_charges"
+          second: "'2'"
+          operation: '=='
+    137:
+      name: lc_charge_row_3
+      x: 122
+      y: -31
+      layer: 8
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot3_charges"
+          second: "'3'"
+          operation: '=='
+    138:
+      name: lc_input_slot3
+      x: 121
+      y: -17
+      layer: 11
+      conditions:
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'3'"
+          operation: '=='
+    139:
       name: lc_skill_frame
       x: 55
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    131:
+    140:
       name: lc_icon_placeholder
       x: 58
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    132:
+    141:
       name: lc_hud_hunter_ensnaring_trap
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1717,10 +1822,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'hunter'"
           operation: '=='
-    133:
+    142:
       name: lc_hud_sniper_heartseeker
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1732,10 +1837,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'sniper'"
           operation: '=='
-    134:
+    143:
       name: lc_hud_pyromancer_scorch
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1747,10 +1852,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'pyromancer'"
           operation: '=='
-    135:
+    144:
       name: lc_hud_knight_bulwark
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1762,10 +1867,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'knight'"
           operation: '=='
-    136:
+    145:
       name: lc_hud_ranger_hamstring
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1777,10 +1882,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ranger'"
           operation: '=='
-    137:
+    146:
       name: lc_hud_cryomancer_ice_lance
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1792,10 +1897,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'cryomancer'"
           operation: '=='
-    138:
+    147:
       name: lc_hud_berserker_savage_cleave
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1807,10 +1912,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'berserker'"
           operation: '=='
-    139:
+    148:
       name: lc_hud_necromancer_raise_ghoul
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1822,10 +1927,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'necromancer'"
           operation: '=='
-    140:
+    149:
       name: lc_hud_shadowmancer_shadowstep
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1837,10 +1942,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shadowmancer'"
           operation: '=='
-    141:
+    150:
       name: lc_hud_doomsayer_curse_of_ruin
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1852,10 +1957,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'doomsayer'"
           operation: '=='
-    142:
+    151:
       name: lc_hud_bloodweaver_crimson_bolt
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1867,10 +1972,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'bloodweaver'"
           operation: '=='
-    143:
+    152:
       name: lc_hud_brawler_haymaker
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1882,10 +1987,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'brawler'"
           operation: '=='
-    144:
+    153:
       name: lc_hud_seraph_radiant_touch
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1897,10 +2002,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'seraph'"
           operation: '=='
-    145:
+    154:
       name: lc_hud_assassin_cloak
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1912,10 +2017,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'assassin'"
           operation: '=='
-    146:
+    155:
       name: lc_hud_alchemist_caustic_flask
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1927,10 +2032,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'alchemist'"
           operation: '=='
-    147:
+    156:
       name: lc_hud_rogue_grit
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1942,10 +2047,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'rogue'"
           operation: '=='
-    148:
+    157:
       name: lc_hud_shaman_earthen_strike
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1957,10 +2062,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shaman'"
           operation: '=='
-    149:
+    158:
       name: lc_hud_ninja_blur
       x: 58
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -1972,21 +2077,46 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ninja'"
           operation: '=='
-    150:
+    159:
       name: lc_cd_shroud_slot1
       x: 58
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    151:
+    160:
+      name: lc_window_sweep_slot1
+      x: 58
+      y: -32
+      layer: 5
+      conditions:
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'4'"
+          operation: '=='
+    161:
+      name: lc_recast_shine
+      x: 58
+      y: -32
+      layer: 7
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'4'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot1_recast"
+          second: "'1'"
+          operation: '=='
+    162:
       name: lc_oom_soft
       x: 58
-      y: -42
-      layer: 5
+      y: -32
+      layer: 6
       conditions:
         gate: and
         1:
@@ -1997,11 +2127,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_state"
           second: "'starved'"
           operation: '=='
-    152:
+    163:
       name: lc_deny_flash
       x: 58
-      y: -42
-      layer: 7
+      y: -32
+      layer: 9
       conditions:
         gate: and
         1:
@@ -2012,11 +2142,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_flash"
           second: "'deny'"
           operation: '=='
-    153:
+    164:
       name: lc_charge_row_0
       x: 62
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2027,11 +2157,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_charges"
           second: "'0'"
           operation: '=='
-    154:
+    165:
       name: lc_charge_row_1
       x: 62
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2042,11 +2172,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_charges"
           second: "'1'"
           operation: '=='
-    155:
+    166:
       name: lc_charge_row_2
       x: 62
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2057,11 +2187,11 @@ lc_stat:
           first: "papi:legendcraft_slot1_charges"
           second: "'2'"
           operation: '=='
-    156:
+    167:
       name: lc_charge_row_3
       x: 62
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2072,40 +2202,40 @@ lc_stat:
           first: "papi:legendcraft_slot1_charges"
           second: "'3'"
           operation: '=='
-    157:
+    168:
       name: lc_input_slot1
       x: 61
-      y: -27
-      layer: 9
+      y: -17
+      layer: 11
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    158:
+    169:
       name: lc_skill_frame
       x: 79
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    159:
+    170:
       name: lc_icon_placeholder
       x: 82
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    160:
+    171:
       name: lc_hud_hunter_venomous_arrow
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2117,10 +2247,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'hunter'"
           operation: '=='
-    161:
+    172:
       name: lc_hud_sniper_bolt
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2132,10 +2262,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'sniper'"
           operation: '=='
-    162:
+    173:
       name: lc_hud_pyromancer_flame_surge
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2147,10 +2277,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'pyromancer'"
           operation: '=='
-    163:
+    174:
       name: lc_hud_knight_shield_bash
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2162,10 +2292,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'knight'"
           operation: '=='
-    164:
+    175:
       name: lc_hud_ranger_quickstep
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2177,10 +2307,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ranger'"
           operation: '=='
-    165:
+    176:
       name: lc_hud_cryomancer_permafrost
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2192,10 +2322,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'cryomancer'"
           operation: '=='
-    166:
+    177:
       name: lc_hud_berserker_blood_rush
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2207,10 +2337,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'berserker'"
           operation: '=='
-    167:
+    178:
       name: lc_hud_necromancer_soul_harvest
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2222,10 +2352,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'necromancer'"
           operation: '=='
-    168:
+    179:
       name: lc_hud_shadowmancer_maw_of_shadow
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2237,10 +2367,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shadowmancer'"
           operation: '=='
-    169:
+    180:
       name: lc_hud_doomsayer_word_of_dread
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2252,10 +2382,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'doomsayer'"
           operation: '=='
-    170:
+    181:
       name: lc_hud_bloodweaver_hemorrhage
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2267,10 +2397,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'bloodweaver'"
           operation: '=='
-    171:
+    182:
       name: lc_hud_brawler_relentless_pursuit
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2282,10 +2412,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'brawler'"
           operation: '=='
-    172:
+    183:
       name: lc_hud_seraph_divine_wrath
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2297,10 +2427,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'seraph'"
           operation: '=='
-    173:
+    184:
       name: lc_hud_assassin_killing_blow
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2312,10 +2442,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'assassin'"
           operation: '=='
-    174:
+    185:
       name: lc_hud_alchemist_stimulant
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2327,10 +2457,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'alchemist'"
           operation: '=='
-    175:
+    186:
       name: lc_hud_rogue_sidestep
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2342,10 +2472,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'rogue'"
           operation: '=='
-    176:
+    187:
       name: lc_hud_shaman_soul_infusion
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2357,10 +2487,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shaman'"
           operation: '=='
-    177:
+    188:
       name: lc_hud_ninja_smoke_bomb
       x: 82
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2372,21 +2502,46 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ninja'"
           operation: '=='
-    178:
+    189:
       name: lc_cd_shroud_slot2
       x: 82
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    179:
+    190:
+      name: lc_window_sweep_slot2
+      x: 82
+      y: -32
+      layer: 5
+      conditions:
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'4'"
+          operation: '=='
+    191:
+      name: lc_recast_shine
+      x: 82
+      y: -32
+      layer: 7
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'4'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot2_recast"
+          second: "'1'"
+          operation: '=='
+    192:
       name: lc_oom_soft
       x: 82
-      y: -42
-      layer: 5
+      y: -32
+      layer: 6
       conditions:
         gate: and
         1:
@@ -2397,11 +2552,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_state"
           second: "'starved'"
           operation: '=='
-    180:
+    193:
       name: lc_deny_flash
       x: 82
-      y: -42
-      layer: 7
+      y: -32
+      layer: 9
       conditions:
         gate: and
         1:
@@ -2412,11 +2567,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_flash"
           second: "'deny'"
           operation: '=='
-    181:
+    194:
       name: lc_charge_row_0
       x: 86
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2427,11 +2582,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_charges"
           second: "'0'"
           operation: '=='
-    182:
+    195:
       name: lc_charge_row_1
       x: 86
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2442,11 +2597,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_charges"
           second: "'1'"
           operation: '=='
-    183:
+    196:
       name: lc_charge_row_2
       x: 86
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2457,11 +2612,11 @@ lc_stat:
           first: "papi:legendcraft_slot2_charges"
           second: "'2'"
           operation: '=='
-    184:
+    197:
       name: lc_charge_row_3
       x: 86
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2472,40 +2627,40 @@ lc_stat:
           first: "papi:legendcraft_slot2_charges"
           second: "'3'"
           operation: '=='
-    185:
+    198:
       name: lc_input_slot2
       x: 85
-      y: -27
-      layer: 9
+      y: -17
+      layer: 11
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    186:
+    199:
       name: lc_skill_frame
       x: 103
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    187:
+    200:
       name: lc_icon_placeholder
       x: 106
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    188:
+    201:
       name: lc_hud_hunter_beast_companion
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2517,10 +2672,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'hunter'"
           operation: '=='
-    189:
+    202:
       name: lc_hud_sniper_evasive_shot
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2532,10 +2687,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'sniper'"
           operation: '=='
-    190:
+    203:
       name: lc_hud_pyromancer_ember_shell
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2547,10 +2702,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'pyromancer'"
           operation: '=='
-    191:
+    204:
       name: lc_hud_knight_war_cry
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2562,10 +2717,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'knight'"
           operation: '=='
-    192:
+    205:
       name: lc_hud_ranger_point_blank_shot
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2577,10 +2732,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ranger'"
           operation: '=='
-    193:
+    206:
       name: lc_hud_cryomancer_frost_nova
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2592,10 +2747,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'cryomancer'"
           operation: '=='
-    194:
+    207:
       name: lc_hud_berserker_reavers_throw
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2607,10 +2762,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'berserker'"
           operation: '=='
-    195:
+    208:
       name: lc_hud_necromancer_defile
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2622,10 +2777,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'necromancer'"
           operation: '=='
-    196:
+    209:
       name: lc_hud_shadowmancer_void_bolt
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2637,10 +2792,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shadowmancer'"
           operation: '=='
-    197:
+    210:
       name: lc_hud_doomsayer_contagion
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2652,10 +2807,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'doomsayer'"
           operation: '=='
-    198:
+    211:
       name: lc_hud_bloodweaver_sanguine_barrier
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2667,10 +2822,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'bloodweaver'"
           operation: '=='
-    199:
+    212:
       name: lc_hud_brawler_iron_grip
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2682,10 +2837,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'brawler'"
           operation: '=='
-    200:
+    213:
       name: lc_hud_seraph_luminous_bond
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2697,10 +2852,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'seraph'"
           operation: '=='
-    201:
+    214:
       name: lc_hud_assassin_stalk
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2712,10 +2867,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'assassin'"
           operation: '=='
-    202:
+    215:
       name: lc_hud_alchemist_volatile_concoction
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2727,10 +2882,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'alchemist'"
           operation: '=='
-    203:
+    216:
       name: lc_hud_rogue_riposte
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2742,10 +2897,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'rogue'"
           operation: '=='
-    204:
+    217:
       name: lc_hud_shaman_voltaic_lash
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2757,10 +2912,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shaman'"
           operation: '=='
-    205:
+    218:
       name: lc_hud_ninja_shuriken_volley
       x: 106
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2772,21 +2927,46 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ninja'"
           operation: '=='
-    206:
+    219:
       name: lc_cd_shroud_slot3
       x: 106
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    207:
+    220:
+      name: lc_window_sweep_slot3
+      x: 106
+      y: -32
+      layer: 5
+      conditions:
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'4'"
+          operation: '=='
+    221:
+      name: lc_recast_shine
+      x: 106
+      y: -32
+      layer: 7
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'4'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_slot3_recast"
+          second: "'1'"
+          operation: '=='
+    222:
       name: lc_oom_soft
       x: 106
-      y: -42
-      layer: 5
+      y: -32
+      layer: 6
       conditions:
         gate: and
         1:
@@ -2797,11 +2977,11 @@ lc_stat:
           first: "papi:legendcraft_slot3_state"
           second: "'starved'"
           operation: '=='
-    208:
+    223:
       name: lc_deny_flash
       x: 106
-      y: -42
-      layer: 7
+      y: -32
+      layer: 9
       conditions:
         gate: and
         1:
@@ -2812,11 +2992,11 @@ lc_stat:
           first: "papi:legendcraft_slot3_flash"
           second: "'deny'"
           operation: '=='
-    209:
+    224:
       name: lc_charge_row_0
       x: 110
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2827,11 +3007,11 @@ lc_stat:
           first: "papi:legendcraft_slot3_charges"
           second: "'0'"
           operation: '=='
-    210:
+    225:
       name: lc_charge_row_1
       x: 110
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2842,11 +3022,11 @@ lc_stat:
           first: "papi:legendcraft_slot3_charges"
           second: "'1'"
           operation: '=='
-    211:
+    226:
       name: lc_charge_row_2
       x: 110
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2857,11 +3037,11 @@ lc_stat:
           first: "papi:legendcraft_slot3_charges"
           second: "'2'"
           operation: '=='
-    212:
+    227:
       name: lc_charge_row_3
       x: 110
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -2872,40 +3052,40 @@ lc_stat:
           first: "papi:legendcraft_slot3_charges"
           second: "'3'"
           operation: '=='
-    213:
+    228:
       name: lc_input_slot3
       x: 109
-      y: -27
-      layer: 9
+      y: -17
+      layer: 11
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    214:
+    229:
       name: lc_skill_frame
       x: 127
-      y: -45
+      y: -35
       layer: 1
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    215:
+    230:
       name: lc_icon_placeholder
       x: 130
-      y: -42
+      y: -32
       layer: 2
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    216:
+    231:
       name: lc_hud_hunter_pack_ambush
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2917,10 +3097,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'hunter'"
           operation: '=='
-    217:
+    232:
       name: lc_hud_sniper_arrow_blitz
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2932,10 +3112,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'sniper'"
           operation: '=='
-    218:
+    233:
       name: lc_hud_pyromancer_conflagration
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2947,10 +3127,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'pyromancer'"
           operation: '=='
-    219:
+    234:
       name: lc_hud_knight_vanguard
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2962,10 +3142,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'knight'"
           operation: '=='
-    220:
+    235:
       name: lc_hud_ranger_kiting_dance
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2977,10 +3157,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ranger'"
           operation: '=='
-    221:
+    236:
       name: lc_hud_cryomancer_absolute_zero
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -2992,10 +3172,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'cryomancer'"
           operation: '=='
-    222:
+    237:
       name: lc_hud_berserker_undying_rage
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3007,10 +3187,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'berserker'"
           operation: '=='
-    223:
+    238:
       name: lc_hud_necromancer_bone_colossus
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3022,10 +3202,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'necromancer'"
           operation: '=='
-    224:
+    239:
       name: lc_hud_shadowmancer_nightfall
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3037,10 +3217,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shadowmancer'"
           operation: '=='
-    225:
+    240:
       name: lc_hud_doomsayer_foretold_doom
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3052,10 +3232,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'doomsayer'"
           operation: '=='
-    226:
+    241:
       name: lc_hud_bloodweaver_exsanguinate
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3067,10 +3247,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'bloodweaver'"
           operation: '=='
-    227:
+    242:
       name: lc_hud_brawler_flurry
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3082,10 +3262,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'brawler'"
           operation: '=='
-    228:
+    243:
       name: lc_hud_seraph_ascension
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3097,10 +3277,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'seraph'"
           operation: '=='
-    229:
+    244:
       name: lc_hud_assassin_marked_for_death
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3112,10 +3292,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'assassin'"
           operation: '=='
-    230:
+    245:
       name: lc_hud_alchemist_grand_elixir
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3127,10 +3307,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'alchemist'"
           operation: '=='
-    231:
+    246:
       name: lc_hud_rogue_cornered
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3142,10 +3322,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'rogue'"
           operation: '=='
-    232:
+    247:
       name: lc_hud_shaman_ancestral_wrath
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3157,10 +3337,10 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'shaman'"
           operation: '=='
-    233:
+    248:
       name: lc_hud_ninja_thousand_cuts
       x: 130
-      y: -42
+      y: -32
       layer: 3
       conditions:
         gate: and
@@ -3172,21 +3352,46 @@ lc_stat:
           first: "papi:legendcraft_subclass"
           second: "'ninja'"
           operation: '=='
-    234:
+    249:
       name: lc_cd_shroud_ult
       x: 130
-      y: -42
+      y: -32
       layer: 4
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
           second: "'4'"
           operation: '=='
-    235:
+    250:
+      name: lc_window_sweep_ult
+      x: 130
+      y: -32
+      layer: 5
+      conditions:
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'4'"
+          operation: '=='
+    251:
+      name: lc_recast_shine
+      x: 130
+      y: -32
+      layer: 7
+      conditions:
+        gate: and
+        1:
+          first: "papi:legendcraft_slot_count"
+          second: "'4'"
+          operation: '=='
+        2:
+          first: "papi:legendcraft_ult_recast"
+          second: "'1'"
+          operation: '=='
+    252:
       name: lc_oom_soft
       x: 130
-      y: -42
-      layer: 5
+      y: -32
+      layer: 6
       conditions:
         gate: and
         1:
@@ -3197,11 +3402,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'starved'"
           operation: '=='
-    236:
+    253:
       name: lc_deny_flash
       x: 130
-      y: -42
-      layer: 7
+      y: -32
+      layer: 9
       conditions:
         gate: and
         1:
@@ -3212,11 +3417,11 @@ lc_stat:
           first: "papi:legendcraft_ult_flash"
           second: "'deny'"
           operation: '=='
-    237:
+    254:
       name: lc_hud_hunter_pack_ambush_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3231,11 +3436,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    238:
+    255:
       name: lc_hud_sniper_arrow_blitz_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3250,11 +3455,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    239:
+    256:
       name: lc_hud_pyromancer_conflagration_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3269,11 +3474,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    240:
+    257:
       name: lc_hud_knight_vanguard_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3288,11 +3493,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    241:
+    258:
       name: lc_hud_ranger_kiting_dance_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3307,11 +3512,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    242:
+    259:
       name: lc_hud_cryomancer_absolute_zero_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3326,11 +3531,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    243:
+    260:
       name: lc_hud_berserker_undying_rage_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3345,11 +3550,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    244:
+    261:
       name: lc_hud_necromancer_bone_colossus_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3364,11 +3569,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    245:
+    262:
       name: lc_hud_shadowmancer_nightfall_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3383,11 +3588,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    246:
+    263:
       name: lc_hud_doomsayer_foretold_doom_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3402,11 +3607,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    247:
+    264:
       name: lc_hud_bloodweaver_exsanguinate_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3421,11 +3626,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    248:
+    265:
       name: lc_hud_brawler_flurry_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3440,11 +3645,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    249:
+    266:
       name: lc_hud_seraph_ascension_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3459,11 +3664,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    250:
+    267:
       name: lc_hud_assassin_marked_for_death_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3478,11 +3683,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    251:
+    268:
       name: lc_hud_alchemist_grand_elixir_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3497,11 +3702,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    252:
+    269:
       name: lc_hud_rogue_cornered_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3516,11 +3721,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    253:
+    270:
       name: lc_hud_shaman_ancestral_wrath_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3535,11 +3740,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    254:
+    271:
       name: lc_hud_ninja_thousand_cuts_locked
       x: 130
-      y: -42
-      layer: 6
+      y: -32
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3554,11 +3759,11 @@ lc_stat:
           first: "papi:legendcraft_ult_state"
           second: "'locked'"
           operation: '=='
-    255:
+    272:
       name: lc_charge_row_0
       x: 134
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3569,11 +3774,11 @@ lc_stat:
           first: "papi:legendcraft_ult_charges"
           second: "'0'"
           operation: '=='
-    256:
+    273:
       name: lc_charge_row_1
       x: 134
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3584,11 +3789,11 @@ lc_stat:
           first: "papi:legendcraft_ult_charges"
           second: "'1'"
           operation: '=='
-    257:
+    274:
       name: lc_charge_row_2
       x: 134
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3599,11 +3804,11 @@ lc_stat:
           first: "papi:legendcraft_ult_charges"
           second: "'2'"
           operation: '=='
-    258:
+    275:
       name: lc_charge_row_3
       x: 134
-      y: -41
-      layer: 6
+      y: -31
+      layer: 8
       conditions:
         gate: and
         1:
@@ -3614,11 +3819,11 @@ lc_stat:
           first: "papi:legendcraft_ult_charges"
           second: "'3'"
           operation: '=='
-    259:
+    276:
       name: lc_input_ult
       x: 133
-      y: -27
-      layer: 9
+      y: -17
+      layer: 11
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
@@ -3631,8 +3836,8 @@ lc_stat:
       align: center
       scale: 0.38
       x: 78
-      y: -37
-      layer: 8
+      y: -27
+      layer: 10
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
@@ -3644,8 +3849,8 @@ lc_stat:
       align: center
       scale: 0.38
       x: 102
-      y: -37
-      layer: 8
+      y: -27
+      layer: 10
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
@@ -3657,8 +3862,8 @@ lc_stat:
       align: center
       scale: 0.38
       x: 126
-      y: -37
-      layer: 8
+      y: -27
+      layer: 10
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
@@ -3670,8 +3875,8 @@ lc_stat:
       align: center
       scale: 0.38
       x: 66
-      y: -37
-      layer: 8
+      y: -27
+      layer: 10
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
@@ -3683,8 +3888,8 @@ lc_stat:
       align: center
       scale: 0.38
       x: 90
-      y: -37
-      layer: 8
+      y: -27
+      layer: 10
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
@@ -3696,8 +3901,8 @@ lc_stat:
       align: center
       scale: 0.38
       x: 114
-      y: -37
-      layer: 8
+      y: -27
+      layer: 10
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
@@ -3709,8 +3914,8 @@ lc_stat:
       align: center
       scale: 0.38
       x: 138
-      y: -37
-      layer: 8
+      y: -27
+      layer: 10
       conditions:
         gate: and
         1:
@@ -3727,8 +3932,8 @@ lc_stat:
       align: center
       scale: 0.38
       x: 138
-      y: -37
-      layer: 8
+      y: -27
+      layer: 10
       conditions:
         1:
           first: "papi:legendcraft_slot_count"
@@ -3740,8 +3945,9 @@ lc_stat:
       align: center
       scale: 0.5
       x: 102
-      y: -57
-      layer: 8
+      y: -47
+      layer: 10
+      outline: true
     10:
       name: lc_stat_text
       pattern: "<white>[papi:legendcraft_health]<gray> // <white>[papi:legendcraft_max_health]"
@@ -3749,7 +3955,7 @@ lc_stat:
       scale: 0.3
       x: 56
       y: 2
-      layer: 8
+      layer: 10
     11:
       name: lc_stat_text
       pattern: "<white>[papi:legendcraft_armor]<gray> // <white>20"
@@ -3757,7 +3963,7 @@ lc_stat:
       scale: 0.3
       x: 148
       y: 2
-      layer: 8
+      layer: 10
     12:
       name: lc_stat_text
       pattern: "<white>[papi:legendcraft_resource_current]<gray> // <white>[papi:legendcraft_resource_max]"
@@ -3765,7 +3971,7 @@ lc_stat:
       scale: 0.3
       x: 56
       y: 13
-      layer: 8
+      layer: 10
     13:
       name: lc_stat_text
       pattern: "<white>[papi:legendcraft_food]<gray> // <white>20"
@@ -3773,7 +3979,7 @@ lc_stat:
       scale: 0.3
       x: 148
       y: 13
-      layer: 8
+      layer: 10
     14:
       name: lc_stat_text
       pattern: "<green>[papi:legendcraft_level]"
@@ -3781,7 +3987,7 @@ lc_stat:
       scale: 0.42
       x: 102
       y: 21
-      layer: 8
+      layer: 10
     15:
       name: lc_stat_text
       pattern: "<white>[papi:legendcraft_xp_current]<gray> // <white>[papi:legendcraft_xp_needed]"
@@ -3789,4 +3995,4 @@ lc_stat:
       scale: 0.3
       x: 191
       y: 22
-      layer: 8
+      layer: 10

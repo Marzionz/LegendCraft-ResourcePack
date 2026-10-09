@@ -601,6 +601,37 @@ def cd_shroud():
             px[xx, yy] = CD_SHROUD
     return im
 
+# The recast window's two parts. Both are placeholder frames: the owner animates the final art at
+# the screen, and only these functions change when it lands.
+WINDOW_SWEEP = (0xFF, 0xFF, 0xFF, 60)   # light radial over the art, never the grey shroud
+RECAST_SHINE = (0xFF, 0xFF, 0xFF, 200)  # the travelling white line
+RECAST_SHINE_FRAMES = 8                 # frames for one top-to-bottom pass, looped
+RECAST_SHINE_WIDTH = 2                  # half-thickness of the line, in ICON_ART pixels
+
+def window_sweep():
+    """The duration sweep: a light wash over the whole 16x16 field. BetterHud reveals it radially
+    via a `split-type: circle` listener on the slot's `_window` fraction (1 when the window opens,
+    draining to 0 at its deadline), so a slot with no running deadline draws none of it."""
+    im = img(ART, ART)
+    px = im.load()
+    for yy in range(ART):
+        for xx in range(ART):
+            px[xx, yy] = WINDOW_SWEEP
+    return im
+
+def recast_shine_frame(i):
+    """Frame i of the recast shine: a white diagonal line crossing the 32px icon, its position
+    stepping from the top-left corner to the bottom-right one across RECAST_SHINE_FRAMES."""
+    n = ICON_ART
+    im = img(n, n)
+    px = im.load()
+    centre = round((2 * n - 2) * (i + 0.5) / RECAST_SHINE_FRAMES)
+    for y in range(n):
+        for x in range(n):
+            if abs((x + y) - centre) < RECAST_SHINE_WIDTH:
+                px[x, y] = RECAST_SHINE
+    return im
+
 def oom_overlay():
     """Out-of-mana overlay: a flat soft light-red wash over the whole field."""
     im = img(ART, ART)
@@ -757,6 +788,9 @@ def export_true_res():
     # live state overlays (shared across all classes — composited over any icon art)
     save(cd_shroud(), os.path.join(DIRS["ind"], "cd_shroud.png"))
     save(oom_overlay(), os.path.join(DIRS["ind"], "oom_soft.png"))
+    save(window_sweep(), os.path.join(DIRS["ind"], "window_sweep.png"))
+    for i in range(RECAST_SHINE_FRAMES):
+        save(recast_shine_frame(i), os.path.join(DIRS["ind"], f"recast_shine_{i}.png"))
     for i in range(DENY_FADE_FRAMES):
         save(deny_flash_frame(i), os.path.join(DIRS["ind"], f"deny_fade_{i}.png"))
     save(skill_field(), os.path.join(DIRS["ind"], "field.png"))
@@ -836,6 +870,26 @@ def _bh_images_yml():
             "      max: 100",
             "",
         ]
+    # Recast window duration sweep: ONE circle-split listener per slot over the art field, drained
+    # by the slot's _window fraction (0-1) the plugin answers while a window's deadline runs.
+    for slot in SLOT_IDS:
+        lines += [
+            f"lc_window_sweep_{slot}:",
+            "  type: listener",
+            "  file: legendcraft/indicators/window_sweep.png",
+            f"  split: {CD_SPLIT}",
+            "  split-type: circle",
+            "  setting:",
+            "    listener:",
+            "      class: placeholder",
+            f'      value: "(number)papi:legendcraft_{slot}_window"',
+            "      max: 1",
+            "",
+        ]
+    # Recast shine: a looping `type: sequence` over the icon while a slot's `<slot>_recast` is 1.
+    lines += ["lc_recast_shine:", "  type: sequence", "  files:"]
+    lines += [f'    - "legendcraft/indicators/recast_shine_{i}.png:1"' for i in range(RECAST_SHINE_FRAMES)]
+    lines += ["  setting:", "    scale: 0.5", "    animation-type: loop", ""]
     # Cast-deny fade-in (UX-1a): a `type: sequence` play_once animation — the translucent-white wash
     # fades IN across DENY_FADE_FRAMES, played once each time a slot's `<slot>_flash` flips to `deny`.
     # scale 0.5 (32px art shown at 16px) matches the icon exactly; `path:N` sets each frame's tick hold.
@@ -879,7 +933,7 @@ SLOT_IDS = ["slot1", "slot2", "slot3", "ult"]
 SKILL_FRAME_GAP = 2          # gap between framed skill tiles
 SKILL_ROW_GAP = 3            # gap between the skill row's bottom and the stat block's top
 VANILLA_ITEM_NAME_OFFSET_PX = 59  # previewed client lane centre, up from the screen bottom
-SKILL_ROW_HOIST_PX = 20           # keeps the tile bottom 15px above the client item-name lane
+SKILL_ROW_HOIST_PX = 10           # tile bottom sits (HOIST - 5)px above the item-name lane centre
 SKILL_ROW_Y_PX = -(SKILL_TILE + SKILL_ROW_GAP + SKILL_ROW_HOIST_PX)
 FEEDBACK_TEXT_SCALE = 0.50
 FEEDBACK_TEXT_HEIGHT_PX = 8  # rendered default-bitmap text height at FEEDBACK_TEXT_SCALE
@@ -897,9 +951,11 @@ TILE_L_FRAME  = 1   # weathered-iron frame
 TILE_L_FIELD  = 2   # near-black icon backing (and the placeholder art for undrawn skills)
 TILE_L_ART    = 3   # the real per-class ability art
 TILE_L_SHROUD = 4   # circle-split cooldown sweep — darkens the art beneath it
-TILE_L_OOM    = 5   # out-of-mana tint — ABOVE the sweep, so both problems read at once
-TILE_L_BADGE  = 6   # locked-ult art + charge pips: information, must survive both washes
-TILE_L_DENY   = 7   # cast-deny flash: always the top of the tile
+TILE_L_SWEEP  = 5   # recast window's duration sweep — a light radial, no grey wash
+TILE_L_OOM    = 6   # out-of-mana tint — ABOVE the sweep, so both problems read at once
+TILE_L_SHINE  = 7   # recast shine travelling across an open window's tile, over both washes
+TILE_L_BADGE  = 8   # locked-ult art + charge pips: information, must survive both washes
+TILE_L_DENY   = 9   # cast-deny flash: always the top of the tile
 # Every `texts:` entry in this layout — the cooldown numeral, the ult's parchment "20", and
 # the stat block's numerals. `layer` is a BetterHud COMMON option (it applies to all layout
 # element types, not just images), and its default is 0 — which would nominally put the
@@ -907,33 +963,33 @@ TILE_L_DENY   = 7   # cast-deny flash: always the top of the tile
 # BetterHud happens to draw texts in a pass above images. That is exactly the undefined
 # ordering these constants exist to remove, on the one element that has to stay readable
 # through BOTH washes, so the numeral states its position instead of inheriting it.
-TILE_L_TEXT   = 8   # above everything, including the deny flash — matches the observed order
+TILE_L_TEXT   = 10  # above everything, including the deny flash — matches the observed order
 
 # --- Health-bar affliction stack (Volya MMORPG HUD art, staged by stage_volya_hud.py) -------
-# Layers 1..9 are spoken for by the stat block (1 channels / 2 fills / 3 icons) and the skill
-# row (TILE_L_* above, 9 = input glyphs), so the affliction overlays start at 10. Each state
+# Layers 1..11 are spoken for by the stat block (1 channels / 2 fills / 3 icons) and the skill
+# row (TILE_L_* above, 11 = input glyphs), so the affliction overlays start at 12. Each state
 # gets its OWN number because several can be live at once and a tie is undefined: a burning,
 # poisoned player must get one deterministic composite, not a random one. Bottom to top, the
 # order is severity: a venom film, then flame, then frost, and wither over all of them because
 # wither is the one that reads as "you are dying". Regeneration sits above the afflictions —
 # it is the counter-signal and must be visible through them.
-VIT_L_POISON  = 10
-VIT_L_BURNING = 11
-VIT_L_FREEZE  = 12
-VIT_L_WITHER  = 13
-VIT_L_REGEN   = 14
+VIT_L_POISON  = 12
+VIT_L_BURNING = 13
+VIT_L_FREEZE  = 14
+VIT_L_WITHER  = 15
+VIT_L_REGEN   = 16
 # Heart-icon states repeat that order in the icon column (they are opaque, so the top one wins).
-VIT_L_ICON_POISON  = 15
-VIT_L_ICON_BURNING = 16
-VIT_L_ICON_FREEZE  = 17
-VIT_L_ICON_WITHER  = 18
+VIT_L_ICON_POISON  = 17
+VIT_L_ICON_BURNING = 18
+VIT_L_ICON_FREEZE  = 19
+VIT_L_ICON_WITHER  = 20
 # UX-2 cast-hint keycaps. These straddle the tile's BOTTOM border, outside the 16px art field, so
 # the frame is the only thing they overlap: the shroud, tint, locked badge and deny flash all draw
 # inside the field, and the charge pips deliberately own the top edge. This carried a bare literal
 # 6 when it was authored, which the layer pass has since given to TILE_L_BADGE — and a tie leaves
-# BetterHud's draw order undefined, which is the whole failure that pass existed to remove. 9 keeps
-# it above the keyline it outlines against without renumbering a single relation that pass fixed.
-INPUT_L_GLYPH = 9
+# BetterHud's draw order undefined, which is the whole failure that pass existed to remove. It sits
+# above every tile layer, so it stays above the keyline it outlines against.
+INPUT_L_GLYPH = 11
 
 def export_betterhud():
     # Emits ONLY the shared image registry (legendcraft-hunter.yml) that the lc_stat skill
@@ -1133,6 +1189,76 @@ def xp_fill(w=XP_W - 2, h=XP_H - 2):
         col = light if y == 0 else dark if y >= h - 1 else main
         for x in range(w):
             px[x, y] = col
+    return im
+
+# --- air: the drowning read, on the empty band above the block ----------------
+# PR #7 blanked the vanilla oxygen bubbles. They render in the vanilla ARMOR lane, on top
+# of this block, and a resource pack can move no vanilla element -- so blanking them was
+# the only way to clear the lane, and it left drowning with no read at all. The read comes
+# back here, inside the stat block's own frame, on the band the skill row's hoist left
+# empty. Both halves are BetterHud's own: the fill rides the native `air` listener and all
+# three parts are gated on the built-in `air < max_air`, so nothing in this element reaches
+# LegendCraft-Classes and it cannot go dark the way a papi:legendcraft_* element does when
+# the plugin jar and this config ship from different revisions.
+AIR_W = 54                     # Volya's own air-bar width -- the short read we bought
+AIR_H = XP_H                   # the block's thin-rail weight (the vitals bars are 9)
+AIR_RAMP = ((0x8F, 0xD8, 0xEE), (0x4F, 0xA8, 0xC8), (0x1B, 0x4B, 0x5A))   # floor = deep-water teal
+
+# Volya's 7x7 icon_air.png, structure frozen verbatim from the bought pack: silhouette,
+# specular, the two glass pixels low-right, and her per-pixel alphas (rim 204, body 230,
+# translucent core 115). Only the hue is ours -- her four blues remap value-for-value onto
+# AIR_RAMP. Deliberately SMALLER than the 9x9 every other stat icon uses: this one flanks a
+# 5px rail, not a 9px bar, so icon and bar read at one weight.
+_AIR_ICON = (
+    "..aaa..",
+    ".abcda.",
+    "abefgda",
+    "acfg.da",
+    "adg..ha",
+    ".addha.",
+    "..aaa..",
+)
+AIR_ICON_H = 7
+AIR_ICON_PALETTE = {
+    "a": (0x00, 0x00, 0x00, 204),   # rim
+    "b": (0xB4, 0xE7, 0xF6, 230),
+    "c": (0x8F, 0xD8, 0xEE, 230),
+    "d": (0x4F, 0xA8, 0xC8, 230),
+    "e": (0xFF, 0xFF, 0xFF, 230),   # specular
+    "f": (0xDF, 0xF6, 0xFF, 230),
+    "g": (0x8F, 0xD8, 0xEE, 115),   # translucent glass core
+    "h": (0x1B, 0x4B, 0x5A, 230),
+}
+
+# Block-relative placement, shared with the layout emitter so art and YAML cannot drift.
+# The rail clears the block's top by 2 * STAT_ROW_GAP rather than one: the icon centres on
+# the rail and overhangs it 1px, and the doubled gap is what leaves the BUBBLE its own
+# clearance over the health bar instead of letting it crowd the row below.
+AIR_Y_PX = -(AIR_H + 2 * STAT_ROW_GAP)                    # -9
+AIR_ICON_Y_PX = AIR_Y_PX + (AIR_H - AIR_ICON_H) // 2      # -10, centred on the rail
+AIR_ICON_X_PX = (STAT_IW - AIR_ICON_H) // 2               # 1, centred in the icon column
+
+
+def air_empty(w=AIR_W, h=AIR_H):
+    return bar_empty(w, h)
+
+def air_fill(w=AIR_W - 2 * BAR_PAD, h=AIR_H - 2 * BAR_PAD):
+    light, main, dark = (_c(AIR_RAMP[i]) for i in range(3))
+    im = img(w, h)
+    px = im.load()
+    for y in range(h):
+        col = light if y == 0 else dark if y >= h - 1 else main
+        for x in range(w):
+            px[x, y] = col
+    return im
+
+def air_icon():
+    im = img(AIR_ICON_H, AIR_ICON_H)
+    px = im.load()
+    for y, row in enumerate(_AIR_ICON):
+        for x, ch in enumerate(row):
+            if ch != ".":
+                px[x, y] = AIR_ICON_PALETTE[ch]
     return im
 
 # --- flanking stat icons -----------------------------------------------------
@@ -1575,11 +1701,14 @@ def export_stat_bars():
         save(bar_fill(kind), os.path.join(STAT_DIR, f"fill_{kind}.png"))
     save(xp_empty(), os.path.join(STAT_DIR, "xp_empty.png"))
     save(xp_fill(), os.path.join(STAT_DIR, "xp_fill.png"))
+    save(air_empty(), os.path.join(STAT_DIR, "air_empty.png"))
+    save(air_fill(), os.path.join(STAT_DIR, "fill_air.png"))
     save(hotbar_slot(False), os.path.join(STAT_DIR, "hotbar_slot.png"))
     save(hotbar_slot(True), os.path.join(STAT_DIR, "hotbar_slot_selected.png"))
     save(heart_icon(), os.path.join(SICON_DIR, "heart.png"))
     save(shield_icon(), os.path.join(SICON_DIR, "shield.png"))
     save(drumstick_icon(), os.path.join(SICON_DIR, "drumstick.png"))
+    save(air_icon(), os.path.join(SICON_DIR, "air.png"))
     for kind in GEM_COLOR:
         save(gem_icon(kind), os.path.join(SICON_DIR, f"gem_{kind}.png"))
     os.makedirs(VITALS_DIR, exist_ok=True)
@@ -1740,6 +1869,8 @@ def _bh_stat_images_yml():
     singles = {
         "lc_bar_empty": "legendcraft/bars/bar_empty.png",
         "lc_xp_empty": "legendcraft/bars/xp_empty.png",
+        "lc_air_empty": "legendcraft/bars/air_empty.png",
+        "lc_icon_air": "legendcraft/stat-icons/air.png",
         "lc_icon_heart": "legendcraft/stat-icons/heart.png",
         "lc_icon_shield": "legendcraft/stat-icons/shield.png",
         "lc_icon_drumstick": "legendcraft/stat-icons/drumstick.png",
@@ -1760,6 +1891,7 @@ def _bh_stat_images_yml():
         ("lc_fill_health", "legendcraft/bars/fill_health.png", "health"),
         ("lc_fill_armor", "legendcraft/bars/fill_armor.png", "armor"),
         ("lc_fill_food", "legendcraft/bars/fill_food.png", "food"),
+        ("lc_fill_air", "legendcraft/bars/fill_air.png", "air"),
         # Affliction fills ride the SAME health listener as lc_fill_health, so a tint reveals to
         # exactly the fraction the red fill does and never paints the empty channel.
         ("lc_state_poison", "legendcraft/vitals/state_poison.png", "health"),
@@ -1875,6 +2007,13 @@ def _bh_stat_layout_yml():
     add("lc_gem_rage", 0, iy1, 3, (RT, "rage"))
     add("lc_icon_drumstick", ir, iy1, 3)
 
+    # --- Air. All three parts carry the SAME gate, because a part that is not gated is a
+    # part that draws while you are breathing -- and the channel is the one most easily
+    # forgotten, since an ungated empty rail reads as decoration rather than as a bug.
+    add_builtin("lc_air_empty", bl, AIR_Y_PX, 1, "air", "max_air", "<")
+    add_builtin("lc_fill_air", bl + p, AIR_Y_PX + p, 2, "air", "max_air", "<")
+    add_builtin("lc_icon_air", AIR_ICON_X_PX, AIR_ICON_Y_PX, 3, "air", "max_air", "<")
+
     # --- Health-bar affliction states (hud-and-icons.md §2 "Bar behaviors"). ------------------
     # Every gate is a BetterHud BUILT-IN placeholder, so none of this reaches `HudPlaceholders`
     # and none of it can go dark the way a `papi:legendcraft_*` element does when the plugin jar
@@ -1909,12 +2048,15 @@ def _bh_stat_layout_yml():
 
     txt_lines, tn = [], 1
 
-    def addt(pattern, x, y, align="center", scale=STAT_TEXT_SCALE, cond=None, font="lc_stat_text"):
+    def addt(pattern, x, y, align="center", scale=STAT_TEXT_SCALE, cond=None, font="lc_stat_text",
+             outline=False):
         nonlocal tn
         block = [f"    {tn}:", f"      name: {font}",
                  f'      pattern: "{pattern}"',
                  f"      align: {align}", f"      scale: {scale}",
                  f"      x: {x}", f"      y: {y}", f"      layer: {TILE_L_TEXT}"]
+        if outline:
+            block.append("      outline: true")
         if cond:
             block += conds_block(cond)
         txt_lines.extend(block)
@@ -1951,6 +2093,10 @@ def _bh_stat_layout_yml():
                     add(f"lc_hud_{classid}_{icons[i]}", ax, ay, TILE_L_ART,
                         [cnt, ("legendcraft_subclass", classid)])
             add(f"lc_cd_shroud_{sid}", ax, ay, TILE_L_SHROUD, cnt)
+            # A recast window: the duration sweep (a listener that self-hides at 0, so a window
+            # with no deadline draws none of it) and the shine, gated on the window being open.
+            add(f"lc_window_sweep_{sid}", ax, ay, TILE_L_SWEEP, cnt)
+            add("lc_recast_shine", ax, ay, TILE_L_SHINE, [cnt, (f"legendcraft_{sid}_recast", "1")])
             # The out-of-mana tint sits STRICTLY ABOVE the sweep (§3 "Both"): a slot that is both
             # cooling down and unaffordable shows the radial ticking down AND the red wash over it,
             # so neither problem hides the other. The plugin reports `starved` on affordability
@@ -2012,8 +2158,10 @@ def _bh_stat_layout_yml():
 
     # One painted line owns all short combat feedback. The plugin returns an empty snapshot
     # when its two-second TTL has elapsed, so the element disappears without a layout gate.
+    # `outline` is BetterHud's drop shadow. The stat numerals sit on their own dark bar art and
+    # read without one, but this line floats over open world -- white on sand or sky had no edge.
     addt("<white>[papi:legendcraft_feedback_line]", span_cx, FEEDBACK_LINE_Y_PX,
-         scale=FEEDBACK_TEXT_SCALE)
+         scale=FEEDBACK_TEXT_SCALE, outline=True)
 
     # BetterHud's text parser EATS a single "/". The structure that parses cleanly is a tag on
     # BOTH sides of the separator (current <white>, max <white>, <gray> carrying the divider); the

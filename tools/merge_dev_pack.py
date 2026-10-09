@@ -1,12 +1,13 @@
 """DURABLE, re-runnable (referenced in the repo README): build dist/LegendCraft-Pack-dev.zip,
 the pack mc-dev's server.properties points at.
 
-Merges THREE sources — run AFTER the server has booted with the current models/HUD config,
-because the first two are generated at plugin startup:
+Merges FOUR sources — run AFTER the server has booted with the current models/HUD/armour
+config, because the first three are generated at plugin startup:
 
-  1. mc-dev BetterModel build.zip   (generated model assets)
-  2. mc-dev BetterHud   build.zip   (generated HUD assets + versioned shader OVERLAYS)
-  3. our built pack dist/LegendCraft-Pack-<version>.zip (run build.ps1 first)
+  1. mc-dev BetterModel  build.zip  (generated model assets)
+  2. mc-dev BetterHud    build.zip  (generated HUD assets + versioned shader OVERLAYS)
+  3. mc-dev MythicArmors pack.zip   (baked 3D armour + versioned core entity shader OVERLAYS)
+  4. our built pack dist/LegendCraft-Pack-<version>.zip (run build.ps1 first)
 
 Later sources win file conflicts (ours last). pack.mcmeta is MERGED, not picked: ours as the
 base plus the union of every source's `overlays` entries — dropping BetterHud's overlays is
@@ -27,6 +28,7 @@ RP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCES = [
     "C:/Repositories/mc-dev/server/plugins/BetterModel/build.zip",
     "C:/Repositories/mc-dev/server/plugins/BetterHud/build.zip",
+    "C:/Repositories/mc-dev/server/plugins/MythicArmors/pack.zip",
 ]
 
 

@@ -1,0 +1,32 @@
+{
+  "textures": {
+    "0": "legendcraft:item/classes/smc_shadowstep_rift_close_4",
+    "particle": "legendcraft:item/classes/smc_shadowstep_rift_close_4"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        8,
+        0
+      ],
+      "to": [
+        16,
+        8,
+        16
+      ],
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#0",
+          "tintindex": 0
+        }
+      }
+    }
+  ]
+}

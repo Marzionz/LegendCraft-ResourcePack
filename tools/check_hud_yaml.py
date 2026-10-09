@@ -39,11 +39,11 @@ ASSET_NAMESPACE = "legendcraft/"
 # A sequence frame is `<path>:<hold-ticks>`; the hold is not part of the path.
 FRAME_HOLD_SEPARATOR = ":"
 
-# The generator draws in a single band: 1 is the bar/frame ground and 18 is the topmost
+# The generator draws in a single band: 1 is the bar/frame ground and 20 is the topmost
 # affliction overlay. A layer outside it is an element the compositor never placed, which means
 # it was hand-edited into a file whose header forbids exactly that.
 MIN_LAYER = 1
-MAX_LAYER = 18
+MAX_LAYER = 20
 
 # The two element sections a layout may carry, and the sections that are settings rather than
 # elements.

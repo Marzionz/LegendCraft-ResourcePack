@@ -37,8 +37,24 @@ src/
     items/<domain>/<name>.json        item MODEL DEFINITION (what item_model points at)
     models/item/<domain>/<name>.json  the item MODEL (parent + textures)
     textures/item/<domain>/<name>.png the texture
+    textures/gui/sprites/tooltip/<domain>/<name>_{background,frame}.png   tooltip style sprites
+    font/<domain>/<name>.json         a font (+ its bitmap under textures/font/<domain>/)
     sounds/<domain>/…                 custom sounds (+ sounds.json) — later
 ```
+
+### Skill-card tooltip styles
+
+A plugin sets `DataComponentTypes.TOOLTIP_STYLE` to `legendcraft:classes/<name>`; the client
+then draws `tooltip/classes/<name>_background` and `_frame` from the GUI atlas behind the
+item's tooltip. All of these are written by `tools/generate_skill_cards.py` (see `TOOLING.md`):
+
+| Style id | Use |
+|---|---|
+| `legendcraft:classes/skill_card` | the common card |
+| `legendcraft:classes/skill_card_ultimate_bloodweaver` | Bloodweaver's ultimate card: the corner veins, pulsing |
+
+The font `legendcraft:classes/skill_card` holds the card's stat marks: U+E000 mana, U+E001
+health, U+E002 cooldown, U+E003 and U+E004 the keybind brackets.
 
 ### Adding a flat (sprite) item — the three files
 
@@ -100,8 +116,8 @@ pwsh -File deploy-rigs.ps1 -Rig wept,glassjackal,sorrowmoth,eyeless_warden,grief
 ## Dev pack publishing
 
 `tools/merge_dev_pack.py` (durable, re-runnable) builds `dist/LegendCraft-Pack-dev.zip` —
-the pack mc-dev points at — by merging BetterModel + BetterHud generated packs with our
-built pack, preserving every source's `pack.mcmeta` OVERLAYS (dropping BetterHud's is
+the pack mc-dev points at — by merging the BetterModel, BetterHud and MythicArmors generated
+packs with our built pack, preserving every source's `pack.mcmeta` OVERLAYS (dropping BetterHud's is
 exactly how the HUD broke on 2026-08-03). Run `build.ps1` first, run this after the server
 has booted with the current models, upload with `gh release upload dev ... --clobber`, pin
 the printed sha1 in mc-dev `server.properties`, restart.
@@ -130,7 +146,7 @@ end is `tools/deploy-hud.ps1`, and `hud/betterhud/README.md` is the detail.
 
 | gate | what it refuses |
 |---|---|
-| generator drift | a `hud/` tree that differs from what `generate_hud.py` writes |
+| generator drift | a `hud/` tree that differs from what `generate_hud.py` writes, or flipbook frames that differ from what `gen-flipbook-frames.py` writes |
 | placeholder audit | a `papi:legendcraft_*` token no `HudPlaceholders` case answers |
 | pattern slashes | a `pattern:` anywhere in `hud/betterhud/` carrying a slash run that is not `//` with a colour tag on each side — BetterHud's text parser eats one slash and fuses the literal in front of it onto the next placeholder token, refusing the whole hud |
 | YAML shape | an element with no name or layer, a condition missing `first`/`second`/`operation`, a layer outside the generator's band, an image reference resolving to no file, a layout drawing an unregistered image, a hud composing an undefined layout |

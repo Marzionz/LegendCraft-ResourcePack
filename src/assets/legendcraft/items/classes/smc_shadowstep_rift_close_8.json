@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "legendcraft:item/classes/smc_shadowstep_rift_close_8",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 16712190
+      }
+    ]
+  }
+}

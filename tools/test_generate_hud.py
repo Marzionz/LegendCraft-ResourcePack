@@ -4,16 +4,47 @@ Run from the repository root:
     python tools/test_generate_hud.py
 
 Acceptance criteria:
-1. Both generated ability rows sit at y=-45; exactly three frames are gated to slot_count 3
+1. Both generated ability rows sit at y=-35; exactly three frames are gated to slot_count 3
    and exactly four are gated to slot_count 4.
-2. One centered feedback text element reads legendcraft_feedback_line at y=-57 and scale 0.5.
-3. The tile bottom stays 15px above the vanilla held-item-name lane used by the compositor.
+2. One centered feedback text element reads legendcraft_feedback_line at y=-47 and scale 0.5.
+3. The tile bottom stays 5px above the vanilla held-item-name lane used by the compositor.
 4. Checked-in layout YAML and the cross-repo placeholder manifest equal generator truth.
 
 First RED (2026-08-30, before generator implementation): four tests ran and all four failed.
 The checked-in manifest differed because shield_current/shield_max were absent; generated frame
 y values were {-25}, expected {-45}; the feedback element count was 0, expected 1; and native-lane
 clearance was -5px, expected 15px.
+
+Re-ruled 2026-09-05 (owner, after seeing hoist 20 and 10 in client): SKILL_ROW_HOIST_PX drops
+20 -> 10, moving the ability rows and the feedback line down 10px together and narrowing the
+held-item-lane clearance 15px -> 5px. Criteria 1-3 carry the new ruled values; the assertions
+themselves are unchanged, only the numbers they pin.
+
+HUD-AIR criteria (added 2026-09-05; PR #7 blanked the vanilla oxygen bubbles, which render in
+the vanilla armor lane on top of the stat block, and left drowning with no read at all):
+5. The stat block carries an air element -- channel, native fill, icon -- and all three parts
+   are hidden at full air by the same gate. A part that is not gated is a part that draws
+   while you are breathing.
+6. That element rides the empty band above the block -- the ground the owner's hoist of 10
+   opened -- on the same left rail as HP, resource and XP, clear of the keycap glyphs above
+   it and of the health row below it. It gets its own frame on empty ground rather than
+   recolouring a live rail: drawn over the XP bar the two channels share a field and an
+   outline, fuse into one rail, and read as a two-tone XP bar rather than as air.
+7. The fill is BetterHud's native `air` listener and the gate is BetterHud's own `air` /
+   `max_air` built-ins, so no part of this element reaches LegendCraft-Classes -- it cannot go
+   dark the way a papi:legendcraft_* element does when the jar and this config disagree.
+
+RECAST-HUD criteria (a window the caster races on their own kit shows on the tile of its skill as
+two parts: the recast shine while the window is open, and the duration sweep while its deadline
+runs, with no grey wash):
+8. Every tile of both rows carries its slot's duration sweep over the art field, gated on that
+   row's slot_count exactly as the frame is.
+9. The sweep is a circle-split listener on the plugin's `<slot>_window` fraction with max 1, so a
+   slot with no running deadline (0) draws none of it.
+10. Every tile of both rows carries the recast shine over the art field, gated on the row's
+    slot_count and on `<slot>_recast` reading 1, and the shine is a looping sequence.
+11. Both parts draw over the art and the cooldown shroud and below the charge pips and the deny
+    flash, and the sweep art is a light wash with no grey in it.
 """
 
 from pathlib import Path
@@ -25,12 +56,16 @@ import generate_hud as hud
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 LAYOUT_PATH = REPO_ROOT / "hud/betterhud/layouts/legendcraft-stat.yml"
+IMAGES_PATH = REPO_ROOT / "hud/betterhud/images/legendcraft-stat.yml"
 MANIFEST_PATH = REPO_ROOT / "hud/betterhud/hud-placeholders.txt"
-EXPECTED_SKILL_ROW_Y_PX = -45
-EXPECTED_FEEDBACK_LINE_Y_PX = -57
+EXPECTED_SKILL_ROW_Y_PX = -35
+EXPECTED_FEEDBACK_LINE_Y_PX = -47
 VANILLA_ITEM_NAME_OFFSET_PX = 59
-EXPECTED_NATIVE_CLEARANCE_PX = 15
+EXPECTED_NATIVE_CLEARANCE_PX = 5
 REQUIRED_CONTRACT_IDS = {"shield_current", "shield_max"}
+# The three parts of the air element, and the built-in comparison that gates all three.
+AIR_ELEMENT_NAMES = ("lc_air_empty", "lc_fill_air", "lc_icon_air")
+AIR_GATE_FIRST, AIR_GATE_SECOND, AIR_GATE_OP = "air", "max_air", "<"
 
 
 def layout_blocks(layout, name):
@@ -109,6 +144,163 @@ class HudlineGeometryTest(unittest.TestCase):
             generated_manifest_text(),
             MANIFEST_PATH.read_text(encoding="utf-8"),
         )
+
+
+class AirElementTest(unittest.TestCase):
+    """HUD-AIR: the drowning read PR #7 took away, paid back inside the stat block."""
+
+    def setUp(self):
+        self.layout = hud._bh_stat_layout_yml()
+        self.images = hud._bh_stat_images_yml()
+
+    def air_blocks(self):
+        blocks = {}
+        for name in AIR_ELEMENT_NAMES:
+            found = layout_blocks(self.layout, name)
+            self.assertEqual(1, len(found), "%s should be exactly one element" % name)
+            blocks[name] = found[0]
+        return blocks
+
+    def fill_air_entry(self):
+        # The registry entry is the name line plus every INDENTED line under it. No DOTALL
+        # here: with it, `.` swallows newlines and the "entry" runs to the end of the file.
+        entry = re.search(r"(?m)^lc_fill_air:\n(?:[ \t].*\n)*", self.images)
+        self.assertIsNotNone(entry, "lc_fill_air is not registered")
+        return entry.group(0)
+
+    def element_xy(self, block):
+        return (int(re.search(r"^      x: (-?\d+)$", block, re.MULTILINE).group(1)),
+                int(re.search(r"^      y: (-?\d+)$", block, re.MULTILINE).group(1)))
+
+    def test_every_part_of_the_air_element_is_hidden_at_full_air(self):
+        for name, block in self.air_blocks().items():
+            self.assertIn("      conditions:\n", block, "%s draws ungated" % name)
+            self.assertIn("          first: %s\n" % AIR_GATE_FIRST, block, name)
+            self.assertIn("          second: %s\n" % AIR_GATE_SECOND, block, name)
+            self.assertIn("          operation: '%s'\n" % AIR_GATE_OP, block, name)
+
+    def test_the_air_element_rides_the_band_above_the_block(self):
+        left_rail = hud.STAT_IW + hud.STAT_ICON_GAP
+        blocks = self.air_blocks()
+
+        channel = self.element_xy(blocks["lc_air_empty"])
+        self.assertEqual((left_rail, hud.AIR_Y_PX), channel,
+                         "the channel shares the left rail with HP, resource and XP")
+        self.assertEqual((left_rail + hud.BAR_PAD, hud.AIR_Y_PX + hud.BAR_PAD),
+                         self.element_xy(blocks["lc_fill_air"]))
+
+        icon = self.element_xy(blocks["lc_icon_air"])
+        self.assertEqual(((hud.STAT_IW - hud.AIR_ICON_H) // 2,
+                          hud.AIR_Y_PX + (hud.AIR_H - hud.AIR_ICON_H) // 2), icon,
+                         "the icon centres on its own rail and in the 9-wide icon column")
+
+        # The band is bounded on both sides, and the icon is the tallest part -- so it is the
+        # icon, not the rail, that has to clear each neighbour.
+        self.assertLess(icon[1] + hud.AIR_ICON_H, 0,
+                        "the bubble must not crowd the health row below it")
+        self.assertGreaterEqual(icon[1], hud.SKILL_ROW_Y_PX + hud.SKILL_TILE + hud.KEY_DROP,
+                                "the bubble must not collide with the keycap glyphs above it")
+
+    def test_the_fill_is_betterhuds_native_air_listener(self):
+        body = self.fill_air_entry()
+        self.assertIn("  type: listener\n", body)
+        self.assertIn("      class: air\n", body)
+
+    def test_no_part_of_the_air_element_reads_a_placeholder_the_plugin_serves(self):
+        for name, block in self.air_blocks().items():
+            self.assertNotIn("papi:", block, "%s reaches PlaceholderAPI" % name)
+        self.assertNotIn("papi:", self.fill_air_entry())
+
+
+class AirArtTest(unittest.TestCase):
+    """The three PNGs the element points at exist, at the sizes the layout offsets assume."""
+
+    def test_the_air_art_is_written_at_the_ruled_sizes(self):
+        from PIL import Image
+        for name, size in (
+            ("bars/air_empty.png", (hud.AIR_W, hud.AIR_H)),
+            ("bars/fill_air.png", (hud.AIR_W - 2 * hud.BAR_PAD, hud.AIR_H - 2 * hud.BAR_PAD)),
+            ("stat-icons/air.png", (hud.AIR_ICON_H, hud.AIR_ICON_H)),
+        ):
+            path = REPO_ROOT / "hud" / name
+            self.assertTrue(path.is_file(), "%s was never written" % name)
+            with Image.open(path) as art:
+                self.assertEqual(size, art.size, name)
+
+
+
+class RecastWindowTest(unittest.TestCase):
+    """RECAST-HUD: the recast shine and the duration sweep on each skill tile."""
+
+    def setUp(self):
+        self.layout = hud._bh_stat_layout_yml()
+        self.images = hud._bh_images_yml()
+
+    @staticmethod
+    def field(block, key):
+        return re.search(r"^      %s: (-?\d+)$" % key, block, re.MULTILINE).group(1)
+
+    @staticmethod
+    def row_gate(block):
+        return re.search(r'^          second: "\'(3|4)\'"$', block, re.MULTILINE).group(1)
+
+    def art_fields(self):
+        return {(str(int(self.field(b, "x")) + hud.SKILL_ART_OFF),
+                 str(int(self.field(b, "y")) + hud.SKILL_ART_OFF),
+                 self.row_gate(b))
+                for b in layout_blocks(self.layout, "lc_skill_frame")}
+
+    def registry_entry(self, name):
+        entry = re.search(r"(?m)^%s:\n(?:[ \t].*\n)*" % re.escape(name), self.images)
+        self.assertIsNotNone(entry, "%s is not registered" % name)
+        return entry.group(0)
+
+    def test_every_tile_of_both_rows_carries_its_slots_sweep_over_the_art_field(self):
+        sweeps = set()
+        for slot in hud.SLOT_IDS:
+            blocks = layout_blocks(self.layout, "lc_window_sweep_%s" % slot)
+            self.assertTrue(blocks, "no duration sweep for %s" % slot)
+            sweeps |= {(self.field(b, "x"), self.field(b, "y"), self.row_gate(b)) for b in blocks}
+        self.assertEqual(self.art_fields(), sweeps, "one sweep per tile, on its art field and row gate")
+
+    def test_the_sweep_is_a_circle_split_listener_on_the_slots_window_fraction(self):
+        for slot in hud.SLOT_IDS:
+            body = self.registry_entry("lc_window_sweep_%s" % slot)
+            self.assertIn("  type: listener\n", body)
+            self.assertIn("  split-type: circle\n", body)
+            self.assertIn("      class: placeholder\n", body)
+            self.assertIn('      value: "(number)papi:legendcraft_%s_window"\n' % slot, body)
+            self.assertIn("      max: 1\n", body)
+
+    def test_every_tile_shines_while_its_slots_window_is_open(self):
+        blocks = layout_blocks(self.layout, "lc_recast_shine")
+        placed = {(self.field(b, "x"), self.field(b, "y"), self.row_gate(b)) for b in blocks}
+        self.assertEqual(self.art_fields(), placed, "one shine per tile, on its art field and row gate")
+        gated = set()
+        for block in blocks:
+            gate = re.search(r'^          first: "papi:legendcraft_(\w+)_recast"\n'
+                             r'          second: "\'1\'"\n'
+                             r"          operation: '=='$", block, re.MULTILINE)
+            self.assertIsNotNone(gate, "a shine drawn without its slot's recast gate")
+            gated.add(gate.group(1))
+        self.assertEqual(set(hud.SLOT_IDS), gated)
+        body = self.registry_entry("lc_recast_shine")
+        self.assertIn("  type: sequence\n", body)
+        self.assertIn("    animation-type: loop\n", body)
+
+    def test_both_parts_draw_over_the_washes_and_under_the_pips_and_the_deny_flash(self):
+        self.assertLess(hud.TILE_L_SHROUD, hud.TILE_L_SWEEP)
+        self.assertLess(hud.TILE_L_SWEEP, hud.TILE_L_SHINE)
+        self.assertLess(hud.TILE_L_OOM, hud.TILE_L_SHINE)
+        self.assertLess(hud.TILE_L_SHINE, hud.TILE_L_BADGE)
+        self.assertLess(hud.TILE_L_SHINE, hud.TILE_L_DENY)
+        from PIL import Image
+        path = REPO_ROOT / "hud/indicators/window_sweep.png"
+        self.assertTrue(path.is_file(), "window_sweep.png was never written")
+        with Image.open(path) as art:
+            pixels = list(art.convert("RGBA").getdata())
+        self.assertTrue(pixels and all(p[:3] == (255, 255, 255) for p in pixels),
+                        "the sweep is a light wash: no grey or dark pixel")
 
 
 if __name__ == "__main__":

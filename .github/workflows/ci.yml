@@ -46,18 +46,25 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python -m pip install --disable-pip-version-check -r tools/requirements.txt
 
-      # Gate 1. The BetterHud YAML and the shared chrome art are generated. A hand edit to any
-      # of them survives review looking like config and is erased by the next regeneration, so
-      # the tree has to equal what the generator writes.
+      # Gate 1. The BetterHud YAML, the shared chrome art and the flipbook frames are generated.
+      # A hand edit to any of them survives review looking like content and is erased by the next
+      # regeneration, so the tree has to equal what the generators write.
       - name: Gate - generator drift
         working-directory: LegendCraft-ResourcePack
         run: |
           python tools/generate_hud.py
+          python tools/gen-flipbook-frames.py
           python tools/check_generator_drift.py
 
       - name: Gate - generator acceptance suite
         working-directory: LegendCraft-ResourcePack/tools
         run: python test_generate_hud.py
+
+      # The skill-card sprites and marks font are generated from the approved ornament art; the
+      # suite regenerates them into a scratch tree and compares against src/.
+      - name: Gate - skill card generator acceptance suite
+        working-directory: LegendCraft-ResourcePack/tools
+        run: python test_generate_skill_cards.py
 
       # Gate 2. Every placeholder the HUD reads is one the plugin answers, read from the
       # expansion's own source rather than a copied list.

@@ -1,0 +1,27 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:display_context",
+    "cases": [
+      {
+        "when": "gui",
+        "model": {
+          "type": "minecraft:model",
+          "model": "legendcraft:item/classes/knight_shield_sprite"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:condition",
+      "property": "minecraft:using_item",
+      "on_false": {
+        "type": "minecraft:model",
+        "model": "legendcraft:item/classes/knight_shield"
+      },
+      "on_true": {
+        "type": "minecraft:model",
+        "model": "legendcraft:item/classes/knight_shield_raised"
+      }
+    }
+  }
+}

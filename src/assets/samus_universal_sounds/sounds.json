@@ -1,0 +1,26 @@
+{
+  "samus.universal.rupture_big": {
+    "category": "master",
+    "sounds": [
+      "samus_universal_sounds:samus/universal/rupture_big"
+    ]
+  },
+  "samus.universal.hit_impact_big": {
+    "category": "master",
+    "sounds": [
+      "samus_universal_sounds:samus/universal/hit_impact_big"
+    ]
+  },
+  "samus.universal.explosion_small": {
+    "category": "master",
+    "sounds": [
+      "samus_universal_sounds:samus/universal/explosion_small"
+    ]
+  },
+  "samus.universal.move2_clip": {
+    "category": "master",
+    "sounds": [
+      "samus_universal_sounds:samus/universal/move2_clip"
+    ]
+  }
+}
