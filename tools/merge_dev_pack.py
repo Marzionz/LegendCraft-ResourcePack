@@ -67,7 +67,7 @@ def clamp_upper(section, range_key, ceiling):
         value["max_inclusive"] = ceiling
 
 
-def bound_formats(meta, ceiling, importing=frozenset()):
+def bound_formats(meta, ceiling, importing):
     """Bound `meta`'s base range and overlay ranges at `ceiling`, and the overlays named in
     `importing` below MOJ_IMPORT_REJECTED_FORMAT, returning one line per change."""
     report = []
