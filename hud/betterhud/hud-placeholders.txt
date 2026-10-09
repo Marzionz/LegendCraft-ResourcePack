@@ -8,7 +8,6 @@ legendcraft_health
 legendcraft_is_party_leader
 legendcraft_level
 legendcraft_max_health
-legendcraft_max_hp
 legendcraft_party_member_1
 legendcraft_party_member_2
 legendcraft_party_member_3
