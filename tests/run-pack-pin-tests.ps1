@@ -57,6 +57,8 @@
            creates a version, it never replaces one                    PROM-04
     AC-13  a pack built from this repo's src/ that has lost content is refused before
            anything is uploaded                                        IMM-03
+    AC-14  a pack with an overlay reaching the format that rejects #moj_import, whose core
+           shader still uses it, is refused before anything is uploaded  IMM-04
 
   FIRST RED, recorded in tests/RED-pack-pin.txt: all twelve arms ran and all twelve failed.
   check-pack-pin.ps1 did not exist, so PIN-01..PIN-06 failed on the missing script;
@@ -110,11 +112,12 @@ function Write-Utf8 {
 }
 
 function New-Pack {
-    param([string]$Path, [string]$Marker)
+    param([string]$Path, [string]$Marker, [hashtable]$Files = @{})
     New-Item -ItemType Directory -Force -Path (Split-Path -Parent $Path) | Out-Null
     $staging = Join-Path $Fixture ("stage-" + [guid]::NewGuid().ToString('n'))
     New-Item -ItemType Directory -Force -Path $staging | Out-Null
     Write-Utf8 (Join-Path $staging 'pack.mcmeta') $Marker
+    foreach ($name in $Files.Keys) { Write-Utf8 (Join-Path $staging $name) $Files[$name] }
     if (Test-Path -LiteralPath $Path) { Remove-Item -LiteralPath $Path -Force }
     # Windows PowerShell needs the assembly loaded; on pwsh it is already there and asking again
     # is an error rather than a no-op.
@@ -324,6 +327,23 @@ try {
 finally {
     Remove-Item -LiteralPath $Hollow, ($Hollow + '.sha1') -Force -ErrorAction SilentlyContinue
 }
+
+# The overlay reaches every format, so whichever format rejects #moj_import, it is in range. The
+# pack sits in the fixture's dist/, outside the manifest audit's reach, so only the shader gate
+# can refuse it.
+$importingShader = 'importing_overlay/assets/minecraft/shaders/core/entity.vsh'
+$Importing = Join-Path $Dist 'LegendCraft-Pack-0.0.2.zip'
+$null = New-Pack -Path $Importing -Marker (
+    '{"pack":{"pack_format":84,"description":"importing"},' +
+    '"overlays":{"entries":[{"formats":[84,65535],"min_format":84,"max_format":65535,' +
+    '"directory":"importing_overlay"}]}}') -Files @{
+    $importingShader = "#version 330`n#moj_import <minecraft:fog.glsl>`nvoid main() {}`n"
+}
+Reset-Gh
+$r = Invoke-Publish @('-Zip', $Importing, '-Repo', 'fixture/repo', '-GhPath', $GhShim)
+Assert 'IMM-04' 'a pack whose overlay core shader a newer client cannot compile is refused before upload' (
+    $r.exit -ne 0 -and (Gh-Uploaded).Count -eq 0 -and
+    $r.text -match 'still use #moj_import' -and $r.text -match [regex]::Escape($importingShader))
 
 Write-Host ''
 Write-Host 'PROM - promotion is the only dev-to-versioned path'

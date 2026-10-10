@@ -5,7 +5,9 @@ every LegendCraft plugin. Authored by us (per `LegendCraft/Design/plugin-strateg
 `ModelEngine` will later hand us merge-ready assets for rigged **mob** models.
 
 - **Target:** Paper **26.2** — pack format **88** (`resource_major` from the server's
-  `version.json`). Bump `src/pack.mcmeta` when the server's resource major changes.
+  `version.json`). Bump `src/pack.mcmeta` when the server's resource major changes. The base
+  range reaches `TESTED_MAX_FORMAT`, so 26.3 clients are served too; the `legendcraft_26_<n>`
+  overlays carry the item shaders in each client's own shader syntax.
 - **Mechanism:** the **modern item-model system** — the `minecraft:item_model` data
   component points an item at an *item model definition* under `assets/legendcraft/items/…`.
   We do **not** use the legacy `CustomModelData` + predicate-override style (most online
@@ -120,7 +122,10 @@ the pack mc-dev points at — by merging the BetterModel, BetterHud and MythicAr
 packs with our built pack, preserving every source's `pack.mcmeta` OVERLAYS (BetterHud's text
 shaders live only in its overlays). Every format range in the merged `pack.mcmeta` is bounded at
 `TESTED_MAX_FORMAT` in `tools/pack_formats.py`: a range reaching past it is cut to it, an overlay
-starting above it leaves the manifest, and the merge prints each one. Run `build.ps1` first, run this after the server
+starting above it leaves the manifest, and the merge prints each one. An overlay whose core
+shaders still use `#moj_import` is bounded the same way below `MOJ_IMPORT_REJECTED_FORMAT`.
+`tools/publish-pack.ps1` runs the overlay shader gate on the pack and refuses to publish on a
+failure. Run `build.ps1` first, run this after the server
 has booted with the current models, upload with `gh release upload dev ... --clobber`, pin
 the printed sha1 in mc-dev `server.properties`, restart.
 
@@ -154,7 +159,7 @@ end is `tools/deploy-hud.ps1`, and `hud/betterhud/README.md` is the detail.
 | YAML shape | an element with no name or layer, a condition missing `first`/`second`/`operation`, a layer outside the generator's band, an image reference resolving to no file, a layout drawing an unregistered image, a hud composing an undefined layout |
 | pack manifest | a merge that drops item models, sounds, `sounds.json`, or plugin-contributed assets its inputs carried |
 | pack.mcmeta formats | a `pack_format` of 80 or more with no `min_format`/`max_format`, or a triple that does not contain its own `pack_format` — the client answers that by discarding every overlay in the pack, and BetterHud ships its shader cores only in overlays; and any base or overlay range, in either form, starting above its own end or ending above `TESTED_MAX_FORMAT` |
-| merge format bound | a dev pack merge that carries a plugin pack's overlay range past `TESTED_MAX_FORMAT`, or keeps an overlay starting above it |
+| merge format bound | a dev pack merge that carries a plugin pack's overlay range past `TESTED_MAX_FORMAT`, or keeps an overlay starting above it; or that lets an overlay whose core shaders use `#moj_import` reach `MOJ_IMPORT_REJECTED_FORMAT` |
 | overlay shaders | a core shader still using `#moj_import` in an overlay whose range reaches `MOJ_IMPORT_REJECTED_FORMAT` — a client there cannot compile it and rejects the whole pack |
 | ghost mark | a shipped item tint, constant or tint-source default, int or float triple read as the game reads it, that carries the ghost alpha mark and would draw its item translucent; and a source tree it could not read in full or that holds no item definition |
 | shader-template clear | a HUD deploy that would restart onto BetterHud's stale `shaders/text.{vsh,fsh}`, which override the vanilla global text shaders and dim all game text |

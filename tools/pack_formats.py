@@ -6,7 +6,7 @@ tested ceiling moves in one place.
 
 # The newest client pack format this pack and the plugin packs merged into it have been
 # exercised on. A client above it is served the pack without any overlay claiming its format.
-TESTED_MAX_FORMAT = 88
+TESTED_MAX_FORMAT = 97
 
 # The key holding the range's older form: a pack's section and an overlay entry name it
 # differently. Both carry the newer form as `min_format`/`max_format`.
