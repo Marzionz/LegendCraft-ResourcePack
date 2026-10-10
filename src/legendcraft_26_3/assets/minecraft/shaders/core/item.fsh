@@ -81,12 +81,13 @@ void main() {
         #endif
 
         color *= vertexColor * ColorModulator;
-        color.a *= ghostAlpha;
     }
 
     #ifdef GLINT
     color.a = max(color.a, GlintAlpha);
     #endif
+    // After glint's floor, so a ghost is never drawn above its level.
+    color.a *= ghostAlpha;
 
     #ifdef OIT_ALPHA_ONLY
     executeAlphaOnlyPhase(gl_FragCoord.z, color.a);
