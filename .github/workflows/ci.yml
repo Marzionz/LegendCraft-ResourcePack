@@ -115,6 +115,16 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python tools/test_check_overlay_shaders.py
 
+      # The item shader draws any face whose tint carries the ghost mark translucent, so no tint
+      # the pack ships may carry it.
+      - name: Gate - ghost mark
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/check_ghost_mark.py
+
+      - name: Gate - ghost mark acceptance suite
+        working-directory: LegendCraft-ResourcePack
+        run: python tools/test_check_ghost_mark.py
+
       # The pack-channel rules: a versioned release is immutable, and promotion is the only
       # path from the dev loop to one.
       - name: Gate - pack pin and promotion

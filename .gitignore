@@ -42,6 +42,9 @@ tools/*
 !/tools/test_merge_dev_pack.py
 !/tools/check_overlay_shaders.py
 !/tools/test_check_overlay_shaders.py
+!/tools/ghost_mark.py
+!/tools/check_ghost_mark.py
+!/tools/test_check_ghost_mark.py
 !/tools/deploy-hud.ps1
 !/tools/clear-hud-shaders.ps1
 !/tools/publish-pack.ps1
