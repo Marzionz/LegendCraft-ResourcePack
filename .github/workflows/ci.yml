@@ -121,6 +121,13 @@ jobs:
         working-directory: LegendCraft-ResourcePack
         run: python tools/check_ghost_mark.py
 
+      # The suite compiles and runs the item shaders' ghost code on Mesa's software GL, headless.
+      - name: Install a headless GL for the ghost mark suite
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q libegl1 libegl-mesa0 libgl1-mesa-dri
+          python -m pip install --disable-pip-version-check moderngl==5.12.0
+
       - name: Gate - ghost mark acceptance suite
         working-directory: LegendCraft-ResourcePack
         run: python tools/test_check_ghost_mark.py
