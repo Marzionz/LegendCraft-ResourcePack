@@ -17,6 +17,7 @@ in vec3 voidViewRel;
 in vec3 voidNormal;
 in float voidFade;
 in float voidMarked;
+in float ghostAlpha;
 
 out vec4 fragColor;
 
@@ -33,6 +34,7 @@ void main() {
 #endif
 
     color *= vertexColor * ColorModulator;
+    color.a *= ghostAlpha;
     color.rgb = mix(overlayColor.rgb, color.rgb, overlayColor.a);
     color *= lightMapColor;
 

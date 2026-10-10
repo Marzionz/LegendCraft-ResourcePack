@@ -13,4 +13,5 @@ LEVELS = 16
 
 def is_ghost_coded(rgb):
     """Whether the tint rgb (0xRRGGBB) carries the ghost mark the item shader acts on."""
-    return False
+    level = (rgb >> 8) & 0xF
+    return ((rgb >> 16) & 0xF) == MARK_RED and (rgb & 0xF) == MARK_BLUE and 1 <= level < LEVELS
