@@ -156,6 +156,7 @@ end is `tools/deploy-hud.ps1`, and `hud/betterhud/README.md` is the detail.
 | pack.mcmeta formats | a `pack_format` of 80 or more with no `min_format`/`max_format`, or a triple that does not contain its own `pack_format` — the client answers that by discarding every overlay in the pack, and BetterHud ships its shader cores only in overlays; and any base or overlay range, in either form, starting above its own end or ending above `TESTED_MAX_FORMAT` |
 | merge format bound | a dev pack merge that carries a plugin pack's overlay range past `TESTED_MAX_FORMAT`, or keeps an overlay starting above it |
 | overlay shaders | a core shader still using `#moj_import` in an overlay whose range reaches `MOJ_IMPORT_REJECTED_FORMAT` — a client there cannot compile it and rejects the whole pack |
+| ghost mark | a shipped item tint, constant or tint-source default, int or float triple read as the game reads it, that carries the ghost alpha mark and would draw its item translucent; and a source tree it could not read in full or that holds no item definition |
 | shader-template clear | a HUD deploy that would restart onto BetterHud's stale `shaders/text.{vsh,fsh}`, which override the vanilla global text shaders and dim all game text |
 
 The placeholder gate reads `HudPlaceholders.java` out of a sibling `LegendCraft-Classes`

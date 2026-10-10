@@ -31,7 +31,7 @@ bool is_void_mark(vec4 tint) {
     return abs(tint.g * 255.0 - 1.0) < 0.5 && abs(tint.b * 255.0 - 254.0) < 0.5;
 }
 
-// A ghost limb rig codes its alpha into its tints (LegendCraft-Core GhostAlpha, tools/ghost_mark.py):
+// A ghost limb rig codes its alpha into its tints (LegendCraft-Core's GhostAlpha writes it):
 // red's low nibble GHOST_MARK_RED and blue's GHOST_MARK_BLUE mark the tint, and green's low nibble is
 // a level drawn at level / GHOST_LEVELS alpha. The face keeps the tint's top nibbles as its colour.
 const float GHOST_MARK_RED = 10.0;
