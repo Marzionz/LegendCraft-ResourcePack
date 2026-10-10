@@ -130,7 +130,7 @@ BASE_AT_CEILING_MCMETA = {
 
 
 def write_vendor_overlays(root, mcmeta=None, files=None):
-    """A vendor overlays folder: a pack.mcmeta declaring its overlays, and their files."""
+    """A vendor overlays folder: a manifest declaring its overlays, and their files."""
     os.makedirs(root)
     with open(os.path.join(root, "pack.mcmeta"), "w") as handle:
         json.dump(mcmeta or {"pack": {"description": "vendor overlays"}}, handle)

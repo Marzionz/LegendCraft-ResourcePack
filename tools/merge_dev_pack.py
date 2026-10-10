@@ -8,7 +8,7 @@ config, because the first three are generated at plugin startup:
   2. mc-dev BetterHud    build.zip  (generated HUD assets + versioned shader OVERLAYS)
   3. mc-dev MythicArmors pack.zip   (baked 3D armour + versioned core entity shader OVERLAYS)
   4. VENDOR_OVERLAYS (our ports of vendor shaders to a client the vendor has not shipped for,
-     as overlays the folder's own pack.mcmeta declares)
+     as overlays the folder's own manifest declares)
   5. our built pack dist/LegendCraft-Pack-<version>.zip (run build.ps1 first)
 
 Later sources win file conflicts (ours last). pack.mcmeta is MERGED, not picked: ours as the
