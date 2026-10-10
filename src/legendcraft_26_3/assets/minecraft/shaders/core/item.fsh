@@ -30,6 +30,7 @@ layout(location = 7) in vec3 voidViewRel;
 layout(location = 8) in vec3 voidNormal;
 layout(location = 9) in float voidFade;
 layout(location = 10) in float voidMarked;
+layout(location = 11) in float ghostAlpha;
 
 #ifndef OIT_ALPHA_ONLY
 layout(location = 0) out vec4 fragColor;
@@ -80,6 +81,7 @@ void main() {
         #endif
 
         color *= vertexColor * ColorModulator;
+        color.a *= ghostAlpha;
     }
 
     #ifdef GLINT
