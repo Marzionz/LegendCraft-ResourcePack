@@ -15,6 +15,10 @@ Acceptance criteria:
    prints the report.
 5. A base pack declaring a pack_format above TESTED_MAX_FORMAT stops the merge, and so does one
    whose range starts above it; a base declaring exactly TESTED_MAX_FORMAT merges unchanged.
+6. An overlay whose core shaders carry `#moj_import` ends below MOJ_IMPORT_REJECTED_FORMAT in
+   both forms, keeping its lower bound; one starting at or above that format is dropped; both are
+   reported. An import-free overlay at that format comes through unchanged, and the merged pack
+   passes the overlay shader gate.
 
     python tools/test_merge_dev_pack.py
 """
@@ -34,10 +38,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 import merge_dev_pack  # noqa: E402
-from pack_formats import TESTED_MAX_FORMAT  # noqa: E402
+from pack_formats import MOJ_IMPORT_REJECTED_FORMAT, TESTED_MAX_FORMAT  # noqa: E402
 
 UNBOUNDED = 65535
 FUTURE = TESTED_MAX_FORMAT + 1
+BELOW_REJECTING = MOJ_IMPORT_REJECTED_FORMAT - 1
+SHADER_GATE = os.path.join(HERE, "check_overlay_shaders.py")
+CORE_SHADER = "assets/minecraft/shaders/core/entity.vsh"
+IMPORTING_SHADER = "#version 330\n#moj_import <minecraft:fog.glsl>\nvoid main() {}\n"
+INCLUDING_SHADER = "#version 330\n#include <minecraft:fog.glsl>\nvoid main() {}\n"
 
 MYTHICARMORS_MCMETA = {
     "pack": {"description": "armour", "pack_format": 63, "min_format": 63,
@@ -68,6 +77,26 @@ FUTURE_ONLY_MCMETA = {
          "min_format": FUTURE, "max_format": FUTURE + 2},
     ]},
 }
+IMPORTING_MCMETA = {
+    "pack": {"description": "vendor shaders", "pack_format": 84, "min_format": 84,
+             "max_format": UNBOUNDED, "supported_formats": [84, UNBOUNDED]},
+    "overlays": {"entries": [
+        {"min_format": 84, "max_format": UNBOUNDED,
+         "formats": {"min_inclusive": 84, "max_inclusive": UNBOUNDED},
+         "directory": "vendor_importing"},
+        {"min_format": MOJ_IMPORT_REJECTED_FORMAT, "max_format": UNBOUNDED,
+         "formats": {"min_inclusive": MOJ_IMPORT_REJECTED_FORMAT, "max_inclusive": UNBOUNDED},
+         "directory": "vendor_importing_late"},
+        {"formats": [MOJ_IMPORT_REJECTED_FORMAT, MOJ_IMPORT_REJECTED_FORMAT],
+         "min_format": MOJ_IMPORT_REJECTED_FORMAT, "max_format": MOJ_IMPORT_REJECTED_FORMAT,
+         "directory": "vendor_including"},
+    ]},
+}
+IMPORTING_FILES = {
+    "vendor_importing/" + CORE_SHADER: IMPORTING_SHADER,
+    "vendor_importing_late/" + CORE_SHADER: IMPORTING_SHADER,
+    "vendor_including/" + CORE_SHADER: INCLUDING_SHADER,
+}
 BASE_MCMETA = {
     "pack": {"pack_format": TESTED_MAX_FORMAT, "description": "base",
              "supported_formats": [9, UNBOUNDED], "min_format": 9, "max_format": UNBOUNDED},
@@ -89,11 +118,13 @@ BASE_AT_CEILING_MCMETA = {
 }
 
 
-def write_zip(path, mcmeta, *entries):
+def write_zip(path, mcmeta, *entries, files=None):
     with zipfile.ZipFile(path, "w") as archive:
         archive.writestr("pack.mcmeta", json.dumps(mcmeta))
         for entry in entries:
             archive.writestr(entry, "{}")
+        for name, text in (files or {}).items():
+            archive.writestr(name, text)
 
 
 def upper_bounds(section, range_key):
@@ -113,12 +144,13 @@ class MergeFormatBoundTest(unittest.TestCase):
         self.workspace = tempfile.mkdtemp(prefix="mergebound-")
         self.addCleanup(shutil.rmtree, self.workspace, True)
         self.sources = []
-        for name, mcmeta in (("mythicarmors", MYTHICARMORS_MCMETA),
-                             ("betterhud", BETTERHUD_MCMETA),
-                             ("future", FUTURE_ONLY_MCMETA),
-                             ("base", BASE_MCMETA)):
+        for name, mcmeta, files in (("mythicarmors", MYTHICARMORS_MCMETA, None),
+                                    ("betterhud", BETTERHUD_MCMETA, None),
+                                    ("future", FUTURE_ONLY_MCMETA, None),
+                                    ("importing", IMPORTING_MCMETA, IMPORTING_FILES),
+                                    ("base", BASE_MCMETA, None)):
             path = os.path.join(self.workspace, "%s.zip" % name)
-            write_zip(path, mcmeta, "assets/%s/marker.json" % name)
+            write_zip(path, mcmeta, "assets/%s/marker.json" % name, files=files)
             self.sources.append(path)
 
     def merged(self):
@@ -160,6 +192,38 @@ class MergeFormatBoundTest(unittest.TestCase):
         self.assertNotIn("betterhud_1_21_6", report)
         self.assertIn("dropped", report)
         self.assertIn("clamped", report)
+
+    def test_an_importing_overlay_ends_below_the_rejecting_format_in_both_forms(self):
+        overlays = self.overlays(self.merged()[0])
+        self.assertEqual({"min_format": 84, "max_format": BELOW_REJECTING,
+                          "formats": {"min_inclusive": 84, "max_inclusive": BELOW_REJECTING},
+                          "directory": "vendor_importing"}, overlays["vendor_importing"])
+
+    def test_an_importing_overlay_starting_at_the_rejecting_format_is_dropped(self):
+        self.assertNotIn("vendor_importing_late", self.overlays(self.merged()[0]))
+
+    def test_an_import_free_overlay_at_the_rejecting_format_is_unchanged(self):
+        overlays = self.overlays(self.merged()[0])
+        self.assertEqual(IMPORTING_MCMETA["overlays"]["entries"][2], overlays["vendor_including"])
+
+    def test_the_merge_reports_the_import_bound(self):
+        lines = self.merged()[1]
+        for directory in ("vendor_importing", "vendor_importing_late"):
+            named = [line for line in lines if (" %s:" % directory) in line]
+            self.assertEqual(1, len(named), lines)
+            self.assertIn("#moj_import", named[0])
+            self.assertIn(str(BELOW_REJECTING), named[0])
+        self.assertFalse([line for line in lines if " vendor_including:" in line], lines)
+
+    def test_the_merged_pack_passes_the_overlay_shader_gate(self):
+        entries, _ = merge_dev_pack.merge(self.sources)
+        merged = os.path.join(self.workspace, "merged.zip")
+        with zipfile.ZipFile(merged, "w") as archive:
+            for name, data in entries.items():
+                archive.writestr(name, data)
+        result = subprocess.run([sys.executable, SHADER_GATE, "--pack", merged],
+                                capture_output=True, text=True)
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
 
     def merge_over_base(self, mcmeta):
         write_zip(self.sources[-1], mcmeta, "assets/base/marker.json")
