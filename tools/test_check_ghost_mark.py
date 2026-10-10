@@ -14,7 +14,7 @@ Acceptance criteria:
 4. Control: a tree whose tints carry no mark passes.
 5. The gate checks what it was pointed at or fails: a missing root, a root that is a file, an
    unreadable directory under the root and a tree with no item definition each fail.
-6. Each covered item shader (the 26.1 and 26.2 overlays), compiled and run on a real GL context,
+6. Each covered item shader (the 26.1, 26.2 and 26.3 overlays), compiled and run on a real GL context,
    draws a marked face in its nibble-midpoint colour at level/16 alpha, and leaves an unmarked
    tint, a level-0 tint and the void marker as they were. Kill arm: dropping the alpha, the
    level read, the recolour or the fragment's alpha multiply each fails that arm.
@@ -41,7 +41,7 @@ from void_marker import void_tint  # noqa: E402
 
 GATE = os.path.join(HERE, "check_ghost_mark.py")
 SOURCE = os.path.join(os.path.dirname(HERE), "src")
-COVERED_OVERLAYS = ("legendcraft_26_1", "legendcraft_26_2")
+COVERED_OVERLAYS = ("legendcraft_26_1", "legendcraft_26_2", "legendcraft_26_3")
 
 # The contract with Core's GhostAlpha, pinned here as literals.
 MARK_RED = 0xA
@@ -84,8 +84,21 @@ def between(text, start, end, what):
 def harness(vertex, fragment):
     """The shaders' own ghost code, lifted verbatim into a pass that draws one tinted texel."""
     helpers = between(vertex, "bool is_void_mark", "void main()", "item.vsh helpers")
-    body = between(vertex, "voidMarked = ", "sphericalVertexDistance", "item.vsh main")
-    shade = between(fragment, "color *= vertexColor", "fragColor = apply_fog", "item.fsh main")
+    begin = vertex.find("voidMarked = ")
+    branch = vertex.find("if (level > 0.5)", begin)
+    if begin < 0 or branch < 0:
+        raise AssertionError("item.vsh main: no void mark read, or no ghost branch after it")
+    close = vertex.find("    }", branch)
+    body = vertex[begin:vertex.find("\n", close) + 1]
+    lines = fragment.splitlines()
+    first = next((i for i, line in enumerate(lines) if "color *= vertexColor" in line), None)
+    if first is None:
+        raise AssertionError("item.fsh main: no tint multiply")
+    shade = ""
+    for line in lines[first:]:
+        if not line.strip().startswith("color"):
+            break
+        shade += line.strip() + "\n    "
     vs = ("#version 330\nin vec2 Pos;\nin vec4 Color;\nout vec4 vertexColor;\n"
           "out float ghostAlpha;\nfloat voidMarked;\n" + helpers
           + "void main() {\n    gl_Position = vec4(Pos, 0.0, 1.0);\n    " + body
