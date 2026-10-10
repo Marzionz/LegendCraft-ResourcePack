@@ -292,7 +292,7 @@ class MergeFormatBoundTest(unittest.TestCase):
 
 
 BETTERHUD_449 = os.path.join(HERE, "fixtures", "betterhud-449")
-# MythicArmors 5.13.4's generated pack.zip: every overlay claims every format from its first.
+# A MythicArmors-generated pack: every overlay claims every format from its first.
 MYTHICARMORS_PACK_MCMETA = {
     "pack": {"description": "MythicArmor 3D armor", "pack_format": 63, "min_format": 63,
              "max_format": UNBOUNDED, "supported_formats": [63, UNBOUNDED]},
@@ -361,8 +361,8 @@ def client_view(entries, fmt):
 
 
 class VendorOverlays26_3Test(unittest.TestCase):
-    """The dev pack main() builds from the plugin packs a 26.3-ready box generates (BetterHud
-    2.2.0-SNAPSHOT-449, MythicArmors 5.13.4), the vendor overlays folder and our pack."""
+    """The dev pack main() builds from a BetterHud pack that ships its own 26.3 overlay, a
+    MythicArmors pack that does not, the vendor overlays folder and our pack."""
 
     def setUp(self):
         self.workspace = tempfile.mkdtemp(prefix="vendor263-")

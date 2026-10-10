@@ -7,8 +7,8 @@ config, because the first three are generated at plugin startup:
   1. mc-dev BetterModel  build.zip  (generated model assets)
   2. mc-dev BetterHud    build.zip  (generated HUD assets + versioned shader OVERLAYS)
   3. mc-dev MythicArmors pack.zip   (baked 3D armour + versioned core entity shader OVERLAYS)
-  4. VENDOR_OVERLAYS, a folder in the private Models repo: our ports of vendor shaders to a
-     client the vendor has not shipped for, as overlays its pack.mcmeta declares
+  4. VENDOR_OVERLAYS (our ports of vendor shaders to a client the vendor has not shipped for,
+     as overlays the folder's own pack.mcmeta declares)
   5. our built pack dist/LegendCraft-Pack-<version>.zip (run build.ps1 first)
 
 Later sources win file conflicts (ours last). pack.mcmeta is MERGED, not picked: ours as the
@@ -44,7 +44,7 @@ SOURCES = [
     "C:/Repositories/mc-dev/server/plugins/BetterHud/build.zip",
     "C:/Repositories/mc-dev/server/plugins/MythicArmors/pack.zip",
 ]
-# Ported vendor shaders stay out of this public repo: the Models repo is checked out at mobs-src.
+# The ported shaders are vendor code, so they live outside this public repo.
 VENDOR_OVERLAYS = "C:/Repositories/LegendCraft-ResourcePack/mobs-src/vendor-overlays"
 
 
@@ -107,11 +107,15 @@ def bound_formats(meta, ceiling, importing):
     return report
 
 
+def raise_error(error):
+    raise error
+
+
 def source_entries(path):
     """A source's files by pack path: a zip's entries, or the files under a folder."""
     if os.path.isdir(path):
         files = {}
-        for directory, _subdirs, names in os.walk(path):
+        for directory, _subdirs, names in os.walk(path, onerror=raise_error):
             for name in names:
                 full = os.path.join(directory, name)
                 with open(full, "rb") as handle:
@@ -146,8 +150,7 @@ def merge(source_paths):
 
 def main():
     if not os.path.isdir(VENDOR_OVERLAYS):
-        raise SystemExit("no vendor overlays folder at %s — check the Models repo out at mobs-src"
-                         % VENDOR_OVERLAYS)
+        raise SystemExit("no vendor overlays folder at %s" % VENDOR_OVERLAYS)
     sources = SOURCES + [VENDOR_OVERLAYS, newest_our_pack()]
     entries, report = merge(sources)
     for line in report:
