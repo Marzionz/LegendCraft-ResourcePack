@@ -16,8 +16,10 @@ Acceptance criteria:
    unreadable directory under the root and a tree with no item definition each fail.
 6. Each covered item shader (the 26.1, 26.2 and 26.3 overlays), compiled and run on a real GL context,
    draws a marked face in its nibble-midpoint colour at level/16 alpha, and leaves an unmarked
-   tint, a level-0 tint and the void marker as they were. Kill arm: dropping the alpha, the
-   level read, the recolour or the fragment's alpha multiply each fails that arm.
+   tint, a level-0 tint and the void marker as they were; with GLINT defined as well, where
+   glint's alpha floor must not lift a ghost above its level. Kill arm: dropping the alpha, the
+   level read, the recolour or the fragment's alpha multiply each fails that arm, and so does
+   applying the ghost alpha before glint's floor in a shader that has one.
 """
 
 from __future__ import annotations
@@ -81,7 +83,7 @@ def between(text, start, end, what):
     return text[begin:finish]
 
 
-def harness(vertex, fragment):
+def harness(vertex, fragment, glint=False):
     """The shaders' own ghost code, lifted verbatim into a pass that draws one tinted texel."""
     helpers = between(vertex, "bool is_void_mark", "void main()", "item.vsh helpers")
     begin = vertex.find("voidMarked = ")
@@ -94,19 +96,29 @@ def harness(vertex, fragment):
     first = next((i for i, line in enumerate(lines) if "color *= vertexColor" in line), None)
     if first is None:
         raise AssertionError("item.fsh main: no tint multiply")
-    shade = ""
+    shade = []
+    depth = 0
     for line in lines[first:]:
-        if not line.strip().startswith("color"):
+        text = line.strip()
+        if text.startswith("fragColor") or text.startswith("#ifdef OIT_ALPHA_ONLY"):
             break
-        shade += line.strip() + "\n    "
+        if text == "}" and depth == 0:
+            continue
+        depth += text.count("{") - text.count("}")
+        shade.append(text)
+    else:
+        raise AssertionError("item.fsh main: no final colour after the tint multiply")
     vs = ("#version 330\nin vec2 Pos;\nin vec4 Color;\nout vec4 vertexColor;\n"
           "out float ghostAlpha;\nfloat voidMarked;\n" + helpers
           + "void main() {\n    gl_Position = vec4(Pos, 0.0, 1.0);\n    " + body
           + "    vertexColor = tint;\n}\n")
-    fs = ("#version 330\nin vec4 vertexColor;\nin float ghostAlpha;\n"
-          "uniform vec4 ColorModulator;\nconst vec4 overlayColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
+    fs = ("#version 330\n" + ("#define GLINT\n" if glint else "")
+          + "in vec4 vertexColor;\nin float ghostAlpha;\n"
+          "uniform vec4 ColorModulator;\nuniform float GlintAlpha;\n"
+          "const vec4 overlayColor = vec4(0.0, 0.0, 0.0, 1.0);\n"
           "const vec4 lightMapColor = vec4(1.0);\nout vec4 fragColor;\nvoid main() {\n"
-          "    vec4 color = vec4(1.0);\n    " + shade + "    fragColor = color;\n}\n")
+          "    vec4 color = vec4(1.0);\n" + "".join("    %s\n" % line for line in shade)
+          + "    fragColor = color;\n}\n")
     return vs, fs
 
 
@@ -116,7 +128,7 @@ class Renderer:
     def __init__(self):
         import moderngl
         self.gl = moderngl
-        self.ctx = moderngl.create_standalone_context(backend="egl")
+        self.ctx = moderngl.create_context(standalone=True, backend="egl")
         self.fbo = self.ctx.framebuffer(
             color_attachments=[self.ctx.texture((1, 1), 4, dtype="f4")])
 
@@ -124,6 +136,8 @@ class Renderer:
         program = self.ctx.program(vertex_shader=vs, fragment_shader=fs)
         if "ColorModulator" in program:
             program["ColorModulator"].value = (1.0, 1.0, 1.0, 1.0)
+        if "GlintAlpha" in program:
+            program["GlintAlpha"].value = GLINT_ALPHA
         corners = ((-1.0, -1.0), (3.0, -1.0), (-1.0, 3.0))
         data = b"".join(struct.pack("6f", x, y, *rgba) for x, y in corners)
         buffer = self.ctx.buffer(data)
@@ -138,6 +152,10 @@ class Renderer:
         program.release()
         return texel
 
+
+# Glint's alpha floor in the GLINT variant: above every ghost level the arms draw, so a floor
+# applied after the ghost alpha would show.
+GLINT_ALPHA = 0.5
 
 # Tint in, then the colour and alpha the face is drawn with, worked by hand from the contract.
 DRAWN = (
@@ -277,13 +295,16 @@ class GhostMarkTest(unittest.TestCase):
                 declared = re.search(r"const float %s = ([0-9.]+);" % name, vertex)
                 self.assertIsNotNone(declared, "%s item.vsh declares %s" % (overlay, name))
                 self.assertEqual(value, float(declared.group(1)), "%s item.vsh: %s" % (overlay, name))
-            vs, fs = harness(vertex, fragment)
-            for what, tint, colour, alpha in DRAWN:
-                drawn = self.renderer.draw(vs, fs, channels(tint) + (1.0,))
-                want = tuple(c / 255.0 for c in colour) + (alpha,)
-                for got, expected in zip(drawn, want):
-                    self.assertAlmostEqual(expected, got, delta=1e-4, msg="%s, %s: drew %s, want %s"
-                                           % (overlay, what, drawn, want))
+            for glint in (False, True):
+                vs, fs = harness(vertex, fragment, glint)
+                variant = "GLINT" if glint else "no glint"
+                for what, tint, colour, alpha in DRAWN:
+                    drawn = self.renderer.draw(vs, fs, channels(tint) + (1.0,))
+                    want = tuple(c / 255.0 for c in colour) + (alpha,)
+                    for got, expected in zip(drawn, want):
+                        self.assertAlmostEqual(expected, got, delta=1e-4,
+                                               msg="%s, %s, %s: drew %s, want %s"
+                                               % (overlay, variant, what, drawn, want))
 
     def test_kill_arm_each_dropped_step_fails_the_shader_arm(self):
         vertex, fragment = shader_sources(COVERED_OVERLAYS[0])
@@ -303,6 +324,26 @@ class GhostMarkTest(unittest.TestCase):
             drawn = self.renderer.draw(vs, fs, channels(tint) + (1.0,))
             self.assertFalse(all(abs(g - w) < 1e-4 for g, w in zip(drawn, want)),
                              "the shader arm passes with %r replaced by %r" % (original, mutant))
+
+        glinted = 0
+        for overlay in COVERED_OVERLAYS:
+            vertex, fragment = shader_sources(overlay)
+            if "GlintAlpha" not in fragment:
+                continue
+            glinted += 1
+            lines = fragment.splitlines()
+            ghost = [i for i, line in enumerate(lines) if line.strip() == "color.a *= ghostAlpha;"]
+            self.assertEqual(1, len(ghost), "control: %s item.fsh applies the ghost alpha once"
+                             % overlay)
+            del lines[ghost[0]]
+            multiply = next(i for i, line in enumerate(lines) if "color *= vertexColor" in line)
+            lines.insert(multiply + 1, "color.a *= ghostAlpha;")
+            vs, fs = harness(vertex, "\n".join(lines), glint=True)
+            drawn = self.renderer.draw(vs, fs, channels(tint) + (1.0,))
+            self.assertFalse(all(abs(g - w) < 1e-4 for g, w in zip(drawn, want)),
+                             "%s: the GLINT arm passes with the ghost alpha applied before "
+                             "glint's floor" % overlay)
+        self.assertGreater(glinted, 0, "control: a covered item shader has a glint branch")
 
 
 if __name__ == "__main__":
