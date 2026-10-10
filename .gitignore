@@ -40,6 +40,7 @@ tools/*
 !/tools/merge_dev_pack.py
 !/tools/pack_formats.py
 !/tools/test_merge_dev_pack.py
+!/tools/fixtures/
 !/tools/check_overlay_shaders.py
 !/tools/test_check_overlay_shaders.py
 !/tools/ghost_mark.py

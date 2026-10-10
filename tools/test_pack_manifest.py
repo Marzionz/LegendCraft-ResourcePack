@@ -175,6 +175,10 @@ class PackManifestTest(unittest.TestCase):
             path = os.path.join(self.workspace, "%s-build.zip" % name)
             plugin_zip(path, entries)
             self.plugin_paths.append(path)
+        self.vendor_overlays = os.path.join(self.workspace, "vendor-overlays")
+        os.makedirs(self.vendor_overlays)
+        with open(os.path.join(self.vendor_overlays, "pack.mcmeta"), "w") as handle:
+            json.dump({"pack": {"description": "vendor overlays"}}, handle)
 
     def with_mcmeta(self, mcmeta):
         """A source tree holding one pack.mcmeta, for the manifest-only arms."""
@@ -201,7 +205,8 @@ class PackManifestTest(unittest.TestCase):
             "import merge_dev_pack as m;"
             "m.RP = %r;"
             "m.SOURCES = %r;"
-            "m.main()" % (self.workspace, self.plugin_paths)
+            "m.VENDOR_OVERLAYS = %r;"
+            "m.main()" % (self.workspace, self.plugin_paths, self.vendor_overlays)
         )
         result = subprocess.run([sys.executable, "-c", driver],
                                 capture_output=True, text=True, env=env, cwd=HERE)
