@@ -1,13 +1,15 @@
 """DURABLE, re-runnable (referenced in the repo README): build dist/LegendCraft-Pack-dev.zip,
 the pack mc-dev's server.properties points at.
 
-Merges FOUR sources — run AFTER the server has booted with the current models/HUD/armour
+Merges FIVE sources — run AFTER the server has booted with the current models/HUD/armour
 config, because the first three are generated at plugin startup:
 
   1. mc-dev BetterModel  build.zip  (generated model assets)
   2. mc-dev BetterHud    build.zip  (generated HUD assets + versioned shader OVERLAYS)
   3. mc-dev MythicArmors pack.zip   (baked 3D armour + versioned core entity shader OVERLAYS)
-  4. our built pack dist/LegendCraft-Pack-<version>.zip (run build.ps1 first)
+  4. VENDOR_OVERLAYS, a folder in the private Models repo: our ports of vendor shaders to a
+     client the vendor has not shipped for, as overlays its pack.mcmeta declares
+  5. our built pack dist/LegendCraft-Pack-<version>.zip (run build.ps1 first)
 
 Later sources win file conflicts (ours last). pack.mcmeta is MERGED, not picked: ours as the
 base plus the union of every source's `overlays` entries. Dropping BetterHud's overlays breaks
@@ -42,6 +44,8 @@ SOURCES = [
     "C:/Repositories/mc-dev/server/plugins/BetterHud/build.zip",
     "C:/Repositories/mc-dev/server/plugins/MythicArmors/pack.zip",
 ]
+# Ported vendor shaders stay out of this public repo: the Models repo is checked out at mobs-src.
+VENDOR_OVERLAYS = "C:/Repositories/LegendCraft-ResourcePack/mobs-src/vendor-overlays"
 
 
 def newest_our_pack():
@@ -103,16 +107,28 @@ def bound_formats(meta, ceiling, importing):
     return report
 
 
+def source_entries(path):
+    """A source's files by pack path: a zip's entries, or the files under a folder."""
+    if os.path.isdir(path):
+        files = {}
+        for directory, _subdirs, names in os.walk(path):
+            for name in names:
+                full = os.path.join(directory, name)
+                with open(full, "rb") as handle:
+                    files[os.path.relpath(full, path).replace(os.sep, "/")] = handle.read()
+        return files
+    with zipfile.ZipFile(path) as z:
+        return {n: z.read(n) for n in z.namelist() if not n.endswith("/")}
+
+
 def merge(source_paths):
     """The merged pack's entries, by zip path, and one report line per change to its pack.mcmeta."""
     entries = {}
     overlay_entries = []
     for path in source_paths:
-        with zipfile.ZipFile(path) as z:
-            for n in z.namelist():
-                if not n.endswith("/"):
-                    entries[n] = z.read(n)
-            meta = json.loads(z.read("pack.mcmeta"))
+        files = source_entries(path)
+        entries.update(files)
+        meta = json.loads(files["pack.mcmeta"])
         for entry in meta.get("overlays", {}).get("entries", []):
             if entry not in overlay_entries:
                 overlay_entries.append(entry)
@@ -129,7 +145,10 @@ def merge(source_paths):
 
 
 def main():
-    sources = SOURCES + [newest_our_pack()]
+    if not os.path.isdir(VENDOR_OVERLAYS):
+        raise SystemExit("no vendor overlays folder at %s — check the Models repo out at mobs-src"
+                         % VENDOR_OVERLAYS)
+    sources = SOURCES + [VENDOR_OVERLAYS, newest_our_pack()]
     entries, report = merge(sources)
     for line in report:
         print(line)

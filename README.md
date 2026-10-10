@@ -125,7 +125,17 @@ shaders live only in its overlays). Every format range in the merged `pack.mcmet
 starting above it leaves the manifest, and the merge prints each one. An overlay whose core
 shaders still use `#moj_import` is bounded the same way below `MOJ_IMPORT_REJECTED_FORMAT`.
 `tools/publish-pack.ps1` runs the overlay shader gate on the pack and refuses to publish on a
-failure. Run `build.ps1` first, run this after the server
+failure.
+
+A vendor that ships no overlay for a newer client is covered by our own port of its shaders in
+`VENDOR_OVERLAYS` (`C:/Repositories/LegendCraft-ResourcePack/mobs-src/vendor-overlays`, in the
+private Models repo; ported vendor shaders never go in this repo). The folder holds a
+`pack.mcmeta` declaring its overlays and the overlay directories, today `mythicarmors_26_3`
+(format 97: MythicArmors' `core/entity` in `#include` syntax). The merge takes it after
+MythicArmors' `pack.zip` and before our pack, and stops when it is absent. BetterHud
+2.2.0-SNAPSHOT-449 and later generate their own `betterhud_26_3`.
+
+Run `build.ps1` first, run this after the server
 has booted with the current models, upload with `gh release upload dev ... --clobber`, pin
 the printed sha1 in mc-dev `server.properties`, restart.
 
@@ -159,7 +169,7 @@ end is `tools/deploy-hud.ps1`, and `hud/betterhud/README.md` is the detail.
 | YAML shape | an element with no name or layer, a condition missing `first`/`second`/`operation`, a layer outside the generator's band, an image reference resolving to no file, a layout drawing an unregistered image, a hud composing an undefined layout |
 | pack manifest | a merge that drops item models, sounds, `sounds.json`, or plugin-contributed assets its inputs carried |
 | pack.mcmeta formats | a `pack_format` of 80 or more with no `min_format`/`max_format`, or a triple that does not contain its own `pack_format` — the client answers that by discarding every overlay in the pack, and BetterHud ships its shader cores only in overlays; and any base or overlay range, in either form, starting above its own end or ending above `TESTED_MAX_FORMAT` |
-| merge format bound | a dev pack merge that carries a plugin pack's overlay range past `TESTED_MAX_FORMAT`, or keeps an overlay starting above it; or that lets an overlay whose core shaders use `#moj_import` reach `MOJ_IMPORT_REJECTED_FORMAT` |
+| merge format bound | a dev pack merge that carries a plugin pack's overlay range past `TESTED_MAX_FORMAT`, or keeps an overlay starting above it; or that lets an overlay whose core shaders use `#moj_import` reach `MOJ_IMPORT_REJECTED_FORMAT`; or a dev pack that lacks BetterHud's or MythicArmors' 26.3 overlay, or serves a client below `MOJ_IMPORT_REJECTED_FORMAT` anything the vendor overlays folder changed |
 | overlay shaders | a core shader still using `#moj_import` in an overlay whose range reaches `MOJ_IMPORT_REJECTED_FORMAT` — a client there cannot compile it and rejects the whole pack |
 | ghost mark | a shipped item tint, constant or tint-source default, int or float triple read as the game reads it, that carries the ghost alpha mark and would draw its item translucent; and a source tree it could not read in full or that holds no item definition |
 | shader-template clear | a HUD deploy that would restart onto BetterHud's stale `shaders/text.{vsh,fsh}`, which override the vanilla global text shaders and dim all game text |
