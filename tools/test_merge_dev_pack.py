@@ -19,6 +19,13 @@ Acceptance criteria:
    both forms, keeping its lower bound; one starting at or above that format is dropped; both are
    reported. An import-free overlay at that format comes through unchanged, and the merged pack
    passes the overlay shader gate.
+7. The dev pack main() writes from the plugin packs, the vendor overlays folder and our pack
+   carries BetterHud's and MythicArmors' 26.3 overlays, each starting and ending at
+   TESTED_MAX_FORMAT, with core shaders and none using `#moj_import`; it passes the overlay shader
+   gate, and the vendors' older overlays end below MOJ_IMPORT_REJECTED_FORMAT.
+8. A client below MOJ_IMPORT_REJECTED_FORMAT is served the same overlays and the same bytes with
+   the vendor overlays folder as without it, and the merge reports the same clamps and drops.
+9. main() stops, naming the folder, when the vendor overlays folder is absent.
 
     python tools/test_merge_dev_pack.py
 """
@@ -38,7 +45,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 import merge_dev_pack  # noqa: E402
-from pack_formats import MOJ_IMPORT_REJECTED_FORMAT, TESTED_MAX_FORMAT  # noqa: E402
+from check_overlay_shaders import MOJ_IMPORT, core_shaders  # noqa: E402
+from pack_formats import (MOJ_IMPORT_REJECTED_FORMAT, OVERLAY_RANGE_KEY,  # noqa: E402
+                          TESTED_MAX_FORMAT, declared_ranges)
 
 UNBOUNDED = 65535
 FUTURE = TESTED_MAX_FORMAT + 1
@@ -116,6 +125,29 @@ BASE_AT_CEILING_MCMETA = {
              "supported_formats": [TESTED_MAX_FORMAT, TESTED_MAX_FORMAT],
              "min_format": TESTED_MAX_FORMAT, "max_format": TESTED_MAX_FORMAT},
 }
+
+
+def write_vendor_overlays(root, mcmeta=None, files=None):
+    """A vendor overlays folder: a pack.mcmeta declaring its overlays, and their files."""
+    os.makedirs(root)
+    with open(os.path.join(root, "pack.mcmeta"), "w") as handle:
+        json.dump(mcmeta or {"pack": {"description": "vendor overlays"}}, handle)
+    for name, text in (files or {}).items():
+        path = os.path.join(root, *name.split("/"))
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as handle:
+            handle.write(text)
+
+
+def run_main(workspace, plugin_paths, vendor_overlays):
+    """Run merge_dev_pack.main() over `workspace`/dist and the given sources."""
+    driver = ("import merge_dev_pack as m;"
+              "m.RP = %r;"
+              "m.SOURCES = %r;"
+              "m.VENDOR_OVERLAYS = %r;"
+              "m.main()" % (workspace, plugin_paths, vendor_overlays))
+    return subprocess.run([sys.executable, "-c", driver], capture_output=True, text=True,
+                          env=dict(os.environ, PYTHONPATH=HERE), cwd=HERE)
 
 
 def write_zip(path, mcmeta, *entries, files=None):
@@ -248,16 +280,166 @@ class MergeFormatBoundTest(unittest.TestCase):
         dist = os.path.join(self.workspace, "dist")
         os.makedirs(dist)
         shutil.copy(self.sources[-1], os.path.join(dist, "LegendCraft-Pack-9.9.9.zip"))
-        driver = ("import merge_dev_pack as m;"
-                  "m.RP = %r;"
-                  "m.SOURCES = %r;"
-                  "m.main()" % (self.workspace, self.sources[:-1]))
-        result = subprocess.run([sys.executable, "-c", driver], capture_output=True, text=True,
-                                env=dict(os.environ, PYTHONPATH=HERE), cwd=HERE)
+        vendor_overlays = os.path.join(self.workspace, "vendor-overlays")
+        write_vendor_overlays(vendor_overlays)
+        result = run_main(self.workspace, self.sources[:-1], vendor_overlays)
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         for line in merge_dev_pack.merge(self.sources)[1]:
             self.assertIn(line, result.stdout)
         self.assertIn("future_only", result.stdout.split("overlays:")[0])
+
+
+BETTERHUD_449 = os.path.join(HERE, "fixtures", "betterhud-449")
+# MythicArmors 5.13.4's generated pack.zip: every overlay claims every format from its first.
+MYTHICARMORS_PACK_MCMETA = {
+    "pack": {"description": "MythicArmor 3D armor", "pack_format": 63, "min_format": 63,
+             "max_format": UNBOUNDED, "supported_formats": [63, UNBOUNDED]},
+    "overlays": {"entries": [
+        {"min_format": low, "max_format": UNBOUNDED,
+         "formats": {"min_inclusive": low, "max_inclusive": UNBOUNDED}, "directory": directory}
+        for low, directory in ((63, "mythicarmors_1_21_6"), (84, "mythicarmors_26_1"),
+                               (88, "mythicarmors_26_2"))]},
+}
+MYTHICARMORS_PACK_FILES = {
+    "mythicarmors_1_21_6/" + CORE_SHADER: IMPORTING_SHADER,
+    "mythicarmors_1_21_6/assets/minecraft/shaders/core/"
+    "rendertype_item_entity_translucent_cull.vsh": IMPORTING_SHADER,
+    "mythicarmors_1_21_6/assets/minecraft/shaders/include/mythicarmors_main.glsl": "isCustom = 0;\n",
+    "mythicarmors_26_1/" + CORE_SHADER: IMPORTING_SHADER,
+    "mythicarmors_26_2/" + CORE_SHADER: IMPORTING_SHADER,
+}
+VENDOR_OVERLAYS_MCMETA = {
+    "pack": {"description": "vendor overlays"},
+    "overlays": {"entries": [
+        {"formats": [TESTED_MAX_FORMAT, TESTED_MAX_FORMAT], "min_format": TESTED_MAX_FORMAT,
+         "max_format": TESTED_MAX_FORMAT, "directory": "mythicarmors_26_3"},
+    ]},
+}
+VENDOR_OVERLAYS_FILES = {
+    "mythicarmors_26_3/" + CORE_SHADER: INCLUDING_SHADER,
+    "mythicarmors_26_3/assets/minecraft/shaders/core/entity.fsh": INCLUDING_SHADER,
+    "mythicarmors_26_3/assets/minecraft/shaders/include/mythicarmors_main.glsl": "isCustom = 0;\n",
+}
+OUR_PACK_MCMETA = {
+    "pack": {"pack_format": TESTED_MAX_FORMAT, "description": "ours", "min_format": 9,
+             "max_format": TESTED_MAX_FORMAT, "supported_formats": [9, TESTED_MAX_FORMAT]},
+    "overlays": {"entries": [
+        {"formats": [TESTED_MAX_FORMAT, TESTED_MAX_FORMAT], "min_format": TESTED_MAX_FORMAT,
+         "max_format": TESTED_MAX_FORMAT, "directory": "legendcraft_26_3"},
+    ]},
+}
+VENDOR_26_3_OVERLAYS = ("betterhud_26_3", "mythicarmors_26_3")
+OLDER_VENDOR_OVERLAYS = ("betterhud_1_21_4", "betterhud_1_21_6", "betterhud_26_1",
+                         "betterhud_26_2", "mythicarmors_1_21_6", "mythicarmors_26_1",
+                         "mythicarmors_26_2")
+# The formats a 26.1 or 26.2 client reports: below the one that rejects `#moj_import`.
+OLDER_CLIENT_FORMATS = range(84, MOJ_IMPORT_REJECTED_FORMAT)
+
+
+def zip_tree(root, path):
+    with zipfile.ZipFile(path, "w") as archive:
+        for directory, _subdirs, files in os.walk(root):
+            for name in files:
+                full = os.path.join(directory, name)
+                archive.write(full, os.path.relpath(full, root).replace(os.sep, "/"))
+
+
+def client_view(entries, fmt):
+    """What a client at `fmt` reads from a merged pack: the base section, the overlays it applies
+    in order, and every file outside the overlays it does not apply."""
+    meta = json.loads(entries["pack.mcmeta"])
+    overlays = meta.get("overlays", {}).get("entries", [])
+    applied = [e for e in overlays
+               if any(low is not None and high is not None and low[0] <= fmt <= high[0]
+                      for low, high in declared_ranges(e, OVERLAY_RANGE_KEY))]
+    skipped = tuple("%s/" % e["directory"] for e in overlays if e not in applied)
+    files = {name: data for name, data in entries.items()
+             if name != "pack.mcmeta" and not name.startswith(skipped)}
+    return meta["pack"], applied, files
+
+
+class VendorOverlays26_3Test(unittest.TestCase):
+    """The dev pack main() builds from the plugin packs a 26.3-ready box generates (BetterHud
+    2.2.0-SNAPSHOT-449, MythicArmors 5.13.4), the vendor overlays folder and our pack."""
+
+    def setUp(self):
+        self.workspace = tempfile.mkdtemp(prefix="vendor263-")
+        self.addCleanup(shutil.rmtree, self.workspace, True)
+        bettermodel = os.path.join(self.workspace, "bettermodel.zip")
+        write_zip(bettermodel, {"pack": {"pack_format": 63, "description": "models"}},
+                  "assets/bettermodel/marker.json")
+        betterhud = os.path.join(self.workspace, "betterhud.zip")
+        zip_tree(BETTERHUD_449, betterhud)
+        mythicarmors = os.path.join(self.workspace, "mythicarmors.zip")
+        write_zip(mythicarmors, MYTHICARMORS_PACK_MCMETA, "assets/mythicarmors/marker.json",
+                  files=MYTHICARMORS_PACK_FILES)
+        self.plugin_paths = [bettermodel, betterhud, mythicarmors]
+        self.vendor_overlays = os.path.join(self.workspace, "vendor-overlays")
+        write_vendor_overlays(self.vendor_overlays, VENDOR_OVERLAYS_MCMETA, VENDOR_OVERLAYS_FILES)
+        self.dist = os.path.join(self.workspace, "dist")
+        os.makedirs(self.dist)
+        self.our_pack = os.path.join(self.dist, "LegendCraft-Pack-9.9.9.zip")
+        write_zip(self.our_pack, OUR_PACK_MCMETA, "assets/legendcraft/marker.json",
+                  files={"legendcraft_26_3/assets/minecraft/shaders/core/item.vsh":
+                         INCLUDING_SHADER})
+        self.dev_pack = os.path.join(self.dist, "LegendCraft-Pack-dev.zip")
+
+    def build(self):
+        result = run_main(self.workspace, self.plugin_paths, self.vendor_overlays)
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        with zipfile.ZipFile(self.dev_pack) as archive:
+            entries = {n: archive.read(n) for n in archive.namelist() if not n.endswith("/")}
+        return entries, result.stdout
+
+    def overlays(self, entries):
+        meta = json.loads(entries["pack.mcmeta"])
+        return {e["directory"]: e for e in meta.get("overlays", {}).get("entries", [])}
+
+    def test_the_dev_pack_carries_a_26_3_overlay_for_each_vendor(self):
+        overlays = self.overlays(self.build()[0])
+        for directory in VENDOR_26_3_OVERLAYS:
+            self.assertIn(directory, overlays)
+            ranges = declared_ranges(overlays[directory], OVERLAY_RANGE_KEY)
+            self.assertEqual(2, len(ranges), overlays[directory])
+            for low, high in ranges:
+                self.assertEqual((TESTED_MAX_FORMAT, TESTED_MAX_FORMAT), (low[0], high[0]),
+                                 directory)
+
+    def test_each_26_3_vendor_overlay_carries_core_shaders_without_moj_import(self):
+        entries = self.build()[0]
+        for directory in VENDOR_26_3_OVERLAYS:
+            shaders = core_shaders([directory], entries)
+            self.assertTrue(shaders, directory)
+            self.assertEqual([], [n for n in shaders if MOJ_IMPORT in entries[n]])
+
+    def test_the_dev_pack_passes_the_overlay_shader_gate(self):
+        entries = self.build()[0]
+        self.assertIn("mythicarmors_26_3", self.overlays(entries))
+        result = subprocess.run([sys.executable, SHADER_GATE, "--pack", self.dev_pack],
+                                capture_output=True, text=True)
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+
+    def test_the_vendors_older_overlays_end_below_the_rejecting_format(self):
+        overlays = self.overlays(self.build()[0])
+        for directory in OLDER_VENDOR_OVERLAYS:
+            self.assertIn(directory, overlays)
+            for _, high in declared_ranges(overlays[directory], OVERLAY_RANGE_KEY):
+                self.assertLess(high[0], MOJ_IMPORT_REJECTED_FORMAT, directory)
+
+    def test_an_older_client_is_served_what_it_is_served_without_the_vendor_overlays(self):
+        after, printed = self.build()
+        before, report = merge_dev_pack.merge(self.plugin_paths + [self.our_pack])
+        for fmt in OLDER_CLIENT_FORMATS:
+            self.assertEqual(client_view(before, fmt), client_view(after, fmt), fmt)
+        printed_report = [line for line in printed.splitlines()
+                          if line.startswith(("clamped", "dropped"))]
+        self.assertEqual(report, printed_report)
+
+    def test_main_stops_naming_an_absent_vendor_overlays_folder(self):
+        absent = os.path.join(self.workspace, "no-such-folder")
+        result = run_main(self.workspace, self.plugin_paths, absent)
+        self.assertNotEqual(0, result.returncode, result.stdout)
+        self.assertIn("no-such-folder", result.stdout + result.stderr)
 
 
 if __name__ == "__main__":
