@@ -25,7 +25,8 @@ Acceptance criteria:
    gate, and the vendors' older overlays end below MOJ_IMPORT_REJECTED_FORMAT.
 8. A client below MOJ_IMPORT_REJECTED_FORMAT is served the same overlays and the same bytes with
    the vendor overlays folder as without it, and the merge reports the same clamps and drops.
-9. main() stops, naming the folder, when the vendor overlays folder is absent.
+9. main() stops, naming the folder, when the vendor overlays folder is absent, and the merge
+   stops when it cannot list a directory inside it.
 
     python tools/test_merge_dev_pack.py
 """
@@ -40,6 +41,7 @@ import sys
 import tempfile
 import unittest
 import zipfile
+from unittest import mock
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -440,6 +442,18 @@ class VendorOverlays26_3Test(unittest.TestCase):
         result = run_main(self.workspace, self.plugin_paths, absent)
         self.assertNotEqual(0, result.returncode, result.stdout)
         self.assertIn("no-such-folder", result.stdout + result.stderr)
+
+    def test_a_vendor_overlays_directory_it_cannot_list_stops_the_merge(self):
+        unreadable = os.path.normcase(os.path.join(self.vendor_overlays, "mythicarmors_26_3"))
+        listing = os.scandir
+
+        def scandir(path="."):
+            if os.path.normcase(os.path.abspath(os.fspath(path))) == unreadable:
+                raise PermissionError(13, "Permission denied", path)
+            return listing(path)
+        with mock.patch("os.scandir", scandir):
+            with self.assertRaises(OSError):
+                merge_dev_pack.merge(self.plugin_paths + [self.vendor_overlays, self.our_pack])
 
 
 if __name__ == "__main__":
